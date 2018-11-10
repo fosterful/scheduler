@@ -44,8 +44,13 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rspec-rails'
-  gem 'factory_bot'
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'factory_bot_rails'
+  gem 'rspec_junit_formatter'
+  gem 'rails-controller-testing'
 end
+
+gem 'simplecov', :require => false, :group => :test
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
@@ -54,6 +59,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'hint-rubocop_style'
 end
 
 
