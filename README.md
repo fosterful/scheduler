@@ -1,4 +1,5 @@
 # Office Moms and Dads Scheduler
+[![Maintainability](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/test_coverage)
 
 * [Development Environment Setup](#development-environment-setup)
 * [Helpful Docker Commands](#helpful-docker-commands)
