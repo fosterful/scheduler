@@ -1,0 +1,23 @@
+#version control files
+.git*
+
+#docker setup files
+Dockerfile
+dockerfiles/Dockerfile.prod
+.dockerignore
+
+#temporary rails files
+log/*
+tmp/*
+
+#OS artifacts
+**/.DS_Store
+
+#container artifacts
+.bash_history
+.byebug_hist
+.byebug_history
+.pry_history
+
+#bundler stuff
+.bundle/*
