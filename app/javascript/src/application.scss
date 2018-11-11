@@ -1,0 +1,9 @@
+@import '~foundation-sites/scss/foundation';
+@include foundation-everything(true, $prototype: true);
+
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
+
+* {
+  box-sizing: border-box;
+}
