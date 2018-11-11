@@ -1,1 +1,4 @@
-%h1 Office Moms and Dads
+%h1 OMD Scheduler
+Welcome #{current_user.email}, you are signed in.
+
+%p You can #{ link_to 'sign out', destroy_user_session_path, method: :delete }, or #{ link_to 'edit', edit_user_registration_path } your profile.
