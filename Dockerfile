@@ -37,4 +37,5 @@ ENV PATH /gems/bin:$PATH
 RUN mkdir -p /app
 WORKDIR /app
 
-RUN gem install bundler
+RUN gem install bundler && \
+  gem install mailcatcher

@@ -8,6 +8,7 @@ services:
       - gems:/gems
     ports:
       - "3000:3000"
+      - "1080:1080"
     depends_on:
       - postgres
     entrypoint: /app/dev-entrypoint

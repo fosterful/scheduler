@@ -44,6 +44,8 @@ then
   fi
   # 10: Check if yarn needs to install
   yarn install
+  # Start mailcatcher
+  mailcatcher --http-ip 0.0.0.0
   # 10: 'Unlock' the setup process:
   unlock_setup
 
