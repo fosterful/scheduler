@@ -47,6 +47,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'factory_bot_rails'
   gem 'rspec_junit_formatter'
+  gem 'spring-commands-rspec'
   gem 'rails-controller-testing'
 end
 
