@@ -16,6 +16,7 @@
     = f.label :password_confirmation
     %br/
     = f.password_field :password_confirmation, autocomplete: "new-password"
+  = f.hidden_field :role, { value: resource.role || params['user']['role'] }
   .actions
     = f.submit "Sign up"
 = render "devise/shared/links"

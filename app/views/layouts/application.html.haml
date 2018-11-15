@@ -9,6 +9,6 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     .grid-container
-      - if notice.present?
-        .success.callout.margin-top-1= notice
+      - flash.each do |name, msg|
+        .callout.margin-top-1{ class: flash_classes[name] }= msg
       = yield

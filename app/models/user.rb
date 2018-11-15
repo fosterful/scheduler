@@ -4,4 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable, :lockable
+
+  ROLES = %w[volunteer coordinator admin].freeze
+  validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
 end
