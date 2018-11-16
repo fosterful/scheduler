@@ -34,6 +34,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # User registration & authorization
 gem 'devise'
+# For user permissions
+gem "pundit"
 
 gem 'haml-rails'
 
