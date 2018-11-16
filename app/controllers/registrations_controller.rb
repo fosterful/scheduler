@@ -13,7 +13,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def authorize_role
-    return if params[:user][:role].in? %w[volunteer coordinator]
+    return if params.dig(:user, :role).in? %w[volunteer coordinator]
     redirect_to new_user_session_path, flash: { error: 'User role is required for registration' }
   end
 end
