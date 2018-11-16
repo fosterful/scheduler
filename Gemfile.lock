@@ -131,6 +131,10 @@ GEM
     pry-rails (0.3.7)
       pry (>= 0.10.4)
     puma (3.12.0)
+    pundit (2.0.0)
+      activesupport (>= 3.0.0)
+    pundit-matchers (1.6.0)
+      rspec-rails (>= 3.0.0)
     rack (2.0.6)
     rack-proxy (0.6.5)
       rack
@@ -268,6 +272,8 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 3.11)
+  pundit
+  pundit-matchers
   rails (~> 5.2.1)
   rails-controller-testing
   rspec-rails

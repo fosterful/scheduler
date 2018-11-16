@@ -34,6 +34,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # User registration & authorization
 gem 'devise'
+# For user permissions
+gem "pundit"
 
 gem 'haml-rails'
 
@@ -44,6 +46,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'pundit-matchers'
   gem 'factory_bot_rails'
   gem 'rspec_junit_formatter'
   gem 'spring-commands-rspec'
