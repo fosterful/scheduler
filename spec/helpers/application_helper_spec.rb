@@ -7,9 +7,9 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#sign_up_as_link_html' do
+  describe '#invite_links' do
     it 'returns a string' do
-      expect(helper.sign_up_as_link_html('user')).to be_a(String)      
+      expect(helper.invite_links).to be_a(String)      
     end
   end
 end
