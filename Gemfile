@@ -32,8 +32,13 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# Lib for building admin
+gem 'administrate'
+
 # User registration & authorization
 gem 'devise'
+gem 'devise_invitable'
+
 # For user permissions
 gem "pundit"
 

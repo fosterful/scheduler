@@ -3,9 +3,9 @@ module ApplicationHelper
     { notice: 'success', error: 'alert', alert: 'warning' }.with_indifferent_access
   end
 
-  def sign_up_as_link_html(resource_name)
+  def invite_links
     User::REGISTERABLE_ROLES.map do |role|
-      link_to role.titleize, new_registration_path(resource_name, user: { role: role })
+      link_to role.titleize, new_user_invitation_path(user: { role: role })
     end.to_sentence(last_word_connector: ' or ')
   end
 end
