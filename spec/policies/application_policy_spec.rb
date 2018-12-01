@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe ApplicationPolicy, type: :policy do
   let(:user)   { build(:user) }
   let(:record) { build(:user) }
