@@ -6,7 +6,21 @@ class UserPolicy
     @other_user = other_user
   end
 
-  def invite?
+  def new?
+    authorize_role_assignment
+  end
+
+  def create?
+    authorize_role_assignment
+  end
+
+  def permitted_attributes_for_new
+    [:role]
+  end
+
+  private
+
+  def authorize_role_assignment
     case user.role
     when 'admin'
       true

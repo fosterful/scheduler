@@ -3,3 +3,6 @@ Welcome #{current_user.email}, you are signed in. Your role is: #{current_user.r
 
 %p You can #{ link_to 'sign out', destroy_user_session_path, method: :delete }, or #{ link_to 'edit', edit_user_registration_path } your profile.
 %p Invite a #{invite_links.html_safe}
+
+- if current_user.admin?
+  %p As an admin, you can access the #{link_to 'admin area', admin_root_path}

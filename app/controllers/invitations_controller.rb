@@ -1,10 +1,13 @@
 class InvitationsController < Devise::InvitationsController
-  before_action :authorize_role, only: :new
+  def new
+    self.resource = resource_class.new(permitted_attributes(User.new))
+    authorize resource
+    render :new
+  end
 
-  private
-
-  def authorize_role
-    return if params.dig(:user, :role).in? User::REGISTERABLE_ROLES
-    redirect_to root_path, flash: { error: 'User role is required.' }
+  def create
+    resource = resource_class.new(invite_params)
+    authorize resource
+    super
   end
 end
