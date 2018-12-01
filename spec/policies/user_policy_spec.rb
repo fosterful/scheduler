@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe InvitationPolicy, type: :policy do
+RSpec.describe UserPolicy, type: :policy do
   describe '#invite?' do
     context 'as an admin' do
-      let(:user)   { build(:user, role: 'admin') }
+      let(:user) { build(:user, role: 'admin') }
 
       User::ROLES.each do |role|
         context "inviting a #{role}" do
@@ -15,7 +15,7 @@ RSpec.describe InvitationPolicy, type: :policy do
   end
 
   context 'as a coordinator' do
-    let(:user)   { build(:user, role: 'coordinator') }
+    let(:user) { build(:user, role: 'coordinator') }
 
     %w[volunteer social_worker].each do |role|
       context "inviting a #{role}" do
@@ -33,7 +33,7 @@ RSpec.describe InvitationPolicy, type: :policy do
   end
 
   context 'as a social_worker' do
-    let(:user)   { build(:user, role: 'social_worker') }
+    let(:user) { build(:user, role: 'social_worker') }
 
     context "inviting a volunteer" do
       subject { described_class.new(user, build(:user, role: 'volunteer')) }
@@ -49,7 +49,7 @@ RSpec.describe InvitationPolicy, type: :policy do
   end
 
   context 'as a volunteer' do
-    let(:user)   { build(:user, role: 'volunteer') }
+    let(:user) { build(:user, role: 'volunteer') }
 
     User::ROLES.each do |role|
       context "inviting a #{role}" do
