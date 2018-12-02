@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User invitations", :type => :request do
+RSpec.describe "User invitations", type: :request do
   before { sign_in create :user, role: 'coordinator' }
 
   describe '#create' do
