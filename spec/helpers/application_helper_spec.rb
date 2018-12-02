@@ -9,7 +9,11 @@ RSpec.describe ApplicationHelper, type: :helper do
 
   describe '#invite_links' do
     it 'returns a string' do
-      expect(helper.invite_links).to be_a(String)      
+      without_partial_double_verification do
+        user = build(:user)
+        allow(helper).to receive(:policy).and_return(Pundit.policy(user, user))
+        expect(helper.invite_links).to be_a(String)
+      end
     end
   end
 end

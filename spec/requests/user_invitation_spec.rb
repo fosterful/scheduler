@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "User invitations", :type => :request do
-  before { sign_in create :user }
+  before { sign_in create :user, role: 'coordinator' }
 
   describe '#create' do
     it 'renders a 200 response after the invitation is sent' do
