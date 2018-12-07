@@ -4,8 +4,12 @@ module ApplicationHelper
   end
 
   def invite_links
+    title_map = {
+      'coordinator' => 'Volunteer Coordinator'
+    }
     User::REGISTERABLE_ROLES.map do |role|
-      link_to role.titleize, new_user_invitation_path(user: { role: role })
-    end.to_sentence(last_word_connector: ' or ')
+      u = User.new(role: role)
+      link_to title_map[role] || role.titleize, new_user_invitation_path(user: { role: role }) if policy(u).new?
+    end.compact.to_sentence(last_word_connector: ' or ')
   end
 end
