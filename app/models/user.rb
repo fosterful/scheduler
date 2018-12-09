@@ -9,6 +9,8 @@ class User < ApplicationRecord
   REGISTERABLE_ROLES = %w[volunteer coordinator social_worker].freeze
   validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
 
+  has_one :address, as: :addressable
+
   ROLES.each do |role|
     define_method "#{role}?" do
       self.role === role

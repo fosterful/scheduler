@@ -40,7 +40,11 @@ gem 'devise'
 gem 'devise_invitable'
 
 # For user permissions
-gem "pundit"
+gem 'pundit'
+
+# Address Verification & Geocoding
+gem 'mainstreet'
+gem 'geocoder', github: 'ankane/geocoder', branch: 'smarty_streets_international'
 
 gem 'haml-rails'
 
@@ -56,6 +60,8 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'spring-commands-rspec'
   gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 gem 'simplecov', :require => false, :group => :test

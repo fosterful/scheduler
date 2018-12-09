@@ -1,6 +1,5 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
-
 SimpleCov.start 'rails'
 
 require 'spec_helper'
@@ -12,6 +11,20 @@ require 'rspec/rails'
 require 'support/factory_bot'
 require 'support/devise'
 require 'pundit/matchers'
+
+include WebMock::API
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+end
+
+# Globally stub smartystreets
+stub_request(:any, /smartystreets.com/).to_return(
+  body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
+  status: 200)
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
