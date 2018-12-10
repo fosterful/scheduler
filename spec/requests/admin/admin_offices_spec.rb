@@ -11,12 +11,12 @@ RSpec.describe "Admin offices spec", type: :request do
   describe "#create" do
     before { sign_in create :user, role: 'admin' }
 
-    it "redirects to show view after creating the user" do
+    it "redirects to show view after creating the office" do
       post admin_offices_path, params: { office: { name: 'foo@example.com', address_attributes: { street: "1901 Main St", city: "Vancouver", state: "WA", postal_code: "98660" } } }
       expect(response).to redirect_to(admin_office_path(Office.last))
     end
 
-    it 'renders errors if present' do
+    it 'renders errors if present (missing address)' do
       post admin_offices_path, params: { office: { name: 'foo' } }
       expect(response.body).to include('error')
     end
