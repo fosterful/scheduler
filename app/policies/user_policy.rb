@@ -17,6 +17,10 @@ class UserPolicy < ApplicationPolicy
   def permitted_attributes_for_new
     [:role]
   end
+  
+  def permitted_attributes_for_create
+  [:email, :role]
+  end
 
   private
 
