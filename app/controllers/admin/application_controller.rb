@@ -7,10 +7,16 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_admin
+    include Administrate::Punditize
 
     def authenticate_admin
       return if current_user&.role == 'admin'
       redirect_to root_path, flash: { error: 'Not authroized.' }
+    end
+
+    # Uses Pundit helper
+    def resource_params
+      permitted_attributes(resource_class)
     end
 
     # Override this value to specify the number of elements to display at a time

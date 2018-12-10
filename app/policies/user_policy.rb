@@ -1,4 +1,4 @@
-class UserPolicy
+class UserPolicy < ApplicationPolicy
   attr_reader :user, :other_user
 
   def initialize(user, other_user)
@@ -16,6 +16,10 @@ class UserPolicy
 
   def permitted_attributes_for_new
     [:role]
+  end
+  
+  def permitted_attributes_for_create
+  [:email, :role]
   end
 
   private
