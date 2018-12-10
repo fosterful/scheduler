@@ -1,0 +1,6 @@
+= f.fields_for field.attribute, field.data || field.nested_form.resource.class.new do |has_one_f|
+  %fieldset.field-unit--nested
+    %legend= t "helpers.label.#{f.object_name}.#{field.nested_form.resource_name}", default: field.nested_form.resource_name.titleize
+    - field.nested_form.attributes.each do |attribute|
+      %div{:class => "field-unit field-unit--#{attribute.html_class}"}
+        = render_field attribute, f: has_one_f
