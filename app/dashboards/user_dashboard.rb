@@ -36,6 +36,7 @@ class UserDashboard < Administrate::BaseDashboard
     invitation_accepted_at: Field::DateTime,
     invitation_limit: Field::Number,
     invitations_count: Field::Number,
+    offices: Field::HasMany
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -70,7 +71,8 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :email,
-    :role
+    :role,
+    :offices
   ].freeze
 
   # Overwrite this method to customize how users are displayed

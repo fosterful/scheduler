@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
 
   has_one :address, as: :addressable
+  has_and_belongs_to_many :offices
 
   ROLES.each do |role|
     define_method "#{role}?" do

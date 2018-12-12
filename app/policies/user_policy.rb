@@ -15,11 +15,17 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_new
-    [:role]
+    permitted_attributes | [:role]
   end
-  
+
   def permitted_attributes_for_create
-  [:email, :role]
+    permitted_attributes | %i[email role]
+  end
+
+  def permitted_attributes
+    [:email, { office_ids: [] }].tap do |attrs|
+      attrs << :role if user.admin?
+    end
   end
 
   private
