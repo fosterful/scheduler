@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:invite, keys: [:role])
+    devise_parameter_sanitizer.permit(:invite, keys: [:role, {office_ids: []}])
   end
 
   def user_not_authorized

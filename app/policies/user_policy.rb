@@ -11,7 +11,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    authorize_role_assignment
+    authorize_role_assignment && authorize_office_assignment
   end
 
   def permitted_attributes_for_new
@@ -41,5 +41,10 @@ class UserPolicy < ApplicationPolicy
     else
       false
     end
+  end
+
+  def authorize_office_assignment
+    return true if user.admin?
+    (other_user.offices - user.offices).empty?
   end
 end
