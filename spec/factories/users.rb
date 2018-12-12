@@ -7,5 +7,9 @@ FactoryBot.define do
     password_confirmation { 'foobar' }
     role { 'volunteer' }
     confirmed_at { Time.now }
+
+    after :build do |user|
+      user.offices << build(:office)
+    end
   end
 end

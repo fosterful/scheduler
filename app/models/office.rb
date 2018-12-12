@@ -4,8 +4,4 @@ class Office < ApplicationRecord
   validates :name, :address, presence: true
 
   accepts_nested_attributes_for :address, update_only: true
-
-  def to_s
-    name
-  end
 end
