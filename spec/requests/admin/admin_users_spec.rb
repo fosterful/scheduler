@@ -29,7 +29,7 @@ RSpec.describe "Admin users spec", type: :request do
 
     it 'has a 200 response' do
       get admin_user_path(user)
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'displays the users email' do
