@@ -12,4 +12,8 @@ module ApplicationHelper
       link_to title_map[role] || role.titleize, new_user_invitation_path(user: { role: role }) if policy(u).new?
     end.compact.to_sentence(last_word_connector: ' or ')
   end
+
+  def offices_for_select(scope)
+    scope.offices.map { |o| [o.name, o.id] }
+  end
 end

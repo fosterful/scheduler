@@ -12,7 +12,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -23,7 +23,7 @@ class OfficeDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
-    :created_at,
+    :created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,7 +33,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     :address,
     :id,
     :created_at,
-    :updated_at,
+    :updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -47,7 +47,7 @@ class OfficeDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how offices are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(office)
-  #   "Office ##{office.id}"
-  # end
+  def display_resource(office)
+    office.name
+  end
 end

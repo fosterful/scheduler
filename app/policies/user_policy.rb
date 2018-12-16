@@ -11,15 +11,21 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    authorize_role_assignment
+    authorize_role_assignment && authorize_office_assignment
   end
 
   def permitted_attributes_for_new
-    [:role]
+    permitted_attributes | [:role]
   end
-  
+
   def permitted_attributes_for_create
-  [:email, :role]
+    permitted_attributes | %i[email role]
+  end
+
+  def permitted_attributes
+    [:email, { office_ids: [] }].tap do |attrs|
+      attrs << :role if user.admin?
+    end
   end
 
   private
@@ -35,5 +41,10 @@ class UserPolicy < ApplicationPolicy
     else
       false
     end
+  end
+
+  def authorize_office_assignment
+    return true if user.admin?
+    (other_user.offices - user.offices).empty?
   end
 end
