@@ -53,6 +53,6 @@ class OfficeDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(office)
-    office.name
+    "#{office.name} | #{office.address.state} | Region: #{office.region}"
   end
 end
