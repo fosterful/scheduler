@@ -11,6 +11,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     address: AddressField,
     id: Field::Number,
     name: Field::String,
+    region: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -23,6 +24,8 @@ class OfficeDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
+    :region,
+    :address,
     :created_at
   ].freeze
 
@@ -30,6 +33,7 @@ class OfficeDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :name,
+    :region,
     :address,
     :id,
     :created_at,
@@ -41,6 +45,7 @@ class OfficeDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :region,
     :address
   ].freeze
 
@@ -48,6 +53,6 @@ class OfficeDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(office)
-    office.name
+    "#{office.name} | #{office.address.state} | Region: #{office.region}"
   end
 end

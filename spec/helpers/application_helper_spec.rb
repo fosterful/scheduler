@@ -16,4 +16,10 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe '#offices_for_select' do
+    it 'returns a string' do
+      expect(helper.offices_for_select(build :user)).to include(include("Vancouver Office | WA | Region: 1"))
+    end
+  end
 end
