@@ -25,6 +25,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :region,
+    :address,
     :created_at
   ].freeze
 
