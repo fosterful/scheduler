@@ -14,6 +14,6 @@ module ApplicationHelper
   end
 
   def offices_for_select(scope)
-    scope.offices.map { |o| [o.name, o.id] }
+    scope.offices.map { |o| ["#{o.name} | #{o.address.state} | Region: #{o.region}", o.id] }
   end
 end
