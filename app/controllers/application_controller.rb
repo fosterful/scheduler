@@ -8,7 +8,9 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:invite, keys: [:role, {office_ids: []}])
+    policy = Pundit.policy(current_user || User.new, User)
+    devise_parameter_sanitizer.permit(:invite, keys: policy.permitted_attributes_for_create)
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: policy.permitted_attributes)
   end
 
   def user_not_authorized

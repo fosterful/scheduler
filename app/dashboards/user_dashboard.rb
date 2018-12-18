@@ -36,7 +36,18 @@ class UserDashboard < Administrate::BaseDashboard
     invitation_accepted_at: Field::DateTime,
     invitation_limit: Field::Number,
     invitations_count: Field::Number,
-    offices: Field::HasMany
+    offices: Field::HasMany,
+    first_name: Field::String,
+    last_name: Field::String,
+    birth_date: Field::DateTime,
+    phone: Field::String,
+    resident_since: Field::DateTime,
+    discovered_omd_by: Field::Text,
+    medical_limitations: Field::Boolean,
+    medical_limitations_desc: Field::Text,
+    conviction: Field::Boolean,
+    conviction_desc: Field::Text,
+    name: Field::MethodField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -45,6 +56,7 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
+    :name,
     :email,
     :offices,
     :id
@@ -53,15 +65,23 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :first_name,
+    :last_name,
     :email,
     :role,
-    :invited_by,
+    :birth_date,
+    :phone,
+    :resident_since,
+    :discovered_omd_by,
+    :medical_limitations,
+    :medical_limitations_desc,
+    :conviction,
+    :conviction_desc,
     :offices,
-    :id,
+    :invited_by,
     :unconfirmed_email,
     :created_at,
     :updated_at,
-    :confirmed_at,
     :locked_at,
     :sign_in_count,
     :current_sign_in_at,
@@ -71,15 +91,25 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :first_name,
+    :last_name,
     :email,
     :role,
-    :offices
+    :offices,
+    :birth_date,
+    :phone,
+    :resident_since,
+    :discovered_omd_by,
+    :medical_limitations,
+    :medical_limitations_desc,
+    :conviction,
+    :conviction_desc
   ].freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
   def display_resource(user)
-    user.email
+    user.name
   end
 end
