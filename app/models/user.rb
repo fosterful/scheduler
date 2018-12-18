@@ -7,11 +7,37 @@ class User < ApplicationRecord
 
   ROLES = %w[volunteer coordinator social_worker admin].freeze
   REGISTERABLE_ROLES = %w[volunteer coordinator social_worker].freeze
-  validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
+  PROFILE_ATTRS = %i[first_name
+                     last_name
+                     birth_date
+                     phone
+                     resident_since
+                     discovered_omd_by
+                     medical_limitations
+                     medical_limitations_desc
+                     conviction
+                     conviction_desc].freeze
 
   has_one :address, as: :addressable
   has_and_belongs_to_many :offices
 
+  validates :first_name, :last_name, :birth_date,
+            :phone, :resident_since, :discovered_omd_by,
+            presence: true, if: :require_profile_attributes?
+
+  validates :medical_limitations, :conviction,
+            inclusion: { in: [true, false], message: "can't be blank" },
+            if: :require_profile_attributes?
+
+  validates :medical_limitations_desc,
+            presence: true,
+            if: -> { require_profile_attributes? && medical_limitations? }
+
+  validates :conviction_desc,
+            presence: true,
+            if: -> { require_profile_attributes? && conviction? }
+
+  validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validate :has_at_least_one_office
 
   def has_at_least_one_office
@@ -22,5 +48,11 @@ class User < ApplicationRecord
     define_method "#{role}?" do
       self.role === role
     end
+  end
+
+  private
+
+  def require_profile_attributes?
+    (volunteer? || coordinator?) && invitation_accepted_at?
   end
 end

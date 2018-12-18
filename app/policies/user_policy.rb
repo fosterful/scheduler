@@ -15,7 +15,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_new
-    permitted_attributes | [:role]
+    permitted_attributes_for_create
   end
 
   def permitted_attributes_for_create
@@ -23,7 +23,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:email, { office_ids: [] }].tap do |attrs|
+    [:email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
       attrs << :role if user.admin?
     end
   end
