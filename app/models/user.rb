@@ -50,6 +50,11 @@ class User < ApplicationRecord
     end
   end
 
+  def name
+    name = "#{first_name} #{last_name}"
+    name.present? ? name : email
+  end
+
   private
 
   def require_profile_attributes?
