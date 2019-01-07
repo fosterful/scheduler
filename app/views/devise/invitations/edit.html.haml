@@ -15,30 +15,31 @@
     %p
       = f.label :password_confirmation
       = f.password_field :password_confirmation
-  %p
-    = f.label :birth_date
-    = f.date_field :birth_date
-  %p
-    = f.label :phone
-    = f.phone_field :phone
-  %p
-    = f.label :resident_since
-    = f.date_field :resident_since
-  %p
-    = f.label :discovered_omd_by
-    = f.text_area :discovered_omd_by
-  %p
-    = f.label :medical_limitations
-    = f.check_box :medical_limitations
-  %p
-    = f.label :medical_limitations_desc
-    = f.text_area :medical_limitations_desc
-  %p
-    = f.label :conviction
-    = f.check_box :conviction
-  %p
-    = f.label :conviction_desc
-    = f.text_area :conviction_desc
+  - if profile_attributes_required?(resource)
+    %p
+      = f.label :birth_date
+      = f.date_field :birth_date
+    %p
+      = f.label :phone
+      = f.phone_field :phone
+    %p
+      = f.label :resident_since
+      = f.date_field :resident_since
+    %p
+      = f.label :discovered_omd_by
+      = f.text_area :discovered_omd_by
+    %p
+      = f.label :medical_limitations
+      = f.check_box :medical_limitations
+    %p
+      = f.label :medical_limitations_desc
+      = f.text_area :medical_limitations_desc
+    %p
+      = f.label :conviction
+      = f.check_box :conviction
+    %p
+      = f.label :conviction_desc
+      = f.text_area :conviction_desc
   
   
   %p= f.submit t("devise.invitations.edit.submit_button")

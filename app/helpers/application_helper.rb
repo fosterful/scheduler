@@ -16,4 +16,8 @@ module ApplicationHelper
   def offices_for_select(scope)
     scope.offices.map { |o| ["#{o.name} | #{o.address.state} | Region: #{o.region}", o.id] }
   end
+
+  def profile_attributes_required?(user)
+    user.volunteer? || user.coordinator?
+  end
 end

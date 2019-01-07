@@ -22,4 +22,11 @@ RSpec.describe ApplicationHelper, type: :helper do
       expect(helper.offices_for_select(build :user)).to include(include("Vancouver Office | WA | Region: 1"))
     end
   end
+
+  describe '#profile_attributes_required?' do
+    it 'checks the users role' do
+      user = build(:user)
+      expect(profile_attributes_required?(user)).to be(true)
+    end
+  end
 end
