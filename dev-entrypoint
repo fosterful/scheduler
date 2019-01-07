@@ -28,6 +28,8 @@ if [ -z "$1" ]; then set -- rails server -p 3000 -b 0.0.0.0 "$@"; fi
 # 5: Run the checks only if the app code is going to be executed:
 if [[ "$1" = "rails" || "$1" = "sidekiq" ]]
 then
+  # Clean up any orphaned lock file
+  unlock_setup
   # 6: Wait until the setup 'lock' file no longer exists:
   while [ -f $APP_SETUP_LOCK ]; do wait_setup; done
 
