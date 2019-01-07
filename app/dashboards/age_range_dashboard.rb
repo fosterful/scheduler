@@ -49,6 +49,6 @@ class AgeRangeDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(age_range)
-    "#{age_range.min} | #{age_range.max}"
+    "#{age_range.min} to #{age_range.max}"
   end
 end
