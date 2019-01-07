@@ -21,4 +21,14 @@ RSpec.describe "Admin age_ranges spec", type: :request do
       expect(response.body).to include('error')
     end
   end
+
+  describe 'show' do
+    before { sign_in create :user, role: 'admin' }
+    let(:age_range) { create :age_range }
+
+    it 'displays the age_range' do
+      get admin_age_range_path(age_range)
+      expect(response.body).to include('1 to 1')
+    end
+  end
 end
