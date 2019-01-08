@@ -6,6 +6,6 @@ class BlockOut < ApplicationRecord
             inclusion: { in: ->(date) { (Date.today..) }, message: 'must be in the future' },
             if: :start_at_changed?
   validates :end_at,
-            inclusion: { in: [nil, ->(date) { (Date.today..) }], message: 'must be in the future' },
-            if: :end_at_changed?
+            inclusion: { in: ->(date) { (Date.today..) }, message: 'must be in the future' },
+            if: :end_at?
 end
