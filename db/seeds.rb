@@ -27,11 +27,11 @@ if Rails.env.development?
   user = User.where(
     first_name: 'Postal',
     last_name: 'Worker',
-    email: 'postal@worker.mail',
+    email: ENV.fetch('SEED_ADMIN_EMAIL', 'admin@example.com'),
     role: 'admin',
   ).first_or_initialize
   unless user.persisted?
-    user.password = 'itismail'
+    user.password = ENV.fetch('SEED_ADMIN_PASSWORD', 'itismail')
     user.offices << office
     user.save!
   end
