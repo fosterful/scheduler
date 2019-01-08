@@ -7,7 +7,7 @@ if Rails.env.development?
     latitude: "38.90204",
     longitude: "-77.02284"
   ).first_or_initialize
-  address.save!(validate: false) unless address.persisted?
+  # Will save Address with Office below
 
   age_range = AgeRange.where(
     min: 0,
@@ -19,6 +19,7 @@ if Rails.env.development?
     name: "Post Office of Washington DC"
   ).first_or_initialize
   unless office.persisted?
+    address.skip_api_validation!
     office.address = address
     office.save!
   end

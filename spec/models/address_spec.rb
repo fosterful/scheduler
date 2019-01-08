@@ -12,4 +12,23 @@ RSpec.describe Address, type: :model do
       expect(address.to_s).to eq('1901 Main St Vancouver WA 98660')
     end
   end
+
+  describe 'skip geocoding' do
+    let(:office) { build :office }
+
+    it 'creates record without geocoding' do
+      address = Address.new(
+        street: "800 K St NW",
+        city: "Washington",
+        state: "DC",
+        postal_code: "20001",
+        latitude: "38.90204",
+        longitude: "-76.02284"
+      )
+      address.skip_api_validation!
+      office.address = address
+      office.save!
+      expect(address.persisted?).to be(true)
+    end
+  end
 end
