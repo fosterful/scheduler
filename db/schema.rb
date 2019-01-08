@@ -42,10 +42,11 @@ ActiveRecord::Schema.define(version: 2019_01_08_163326) do
     t.datetime "start_at", null: false
     t.datetime "end_at"
     t.text "rrule"
-    t.boolean "recurrence", default: false, null: false
+    t.bigint "parent_id"
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_block_outs_on_parent_id"
     t.index ["user_id"], name: "index_block_outs_on_user_id"
   end
 
@@ -110,5 +111,6 @@ ActiveRecord::Schema.define(version: 2019_01_08_163326) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "block_outs", "block_outs", column: "parent_id"
   add_foreign_key "block_outs", "users"
 end
