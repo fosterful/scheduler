@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
   has_one :address, as: :addressable
   has_and_belongs_to_many :offices
+  has_many :block_outs
 
   validates :first_name, :last_name, :birth_date,
             :phone, :resident_since, :discovered_omd_by,
