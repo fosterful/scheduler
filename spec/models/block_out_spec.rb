@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe BlockOut, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:block_out) { build :block_out }
+
+  it 'has a valid factory' do
+    expect(block_out.valid?).to be(true)
+  end
 end
