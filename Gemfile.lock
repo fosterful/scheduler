@@ -228,6 +228,8 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
+    rrule (0.4.1)
+      activesupport (>= 4.1)
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.2)
@@ -350,6 +352,7 @@ DEPENDENCIES
   pundit-matchers
   rails (~> 5.2.2)
   rails-controller-testing
+  rrule
   rspec-rails
   rspec_junit_formatter
   shoulda-matchers (~> 3.1)

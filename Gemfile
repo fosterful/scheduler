@@ -48,6 +48,9 @@ gem 'geocoder', github: 'ankane/geocoder', branch: 'smarty_streets_international
 
 gem 'haml-rails'
 
+# For expanding rrule strings
+gem 'rrule'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
