@@ -5,6 +5,7 @@ class CreateBlockOuts < ActiveRecord::Migration[5.2]
       t.datetime :start_at, null: false
       t.datetime :end_at
       t.text :rrule
+      t.boolean :recurrence, null: false, default: false
       t.text :reason
 
       t.timestamps

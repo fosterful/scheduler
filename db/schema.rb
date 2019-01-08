@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_01_08_163326) do
     t.datetime "start_at", null: false
     t.datetime "end_at"
     t.text "rrule"
+    t.boolean "recurrence", default: false, null: false
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
