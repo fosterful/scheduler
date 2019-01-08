@@ -1,4 +1,4 @@
-if ENV.fetch('development') { true }
+if Rails.env.development?
   address = Address.where(
     street: "800 K St NW",
     city: "Washington",
