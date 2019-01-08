@@ -28,13 +28,7 @@ if Rails.env.development?
     first_name: 'Postal',
     last_name: 'Worker',
     email: 'postal@worker.mail',
-    role: 'volunteer',
-    birth_date: 35.years.ago,
-    phone: '0123456789',
-    resident_since: 1.year.ago,
-    discovered_omd_by: 'Special delivery',
-    medical_limitations: false,
-    conviction: false
+    role: 'admin',
   ).first_or_initialize
   unless user.persisted?
     user.password = 'itismail'
