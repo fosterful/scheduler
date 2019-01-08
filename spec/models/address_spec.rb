@@ -13,7 +13,7 @@ RSpec.describe Address, type: :model do
     end
   end
 
-  describe 'skip geocoding' do
+  describe 'skip api validation option' do
     let(:office) { build :office }
 
     it 'creates record without geocoding' do
