@@ -1,27 +1,36 @@
 class Address < ApplicationRecord
   belongs_to :addressable, polymorphic: true
   validates :street, :city, :state, :postal_code, presence: true
-  validates_address geocode: true, fields: %i[street street2 city state postal_code]
+  validate :validate_and_geocode, if: :validate_and_geocode?
+
+  ADDRESS_FIELDS = %i[street street2 city state postal_code].freeze
 
   def to_s
     [street, street2, city, state, postal_code].compact.join(' ')
   end
 
   def skip_api_validation!
-    @skip_api_validation = true
-  end
-
-  def skip_api_validation?
-    !!instance_variable_get(:@skip_api_validation)
+    self.skip_api_validation = true
   end
 
   private
-  # Allow us to skip API validation hook as they have not implemented an option
-  # for us to use `if` or `unless` in the method `validates_address`
-  begin
-    original_method = instance_method(:verify_address)
-    define_method :verify_address do |*args, &block|
-      original_method.bind(self).call(*args, &block) unless skip_api_validation?
+  attr_accessor :skip_api_validation
+  alias skip_api_validation? skip_api_validation
+
+  def validate_and_geocode?
+    !skip_api_validation? && ADDRESS_FIELDS.any? { |f| changes.key?(f.to_s) }
+  end
+
+  def validate_and_geocode
+    address = ADDRESS_FIELDS.map { |v| send(v).presence }.compact.join(", ")
+
+    if address.present?
+      verifier = MainStreet::AddressVerifier.new(address)
+      if verifier.success?
+        self.assign_attributes(latitude: verifier.latitude, longitude: verifier.longitude)
+      else
+        errors.add(:base, verifier.failure_message)
+      end
     end
   end
 end

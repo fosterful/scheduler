@@ -13,22 +13,28 @@ RSpec.describe Address, type: :model do
     end
   end
 
-  describe 'skip api validation option' do
-    let(:office) { build :office }
+  describe '#validate_and_geocode' do
+    context 'address is valid' do
+      it 'is valid and geocded' do
+        expect(address.save).to be(true)
+        expect(address.latitude).not_to be(nil)
+      end
+    end
 
-    it 'creates record without geocoding' do
-      address = Address.new(
-        street: "800 K St NW",
-        city: "Washington",
-        state: "DC",
-        postal_code: "20001",
-        latitude: "38.90204",
-        longitude: "-76.02284"
-      )
-      address.skip_api_validation!
-      office.address = address
-      office.save!
-      expect(address.persisted?).to be(true)
+    context 'address is not valid' do
+      it 'is not valid and geocded' do
+        allow_any_instance_of(MainStreet::AddressVerifier).to receive(:success?).and_return(false)
+        expect(address.save).to be(false)
+        expect(address.errors.any?).to eq(true)
+      end
+    end
+
+    context 'skip validation' do
+      it 'creates record without geocoding' do
+        address.skip_api_validation!
+        address.save!
+        expect(address.latitude).to be(nil)
+      end
     end
   end
 end
