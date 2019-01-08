@@ -51,6 +51,11 @@ gem 'haml-rails'
 # For expanding rrule strings
 gem 'rrule'
 
+# For callable service objects
+gem 'procto'
+gem 'adamantium'
+gem 'concord'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
