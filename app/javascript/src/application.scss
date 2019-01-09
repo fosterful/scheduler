@@ -1,11 +1,63 @@
 @import '~foundation-sites/scss/foundation';
 @include foundation-everything(true, $prototype: true);
 
-$fa-font-path: "~font-awesome/fonts";
-@import '~font-awesome/scss/font-awesome';
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 @import 'selectize/dist/css/selectize.default.css';
 
+$test-dark-blue: #1C3144;
+$test-blue: #406E8E;
+$test-red: #C14953;
+$test-off-white: #FBF5F3;
+$test-orange: #E28413;
+$white: #ffffff;
+
 * {
   box-sizing: border-box;
+}
+
+$dropdownmenu-arrow-color: $white !important;
+
+.volunteer {
+  .nav {
+    .top {
+      background-color: $test-blue;
+    }
+    .bottom {
+      background-color: lighten($test-blue, 15%);
+    }
+  }
+}
+
+.volunteer-coordinator {
+  .nav {
+    .top {
+      background-color: $test-orange;
+    }
+    .bottom {
+      background-color: lighten($test-orange, 15%);
+    }
+  }
+}
+
+.admin {
+  .nav {
+    .top {
+      background-color: $test-red;
+    }
+    .bottom {
+      background-color: lighten($test-red, 15%);
+    }
+  }
+}
+/////////////////////
+// Navigation Base //
+/////////////////////
+.nav {
+  color: $white;
+  .top, .bottom {
+    padding: .5rem 0;
+  }
 }

@@ -1,0 +1,23 @@
+.nav
+  .top
+    .grid-container
+      .grid-x.align-middle
+        .cell.small-6= link_to 'Office Moms & Dads', root_path
+        .cell.small-6
+          %ul.dropdown.menu.align-right{ data: { dropdown_menu: true } }
+            %li
+              %a Profile
+              %ul.menu.vertical.align-right
+                = link_to edit_user_registration_path do
+                  %li
+                    Settings
+                    %i.fas.fa-sliders-h
+                = link_to destroy_user_session_path, method: :delete do
+                  %li
+                    Sign Out
+                    %i.fas.fa-sign-out-alt
+  .bottom
+    .grid-container
+      .grid-x
+        .cell.medium-6 context
+        .cell.medium-6 other
