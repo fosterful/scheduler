@@ -19,6 +19,7 @@ FactoryBot.define do
     discovered_omd_by { 'The interwebs' }
     medical_limitations { false }
     conviction { false }
+    time_zone { 'Pacific Time (US & Canada)' }
 
     after :build do |user|
       user.offices << build(:office)

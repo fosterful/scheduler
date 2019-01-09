@@ -8,13 +8,15 @@
   %p
     = f.label :last_name
     = f.text_field :last_name
-  - if f.object.class.require_password_on_accepting
-    %p
-      = f.label :password
-      = f.password_field :password
-    %p
-      = f.label :password_confirmation
-      = f.password_field :password_confirmation
+  %p
+    = f.label :password
+    = f.password_field :password
+  %p
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
+  %p
+    = f.label :time_zone
+    = f.select :time_zone, ActiveSupport::TimeZone.us_zones, prompt: 'Select Timezone...'
   - if profile_attributes_required?(resource)
     %p
       = f.label :birth_date

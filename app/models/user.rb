@@ -9,6 +9,7 @@ class User < ApplicationRecord
   REGISTERABLE_ROLES = %w[volunteer coordinator social_worker].freeze
   PROFILE_ATTRS = %i[first_name
                      last_name
+                     time_zone
                      birth_date
                      phone
                      resident_since
@@ -39,6 +40,7 @@ class User < ApplicationRecord
             if: -> { require_profile_attributes? && conviction? }
 
   validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
+  validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :has_at_least_one_office
 
   def has_at_least_one_office
