@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2019_01_08_163326) do
   create_table "block_outs", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "start_at", null: false
-    t.datetime "end_at"
+    t.datetime "end_at", null: false
     t.text "rrule"
     t.bigint "parent_id"
     t.text "reason"

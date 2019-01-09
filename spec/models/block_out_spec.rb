@@ -19,10 +19,15 @@ RSpec.describe BlockOut, type: :model do
       expect(block_out.errors.full_messages).to include('Start at must be in the future')
     end
 
+    it 'requires end_at be present' do
+      block_out = build :block_out, end_at: nil
+      expect(block_out.valid?).to be(false)
+    end
+
     it 'requires end_at be in the future if present' do
       block_out = build :block_out, end_at: 1.day.ago
       expect(block_out.valid?).to be(false)
-      expect(block_out.errors.full_messages).to include('End at must be in the future')
+      expect(block_out.errors.full_messages).to include('End at must be beyond start at')
     end
   end
 end
