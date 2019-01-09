@@ -19,7 +19,8 @@ module Services
     def rrule
       OmdRrule.new(block_out.rrule,
                    dtstart: block_out.start_at,
-                   exdate: block_out.exdate)
+                   exdate: block_out.exdate,
+                   tzid: block_out.user.time_zone)
     end
 
     def recurrences
@@ -42,7 +43,7 @@ module Services
     # TODO: Turn me into my own service class
     def bulk_insert_recurrences
       keys = recurrences.first.keys.join(', ')
-      values = recurrences.map { |h| "(#{h.values.map { |v| "'#{v}'" }.join(',')})" }.join(',')
+      values = recurrences.map { |h| "(#{h.values.map { |v| "'#{v.respond_to?(:utc) ? v.utc : v}'" }.join(',')})" }.join(',')
       ActiveRecord::Base.connection.execute("INSERT INTO block_outs (#{keys}) VALUES #{values}")
     end
   end
