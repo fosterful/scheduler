@@ -36,6 +36,7 @@ class ExpandRecurringBlockOut
                 :updated_at)
   end
 
+  # TODO: Turn me into my own service class
   def bulk_insert_recurrences
     keys = recurrences.first.keys.join(', ')
     values = recurrences.map { |h| "(#{h.values.map { |v| "'#{v}'" }.join(',')})" }.join(',')
