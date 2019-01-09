@@ -1,20 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe ExpandRecurringBlockOut do
-  let(:block_out) { build :block_out }
-
   subject { described_class.call(block_out) }
 
   describe '#call' do
-    let(:block_out) do
-      build :block_out,
-            start_at: 1.day.from_now,
-            end_at: 2.days.from_now,
-            rrule: 'FREQ=WEEKLY;COUNT=3;INTERVAL=1;WKST=MO'
+    context 'with a new BlockOut' do
+      let(:block_out) do
+        build :block_out,
+              start_at: 1.day.from_now,
+              end_at: 2.days.from_now,
+              rrule: 'FREQ=WEEKLY;COUNT=3;INTERVAL=1;WKST=MO'
+      end
+
+      it 'saves the blockout' do
+        expect { subject }.to change { block_out.persisted? }.from(false).to(true)
+      end
+
+      it 'expands the recurrences' do
+        expect { subject }.to change { BlockOut.recurrences.count }.by(3)
+      end
     end
 
-    it 'expands the recurrences' do
-      expect { subject }.to change { BlockOut.recurrences.count }.by(3)
+    context 'with an existing blockout' do
+      let(:block_out) do
+        create :block_out_with_recurrences, max_recurrence_count: 5
+      end
+
+      it 'does not change the number of recurrences' do
+        expect { subject }.not_to change { block_out.recurrences.count }
+      end
+
+      it 're-creates the recurrences' do
+        expect { subject }.to change { block_out.reload.recurrence_ids }
+      end
+
+      context 'with new dates excluded' do
+      end
     end
   end
 end
