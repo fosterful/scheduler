@@ -1,0 +1,10 @@
+.nav {
+  background-color: $secondary-color;
+  color: $white;
+  .top, .bottom {
+    padding: .5rem 0;
+  }
+  .bottom {
+    background-color: lighten($secondary-color, 15%);
+  }
+}
