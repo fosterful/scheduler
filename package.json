@@ -2,9 +2,10 @@
   "name": "scheduler",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.6.3",
+    "@fortawesome/free-solid-svg-icons": "^5.6.3",
     "@rails/webpacker": "3.5",
     "babel-preset-react": "^6.24.1",
-    "font-awesome": "^4.7.0",
     "foundation-sites": "6.5.0",
     "jquery": "^3.3.1",
     "lodash": "^4.17.4",
