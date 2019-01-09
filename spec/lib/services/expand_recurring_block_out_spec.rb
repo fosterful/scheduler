@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExpandRecurringBlockOut do
+RSpec.describe Services::ExpandRecurringBlockOut do
   subject { described_class.call(block_out) }
 
   describe '#call' do
@@ -23,7 +23,7 @@ RSpec.describe ExpandRecurringBlockOut do
 
     context 'with an existing blockout' do
       let(:block_out) do
-        create :block_out_with_recurrences, max_recurrence_count: 5
+        create :block_out_with_recurrences, max_recurrence_count: 3
       end
 
       it 'does not change the number of recurrences' do

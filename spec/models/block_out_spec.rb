@@ -29,5 +29,13 @@ RSpec.describe BlockOut, type: :model do
       expect(block_out.valid?).to be(false)
       expect(block_out.errors.full_messages).to include('End at must be beyond start at')
     end
+
+    context 'with rrule' do
+      it 'requires last_recurrence if rrule is present' do
+        block_out.rrule = 'abc123'
+        expect(block_out.valid?).to be(false)
+        expect(block_out.errors.full_messages).to include("Last recurrence can't be blank")
+      end
+    end
   end
 end

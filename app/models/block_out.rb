@@ -17,6 +17,8 @@ class BlockOut < ApplicationRecord
             if: :end_at_changed?,
             unless: -> { start_at.nil? }
 
+  validates :last_recurrence, presence: true, if: :rrule?
+
   def duration_in_seconds
     end_at - start_at
   end

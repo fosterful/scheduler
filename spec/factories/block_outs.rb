@@ -12,7 +12,7 @@ FactoryBot.define do
       rrule { "FREQ=WEEKLY;COUNT=#{max_recurrence_count};INTERVAL=1;WKST=MO" }
 
       after(:build) do |block_out, _evaluator|
-        ExpandRecurringBlockOut.call(block_out)
+        Services::ExpandRecurringBlockOut.call(block_out)
       end
     end
   end
