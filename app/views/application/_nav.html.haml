@@ -16,8 +16,8 @@
                   %li
                     Sign Out
                     %i.fas.fa-sign-out-alt
-  .bottom
-    .grid-container
-      .grid-x
-        .cell.medium-6 context
-        .cell.medium-6 other
+  - if content_for :page_header
+    .bottom
+      .grid-container
+        .grid-x
+          .cell= yield :page_header

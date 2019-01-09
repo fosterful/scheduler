@@ -1,4 +1,5 @@
-%h2= t 'devise.invitations.edit.header'
+- content_for :page_header do
+  %h2= t 'devise.invitations.edit.header'
 = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
   = devise_error_messages!
   = f.hidden_field :invitation_token, readonly: true
@@ -40,6 +41,4 @@
     %p
       = f.label :conviction_desc
       = f.text_area :conviction_desc
-  
-  
   %p= f.submit t("devise.invitations.edit.submit_button")
