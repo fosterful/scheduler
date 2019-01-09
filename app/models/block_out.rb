@@ -19,6 +19,10 @@ class BlockOut < ApplicationRecord
 
   validates :last_recurrence, presence: true, if: :rrule?
 
+  scope :current, -> { where('start_at < ? AND last_recurrence > ?', 15.days.from_now, Time.zone.now) }
+  scope :recurring, -> { current.where.not(rrule: nil) }
+  scope :current_recurring, -> { current.merge(recurring) }
+
   def duration_in_seconds
     end_at - start_at
   end

@@ -11,7 +11,7 @@ FactoryBot.define do
     password_confirmation { 'foobar' }
 
     role { 'volunteer' }
-    confirmed_at { Time.now }
+    confirmed_at { Time.zone.now }
 
     birth_date { 35.years.ago }
     phone { '0123456789' }

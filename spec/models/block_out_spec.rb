@@ -38,4 +38,36 @@ RSpec.describe BlockOut, type: :model do
       end
     end
   end
+
+  describe '.current' do
+    it 'returns the current block outs based on start_at and last_recurrence' do
+      b1 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_recurrence: 1.week.from_now
+      b2 = create :block_out, start_at: 20.days.from_now, end_at: 20.days.from_now + 1.hour, last_recurrence: 2.months.from_now
+      b3 = build(:block_out, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_recurrence: 1.day.ago).save(validate: false)
+      result = BlockOut.current
+      expect(result).to include(b1)
+      expect(result).not_to include(b2, b3)
+    end
+  end
+
+  describe '.recurring' do
+    it 'returns recurring block outs based on rrule presence' do
+      b1 = create :block_out_with_recurrences
+      b2 = create :block_out
+      result = BlockOut.recurring
+      expect(result).to include(b1)
+      expect(result).not_to include(b2)
+    end
+  end
+
+  describe '.current_recurring' do
+    it 'merges .recurring & .current' do
+      b1 = create :block_out_with_recurrences
+      b2 = build(:block_out_with_recurrences, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_recurrence: 1.day.ago).save(validate: false)
+      b3 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_recurrence: 1.week.from_now
+      result = BlockOut.recurring
+      expect(result).to include(b1)
+      expect(result).not_to include(b2, b3)
+    end
+  end
 end
