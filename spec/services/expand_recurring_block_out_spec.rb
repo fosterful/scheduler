@@ -35,6 +35,10 @@ RSpec.describe ExpandRecurringBlockOut do
       end
 
       context 'with new dates excluded' do
+        it 'removes the newly excluded recurrences' do
+          block_out.update(exdate: [block_out.reload.recurrences.first.start_at])
+          expect { subject }.to change { BlockOut.recurrences.count }.by(-1)
+        end
       end
     end
   end

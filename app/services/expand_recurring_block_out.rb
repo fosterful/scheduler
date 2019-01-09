@@ -12,7 +12,9 @@ class ExpandRecurringBlockOut
   private
 
   def rrule
-    RRule::Rule.new(block_out.rrule, dtstart: block_out.start_at)
+    RRule::Rule.new(block_out.rrule,
+                    dtstart: block_out.start_at,
+                    exdate: block_out.exdate)
   end
 
   def recurrence_times

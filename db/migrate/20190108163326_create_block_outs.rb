@@ -5,6 +5,7 @@ class CreateBlockOuts < ActiveRecord::Migration[5.2]
       t.datetime :start_at, null: false
       t.datetime :end_at, null: false
       t.text :rrule
+      t.datetime :exdate, array: true, default: []
       t.references :parent, foreign_key: { to_table: :block_outs }
       t.text :reason
 
