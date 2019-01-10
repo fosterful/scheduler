@@ -11,6 +11,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker'
+gem 'react-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
