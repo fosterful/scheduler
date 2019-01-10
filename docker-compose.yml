@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 services:
   app:
     build: .
@@ -14,6 +14,17 @@ services:
     entrypoint: /app/dev-entrypoint
     tty: true
     stdin_open: true
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+  webpacker:
+    build: .
+    command: ./bin/webpack-dev-server
+    volumes:
+      - .:/app
+      - gems:/gems
+    ports:
+      - "3035"
+    entrypoint: /app/docker/webpack-entrypoint
   postgres:
     image: postgres:9.6
     ports:

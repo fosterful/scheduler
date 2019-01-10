@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+until nc -vz app 3000; do
+  echo "App has not started, sleeping..."
+  sleep 1
+done
+echo "Starting Webpacker"
+
+exec "$@"

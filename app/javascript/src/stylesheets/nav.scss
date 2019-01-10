@@ -1,0 +1,13 @@
+.nav {
+  background-color: $secondary-color;
+  color: $white;
+  a {
+    color: $white;
+  }
+}
+
+.page-header {
+  color: $white;
+  background-color: lighten($secondary-color, 15%);
+  margin-bottom: .5rem;
+}
