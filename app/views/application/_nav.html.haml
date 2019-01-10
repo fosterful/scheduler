@@ -11,7 +11,7 @@
           %li.has-submenu
             %a{style: 'color: #ffffff' }Profile
             %ul.submenu.menu.vertical.align-right
-              - if current_user.admin?
+              - if current_user&.admin?
                 = link_to admin_users_path do
                   %li
                     Admin
