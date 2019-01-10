@@ -1,11 +1,15 @@
-.title-bar.align-right{ data: { responsive_toggle: 'responsive-menu', hide_for: 'medium' } }
-  .title-bar-title Menu
-  %button.menu-icon{ type: 'button', data: { toggle: 'responsive-menu' } }
+.title-bar.align-middle.align-justify{ data: { responsive_toggle: 'responsive-menu', hide_for: 'medium' } }
+  .top-bar-left
+    = link_to root_path do
+      = image_pack_tag 'images/omd-logo.png', class: 'logo'
+  .top-bar-right
+    %button.menu-icon{ type: 'button', data: { toggle: 'responsive-menu' } }
 .nav
   .grid-container
     .top-bar#responsive-menu
       .top-bar-left
-        %div= link_to 'Office Moms & Dads', root_path
+        = link_to root_path do
+          = image_pack_tag 'images/omd-logo.png', class: 'logo'
       .top-bar-right
         %ul.dropdown.menu{ data: { dropdown_menu: true } }
           %li.has-submenu
