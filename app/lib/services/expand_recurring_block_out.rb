@@ -7,7 +7,7 @@ module Services
     def call
       return unless block_out.persisted? || save_block_out
       block_out.occurrences.delete_all
-      bulk_insert_occurrences if occurrences.any?
+      Services::BulkInserter::Insert.call(occurrences) if occurrences.any?
     end
 
     private
@@ -25,7 +25,7 @@ module Services
 
     def occurrences
       rrule.current_occurrence_times.map do |rt|
-        shared_attributes.merge(
+        BlockOut.new shared_attributes.merge(
           parent_id: block_out.id,
           start_at: rt,
           end_at: rt.advance(seconds: block_out.duration_in_seconds)
@@ -39,13 +39,6 @@ module Services
       attrs.slice(:user_id,
                   :created_at,
                   :updated_at)
-    end
-
-    # TODO: Turn me into my own service class
-    def bulk_insert_occurrences
-      keys = occurrences.first.keys.join(', ')
-      values = occurrences.map { |h| "(#{h.values.map { |v| "'#{v.respond_to?(:utc) ? v.utc : v}'" }.join(',')})" }.join(',')
-      ActiveRecord::Base.connection.execute("INSERT INTO block_outs (#{keys}) VALUES #{values}")
     end
   end
 end

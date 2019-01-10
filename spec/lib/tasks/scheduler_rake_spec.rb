@@ -19,7 +19,7 @@ describe 'scheduler:update_block_outs' do
       expect { subject.execute }.not_to(change { block_out.occurrences.count })
 
       travel_to Time.zone.parse('2019-01-14')
-      expect {subject.execute }.to change { block_out.occurrences.count }.to(15)
+      expect { subject.execute }.to change { block_out.occurrences.count }.to(15)
 
       travel_to Time.zone.parse('2019-01-21')
       expect { subject.execute }. to change { block_out.occurrences.count }.to(8)
@@ -54,6 +54,9 @@ describe 'scheduler:update_block_outs' do
       expect { subject.execute }.not_to(change { block_out.occurrences.count })
 
       # Max occurrence is 3 years
+      travel_to block_out.last_occurrence
+      expect { subject.execute }.not_to(change { block_out.occurrences.count })
+
       travel_to block_out.last_occurrence + 1.day
       expect { subject.execute }.to change { block_out.occurrences.count }.to(0)
     end
