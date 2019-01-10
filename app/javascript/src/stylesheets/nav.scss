@@ -13,4 +13,7 @@
   color: $white;
   background-color: lighten($secondary-color, 15%);
   margin-bottom: .5rem;
+  .header-text {
+    padding: 1rem 0;
+  }
 }

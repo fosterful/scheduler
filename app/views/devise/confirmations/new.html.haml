@@ -1,5 +1,5 @@
 - content_for :page_header do
-  %h2 Resend confirmation instructions
+  .header-text Resend confirmation instructions
 = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
   .field
