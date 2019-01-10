@@ -371,9 +371,9 @@ $drilldown-arrow-size: 6px;
 // 17. Dropdown
 // ------------
 
-$dropdown-padding: 1rem;
-$dropdown-background: $primary-color;
-$dropdown-border: none;
+$dropdown-padding: 0;
+$dropdown-background: $white;
+$dropdown-border: 1px solid $secondary-color;
 $dropdown-font-size: 1rem;
 $dropdown-width: 150px;
 $dropdown-radius: $global-radius;

@@ -8,6 +8,24 @@
     margin-bottom: 0;
   }
 }
+
+#profile-dropdown {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 32px;
+  :last-child {
+    .menu-item {
+      border-bottom: 0;
+    }
+  }
+  .menu-item {
+    color: $secondary-color;
+    padding: .5rem;
+    border-bottom: 1px solid $secondary-color;
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+}
+
 img.logo {
   height: 35px;
 }

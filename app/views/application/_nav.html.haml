@@ -17,17 +17,17 @@
         .dropdown-pane#profile-dropdown{ data: { dropdown: true, position: 'bottom', alignment: 'right' } }
           - if current_user&.admin?
             = link_to admin_users_path do
-              .grid-x
+              .grid-x.menu-item
                 .cell.small-9.text-right Admin
                 .cell.small-2.small-offset-1
                   %i.fas.fa-user-cog
           = link_to edit_user_registration_path do
-            .grid-x
+            .grid-x.menu-item
               .cell.small-9.text-right Settings
               .cell.small-2.small-offset-1
                 %i.fas.fa-sliders-h
           = link_to destroy_user_session_path, method: :delete do
-            .grid-x
+            .grid-x.menu-item
               .cell.small-9.text-right Sign Out
               .cell.small-2.small-offset-1
                 %i.fas.fa-sign-out-alt
