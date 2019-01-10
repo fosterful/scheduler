@@ -11,6 +11,11 @@
           %li.has-submenu
             %a{style: 'color: #ffffff' }Profile
             %ul.submenu.menu.vertical.align-right
+              - if current_user.admin?
+                = link_to admin_users_path do
+                  %li
+                    Admin
+                    %i.fas.fa-user-cog
               = link_to edit_user_registration_path do
                 %li
                   Settings
