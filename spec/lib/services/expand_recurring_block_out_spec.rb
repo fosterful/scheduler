@@ -16,28 +16,28 @@ RSpec.describe Services::ExpandRecurringBlockOut do
         expect { subject }.to change { block_out.persisted? }.from(false).to(true)
       end
 
-      it 'expands the recurrences' do
-        expect { subject }.to change { BlockOut.recurrences.count }.by(3)
+      it 'expands the occurrences' do
+        expect { subject }.to change { BlockOut.occurrences.count }.by(3)
       end
     end
 
     context 'with an existing blockout' do
       let(:block_out) do
-        create :block_out_with_recurrences, max_recurrence_count: 3
+        create :block_out_with_occurrences, max_occurrence_count: 3
       end
 
-      it 'does not change the number of recurrences' do
-        expect { subject }.not_to(change { block_out.recurrences.count })
+      it 'does not change the number of occurrences' do
+        expect { subject }.not_to(change { block_out.occurrences.count })
       end
 
-      it 're-creates the recurrences' do
-        expect { subject }.to(change { block_out.reload.recurrence_ids })
+      it 're-creates the occurrences' do
+        expect { subject }.to(change { block_out.reload.occurrence_ids })
       end
 
       context 'with new dates excluded' do
-        it 'removes the newly excluded recurrences' do
-          block_out.update(exdate: [block_out.reload.recurrences.first.start_at])
-          expect { subject }.to change { BlockOut.recurrences.count }.by(-1)
+        it 'removes the newly excluded occurrences' do
+          block_out.update(exdate: [block_out.reload.occurrences.first.start_at])
+          expect { subject }.to change { BlockOut.occurrences.count }.by(-1)
         end
       end
     end

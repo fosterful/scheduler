@@ -6,14 +6,14 @@ module Services
 
     def call
       return unless block_out.persisted? || save_block_out
-      block_out.recurrences.delete_all
-      bulk_insert_recurrences if recurrences.any?
+      block_out.occurrences.delete_all
+      bulk_insert_occurrences if occurrences.any?
     end
 
     private
 
     def save_block_out
-      block_out.update(last_recurrence: rrule.last_recurrence)
+      block_out.update(last_occurrence: rrule.last_occurrence)
     end
 
     def rrule
@@ -23,8 +23,8 @@ module Services
                    tzid: block_out.user.time_zone)
     end
 
-    def recurrences
-      rrule.current_recurrence_times.map do |rt|
+    def occurrences
+      rrule.current_occurrence_times.map do |rt|
         shared_attributes.merge(
           parent_id: block_out.id,
           start_at: rt,
@@ -32,7 +32,7 @@ module Services
         )
       end
     end
-    memoize(:recurrences)
+    memoize(:occurrences)
 
     def shared_attributes
       attrs = block_out.attributes.symbolize_keys
@@ -42,9 +42,9 @@ module Services
     end
 
     # TODO: Turn me into my own service class
-    def bulk_insert_recurrences
-      keys = recurrences.first.keys.join(', ')
-      values = recurrences.map { |h| "(#{h.values.map { |v| "'#{v.respond_to?(:utc) ? v.utc : v}'" }.join(',')})" }.join(',')
+    def bulk_insert_occurrences
+      keys = occurrences.first.keys.join(', ')
+      values = occurrences.map { |h| "(#{h.values.map { |v| "'#{v.respond_to?(:utc) ? v.utc : v}'" }.join(',')})" }.join(',')
       ActiveRecord::Base.connection.execute("INSERT INTO block_outs (#{keys}) VALUES #{values}")
     end
   end

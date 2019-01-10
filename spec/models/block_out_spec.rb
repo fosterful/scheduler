@@ -31,19 +31,19 @@ RSpec.describe BlockOut, type: :model do
     end
 
     context 'with rrule' do
-      it 'requires last_recurrence if rrule is present' do
+      it 'requires last_occurrence if rrule is present' do
         block_out.rrule = 'abc123'
         expect(block_out.valid?).to be(false)
-        expect(block_out.errors.full_messages).to include("Last recurrence can't be blank")
+        expect(block_out.errors.full_messages).to include("Last occurrence can't be blank")
       end
     end
   end
 
   describe '.current' do
-    it 'returns the current block outs based on start_at and last_recurrence' do
-      b1 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_recurrence: 1.week.from_now
-      b2 = create :block_out, start_at: 20.days.from_now, end_at: 20.days.from_now + 1.hour, last_recurrence: 2.months.from_now
-      b3 = build(:block_out, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_recurrence: 1.day.ago).save(validate: false)
+    it 'returns the current block outs based on start_at and last_occurrence' do
+      b1 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_occurrence: 1.week.from_now
+      b2 = create :block_out, start_at: 20.days.from_now, end_at: 20.days.from_now + 1.hour, last_occurrence: 2.months.from_now
+      b3 = build(:block_out, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_occurrence: 1.day.ago).save(validate: false)
       result = BlockOut.current
       expect(result).to include(b1)
       expect(result).not_to include(b2, b3)
@@ -52,7 +52,7 @@ RSpec.describe BlockOut, type: :model do
 
   describe '.recurring' do
     it 'returns recurring block outs based on rrule presence' do
-      b1 = create :block_out_with_recurrences
+      b1 = create :block_out_with_occurrences
       b2 = create :block_out
       result = BlockOut.recurring
       expect(result).to include(b1)
@@ -62,9 +62,9 @@ RSpec.describe BlockOut, type: :model do
 
   describe '.current_recurring' do
     it 'merges .recurring & .current' do
-      b1 = create :block_out_with_recurrences
-      b2 = build(:block_out_with_recurrences, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_recurrence: 1.day.ago).save(validate: false)
-      b3 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_recurrence: 1.week.from_now
+      b1 = create :block_out_with_occurrences
+      b2 = build(:block_out_with_occurrences, start_at: 1.week.ago, end_at: 1.week.ago + 1.hour, last_occurrence: 1.day.ago).save(validate: false)
+      b3 = create :block_out, start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour, last_occurrence: 1.week.from_now
       result = BlockOut.recurring
       expect(result).to include(b1)
       expect(result).not_to include(b2, b3)

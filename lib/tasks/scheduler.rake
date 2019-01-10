@@ -6,7 +6,7 @@ namespace :scheduler do
       Services::ExpandRecurringBlockOut.call(block_out)
     end
 
-    # Clean up a day after the last recurrence
-    BlockOut.joins(:parent).where('parents_block_outs.last_recurrence < ?', Time.zone.now.beginning_of_day).delete_all
+    # Clean up a day after the last occurrence
+    BlockOut.joins(:parent).where('parents_block_outs.last_occurrence < ?', Time.zone.now.beginning_of_day).delete_all
   end
 end

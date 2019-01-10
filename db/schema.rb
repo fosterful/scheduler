@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2019_01_09_220614) do
     t.bigint "user_id", null: false
     t.datetime "start_at", null: false
     t.datetime "end_at", null: false
-    t.datetime "last_recurrence"
+    t.datetime "last_occurrence"
     t.text "rrule"
     t.datetime "exdate", default: [], array: true
     t.bigint "parent_id"
