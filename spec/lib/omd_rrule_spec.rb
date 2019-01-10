@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe OmdRrule do
-  subject do 
+  subject do
     described_class.new('FREQ=DAILY',
                         dtstart: Time.zone.now)
   end

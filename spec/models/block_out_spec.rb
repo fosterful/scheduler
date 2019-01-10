@@ -19,6 +19,11 @@ RSpec.describe BlockOut, type: :model do
       expect(block_out.errors.full_messages).to include('Start at must be in the future')
     end
 
+    it 'allows a start_at of today' do
+      block_out = build :block_out, start_at: Time.zone.now
+      expect(block_out.valid?).to be(true)
+    end
+
     it 'requires end_at be present' do
       block_out = build :block_out, end_at: nil
       expect(block_out.valid?).to be(false)
