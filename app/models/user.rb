@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   has_one :address, as: :addressable, dependent: :destroy
   has_and_belongs_to_many :offices
-  has_many :block_outs, dependent: :destroy
+  has_many :blockouts, dependent: :destroy
 
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 

@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_01_09_220614) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "block_outs", force: :cascade do |t|
+  create_table "blockouts", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "start_at", null: false
     t.datetime "end_at", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2019_01_09_220614) do
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["parent_id"], name: "index_block_outs_on_parent_id"
-    t.index ["user_id"], name: "index_block_outs_on_user_id"
+    t.index ["parent_id"], name: "index_blockouts_on_parent_id"
+    t.index ["user_id"], name: "index_blockouts_on_user_id"
   end
 
   create_table "offices", force: :cascade do |t|
@@ -114,6 +114,6 @@ ActiveRecord::Schema.define(version: 2019_01_09_220614) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "block_outs", "block_outs", column: "parent_id"
-  add_foreign_key "block_outs", "users"
+  add_foreign_key "blockouts", "blockouts", column: "parent_id"
+  add_foreign_key "blockouts", "users"
 end
