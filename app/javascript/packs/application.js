@@ -4,6 +4,7 @@ import Rails from 'rails-ujs';
 import Selectize from 'selectize';
 import Turbolinks from 'turbolinks';
 import Inputmask from 'inputmask';
+import OMDLogo from 'images/omd-logo.png'
 
 Rails.start();
 Turbolinks.start();

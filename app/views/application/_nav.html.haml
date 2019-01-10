@@ -5,7 +5,8 @@
   .grid-container
     .top-bar#responsive-menu
       .top-bar-left
-        %div= link_to 'Office Moms & Dads', root_path
+        = link_to root_path do
+          = image_pack_tag 'images/omd-logo.png'
       .top-bar-right
         %ul.dropdown.menu{ data: { dropdown_menu: true } }
           %li.has-submenu
