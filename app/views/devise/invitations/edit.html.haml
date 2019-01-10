@@ -1,45 +1,62 @@
-%h2= t 'devise.invitations.edit.header'
+- content_for :page_header do
+  %h2= t 'devise.invitations.edit.header'
 = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
   = devise_error_messages!
   = f.hidden_field :invitation_token, readonly: true
-  %p
-    = f.label :first_name
-    = f.text_field :first_name
-  %p
-    = f.label :last_name
-    = f.text_field :last_name
+  .grid-x.grid-padding-x
+    .medium-6.xlarge-3.cell
+      = f.label :first_name do
+        First Name
+        = f.text_field :first_name, placeholder: 'Enter your first name'
+    .medium-6.xlarge-9.cell
+      = f.label :last_name do
+        Last Name
+        = f.text_field :last_name, placeholder: 'Enter your last name'
   - if f.object.class.require_password_on_accepting
-    %p
-      = f.label :password
-      = f.password_field :password
-    %p
-      = f.label :password_confirmation
-      = f.password_field :password_confirmation
+    %fieldset.fieldset
+      %legend Password
+      %em Password must be at least 6 characters long
+      = f.label :password do
+        = f.password_field :password, placeholder: 'Password'
+      = f.label :password_confirmation do
+        = f.password_field :password_confirmation, placeholder: 'Password Confirmation'
   - if profile_attributes_required?(resource)
-    %p
-      = f.label :birth_date
-      = f.date_field :birth_date
-    %p
-      = f.label :phone
-      = f.phone_field :phone
-    %p
-      = f.label :resident_since
-      = f.date_field :resident_since
-    %p
-      = f.label :discovered_omd_by
-      = f.text_area :discovered_omd_by
-    %p
-      = f.label :medical_limitations
-      = f.check_box :medical_limitations
-    %p
-      = f.label :medical_limitations_desc
-      = f.text_area :medical_limitations_desc
-    %p
-      = f.label :conviction
-      = f.check_box :conviction
-    %p
-      = f.label :conviction_desc
-      = f.text_area :conviction_desc
-  
-  
-  %p= f.submit t("devise.invitations.edit.submit_button")
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :birth_date do
+          Birth Date
+          = f.date_field :birth_date
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :phone do
+          Phone Number
+          = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :resident_since do
+          U.S. Resident Since
+          = f.date_field :resident_since
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :discovered_omd_by do
+          How did you discover Office Moms & Dads?
+          = f.text_area :discovered_omd_by
+    .grid-x.grid-padding-x
+      .cell.medium-6
+        %fieldset.fieldset
+          = f.check_box :medical_limitations
+          = f.label :medical_limitations do
+            Do you have any medical limitations?
+          = f.label :medical_limitations_desc do
+            If so, please describe below:
+            = f.text_area :medical_limitations_desc
+      .cell.medium-6
+        %fieldset.fieldset
+          = f.check_box :conviction
+          = f.label :conviction do
+            Have you ever been convicted of a felony?
+          = f.label :conviction_desc do
+            If so, please describe below:
+            = f.text_area :conviction_desc
+  .grid-x.grid-padding-x
+    .cell= f.submit t("devise.invitations.edit.submit_button"), class: 'button'

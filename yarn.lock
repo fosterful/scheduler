@@ -2,6 +2,23 @@
 # yarn lockfile v1
 
 
+"@fortawesome/fontawesome-common-types@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.12.tgz#42baa71f97ca06faeb0b6718fa5ed20c5eefdf07"
+  integrity sha512-ISLNpEx6fhJTYYkvBeo/4DHeL5EIA+VybJoOOnH67m6uXt6V6VFizdEN4qchHagNIeZfzI0LnA22gk0wbVPv/g==
+
+"@fortawesome/fontawesome-free@^5.6.3":
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
+  integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
+
+"@fortawesome/free-solid-svg-icons@^5.6.3":
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.6.3.tgz#1d7f6669ccd6a1ea673699e41f7e32c81401a260"
+  integrity sha512-ld8Gfp1KrncOpFRheThUDlD6/Ro9ZJGqfCEMXlO/x1Cg7ltLc5iYDG7yxDowLcmFY2BGSmxIIU3ZMW5FVTrfwQ==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.12"
+
 "@rails/webpacker@3.5":
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-3.5.5.tgz#8911c66bcefc8bc6b91270e92f0d39e3c2d43116"
@@ -2584,11 +2601,6 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "=3.1.0"
 
-font-awesome@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
-  integrity sha1-j6jPBBGhoxr9B7BtKQK7n8gVoTM=
-
 for-in@^0.1.3:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"
@@ -3144,6 +3156,11 @@ ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+
+inputmask@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.6.tgz#ee8f9478ed4c06b38116e8d0ed55a5798b73bcb6"
+  integrity sha512-zHw2jO1RSTU/aoKjsVsBQF56m3SYA3IEsIZmb6anvoUBlPRMgXtKWtj/Pux7o/O8JNikGLLRN6LGBISzHRlabw==
 
 internal-ip@1.2.0:
   version "1.2.0"
