@@ -3,12 +3,17 @@
 = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
   = devise_error_messages!
   - resource.class.invite_key_fields.each do |field|
-    %p
-      = f.label field
-      %br/
-      = f.text_field field
-  = f.label :office_ids, 'Office(s)'
-  = f.select(:office_ids, nil, {}, multiple: true) do
-    = options_for_select(offices_for_select(current_user), resource.office_ids)
+    .grid-x.grid-padding-x
+      .cell
+        = f.label field do
+          #{field.titleize}
+          = f.text_field field
+  .grid-x.grid-padding-x
+    .cell
+      = f.label :office_ids do
+        Office(s)
+        = f.select(:office_ids, nil, {}, multiple: true) do
+          = options_for_select(offices_for_select(current_user), resource.office_ids)
   = f.hidden_field :role, { value: resource.role }
-  %p= f.submit t("devise.invitations.new.submit_button"), class: 'button'
+  .grid-x.grid-padding-x
+    .cell= f.submit t("devise.invitations.new.submit_button"), class: 'button'

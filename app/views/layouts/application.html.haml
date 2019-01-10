@@ -12,7 +12,7 @@
     - if content_for :page_header
       .page-header
         .grid-container
-          .grid-x
+          .grid-x.grid-padding-x
             .cell= yield :page_header
     .grid-container
       - flash.each do |name, msg|
