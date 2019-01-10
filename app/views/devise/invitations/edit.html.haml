@@ -20,6 +20,12 @@
         = f.password_field :password, placeholder: 'Password'
       = f.label :password_confirmation do
         = f.password_field :password_confirmation, placeholder: 'Password Confirmation'
+
+  .grid-x.grid-padding-x
+    .cell
+      = f.label :time_zone do
+        Time Zone
+        = f.select :time_zone, ActiveSupport::TimeZone.us_zones, prompt: 'Select Timezone...'
   - if profile_attributes_required?(resource)
     .grid-x.grid-padding-x
       .cell

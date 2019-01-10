@@ -11,7 +11,7 @@ FactoryBot.define do
     password_confirmation { 'foobar' }
 
     role { 'volunteer' }
-    confirmed_at { Time.now }
+    confirmed_at { Time.zone.now }
 
     birth_date { 35.years.ago }
     phone { '0123456789' }
@@ -19,6 +19,7 @@ FactoryBot.define do
     discovered_omd_by { 'The interwebs' }
     medical_limitations { false }
     conviction { false }
+    time_zone { 'Pacific Time (US & Canada)' }
 
     after :build do |user|
       user.offices << build(:office)

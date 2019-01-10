@@ -31,7 +31,9 @@ if Rails.env.development?
     role: 'admin',
   ).first_or_initialize
   unless user.persisted?
-    user.password = ENV.fetch('SEED_ADMIN_PASSWORD', 'itismail')
+    user.password = ENV.fetch('SEED_ADMIN_PASSWORD', 'Password1')
+    user.password_confirmation = user.password
+    user.confirmed_at = Time.zone.now
     user.offices << office
     user.save!
   end

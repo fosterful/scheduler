@@ -16,6 +16,8 @@ services:
     stdin_open: true
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpacker
+      - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
+      - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
   webpacker:
     build: .
     command: ./bin/webpack-dev-server

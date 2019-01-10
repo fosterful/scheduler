@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_07_202341) do
+ActiveRecord::Schema.define(version: 2019_01_09_220614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,21 @@ ActiveRecord::Schema.define(version: 2019_01_07_202341) do
     t.integer "max", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "blockouts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "start_at", null: false
+    t.datetime "end_at", null: false
+    t.datetime "last_occurrence"
+    t.text "rrule"
+    t.datetime "exdate", default: [], array: true
+    t.bigint "parent_id"
+    t.text "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_blockouts_on_parent_id"
+    t.index ["user_id"], name: "index_blockouts_on_user_id"
   end
 
   create_table "offices", force: :cascade do |t|
@@ -88,6 +103,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_202341) do
     t.text "medical_limitations_desc"
     t.boolean "conviction"
     t.text "conviction_desc"
+    t.string "time_zone"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
@@ -98,4 +114,6 @@ ActiveRecord::Schema.define(version: 2019_01_07_202341) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "blockouts", "blockouts", column: "parent_id"
+  add_foreign_key "blockouts", "users"
 end
