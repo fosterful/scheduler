@@ -19,9 +19,9 @@ class User < ApplicationRecord
                      conviction
                      conviction_desc].freeze
 
-  has_one :address, as: :addressable
+  has_one :address, as: :addressable, dependent: :destroy
   has_and_belongs_to_many :offices
-  has_many :block_outs
+  has_many :block_outs, dependent: :destroy
 
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 

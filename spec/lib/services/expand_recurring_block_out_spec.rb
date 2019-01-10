@@ -9,7 +9,7 @@ RSpec.describe Services::ExpandRecurringBlockOut do
         build :block_out,
               start_at: 1.day.from_now,
               end_at: 2.days.from_now,
-              rrule: 'FREQ=WEEKLY;COUNT=3;INTERVAL=1;WKST=MO'
+              rrule: 'FREQ=DAILY;COUNT=3;INTERVAL=1;WKST=MO'
       end
 
       it 'saves the blockout' do
@@ -27,11 +27,11 @@ RSpec.describe Services::ExpandRecurringBlockOut do
       end
 
       it 'does not change the number of recurrences' do
-        expect { subject }.not_to change { block_out.recurrences.count }
+        expect { subject }.not_to(change { block_out.recurrences.count })
       end
 
       it 're-creates the recurrences' do
-        expect { subject }.to change { block_out.reload.recurrence_ids }
+        expect { subject }.to(change { block_out.reload.recurrence_ids })
       end
 
       context 'with new dates excluded' do

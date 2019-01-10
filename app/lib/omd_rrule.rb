@@ -4,11 +4,11 @@ class OmdRrule
   end
 
   def last_recurrence
-    rule.between(Time.zone.now, 3.years.from_now).last
+    rule.between(Time.zone.now.beginning_of_day, 3.years.from_now.end_of_day).last
   end
 
   def current_recurrence_times
-    rule.between(Time.zone.now, 15.days.from_now)
+    rule.between(Time.zone.now.beginning_of_day, 15.days.from_now.end_of_day)
   end
 
   private

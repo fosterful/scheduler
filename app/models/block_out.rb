@@ -4,8 +4,6 @@ class BlockOut < ApplicationRecord
   has_many :recurrences, class_name: 'BlockOut', foreign_key: :parent_id, inverse_of: :parent, dependent: :destroy
   belongs_to :parent, class_name: 'BlockOut', inverse_of: :recurrences, required: false
 
-  scope :recurrences, -> { joins(:recurrences) }
-
   validates :start_at, :end_at,
             presence: true
   validates :start_at,
@@ -19,7 +17,8 @@ class BlockOut < ApplicationRecord
 
   validates :last_recurrence, presence: true, if: :rrule?
 
-  scope :current, -> { where('start_at < ? AND last_recurrence > ?', 15.days.from_now, Time.zone.now) }
+  scope :recurrences, -> { joins(:parent) }
+  scope :current, -> { where('start_at < ? AND last_recurrence > ?', 15.days.from_now.end_of_day, Time.zone.now.beginning_of_day) }
   scope :recurring, -> { current.where.not(rrule: nil) }
   scope :current_recurring, -> { current.merge(recurring) }
 

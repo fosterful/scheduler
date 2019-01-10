@@ -32,6 +32,7 @@ module Services
         )
       end
     end
+    memoize(:recurrences)
 
     def shared_attributes
       attrs = block_out.attributes.symbolize_keys

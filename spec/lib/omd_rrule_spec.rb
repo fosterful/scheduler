@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe OmdRrule do
   subject do 
     described_class.new('FREQ=DAILY',
-                        dtstart: 1.day.from_now)
+                        dtstart: Time.zone.now)
   end
 
   describe '#current_recurrence_times' do
-    it 'should only include the next 15 days worth of recurrences' do
-      expect(subject.current_recurrence_times.length).to eq(15)
+    it 'should only include the next 16 days worth of recurrences' do
+      expect(subject.current_recurrence_times.length).to eq(16)
     end
   end
 
