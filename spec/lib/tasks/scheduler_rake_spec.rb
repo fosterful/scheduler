@@ -15,6 +15,9 @@ describe 'scheduler:update_block_outs' do
 
       expect(block_out.occurrences.count).to eq(16)
 
+      travel_to Time.zone.parse("2019-01-12")
+      expect { subject.execute }.not_to(change { block_out.occurrences.count })
+
       travel_to Time.zone.parse("2019-01-14")
       expect {subject.execute }.to change { block_out.occurrences.count }.to(15)
 
