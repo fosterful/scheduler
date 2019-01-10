@@ -1,23 +1,21 @@
+.title-bar.align-right{ data: { responsive_toggle: 'responsive-menu', hide_for: 'medium' } }
+  .title-bar-title Menu
+  %button.menu-icon{ type: 'button', data: { toggle: 'responsive-menu' } }
 .nav
-  .top
-    .grid-container
-      .grid-x.align-middle
-        .cell.small-6= link_to 'Office Moms & Dads', root_path
-        .cell.small-6
-          %ul.dropdown.menu.align-right{ data: { dropdown_menu: true } }
-            %li
-              %a Profile
-              %ul.menu.vertical.align-right
-                = link_to edit_user_registration_path do
-                  %li
-                    Settings
-                    %i.fas.fa-sliders-h
-                = link_to destroy_user_session_path, method: :delete do
-                  %li
-                    Sign Out
-                    %i.fas.fa-sign-out-alt
-  - if content_for :page_header
-    .bottom
-      .grid-container
-        .grid-x
-          .cell= yield :page_header
+  .grid-container
+    .top-bar#responsive-menu
+      .top-bar-left
+        %div= link_to 'Office Moms & Dads', root_path
+      .top-bar-right
+        %ul.dropdown.menu{ data: { dropdown_menu: true } }
+          %li.has-submenu
+            %a{style: 'color: #ffffff' }Profile
+            %ul.submenu.menu.vertical.align-right
+              = link_to edit_user_registration_path do
+                %li
+                  Settings
+                  %i.fas.fa-sliders-h
+              = link_to destroy_user_session_path, method: :delete do
+                %li
+                  Sign Out
+                  %i.fas.fa-sign-out-alt

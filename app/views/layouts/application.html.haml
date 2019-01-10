@@ -7,8 +7,13 @@
     = csp_meta_tag
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  %body{class: current_user.role}
+  %body
     = render partial: 'nav'
+    - if content_for :page_header
+      .page-header
+        .grid-container
+          .grid-x
+            .cell= yield :page_header
     .grid-container
       - flash.each do |name, msg|
         .callout.margin-top-1{ class: flash_classes[name] }= msg

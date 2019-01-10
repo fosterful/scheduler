@@ -19,5 +19,5 @@
     = f.password_field :password_confirmation, autocomplete: "new-password"
   = f.hidden_field :role, { value: resource.role || params['user']['role'] }
   .actions
-    = f.submit "Sign up"
+    = f.submit "Sign up", class: 'button'
 = render "devise/shared/links"
