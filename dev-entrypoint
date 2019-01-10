@@ -37,15 +37,15 @@ then
   # project's app containers will try to install gems and setup the
   # database concurrently:
   lock_setup
-  # 8: Check if gems need to be installed and install them
+  # 8: Check if dependencies need to be installed and install them
   bundle check || bundle install
+
+  yarn install
   # 9: Setup the database if it doesn't
   if ! rake db:version
   then
     rake db:setup
   fi
-  # 10: Check if yarn needs to install
-  yarn install
   # Start mailcatcher
   mailcatcher --http-ip 0.0.0.0
   # 10: 'Unlock' the setup process:
