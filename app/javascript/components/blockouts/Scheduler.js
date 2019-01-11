@@ -1,26 +1,31 @@
 import React from "react"
 import PropTypes from "prop-types"
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
-import './scheduler.scss';
+import DayPicker from 'react-day-picker'
+import Calendar from './Calendar'
+import BlockoutList from './BlockoutList'
+import AddBlockoutButton from "./AddBlockoutButton"
+import Modal from "./Modal";
+import splitBlockoutsByDay from './helpers/split_blockouts_by_day'
+import 'react-day-picker/lib/style.css'
+import './scheduler.scss'
 
 class Scheduler extends React.Component {
-  render () {
-    console.log(this.props.blockouts.map(b => new Date(b.start_at)))
+  blockoutsByDay = _ => splitBlockoutsByDay(this.props.blockouts)
 
-    const modifiers = {
-      highlighted: this.props.blockouts.map(b => new Date(b.start_at))
-    };
+  render () {
+    const blockoutsByDay = this.blockoutsByDay()
     return (
       <React.Fragment>
-        <DayPicker modifiers={modifiers} />
-        Blockouts: {this.props.blockouts.length}
+        <Modal info={{ component: 'foo', data: {foo: 'bar'} }} />
+        <Calendar blockouts={blockoutsByDay} />
+        <AddBlockoutButton />
+        <BlockoutList blockoutsByDay={blockoutsByDay} />
       </React.Fragment>
-    );
+    )
   }
 }
 
 Scheduler.propTypes = {
   blockouts: PropTypes.array
-};
+}
 export default Scheduler

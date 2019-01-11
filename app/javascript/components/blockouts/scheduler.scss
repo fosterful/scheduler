@@ -7,16 +7,19 @@
   color: #2FCFD9;
 }
 
-.DayPicker-Day--highlighted::after{
-  content: '';
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  -moz-border-radius: 7.5px;
-  -webkit-border-radius: 7.5px;
-  border-radius: 7.5px;
-  background-color: #e86071;
-  display: block;
-  margin: 0 auto;
-  margin-top: -4px;
+.DayPicker-Day--highlighted {
+  position: relative;
+  &::after{
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    -moz-border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    border-radius: 7.5px;
+    background-color: #e86071;
+    display: block;
+    position: absolute;
+    left: calc(50% - 2px);
+  }
 }
