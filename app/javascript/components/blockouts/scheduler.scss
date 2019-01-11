@@ -1,0 +1,22 @@
+.DayPicker-Month {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.DayPicker-Day--today {
+  color: #2FCFD9;
+}
+
+.DayPicker-Day--highlighted::after{
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  -moz-border-radius: 7.5px;
+  -webkit-border-radius: 7.5px;
+  border-radius: 7.5px;
+  background-color: #e86071;
+  display: block;
+  margin: 0 auto;
+  margin-top: -4px;
+}

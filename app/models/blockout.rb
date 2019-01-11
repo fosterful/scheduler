@@ -18,6 +18,7 @@ class Blockout < ApplicationRecord
   validates :last_occurrence, presence: true, if: :rrule?
 
   scope :occurrences, -> { joins(:parent) }
+  scope :excluding_occurrences, -> { where(parent_id: nil) }
   scope :current, -> { where('start_at < ? AND last_occurrence > ?', 15.days.from_now.end_of_day, Time.zone.now.beginning_of_day) }
   scope :recurring, -> { current.where.not(rrule: nil) }
   scope :current_recurring, -> { current.merge(recurring) }
