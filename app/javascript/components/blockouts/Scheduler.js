@@ -5,21 +5,21 @@ import Calendar from './Calendar'
 import BlockoutList from './BlockoutList'
 import AddBlockoutButton from "./AddBlockoutButton"
 import Modal from "./Modal";
-import splitBlockoutsByDay from './helpers/split_blockouts_by_day'
+import splitblockoutsWithDays from './helpers/split_blockouts_by_day'
 import 'react-day-picker/lib/style.css'
 import './scheduler.scss'
 
 class Scheduler extends React.Component {
-  blockoutsByDay = _ => splitBlockoutsByDay(this.props.blockouts)
+  blockoutsWithDays = _ => splitblockoutsWithDays(this.props.blockouts)
 
   render () {
-    const blockoutsByDay = this.blockoutsByDay()
+    const blockoutsWithDays = this.blockoutsWithDays()
     return (
       <React.Fragment>
         <Modal info={{ component: 'foo', data: {foo: 'bar'} }} />
-        <Calendar blockouts={blockoutsByDay} />
+        <Calendar blockouts={blockoutsWithDays} />
         <AddBlockoutButton />
-        <BlockoutList blockoutsByDay={blockoutsByDay} />
+        <BlockoutList blockoutsWithDays={blockoutsWithDays} />
       </React.Fragment>
     )
   }

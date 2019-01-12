@@ -8,7 +8,7 @@ class Blockout extends React.Component {
       <React.Fragment>
         <li>
           <small>
-            {moment(this.props.blockout.range.start).format('Do, h:mm a')} - {moment(this.props.blockout.range.end).format('Do, h:mm a')}
+            {moment(this.props.blockoutWithDays.range.start).format('Do, h:mm a')} - {moment(this.props.blockoutWithDays.range.end).format('Do, h:mm a')}
           </small>
         </li>
       </React.Fragment>
@@ -17,6 +17,6 @@ class Blockout extends React.Component {
 }
 
 Blockout.propTypes = {
-  blockout: PropTypes.object
+  blockoutWithDays: PropTypes.object
 }
 export default Blockout

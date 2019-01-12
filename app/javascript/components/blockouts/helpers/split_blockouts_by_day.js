@@ -3,7 +3,7 @@ import { extendMoment } from 'moment-range'
 
 const moment = extendMoment(Moment)
 
-const blockoutsByDay = blockouts => {
+const blockoutsWithDays = blockouts => {
   return blockouts.map(blockout => {
     const start = moment(blockout.start_at)
     const end = moment(blockout.end_at)
@@ -41,4 +41,4 @@ const blockoutsByDay = blockouts => {
   })
 }
 
-export default blockoutsByDay
+export default blockoutsWithDays
