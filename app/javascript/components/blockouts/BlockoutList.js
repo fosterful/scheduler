@@ -5,26 +5,37 @@ import moment from 'moment'
 import * as R from 'ramda'
 
 class BlockoutList extends React.Component {
-  blockoutsByDays = _ => {
-    const sortFunc = (a, b) => moment.utc(a[0]).diff(moment.utc(b[0])) 
-    return R.pipe(R.groupBy(b => b.range.start.clone().startOf('day').toISOString()),
-      R.toPairs,
-      R.sort(sortFunc))(this.props.blockoutsWithDays.flat())
+  sortByDate = (a, b) => moment(a[0]).diff(moment(b[0])) 
+
+  blockoutsByDay = R.pipe(R.groupBy(b => b.range.start.clone().startOf('day').toISOString()),
+                          R.toPairs,
+                          R.sort(this.sortByDate))
+  renderDays = _ => {
+    const blockoutsWithDays = this.props.blockoutsWithDays.flat()
+    return this.blockoutsByDay(blockoutsWithDays).map((pair, index) => {
+      return (
+        <div key={index}>
+          <div className="day-heading">
+            {moment(pair[0]).format('dddd L')}
+          </div>
+          <div className='day-blockOuts'>
+            {this.renderDay(pair[1])}
+          </div>
+        </div>
+      )
+    })
+  }
+
+  renderDay = day => {
+    return R.sort(this.sortByDate, day).map((blockoutWithDays, index) =>
+      <Blockout blockoutWithDays={blockoutWithDays} key={index} />
+    )
   }
 
   render () {
-    const blockoutItems = this.blockoutsByDays().map((pair, index) => {
-      console.log(pair[0])
-      return (
-        <li key={index}>{pair[0]}</li>
-      )
-    })
-    // const blockoutItems = this.props.blockoutsWithDays.flat().map((blockoutWithDays, index) =>
-    //   <Blockout blockoutWithDays={blockoutWithDays} key={index} />
-    // )
     return (
       <React.Fragment>
-        <ul>{blockoutItems}</ul>
+        {this.renderDays()}
       </React.Fragment>
     )
   }

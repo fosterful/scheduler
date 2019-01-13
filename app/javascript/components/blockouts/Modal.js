@@ -12,7 +12,7 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  info: PropTypes.object
+  info: PropTypes.bool
 }
 
 export default Modal

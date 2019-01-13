@@ -19,19 +19,18 @@ const blockoutsWithDays = blockouts => {
       const rangeStart = date.clone()
       const rangeEnd = date.clone()
 
-      if (index === 0) {
+      if (index === 0 && dates.length > 1) {
         // Start of blockout
         rangeEnd.endOf(interval)
       } else if (dates.length - 1 === index) {
         // End of blockout
-        rangeStart.startOf(interval)
+        dates.length > 1 && rangeStart.startOf(interval)
         rangeEnd.set({
           hour:   end.get('hour'),
           minute: end.get('minute'),
           second: end.get('second')
         })
       } else {
-        
         rangeStart.startOf(interval)
         rangeEnd.endOf(interval)
       }
