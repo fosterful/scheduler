@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import DayPicker from 'react-day-picker'
 import moment from 'moment'
+import SchedulerContext from './scheduler-context'
 import Calendar from './Calendar'
 import BlockoutList from './BlockoutList'
 import AddBlockoutButton from "./AddBlockoutButton"
@@ -12,19 +13,29 @@ import 'react-day-picker/lib/style.css'
 import './scheduler.scss'
 
 class Scheduler extends React.Component {
-  expandedBlockouts = _ => expandRecurringBlockOuts(this.props.blockouts)
+  setCalendarMonth  = calendarMonth => this.setState(state => ({ calendarMonth: moment(calendarMonth).startOf('month') }))
+  
+  state = {
+    calendarMonth: moment().startOf('month'),
+    setCalendarMonth: this.setCalendarMonth
+  }
+
+  expandedBlockouts = (blockouts, calendarMonth) => expandRecurringBlockOuts(blockouts, calendarMonth)
   blockoutsWithDays = blockouts => splitblockoutsWithDays(blockouts)
 
   render () {
-    const expandedRecurringBlockouts = this.expandedBlockouts()
+    const { props: { blockouts }, state: { calendarMonth } } = this
+    const expandedRecurringBlockouts = this.expandedBlockouts(blockouts, calendarMonth)
     const blockoutsWithDays = this.blockoutsWithDays(expandedRecurringBlockouts)
     return (
-      <React.Fragment>
-        <Modal info={{ component: 'foo', data: {foo: 'bar'} } && false} />
-        <Calendar blockouts={blockoutsWithDays} />
-        <AddBlockoutButton />
-        <BlockoutList blockoutsWithDays={blockoutsWithDays} />
-      </React.Fragment>
+      <SchedulerContext.Provider value={this.state}>
+        <React.Fragment>
+          <Modal info={{ component: 'foo', data: {foo: 'bar'} } && false} />
+          <Calendar blockouts={blockoutsWithDays} />
+          <AddBlockoutButton />
+          <BlockoutList blockoutsWithDays={blockoutsWithDays} />
+        </React.Fragment>
+      </SchedulerContext.Provider>
     )
   }
 }
