@@ -6,9 +6,9 @@ import SchedulerContext from './scheduler-context'
 import Calendar from './Calendar'
 import BlockoutList from './BlockoutList'
 import AddBlockoutButton from "./AddBlockoutButton"
-import Modal from "./Modal";
+import Modal from "./Modal"
 import splitblockoutsWithDays from './helpers/split_blockouts_by_day'
-import expandRecurringBlockOuts from "./helpers/expand_recurring_blockouts";
+import expandRecurringBlockOuts from "./helpers/expand_recurring_blockouts"
 import 'react-day-picker/lib/style.css'
 import './scheduler.scss'
 
