@@ -27,8 +27,8 @@ class BlockoutList extends React.Component {
   }
 
   renderDay = day => {
-    return R.sort(this.sortByDate, day).map((blockoutWithDays, index) =>
-      <Blockout blockoutWithDays={blockoutWithDays} key={index} />
+    return R.sort(this.sortByDate, day).map((blockout, index) =>
+      <Blockout blockout={blockout} key={index} />
     )
   }
 

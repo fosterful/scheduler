@@ -1,12 +1,21 @@
 import React from "react"
 import PropTypes from "prop-types"
+import SchedulerContext from './scheduler-context'
 
 class AddBlockoutButton extends React.Component {
   render () {
     return (
-      <React.Fragment>
-        <button type='button' className='success button tiny'>Add Blockout</button>
-      </React.Fragment>
+      <SchedulerContext.Consumer>
+        {({ setModalInfo }) => (
+          <button 
+            type='button'
+            className='success button tiny'
+            onClick={ setModalInfo.bind(this, { component: 'NewBlockoutModal'}) }
+          >
+            Add Blockout
+          </button>
+        )}
+      </SchedulerContext.Consumer>
     )
   }
 }

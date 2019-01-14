@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import SchedulerContext from './scheduler-context'
 import ReactModal from 'react-modal'
 import NewBlockoutModal from "./NewBlockoutModal"
+import EditBlockoutModal from "./EditBlockoutModal"
 import { isNil } from 'ramda'
 
 
@@ -10,7 +11,8 @@ ReactModal.setAppElement('#scheduler')
 
 class Modal extends React.Component {
   modals = {
-    NewBlockoutModal: NewBlockoutModal
+    NewBlockoutModal: NewBlockoutModal,
+    EditBlockoutModal: EditBlockoutModal
   }
 
   renderComponent = (component, data) => {
@@ -21,8 +23,11 @@ class Modal extends React.Component {
   render () {
     return (
       <SchedulerContext.Consumer>
-        {({ modalInfo: { component, data } }) => (
-          <ReactModal isOpen={ !isNil(component) }>
+        {({ setModalInfo, modalInfo: { component, data } }) => (
+          <ReactModal 
+          isOpen={ !isNil(component) }
+          onRequestClose={ setModalInfo.bind(this, {}) }
+          >
             { this.renderComponent(component, data) }
           </ReactModal>
         )}
