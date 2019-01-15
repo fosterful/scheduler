@@ -24,9 +24,11 @@
   }
 }
 
-.DayPickerInput-Overlay {
-  left: unset;
-  right: 0;
+.blockout-date-time-picker {
+  .DayPickerInput-Overlay {
+    left: unset;
+    right: 0;
+  }
 }
 
 .blockout-container {
@@ -45,6 +47,7 @@
 
 .blockout-modal-content {
   display: block !important;
+  // width: 35%;
   outline: none;
   padding: 0;
   border: none;
@@ -60,6 +63,10 @@
 .blockout-modal-inner-content {
   padding: 1rem;
   min-height: 350px;
+  hr {
+    width: calc(100% + 2rem);
+    margin: 0 0 1rem -1rem;
+  }
 }
 
 .blockout-modal-footer {
@@ -67,5 +74,15 @@
   padding: .8rem;
   .button {
     margin-bottom: 0;
+  }
+}
+
+.blockout-repeat-inputs {
+  .cell {
+    margin-right: .5rem;
+  }
+  .DayPickerInput-Overlay {
+    top: -150px;
+    left: calc(100% + 1rem);
   }
 }

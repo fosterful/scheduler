@@ -12,7 +12,12 @@ class NewBlockoutModal extends React.Component {
   }
 
   state = {
-    inputs: { fromDate: new Date(), fromTime: '00:00', toTime: '23:59', reason: ''},
+    inputs: {
+      fromDate: new Date(),
+      fromTime: '00:00',
+      toTime: '23:59',
+      reason: ''
+    },
     setFormInputs: this.setFormInputs
   }
 
@@ -25,7 +30,9 @@ class NewBlockoutModal extends React.Component {
             <div className='blockout-modal-header'>New Blockout</div>
             <div className='blockout-modal-inner-content'>
               <DateTimePicker />
+              <hr />
               <RepeatInputs />
+              <hr />
               <ReasonInput />
             </div>
             <div className='blockout-modal-footer'>

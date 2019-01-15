@@ -54,7 +54,7 @@ class DateTimePicker extends React.Component {
     return (
       <BlockoutFormContext.Consumer>
         {({ inputs: {fromDate, toDate, fromTime, toTime}, setFormInputs }) => (
-          <div className="grid-x grid-margin-x">
+          <div className="grid-x grid-margin-x blockout-date-time-picker">
             <div className="cell small-2">
               <label>
                 All Day
