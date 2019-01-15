@@ -20,21 +20,22 @@ class NewBlockoutModal extends React.Component {
     setFormInputs: this.setFormInputs
   }
 
-  submit = _ => {
-    console.log(snakecaseKeys(this.state.inputs))
-    fetch('/users/123/blockouts', {
+  submit = async (authenticity_token) => {
+    response = await fetch('/blockouts', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': authenticity_token
       },
-      body: JSON.stringify(snakecaseKeys(this.state.inputs))
+      body: JSON.stringify({ blockout: snakecaseKeys(this.state.inputs) })
     })
+    console.log(response)
   }
 
   render () {
     return (
       <SchedulerContext.Consumer>
-        {({ setModalInfo }) => (
+        {({ setModalInfo, authenticity_token }) => (
           <BlockoutFormContext.Provider value={this.state}>
             <div className='blockout-modal-header'>New Blockout</div>
             <div className='blockout-modal-inner-content'>
@@ -48,7 +49,7 @@ class NewBlockoutModal extends React.Component {
               <div className="group">
                 <div className="float-right">
                   <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
-                  <button className='button primary' onClick={this.submit}>Save</button>
+                  <button className='button primary' onClick={this.submit.bind(this, authenticity_token)}>Save</button>
                 </div>
               </div>
             </div>

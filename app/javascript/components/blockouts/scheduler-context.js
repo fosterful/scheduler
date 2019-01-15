@@ -4,5 +4,6 @@ export default React.createContext({
   calendarMonth: null,
   setCalendarMonth: () => {},
   modalInfo: {},
-  setModalInfo: () => {}
+  setModalInfo: () => {},
+  authenticity_token: ''
 })

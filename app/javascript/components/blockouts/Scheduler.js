@@ -26,11 +26,11 @@ class Scheduler extends React.Component {
   blockoutsWithDays = blockouts => splitblockoutsWithDays(blockouts)
 
   render () {
-    const { props: { blockouts }, state: { calendarMonth } } = this
+    const { props: { blockouts, authenticity_token }, state: { calendarMonth } } = this
     const expandedRecurringBlockouts = this.expandedBlockouts(blockouts, calendarMonth)
     const blockoutsWithDays = this.blockoutsWithDays(expandedRecurringBlockouts)
     return (
-      <SchedulerContext.Provider value={this.state}>
+      <SchedulerContext.Provider value={{...this.state, ...{ authenticity_token: authenticity_token }}}>
         <React.Fragment>
           <Modal />
           <Calendar blockouts={blockoutsWithDays} />
