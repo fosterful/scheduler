@@ -12,7 +12,7 @@ class ReasonInput extends React.Component {
             <div className="cell">
               <label>
                 Reason
-                <input type='text' value={reason} onChange={ event => setFormInputs({reason: event.target.value}) } />
+                <input type='text' value={reason || ''} onChange={ event => setFormInputs({reason: event.target.value}) } />
               </label>
             </div>
           </div>

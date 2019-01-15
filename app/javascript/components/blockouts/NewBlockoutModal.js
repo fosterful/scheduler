@@ -5,6 +5,7 @@ import BlockoutFormContext from './blockout-form-context'
 import DateTimePicker from "./DateTimePicker";
 import ReasonInput from "./ReasonInput";
 import RepeatInputs from "./RepeatInputs";
+import moment from 'moment'
 
 class NewBlockoutModal extends React.Component {
   setFormInputs = value => {
@@ -13,10 +14,7 @@ class NewBlockoutModal extends React.Component {
 
   state = {
     inputs: {
-      fromDate: new Date(),
-      fromTime: '00:00',
-      toTime: '23:59',
-      reason: ''
+      startAt: moment().startOf('day').toDate(),
     },
     setFormInputs: this.setFormInputs
   }

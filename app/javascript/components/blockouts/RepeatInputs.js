@@ -37,7 +37,7 @@ class RepeatInputs extends React.Component {
         byweekday: byWeekDay && frequency === 'MONTHLY' ? weekDayMapping[moment(fromDate).format('d')] : null,
         until: until ? untilDate : null
       })
-      console.log(rrule.toText())
+      // console.log(rrule.toText())
       this.context.setFormInputs({ rrule: rrule.toString().replace('RRULE:', '') })
     } else {
       this.context.setFormInputs({ rrule: null })

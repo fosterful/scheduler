@@ -8,6 +8,7 @@ import BlockoutFormContext from './blockout-form-context'
 const moment = extendMoment(Moment)
 
 class DateTimePicker extends React.Component {
+
   timeOptions = _ => {
     const begin = moment().hour(6).minute(30).second(0)
     const end   = moment().hour(23).minute(30).second(0)
@@ -21,15 +22,41 @@ class DateTimePicker extends React.Component {
 
   state ={
     allDay: true,
+    fromDate: undefined,
+    toDate: undefined,
+    fromTime: '00:00',
+    toTime: '23:59',
     timeOptions: this.timeOptions()
   }
 
-  toggleAllDay = setFormInputs => {
+  componentDidMount() {
+    const { context: { inputs: { startAt, endAt } } } = this
+    const update = {}
+    if (startAt) {
+      update.fromDate = startAt
+      const startAtTime = moment(startAt).format('HH:mm')
+      if (startAtTime != '00:00') {
+        update.fromTime = startAtTime
+        update.allDay = false
+      }
+    }
+
+    if (endAt) {
+      update.toDate = endAt
+      const endAtTime = moment(endAt).format('HH:mm')
+      if (endAtTime != '23:59') {
+        update.toTime = endAtTime
+        update.allDay = false
+      }
+    }
+    this.setState(state => update)
+  }
+
+  toggleAllDay = _ => {
     if (this.state.allDay) {
       this.setState(state => ({ allDay: false }))
     } else {
-      this.setState(state => ({ allDay: true }))
-      setFormInputs({fromTime: '00:00', toTime: '23:59'})
+      this.setState(state => ({ allDay: true, fromTime: '00:00', toTime: '23:59' }), this.computeResult)
     }
   }
 
@@ -39,59 +66,77 @@ class DateTimePicker extends React.Component {
     })
   }
 
-  renderTimeSelect = (input, value, setFormInputs) => {
+  renderTimeSelect = (input, value) => {
     if (!this.state.allDay) {
+      const handler = this.handleInputChange(input)
       return (
-        <select value={value} onChange={event => setFormInputs({[input]: event.target.value})}>
+        <select value={value} onChange={event => handler(event.target.value)}>
           {this.renderTimeSelectOptions(input)}
         </select>
       )
     }
   }
 
+  computeResult = _ => {
+    const { state: { fromDate, toDate, fromTime, toTime } } = this
+    const update = {}
+
+    const startAtStr = `${moment(fromDate).format('YYYY-MM-DD')}T${fromTime}:00`
+    update.startAt = moment(startAtStr, moment.ISO_8601).toDate()
+
+    if (toDate) {
+      const endAtStr = `${moment(toDate).format('YYYY-MM-DD')}T${toTime}:00`
+      update.endAt = moment(endAtStr, moment.ISO_8601).toDate()
+    }
+
+    this.context.setFormInputs(update)
+  }
+
+  handleInputChange = (input) => {
+    return value => {
+      this.setState(state => ({ [input]: value }), this.computeResult)
+    }
+  }
+
   render () {
-    const { toggleAllDay, renderTimeSelect, state: { allDay } } = this
+    const { toggleAllDay, handleInputChange, renderTimeSelect, state: { allDay, fromDate, toDate, fromTime, toTime } } = this
     return (
-      <BlockoutFormContext.Consumer>
-        {({ inputs: {fromDate, toDate, fromTime, toTime}, setFormInputs }) => (
-          <div className="grid-x grid-margin-x blockout-date-time-picker">
-            <div className="cell small-2">
-              <label>
-                All Day
-                <input type='checkbox' defaultChecked={allDay} onChange={ toggleAllDay.bind(this, setFormInputs) } />
-              </label>
-            </div>
-            <div className="cell small-5">
-              <label htmlFor=''>Start Date</label>
-              <DayPickerInput
-                inputProps={{ type: 'text' }}
-                value={fromDate}
-                formatDate={date => moment(date).format('ll')}
-                onDayChange={day => setFormInputs({ fromDate: day })}
-                dayPickerProps={{
-                  selectedDays: [fromDate, { fromDate, toDate }],
-                  disabledDays: { after: toDate }
-                }}
-              />
-              {renderTimeSelect('fromTime', fromTime, setFormInputs)}
-            </div>
-            <div className="cell small-5">
-              <label htmlFor=''>End Date</label>
-              <DayPickerInput
-                inputProps={{ type: 'text' }}
-                value={toDate}
-                formatDate={date => moment(date).format('ll')}
-                onDayChange={day => setFormInputs({ toDate: day })}
-                dayPickerProps={{
-                  selectedDays: [fromDate, { fromDate, toDate }],
-                  disabledDays: { before: fromDate }
-                }}
-              />
-              {renderTimeSelect('toTime', toTime, setFormInputs)}
-            </div>
-          </div>
-        )}
-      </BlockoutFormContext.Consumer>
+      <div className="grid-x grid-margin-x blockout-date-time-picker">
+        <div className="cell small-2">
+          <label>
+            All Day
+            <input type='checkbox' checked={allDay} onChange={ toggleAllDay } />
+          </label>
+        </div>
+        <div className="cell small-5">
+          <label htmlFor=''>Start Date</label>
+          <DayPickerInput
+            inputProps={{ type: 'text' }}
+            value={fromDate}
+            formatDate={date => moment(date).format('ll')}
+            onDayChange={handleInputChange('fromDate')}
+            dayPickerProps={{
+              selectedDays: [fromDate, { fromDate, toDate }],
+              disabledDays: { after: toDate }
+            }}
+          />
+          {renderTimeSelect('fromTime', fromTime, handleInputChange)}
+        </div>
+        <div className="cell small-5">
+          <label htmlFor=''>End Date</label>
+          <DayPickerInput
+            inputProps={{ type: 'text' }}
+            value={toDate}
+            formatDate={date => moment(date).format('ll')}
+            onDayChange={handleInputChange('toDate')}
+            dayPickerProps={{
+              selectedDays: [fromDate, { fromDate, toDate }],
+              disabledDays: { before: fromDate }
+            }}
+          />
+          {renderTimeSelect('toTime', toTime, handleInputChange)}
+        </div>
+      </div>
     )
   }
 }
@@ -100,4 +145,5 @@ DateTimePicker.propTypes = {
   data: PropTypes.object
 }
 
+DateTimePicker.contextType = BlockoutFormContext
 export default DateTimePicker
