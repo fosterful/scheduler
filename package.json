@@ -22,6 +22,7 @@
     "react_ujs": "^2.4.4",
     "rrule": "^2.6.0",
     "selectize": "^0.12.6",
+    "snakecase-keys": "^2.1.0",
     "turbolinks": "^5.0.3"
   },
   "devDependencies": {

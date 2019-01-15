@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import snakecaseKeys from 'snakecase-keys'
 import SchedulerContext from './scheduler-context'
 import BlockoutFormContext from './blockout-form-context'
 import DateTimePicker from "./DateTimePicker";
@@ -19,8 +20,18 @@ class NewBlockoutModal extends React.Component {
     setFormInputs: this.setFormInputs
   }
 
+  submit = _ => {
+    console.log(snakecaseKeys(this.state.inputs))
+    fetch('/users/123/blockouts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(snakecaseKeys(this.state.inputs))
+    })
+  }
+
   render () {
-    console.log(this.state.inputs)
     return (
       <SchedulerContext.Consumer>
         {({ setModalInfo }) => (
@@ -37,7 +48,7 @@ class NewBlockoutModal extends React.Component {
               <div className="group">
                 <div className="float-right">
                   <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
-                  <button className='button primary'>Save</button>
+                  <button className='button primary' onClick={this.submit}>Save</button>
                 </div>
               </div>
             </div>
