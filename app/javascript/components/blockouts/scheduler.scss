@@ -24,6 +24,11 @@
   }
 }
 
+.DayPickerInput-Overlay {
+  left: unset;
+  right: 0;
+}
+
 .blockout-container {
   border: 1px solid black;
   margin-bottom: 1rem;
@@ -32,4 +37,35 @@
 
 .blockout-time {
   font-size: .7rem;
+}
+
+.blockout-modal-overlay {
+  display: block !important;
+}
+
+.blockout-modal-content {
+  display: block !important;
+  outline: none;
+  padding: 0;
+  border: none;
+}
+
+.blockout-modal-header {
+  background-color: #2FCFD9;
+  padding: 1rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.blockout-modal-inner-content {
+  padding: 1rem;
+  min-height: 350px;
+}
+
+.blockout-modal-footer {
+  border-top: 1px solid #ccc;
+  padding: .8rem;
+  .button {
+    margin-bottom: 0;
+  }
 }

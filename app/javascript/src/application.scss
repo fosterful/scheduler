@@ -12,4 +12,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   box-sizing: border-box;
 }
 
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 @import 'stylesheets/nav';
+@import '../components/blockouts/scheduler'

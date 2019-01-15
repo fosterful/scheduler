@@ -10,7 +10,6 @@ import Modal from "./Modal"
 import splitblockoutsWithDays from './helpers/split_blockouts_by_day'
 import expandRecurringBlockOuts from "./helpers/expand_recurring_blockouts"
 import 'react-day-picker/lib/style.css'
-import './scheduler.scss'
 
 class Scheduler extends React.Component {
   setCalendarMonth = calendarMonth => this.setState(state => ({ calendarMonth: moment(calendarMonth).startOf('month') }))
@@ -19,7 +18,7 @@ class Scheduler extends React.Component {
   state = {
     calendarMonth: moment().startOf('month'),
     setCalendarMonth: this.setCalendarMonth,
-    modalInfo: false && { component: 'NewBlockoutModal', data: {foo: 'bar'} },
+    modalInfo: {},
     setModalInfo: this.setModalInfo,
   }
 

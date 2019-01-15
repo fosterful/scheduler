@@ -24,9 +24,11 @@ class Modal extends React.Component {
     return (
       <SchedulerContext.Consumer>
         {({ setModalInfo, modalInfo: { component, data } }) => (
-          <ReactModal 
-          isOpen={ !isNil(component) }
-          onRequestClose={ setModalInfo.bind(this, {}) }
+          <ReactModal
+            overlayClassName='reveal-overlay blockout-modal-overlay'
+            className='reveal blockout-modal-content'
+            isOpen={ !isNil(component) }
+            onRequestClose={ setModalInfo.bind(this, {}) }
           >
             { this.renderComponent(component, data) }
           </ReactModal>
