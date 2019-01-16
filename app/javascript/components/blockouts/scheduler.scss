@@ -86,3 +86,18 @@
     left: calc(100% + 1rem);
   }
 }
+
+.blockout-edit-recurrence-options {
+  button {
+    &.primary {
+      color: white !important;
+      .subtext {
+        color: #d5fcff;
+      }
+    }
+    .subtext {
+      margin-top: .25rem;
+      font-size: .75rem;
+    }
+  }
+}

@@ -22,7 +22,8 @@ class Scheduler extends React.Component {
       modalInfo: {},
       setModalInfo: this.setModalInfo,
       updateBlockouts: this.updateBlockouts,
-      makeRequest: makeRequestFn(props.authenticity_token)
+      makeRequest: makeRequestFn(props.authenticity_token),
+      removeBlockout: this.removeBlockout
     }
   }
 
@@ -33,6 +34,12 @@ class Scheduler extends React.Component {
     const { state: { blockouts } } = this
     const ids = blockoutsToUpdate.map(b => b.id)
     const updatedBlockouts = blockouts.filter(b => !ids.includes(b.id)).concat(blockoutsToUpdate)
+    this.setState(state => ({ blockouts: updatedBlockouts }))
+  }
+
+  removeBlockout = blockoutId => {
+    const { state: { blockouts } } = this
+    const updatedBlockouts = blockouts.filter(b => b.id != blockoutId)
     this.setState(state => ({ blockouts: updatedBlockouts }))
   }
 

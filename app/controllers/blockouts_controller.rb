@@ -11,6 +11,18 @@ class BlockoutsController < ApplicationController
     end
   end
 
+  def destroy
+    @blockout = current_user.blockouts.find(params[:id])
+    authorize @blockout
+    respond_with_json do
+      if @blockout.destroy
+        render json: {}, status: 200
+      else
+        render json: { error: 'Blockout could not be deleted' }, status: 422
+      end
+    end
+  end
+
   private
 
   def respond_with_json

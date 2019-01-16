@@ -8,7 +8,7 @@ const makeRequestFn = authenticity_token => {
         'Content-Type': 'application/json',
         'X-CSRF-Token': authenticity_token
       },
-      body: JSON.stringify(snakecaseKeys(data))
+      body: JSON.stringify(snakecaseKeys(data || {}))
     })
     
     if (response.status >= 200 && response.status < 300) {

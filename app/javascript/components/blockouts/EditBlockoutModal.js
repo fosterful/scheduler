@@ -4,15 +4,18 @@ import SchedulerContext from './scheduler-context'
 import BlockoutFormContext from './blockout-form-context'
 import DateTimePicker from "./DateTimePicker";
 import ReasonInput from "./ReasonInput";
-import RepeatInputs from "./RepeatInputs";
+import Errors from './Errors'
+import RecurrenceOptions from './recurrence_options'
 import moment from 'moment'
-
 
 class EditBlockoutModal extends React.Component {
   constructor(props) {
     super(props)
     const { data: { blockout } } = props
     this.state = {
+      blockout: blockout,
+      blockoutId: blockout.id || blockout.parent_id,
+      selectedRecurrenceOption: 'one',
       inputs: {
         startAt: new Date(blockout.start_at),
         endAt: new Date(blockout.end_at),
@@ -27,10 +30,10 @@ class EditBlockoutModal extends React.Component {
   }
 
   submit = async _ => {
-    const { state: { inputs }, context: { setModalInfo, makeRequest, updateBlockouts } } = this
+    const { state: { blockoutId, inputs }, context: { setModalInfo, makeRequest, updateBlockouts } } = this
     const inputsWithDefaults = {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
     const data = { blockout: inputsWithDefaults }
-    const result = await makeRequest({ url: '/blockouts.json', method: 'POST', data: data})
+    const result = await makeRequest({ url: `/blockout/${blockoutId}.json`, method: 'PUT', data: data})
 
     if (result.success) {
       updateBlockouts([result.data])
@@ -40,30 +43,43 @@ class EditBlockoutModal extends React.Component {
     }
   }
 
-  Errors = _ => {
-    const { state: { errorMsg } } = this
-    if (!errorMsg) return null
-    return (
-      <div className="callout alert">
-        Error: { errorMsg }
-      </div>
-    )
+  delete = async _ => {
+    const { state: { blockoutId }, context: { setModalInfo, makeRequest, removeBlockout } } = this
+    const result = await makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
+   
+    if (result.success) {
+      removeBlockout(blockoutId)
+      setModalInfo({})
+    } else {
+      this.setState(state => ({errorMsg: result.error}))
+    }
+  }
+
+  selectRecurrenceOption = option => {
+    return _ => this.setState(state => ({ selectedRecurrenceOption: option})) 
   }
 
   render () {
-    console.log(this.state)
-    const { Errors, context: { setModalInfo } } = this
+    const { selectRecurrenceOption, state: { errorMsg, selectedRecurrenceOption }, context: { setModalInfo } } = this
     return (
       <BlockoutFormContext.Provider value={this.state}>
-        <div className='blockout-modal-header'>New Blockout</div>
+        <div className='blockout-modal-header'>Edit Blockout Date</div>
         <div className='blockout-modal-inner-content'>
-          <Errors />
+          <Errors errorMsg={errorMsg} />
           <DateTimePicker />
           <hr />
           <ReasonInput />
+          <hr />
+          <RecurrenceOptions
+            selectRecurrenceOption={selectRecurrenceOption}
+            selectedRecurrenceOption={selectedRecurrenceOption}
+          />
         </div>
         <div className='blockout-modal-footer'>
           <div className="group">
+            <div className="float-left">
+              <button className='hollow button alert' onClick={ this.delete }>Delete</button>
+            </div>
             <div className="float-right">
               <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
               <button className='button primary' onClick={ this.submit }>Save</button>

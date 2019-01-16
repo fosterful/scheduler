@@ -6,5 +6,6 @@ export default React.createContext({
   modalInfo: {},
   setModalInfo: _ => {},
   authenticity_token: '',
-  updateBlockouts: _ => {}
+  updateBlockouts: _ => {},
+  removeBlockout: _ => {}
 })

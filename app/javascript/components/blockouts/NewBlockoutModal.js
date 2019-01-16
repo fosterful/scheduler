@@ -5,6 +5,7 @@ import BlockoutFormContext from './blockout-form-context'
 import DateTimePicker from "./DateTimePicker";
 import ReasonInput from "./ReasonInput";
 import RepeatInputs from "./RepeatInputs";
+import Errors from './Errors'
 import moment from 'moment'
 
 
@@ -34,24 +35,14 @@ class NewBlockoutModal extends React.Component {
     }
   }
 
-  Errors = _ => {
-    const { state: { errorMsg } } = this
-    if (!errorMsg) return null
-    return (
-      <div className="callout alert">
-        Error: { errorMsg }
-      </div>
-    )
-  }
-
   render () {
     console.log(this.state)
-    const { Errors, context: { setModalInfo } } = this
+    const { state: { errorMsg }, context: { setModalInfo } } = this
     return (
       <BlockoutFormContext.Provider value={this.state}>
-        <div className='blockout-modal-header'>New Blockout</div>
+        <div className='blockout-modal-header'>New Blockout Date</div>
         <div className='blockout-modal-inner-content'>
-          <Errors />
+          <Errors errorMsg={errorMsg} />
           <DateTimePicker />
           <hr />
           <RepeatInputs />
