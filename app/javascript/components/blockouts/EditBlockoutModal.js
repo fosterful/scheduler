@@ -43,6 +43,11 @@ class EditBlockoutModal extends React.Component {
 
   setError = errorMsg => this.setState(state => ({errorMsg: errorMsg}))
 
+  createBlockout = data => {
+    const { context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts.json`, method: 'post', data: { blockout: data } })
+  }
+
   updateBlockout = data => {
     const { state: { blockoutId }, context: { makeRequest } } = this
     return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'PUT', data: { blockout: data } })
@@ -53,22 +58,50 @@ class EditBlockoutModal extends React.Component {
     return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
   }
 
-  updateHandler = _ => {
-    const { state: { selectedRecurrenceOption } } = this
+  updateHandler = async _ => {
+    const { state: { selectedRecurrenceOption, blockout }, context: { updateBlockoutsState, setModalInfo } } = this
+
+    let result
+    let error
+    const updatedBlockouts = []
     switch(selectedRecurrenceOption) {
       case 'one':
         // Add Exclusion
+        result = await this.updateBlockout(this.excludeBlockoutParams())
+        if (result.success) {
+          updatedBlockouts.push(result.data)
+        } else { error = result.error; break; }
         // Create new Blockout
+        result = await this.createBlockout(this.inputsWithDefaults())
+        if (result.success) {
+          updatedBlockouts.push(result.data)
+        } else { error = result.error }
         break;
       case 'future':
         // Update parent rrule until
+        result = await this.updateBlockout(this.excludefutureBlockoutsParams())
+        if (result.success) {
+          updatedBlockouts.push(result.data)
+        } else { error = result.error; break; }
         // Create new Blockout with recurrence
-        console.log('update future')
+        result = await this.createBlockout({...this.inputsWithDefaults(), rrule: blockout.rrule})
+        if (result.success) {
+          updatedBlockouts.push(result.data)
+        } else { error = result.error }
         break;
       case 'all':
-        // Update parent
-        console.log('update all')
+        result = await this.updateBlockout(this.inputsWithDefaults())
+        if (result.success) {
+          updatedBlockouts.push(result.data)
+        } else { error = result.error }
         break;
+    }
+
+    if (error) {
+      this.setError(error)
+    } else {
+      updateBlockoutsState(updatedBlockouts)
+      setModalInfo({})
     }
   }
 
@@ -98,13 +131,13 @@ class EditBlockoutModal extends React.Component {
 
   excludeBlockoutParams = _ => {
     const { state: { blockout } } = this
-    return { exdate: blockout.exdate.concat([blockout.range.start.toDate()]) }
+    return { exdate: blockout.exdate.concat([blockout.start_at]) }
   }
 
   excludefutureBlockoutsParams = _ => {
     const { state: { blockout } } = this
     const options = RRule.parseString(blockout.rrule)
-    options.until = blockout.range.start.clone().subtract(1, 'day').startOf('day').toDate()
+    options.until = moment(blockout.start_at).subtract(1, 'day').startOf('day').toDate()
     const newRule = new RRule(options)
     return { rrule: newRule.toString().replace('RRULE:', '') }
   }
