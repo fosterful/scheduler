@@ -1,9 +1,10 @@
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
+import dateIsWithinMonth from './date_is_within_month'
 
 const moment = extendMoment(Moment)
 
-const blockoutsWithDays = blockouts => {
+const blockoutsWithDays = (blockouts, calendarMonth) => {
   return blockouts.map(blockout => {
     const start = moment(blockout.start_at)
     const end = moment(blockout.end_at)
@@ -36,7 +37,7 @@ const blockoutsWithDays = blockouts => {
       }
       return {...blockout, ...{range: moment.range(rangeStart, rangeEnd)}}
     })
-    return days
+    return days.filter(b => dateIsWithinMonth(b.range.start, calendarMonth))
   })
 }
 

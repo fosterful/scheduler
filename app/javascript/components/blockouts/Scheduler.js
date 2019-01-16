@@ -9,26 +9,40 @@ import AddBlockoutButton from "./AddBlockoutButton"
 import Modal from "./Modal"
 import splitblockoutsWithDays from './helpers/split_blockouts_by_day'
 import expandRecurringBlockOuts from "./helpers/expand_recurring_blockouts"
+import makeRequestFn from "./helpers/make_request_fn"
 import 'react-day-picker/lib/style.css'
 
 class Scheduler extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      blockouts: props.blockouts,
+      calendarMonth: moment().startOf('month'),
+      setCalendarMonth: this.setCalendarMonth,
+      modalInfo: {},
+      setModalInfo: this.setModalInfo,
+      updateBlockouts: this.updateBlockouts,
+      makeRequest: makeRequestFn(props.authenticity_token)
+    }
+  }
+
   setCalendarMonth = calendarMonth => this.setState(state => ({ calendarMonth: moment(calendarMonth).startOf('month') }))
   setModalInfo = info => this.setState(state => ({ modalInfo: info }))
-  
-  state = {
-    calendarMonth: moment().startOf('month'),
-    setCalendarMonth: this.setCalendarMonth,
-    modalInfo: {},
-    setModalInfo: this.setModalInfo,
+
+  updateBlockouts = blockoutsToUpdate => {
+    const { state: { blockouts } } = this
+    const ids = blockoutsToUpdate.map(b => b.id)
+    const updatedBlockouts = blockouts.filter(b => !ids.includes(b.id)).concat(blockoutsToUpdate)
+    this.setState(state => ({ blockouts: updatedBlockouts }))
   }
 
   expandedBlockouts = (blockouts, calendarMonth) => expandRecurringBlockOuts(blockouts, calendarMonth)
-  blockoutsWithDays = blockouts => splitblockoutsWithDays(blockouts)
+  blockoutsWithDays = (blockouts, calendarMonth) => splitblockoutsWithDays(blockouts, calendarMonth)
 
   render () {
-    const { props: { blockouts, authenticity_token }, state: { calendarMonth } } = this
+    const { props: { authenticity_token }, state: { blockouts, calendarMonth } } = this
     const expandedRecurringBlockouts = this.expandedBlockouts(blockouts, calendarMonth)
-    const blockoutsWithDays = this.blockoutsWithDays(expandedRecurringBlockouts)
+    const blockoutsWithDays = this.blockoutsWithDays(expandedRecurringBlockouts, calendarMonth)
     return (
       <SchedulerContext.Provider value={{...this.state, ...{ authenticity_token: authenticity_token }}}>
         <React.Fragment>

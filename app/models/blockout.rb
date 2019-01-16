@@ -7,7 +7,7 @@ class Blockout < ApplicationRecord
   validates :start_at, :end_at,
             presence: true
   validates :start_at,
-            inclusion: { in: ->(blockout) { (Date.today..) }, message: 'must be in the future' },
+            inclusion: { in: ->(blockout) { (Time.zone.today..) }, message: 'must be in the future' },
             if: :start_at_changed?
 
   validates :end_at,

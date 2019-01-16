@@ -31,6 +31,7 @@ class DateTimePicker extends React.Component {
 
   componentDidMount() {
     const { context: { inputs: { startAt, endAt } } } = this
+    console.log(this.context)
     const update = {}
     if (startAt) {
       update.fromDate = startAt
@@ -53,8 +54,9 @@ class DateTimePicker extends React.Component {
   }
 
   toggleAllDay = _ => {
-    if (this.state.allDay) {
-      this.setState(state => ({ allDay: false }))
+    const { state: { allDay, fromDate, toDate } } = this
+    if (allDay) {
+      this.setState(state => ({ allDay: false, toDate: (toDate || fromDate)}))
     } else {
       this.setState(state => ({ allDay: true, fromTime: '00:00', toTime: '23:59' }), this.computeResult)
     }
@@ -117,7 +119,7 @@ class DateTimePicker extends React.Component {
             onDayChange={handleInputChange('fromDate')}
             dayPickerProps={{
               selectedDays: [fromDate, { fromDate, toDate }],
-              disabledDays: { after: toDate }
+              disabledDays: { before: fromDate, after: toDate }
             }}
           />
           {renderTimeSelect('fromTime', fromTime, handleInputChange)}

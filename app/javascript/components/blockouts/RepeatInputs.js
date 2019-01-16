@@ -37,7 +37,7 @@ class RepeatInputs extends React.Component {
         byweekday: byWeekDay && frequency === 'MONTHLY' ? weekDayMapping[moment(fromDate).format('d')] : null,
         until: until ? untilDate : null
       })
-      // console.log(rrule.toText())
+      // console.log(rrule.toString())
       this.context.setFormInputs({ rrule: rrule.toString().replace('RRULE:', '') })
     } else {
       this.context.setFormInputs({ rrule: null })
@@ -90,14 +90,14 @@ class RepeatInputs extends React.Component {
     }
 
     ByWeekDaySelect = _ => {
-      const { getNumberWithOrdinal, handleInputChange, state: { interval, frequency, byWeekDay }, context: { inputs: { fromDate } } } = this
+      const { getNumberWithOrdinal, handleInputChange, state: { interval, frequency, byWeekDay }, context: { inputs: { startAt } } } = this
       if (!interval || frequency != 'MONTHLY') return null
-      const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(fromDate).date() / 7))
-      const dayOfWeek = moment(fromDate).format('dddd')
+      const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
+      const dayOfWeek = moment(startAt).format('dddd')
       return (
         <div className="cell large-4">
           <select value={byWeekDay} onChange={handleInputChange('byWeekDay')}>
-            <option value=''>on the {moment(fromDate).format('Do')} day</option>
+            <option value=''>on the {moment(startAt).format('Do')} day</option>
             <option value='true'>on the {weekOfMonth} {dayOfWeek}</option>
           </select>
         </div>

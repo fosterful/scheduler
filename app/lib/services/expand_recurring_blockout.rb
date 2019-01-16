@@ -5,6 +5,7 @@ module Services
     include Adamantium::Flat
 
     def call
+      return blockout.save if blockout.rrule.blank?
       return false unless blockout.persisted? || save_blockout
       blockout.occurrences.delete_all
       Services::BulkInserter::Insert.call(occurrences) if occurrences.any?

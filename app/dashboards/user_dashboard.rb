@@ -48,7 +48,7 @@ class UserDashboard < Administrate::BaseDashboard
     conviction: Field::Boolean,
     conviction_desc: Field::Text,
     name: Field::MethodField,
-    time_zone: Field::Select.with_options(collection: ActiveSupport::TimeZone.us_zones)
+    time_zone: Field::Select.with_options(collection: ActiveSupport::TimeZone.us_zones.map(&:name))
   }.freeze
 
   # COLLECTION_ATTRIBUTES

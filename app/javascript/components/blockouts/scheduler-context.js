@@ -2,8 +2,9 @@ import React from "react"
 
 export default React.createContext({
   calendarMonth: null,
-  setCalendarMonth: () => {},
+  setCalendarMonth: _ => {},
   modalInfo: {},
-  setModalInfo: () => {},
-  authenticity_token: ''
+  setModalInfo: _ => {},
+  authenticity_token: '',
+  updateBlockouts: _ => {}
 })
