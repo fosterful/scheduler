@@ -22,13 +22,13 @@ class NewBlockoutModal extends React.Component {
   }
 
   submit = async _ => {
-    const { state: { inputs }, context: { setModalInfo, makeRequest, updateBlockouts } } = this
+    const { state: { inputs }, context: { setModalInfo, makeRequest, updateBlockoutsState } } = this
     const inputsWithDefaults = {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
     const data = { blockout: inputsWithDefaults }
     const result = await makeRequest({ url: '/blockouts.json', method: 'POST', data: data})
 
     if (result.success) {
-      updateBlockouts([result.data])
+      updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
       this.setState(state => ({errorMsg: result.error}))

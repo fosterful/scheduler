@@ -21,23 +21,23 @@ class Scheduler extends React.Component {
       setCalendarMonth: this.setCalendarMonth,
       modalInfo: {},
       setModalInfo: this.setModalInfo,
-      updateBlockouts: this.updateBlockouts,
+      updateBlockoutsState: this.updateBlockoutsState,
       makeRequest: makeRequestFn(props.authenticity_token),
-      removeBlockout: this.removeBlockout
+      removeBlockoutFromState: this.removeBlockoutFromState
     }
   }
 
   setCalendarMonth = calendarMonth => this.setState(state => ({ calendarMonth: moment(calendarMonth).startOf('month') }))
   setModalInfo = info => this.setState(state => ({ modalInfo: info }))
 
-  updateBlockouts = blockoutsToUpdate => {
+  updateBlockoutsState = blockoutsToUpdate => {
     const { state: { blockouts } } = this
     const ids = blockoutsToUpdate.map(b => b.id)
     const updatedBlockouts = blockouts.filter(b => !ids.includes(b.id)).concat(blockoutsToUpdate)
     this.setState(state => ({ blockouts: updatedBlockouts }))
   }
 
-  removeBlockout = blockoutId => {
+  removeBlockoutFromState = blockoutId => {
     const { state: { blockouts } } = this
     const updatedBlockouts = blockouts.filter(b => b.id != blockoutId)
     this.setState(state => ({ blockouts: updatedBlockouts }))

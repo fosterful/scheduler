@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import SchedulerContext from './scheduler-context'
 import BlockoutFormContext from './blockout-form-context'
 import DateTimePicker from "./DateTimePicker";
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 import ReasonInput from "./ReasonInput";
 import Errors from './Errors'
 import RecurrenceOptions from './recurrence_options'
@@ -29,30 +30,27 @@ class EditBlockoutModal extends React.Component {
     this.setState(state => ({ inputs: { ...this.state.inputs, ...value } }))
   }
 
-  submit = async _ => {
-    const { state: { blockoutId, inputs }, context: { setModalInfo, makeRequest, updateBlockouts } } = this
-    const inputsWithDefaults = {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
-    const data = { blockout: inputsWithDefaults }
-    const result = await makeRequest({ url: `/blockout/${blockoutId}.json`, method: 'PUT', data: data})
-
-    if (result.success) {
-      updateBlockouts([result.data])
-      setModalInfo({})
-    } else {
-      this.setState(state => ({errorMsg: result.error}))
-    }
+  inputsWithDefaults = _ => {
+    const { state: { blockoutId, inputs } } = this
+    return {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
   }
 
-  deleteBlockout = async _ => {
-    const { state: { blockoutId }, context: { setModalInfo, makeRequest, removeBlockout } } = this
-    const result = await makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
-   
-    if (result.success) {
-      removeBlockout(blockoutId)
-      setModalInfo({})
-    } else {
-      this.setState(state => ({errorMsg: result.error}))
-    }
+  blockoutData = _ => {
+    const { state: { blockout, blockoutId } } = this
+    const inputs = this.inputsWithDefaults()
+    return { ...inputs, id: blockoutId, rrule: blockout.rrule }
+  }
+
+  setError = errorMsg => this.setState(state => ({errorMsg: errorMsg}))
+
+  updateBlockout = data => {
+    const { state: { blockoutId }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'PUT', data: { blockout: data } })
+  }
+
+  deleteBlockout = _ => {
+    const { state: { blockoutId }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
   }
 
   updateHandler = _ => {
@@ -61,7 +59,6 @@ class EditBlockoutModal extends React.Component {
       case 'one':
         // Add Exclusion
         // Create new Blockout
-        console.log('update one')
         break;
       case 'future':
         // Update parent rrule until
@@ -75,21 +72,41 @@ class EditBlockoutModal extends React.Component {
     }
   }
 
-  deleteHandler = _ => {
-    const { state: { selectedRecurrenceOption } } = this
+  deleteHandler = async _ => {
+    const { state: { selectedRecurrenceOption, blockoutId }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo } } = this
+    let result
     switch(selectedRecurrenceOption) {
       case 'one':
-        // Add exclusion
-        console.log('delete one')
+        result = await this.updateBlockout(this.excludeBlockoutParams())
         break;
       case 'future':
-        // Update parent rrule until selected date
-        console.log('delete future')
+        result = await this.updateBlockout(this.excludefutureBlockoutsParams())
         break;
       case 'all':
-        this.deleteBlockout()
+        result = await this.deleteBlockout()
         break;
     }
+
+    if (result.success) {
+      selectedRecurrenceOption === 'all' ?
+        removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
+      setModalInfo({})
+    } else {
+      this.setError(result.error)
+    }
+  }
+
+  excludeBlockoutParams = _ => {
+    const { state: { blockout } } = this
+    return { exdate: blockout.exdate.concat([blockout.range.start.toDate()]) }
+  }
+
+  excludefutureBlockoutsParams = _ => {
+    const { state: { blockout } } = this
+    const options = RRule.parseString(blockout.rrule)
+    options.until = blockout.range.start.clone().subtract(1, 'day').startOf('day').toDate()
+    const newRule = new RRule(options)
+    return { rrule: newRule.toString().replace('RRULE:', '') }
   }
 
   selectRecurrenceOption = option => {

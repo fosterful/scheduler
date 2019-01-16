@@ -7,7 +7,11 @@ class BlockoutPolicy < ApplicationPolicy
     create?
   end
 
+  def update?
+    create?
+  end
+
   def permitted_attributes
-    [:start_at, :end_at, :rrule, :reason]
+    [:start_at, :end_at, :rrule, :reason, exdate: []]
   end
 end

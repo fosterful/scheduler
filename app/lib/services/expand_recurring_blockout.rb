@@ -6,7 +6,7 @@ module Services
 
     def call
       return blockout.save if blockout.rrule.blank?
-      return false unless blockout.persisted? || save_blockout
+      return false unless save_blockout
       blockout.occurrences.delete_all
       Services::BulkInserter::Insert.call(occurrences) if occurrences.any?
       true
@@ -15,7 +15,13 @@ module Services
     private
 
     def save_blockout
-      blockout.update(last_occurrence: rrule.last_occurrence)
+      # last_occurrence defaults to three years
+      # from the current date. So, we only set it on
+      # creation, or if the rrule includes an end date (UNTIL)
+      if !blockout.persisted? || blockout.rrule.include?('UNTIL')
+        blockout.last_occurrence = rrule.last_occurrence
+      end
+      blockout.save
     end
 
     def rrule
