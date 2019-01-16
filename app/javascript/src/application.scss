@@ -18,5 +18,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   clear: both;
 }
 
+.button.primary {
+  color: white !important;
+}
+
 @import 'stylesheets/nav';
 @import '../components/blockouts/scheduler'

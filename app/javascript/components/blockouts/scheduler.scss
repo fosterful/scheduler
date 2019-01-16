@@ -90,7 +90,6 @@
 .blockout-edit-recurrence-options {
   button {
     &.primary {
-      color: white !important;
       .subtext {
         color: #d5fcff;
       }
@@ -100,4 +99,8 @@
       font-size: .75rem;
     }
   }
+}
+
+.add-new-blockout-button {
+  width: 100%;
 }

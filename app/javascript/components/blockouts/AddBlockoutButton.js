@@ -9,7 +9,7 @@ class AddBlockoutButton extends React.Component {
         {({ setModalInfo }) => (
           <button 
             type='button'
-            className='success button tiny'
+            className='primary button tiny add-new-blockout-button'
             onClick={ setModalInfo.bind(this, { component: 'NewBlockoutModal'}) }
           >
             Add Blockout

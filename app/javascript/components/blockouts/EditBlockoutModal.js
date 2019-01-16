@@ -64,6 +64,7 @@ class EditBlockoutModal extends React.Component {
     let result
     let error
     const updatedBlockouts = []
+    // TODO: Refactor me :-)
     switch(selectedRecurrenceOption) {
       case 'one':
         // Add Exclusion

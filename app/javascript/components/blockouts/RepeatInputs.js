@@ -28,15 +28,23 @@ class RepeatInputs extends React.Component {
   }
 
   computeRrule = _ => {
-    const { state: { interval, frequency, byWeekDay, until, untilDate }, context: { inputs: { fromDate } } } = this
+    const { state: { interval, frequency, byWeekDay, until, untilDate }, context: { inputs: { startAt } } } = this
     if (interval) {
       const weekDayMapping = [RRule.SU, RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR, RRule.SA]
-      const rrule = new RRule({
+      const options = {
         freq: RRule[frequency],
         interval: interval,
-        byweekday: byWeekDay && frequency === 'MONTHLY' ? weekDayMapping[moment(fromDate).format('d')] : null,
         until: until ? untilDate : null
-      })
+      }
+
+      if (byWeekDay && frequency === 'MONTHLY') {
+        options.byweekday = weekDayMapping[moment(startAt).format('d')]
+        options.bysetpos = Math.ceil(moment(startAt).date() / 7)
+      }
+
+      console.log(options)
+
+      const rrule = new RRule(options)
       // console.log(rrule.toString())
       this.context.setFormInputs({ rrule: rrule.toString().replace('RRULE:', '') })
     } else {
