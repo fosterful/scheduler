@@ -15,7 +15,7 @@ class EditBlockoutModal extends React.Component {
     this.state = {
       blockout: blockout,
       blockoutId: blockout.id || blockout.parent_id,
-      selectedRecurrenceOption: 'one',
+      selectedRecurrenceOption: blockout.rrule ? 'one' : 'all',
       inputs: {
         startAt: new Date(blockout.start_at),
         endAt: new Date(blockout.end_at),
@@ -43,7 +43,7 @@ class EditBlockoutModal extends React.Component {
     }
   }
 
-  delete = async _ => {
+  deleteBlockout = async _ => {
     const { state: { blockoutId }, context: { setModalInfo, makeRequest, removeBlockout } } = this
     const result = await makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
    
@@ -55,12 +55,49 @@ class EditBlockoutModal extends React.Component {
     }
   }
 
+  updateHandler = _ => {
+    const { state: { selectedRecurrenceOption } } = this
+    switch(selectedRecurrenceOption) {
+      case 'one':
+        // Add Exclusion
+        // Create new Blockout
+        console.log('update one')
+        break;
+      case 'future':
+        // Update parent rrule until
+        // Create new Blockout with recurrence
+        console.log('update future')
+        break;
+      case 'all':
+        // Update parent
+        console.log('update all')
+        break;
+    }
+  }
+
+  deleteHandler = _ => {
+    const { state: { selectedRecurrenceOption } } = this
+    switch(selectedRecurrenceOption) {
+      case 'one':
+        // Add exclusion
+        console.log('delete one')
+        break;
+      case 'future':
+        // Update parent rrule until selected date
+        console.log('delete future')
+        break;
+      case 'all':
+        this.deleteBlockout()
+        break;
+    }
+  }
+
   selectRecurrenceOption = option => {
     return _ => this.setState(state => ({ selectedRecurrenceOption: option})) 
   }
 
   render () {
-    const { selectRecurrenceOption, state: { errorMsg, selectedRecurrenceOption }, context: { setModalInfo } } = this
+    const { selectRecurrenceOption, state: { blockout, errorMsg, selectedRecurrenceOption }, context: { setModalInfo } } = this
     return (
       <BlockoutFormContext.Provider value={this.state}>
         <div className='blockout-modal-header'>Edit Blockout Date</div>
@@ -70,19 +107,21 @@ class EditBlockoutModal extends React.Component {
           <hr />
           <ReasonInput />
           <hr />
-          <RecurrenceOptions
-            selectRecurrenceOption={selectRecurrenceOption}
-            selectedRecurrenceOption={selectedRecurrenceOption}
-          />
+          {blockout.rrule && 
+            <RecurrenceOptions
+              selectRecurrenceOption={selectRecurrenceOption}
+              selectedRecurrenceOption={selectedRecurrenceOption}
+            />
+          }
         </div>
         <div className='blockout-modal-footer'>
           <div className="group">
             <div className="float-left">
-              <button className='hollow button alert' onClick={ this.delete }>Delete</button>
+              <button className='hollow button alert' onClick={ this.deleteHandler }>Delete</button>
             </div>
             <div className="float-right">
               <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
-              <button className='button primary' onClick={ this.submit }>Save</button>
+              <button className='button primary' onClick={ this.updateHandler }>Save</button>
             </div>
           </div>
         </div>
