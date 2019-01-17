@@ -44,6 +44,17 @@ class User < ApplicationRecord
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :has_at_least_one_office
 
+  def self.available_within(start_at, end_at)
+    sql = <<~SQL
+      LEFT OUTER JOIN blockouts
+      ON blockouts.user_id = users.id
+      AND tsrange(start_at, end_at) && tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
+    SQL
+
+    joins(sql)
+      .where(blockouts: { id: nil })
+  end
+
   def has_at_least_one_office
     errors.add(:base, 'At least one office assignment is required') if offices.blank?
   end
