@@ -10,8 +10,8 @@ const moment = extendMoment(Moment)
 class DateTimePicker extends React.Component {
 
   timeOptions = _ => {
-    const begin = moment().hour(6).minute(30).second(0)
-    const end   = moment().hour(23).minute(30).second(0)
+    const begin = moment().hour(8).minute(0).second(0)
+    const end   = moment().hour(17).minute(0).second(0)
     const range = moment.range(begin, end)
     const times = Array.from(range.by('minutes', {step: 30}))
     const options = times.map(t => ({value: t.format('HH:mm'), text: t.format('h:mm a')}))
