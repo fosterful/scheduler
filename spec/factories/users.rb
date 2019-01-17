@@ -21,6 +21,8 @@ FactoryBot.define do
     conviction { false }
     time_zone { 'Pacific Time (US & Canada)' }
 
+    race_id { 1 }
+
     after :build do |user|
       user.offices << build(:office)
     end

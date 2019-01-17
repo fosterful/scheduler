@@ -25,8 +25,13 @@
     .cell
       = f.label :time_zone do
         Time Zone
-        = f.select :time_zone, ActiveSupport::TimeZone.us_zones, prompt: 'Select Timezone...'
+        = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select Timezone...'
   - if profile_attributes_required?(resource)
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :race_id do
+          Race
+        = f.collection_select :race_id, Race.all, :id, :name, include_blank: true
     .grid-x.grid-padding-x
       .cell
         = f.label :birth_date do

@@ -10,6 +10,7 @@ class User < ApplicationRecord
   PROFILE_ATTRS = %i[first_name
                      last_name
                      time_zone
+                     race_id
                      birth_date
                      phone
                      resident_since
@@ -22,10 +23,11 @@ class User < ApplicationRecord
   has_one :address, as: :addressable, dependent: :destroy
   has_and_belongs_to_many :offices
   has_many :blockouts, dependent: :destroy
+  belongs_to :race, optional: true
 
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 
-  validates :birth_date, :phone, :resident_since, :discovered_omd_by,
+  validates :birth_date, :phone, :resident_since, :discovered_omd_by, :race,
             presence: true, if: :require_volunteer_profile_attributes?
 
   validates :medical_limitations, :conviction,

@@ -66,8 +66,8 @@ RSpec.describe "User invitations", type: :request do
 
       it 'is successful' do
         put user_invitation_path, params: { user: user_accept_attributes }
-        expect(response.body).not_to include('errors prohibited this user from being saved')
-        expect(user.reload.first_name).not_to be(nil)
+        expect(response.body).not_to include('prohibited this user from being saved')
+        expect(user.reload.first_name).not_to eql(nil)
       end
     end
   end
