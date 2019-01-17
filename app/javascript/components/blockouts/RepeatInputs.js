@@ -42,10 +42,7 @@ class RepeatInputs extends React.Component {
         options.bysetpos = Math.ceil(moment(startAt).date() / 7)
       }
 
-      console.log(options)
-
       const rrule = new RRule(options)
-      // console.log(rrule.toString())
       this.context.setFormInputs({ rrule: rrule.toString().replace('RRULE:', '') })
     } else {
       this.context.setFormInputs({ rrule: null })
