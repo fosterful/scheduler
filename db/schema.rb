@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2019_01_17_185850) do
   end
 
   create_table "races", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
