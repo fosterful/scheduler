@@ -8,5 +8,5 @@ export default React.createContext({
   authenticityToken: '',
   updateBlockoutsState: _ => {},
   removeBlockoutFromState: _ => {},
-  getParentBlockoutByID: _ => {}
+  getParentBlockoutById: _ => {}
 })

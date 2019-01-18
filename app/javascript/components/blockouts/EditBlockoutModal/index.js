@@ -15,6 +15,7 @@ class EditBlockoutModal extends React.Component {
     super(props)
     const { data: { blockout } } = props
     this.state = {
+      blockoutId: blockout.id || blockout.parent_id,
       blockout: blockout,
       selectedRecurrenceOption: blockout.rrule ? 'one' : 'all',
       inputs: {
@@ -43,13 +44,13 @@ class EditBlockoutModal extends React.Component {
   }
 
   updateBlockout = data => {
-    const { state: { blockout: { parent_id } }, context: { makeRequest } } = this
-    return makeRequest({ url: `/blockouts/${parent_id}.json`, method: 'PUT', data: { blockout: data } })
+    const { state: { blockoutId }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'PUT', data: { blockout: data } })
   }
 
   deleteBlockout = _ => {
-    const { state: { blockout: { parent_id } }, context: { makeRequest } } = this
-    return makeRequest({ url: `/blockouts/${parent_id}.json`, method: 'DELETE' })
+    const { state: { blockoutId }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE' })
   }
 
   updateHandler = async _ => {
@@ -101,8 +102,8 @@ class EditBlockoutModal extends React.Component {
   }
 
   deleteHandler = async _ => {
-    const { state: { selectedRecurrenceOption, blockout }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo, getParentBlockoutByID } } = this
-    const parent = getParentBlockoutByID(blockout.parent_id)
+    const { state: { selectedRecurrenceOption, blockout, blockoutId }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo, getParentBlockoutById } } = this
+    const parent = getParentBlockoutById(blockout.parent_id)
 
     let result
     let allPossibleDates
@@ -144,7 +145,7 @@ class EditBlockoutModal extends React.Component {
 
     if (result.success) {
       selectedRecurrenceOption === 'all'
-        ? removeBlockoutFromState(blockout.parent_id) : updateBlockoutsState([result.data])
+        ? removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
       this.setError(result.error)

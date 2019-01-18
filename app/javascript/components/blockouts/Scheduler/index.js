@@ -14,7 +14,7 @@ import 'react-day-picker/lib/style.css'
 class Scheduler extends React.Component {
   setCalendarMonth = calendarMonth => this.setState({ calendarMonth: moment(calendarMonth).startOf('month') })
   setModalInfo = modalInfo => this.setState({ modalInfo })
-  getParentBlockoutByID = id => this.state.blockouts.find(blockout => blockout.id === id)
+  getParentBlockoutById = id => this.state.blockouts.find(blockout => blockout.id === id)
 
   updateBlockoutsState = blockoutsToUpdate => {
     const { state: { blockouts } } = this
@@ -43,7 +43,7 @@ class Scheduler extends React.Component {
     updateBlockoutsState: this.updateBlockoutsState,
     makeRequest: makeRequestFn(this.props.authenticity_token),
     removeBlockoutFromState: this.removeBlockoutFromState,
-    getParentBlockoutByID: this.getParentBlockoutByID
+    getParentBlockoutById: this.getParentBlockoutById
   }
 
   render () {
