@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import SchedulerContext from 'blockouts/contexts/scheduler'
 import ReactModal from 'react-modal'
 import NewBlockoutModal from 'blockouts/NewBlockoutModal'
@@ -14,7 +13,7 @@ class Modal extends React.Component {
     EditBlockoutModal: EditBlockoutModal
   }
 
-  renderComponent = (component, data) => {
+  renderContent = (component, data) => {
     const Component = this.modals[component]
     return isNil(Component) ? null : <Component data={data} />
   }
@@ -29,16 +28,12 @@ class Modal extends React.Component {
             isOpen={!isNil(component)}
             onRequestClose={setModalInfo.bind(this, {})}
           >
-            { this.renderComponent(component, data) }
+            { this.renderContent(component, data) }
           </ReactModal>
         )}
       </SchedulerContext.Consumer>
     )
   }
-}
-
-Modal.propTypes = {
-  info: PropTypes.bool
 }
 
 export default Modal
