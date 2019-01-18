@@ -12,21 +12,6 @@ import makeRequestFn from 'blockouts/helpers/makeRequest'
 import 'react-day-picker/lib/style.css'
 
 class Scheduler extends React.Component {
-<<<<<<< HEAD
-  state = {
-    blockouts: this.props.blockouts,
-    calendarMonth: moment().startOf('month'),
-    setCalendarMonth: this.setCalendarMonth,
-    modalInfo: {},
-    setModalInfo: this.setModalInfo,
-    updateBlockoutsState: this.updateBlockoutsState,
-    makeRequest: makeRequestFn(this.props.authenticity_token),
-    removeBlockoutFromState: this.removeBlockoutFromState,
-    getParentBlockoutByID: this.getParentBlockoutByID
-  }
-
-=======
->>>>>>> Add jest and configuration, don't add static porperties before defining methods, refactor <BlackoutList />, remove console logs, move devDependencies to devDependencies - #7
   setCalendarMonth = calendarMonth => this.setState({ calendarMonth: moment(calendarMonth).startOf('month') })
   setModalInfo = modalInfo => this.setState({ modalInfo })
   getParentBlockoutByID = id => this.state.blockouts.find(blockout => blockout.id === id)
@@ -62,9 +47,7 @@ class Scheduler extends React.Component {
   }
 
   render () {
-    console.log(moment().startOf('month'))
     const { state: { blockouts, calendarMonth } } = this
-    console.warn('asdfasdf', calendarMonth)
     const blockoutsWithDays = splitblockoutsWithDays(
       expandRecurringBlockOuts(blockouts, calendarMonth),
       calendarMonth
