@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
-import BlockoutFormContext from './blockout-form-context'
+import BlockoutFormContext from 'components/blockouts/contexts/blockoutForm'
 
 const moment = extendMoment(Moment)
 

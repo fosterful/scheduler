@@ -1,5 +1,5 @@
 import React from 'react'
-import BlockoutFormContext from './blockout-form-context'
+import BlockoutFormContext from 'components/blockouts/contexts/blockoutForm'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { RRule, RRuleSet, rrulestr } from 'rrule'
 import moment from 'moment'

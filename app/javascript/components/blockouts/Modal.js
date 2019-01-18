@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SchedulerContext from './scheduler-context'
+import SchedulerContext from 'components/blockouts/contexts/scheduler'
 import ReactModal from 'react-modal'
 import NewBlockoutModal from './NewBlockoutModal'
 import EditBlockoutModal from './EditBlockoutModal'
