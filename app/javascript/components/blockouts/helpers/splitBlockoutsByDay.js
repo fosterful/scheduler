@@ -38,7 +38,7 @@ const blockoutsWithDays = (blockouts, calendarMonth) => {
       return { ...blockout, ...{ range: moment.range(rangeStart, rangeEnd) } }
     })
     return days.filter(b => dateIsWithinMonth(b.range.start, calendarMonth))
-  })
+  }).flat()
 }
 
 export default blockoutsWithDays

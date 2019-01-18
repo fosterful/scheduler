@@ -25,5 +25,10 @@
     ["module-resolver", {
       "root": ["./app/javascript/components"]
     }]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [["env"], "react"]
+    }
+  }
 }
