@@ -1,13 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import SchedulerContext from './scheduler-context'
 import BlockoutFormContext from './blockout-form-context'
-import DateTimePicker from "./DateTimePicker";
-import ReasonInput from "./ReasonInput";
-import RepeatInputs from "./RepeatInputs";
+import DateTimePicker from './DateTimePicker'
+import ReasonInput from './ReasonInput'
+import RepeatInputs from './RepeatInputs'
 import Errors from './Errors'
 import moment from 'moment'
-
 
 class NewBlockoutModal extends React.Component {
   setFormInputs = value => {
@@ -16,22 +15,22 @@ class NewBlockoutModal extends React.Component {
 
   state = {
     inputs: {
-      startAt: moment().startOf('day').toDate(),
+      startAt: moment().startOf('day').toDate()
     },
     setFormInputs: this.setFormInputs
   }
 
   submit = async _ => {
     const { state: { inputs }, context: { setModalInfo, makeRequest, updateBlockoutsState } } = this
-    const inputsWithDefaults = {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
+    const inputsWithDefaults = { ...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate()) }
     const data = { blockout: inputsWithDefaults }
-    const result = await makeRequest({ url: '/blockouts.json', method: 'POST', data: data})
+    const result = await makeRequest({ url: '/blockouts.json', method: 'POST', data: data })
 
     if (result.success) {
       updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
-      this.setState(state => ({errorMsg: result.error}))
+      this.setState(state => ({ errorMsg: result.error }))
     }
   }
 
@@ -50,10 +49,10 @@ class NewBlockoutModal extends React.Component {
           <ReasonInput />
         </div>
         <div className='blockout-modal-footer'>
-          <div className="group">
-            <div className="float-right">
-              <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
-              <button className='button primary' onClick={ this.submit }>Save</button>
+          <div className='group'>
+            <div className='float-right'>
+              <button className='clear button secondary' onClick={setModalInfo.bind(this, {})}>Cancel</button>
+              <button className='button primary' onClick={this.submit}>Save</button>
             </div>
           </div>
         </div>

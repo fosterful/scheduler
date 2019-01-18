@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import SchedulerContext from './scheduler-context'
 import BlockoutFormContext from './blockout-form-context'
-import DateTimePicker from "./DateTimePicker";
+import DateTimePicker from './DateTimePicker'
 import { RRule, RRuleSet, rrulestr } from 'rrule'
-import ReasonInput from "./ReasonInput";
+import ReasonInput from './ReasonInput'
 import Errors from './Errors'
 import RecurrenceOptions from './recurrence_options'
 import moment from 'moment'
@@ -32,7 +32,7 @@ class EditBlockoutModal extends React.Component {
 
   inputsWithDefaults = _ => {
     const { state: { blockoutId, inputs } } = this
-    return {...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate())}
+    return { ...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate()) }
   }
 
   blockoutData = _ => {
@@ -41,7 +41,7 @@ class EditBlockoutModal extends React.Component {
     return { ...inputs, id: blockoutId, rrule: blockout.rrule }
   }
 
-  setError = errorMsg => this.setState(state => ({errorMsg: errorMsg}))
+  setError = errorMsg => this.setState(state => ({ errorMsg: errorMsg }))
 
   createBlockout = data => {
     const { context: { makeRequest } } = this
@@ -55,7 +55,7 @@ class EditBlockoutModal extends React.Component {
 
   deleteBlockout = _ => {
     const { state: { blockoutId }, context: { makeRequest } } = this
-    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE'})
+    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE' })
   }
 
   updateHandler = async _ => {
@@ -65,37 +65,37 @@ class EditBlockoutModal extends React.Component {
     let error
     const updatedBlockouts = []
     // TODO: Refactor me :-)
-    switch(selectedRecurrenceOption) {
+    switch (selectedRecurrenceOption) {
       case 'one':
         // Add Exclusion
         result = await this.updateBlockout(this.excludeBlockoutParams())
         if (result.success) {
           updatedBlockouts.push(result.data)
-        } else { error = result.error; break; }
+        } else { error = result.error; break }
         // Create new Blockout
         result = await this.createBlockout(this.inputsWithDefaults())
         if (result.success) {
           updatedBlockouts.push(result.data)
         } else { error = result.error }
-        break;
+        break
       case 'future':
         // Update parent rrule until
         result = await this.updateBlockout(this.excludefutureBlockoutsParams())
         if (result.success) {
           updatedBlockouts.push(result.data)
-        } else { error = result.error; break; }
+        } else { error = result.error; break }
         // Create new Blockout with recurrence
-        result = await this.createBlockout({...this.inputsWithDefaults(), rrule: blockout.rrule})
+        result = await this.createBlockout({ ...this.inputsWithDefaults(), rrule: blockout.rrule })
         if (result.success) {
           updatedBlockouts.push(result.data)
         } else { error = result.error }
-        break;
+        break
       case 'all':
         result = await this.updateBlockout(this.inputsWithDefaults())
         if (result.success) {
           updatedBlockouts.push(result.data)
         } else { error = result.error }
-        break;
+        break
     }
 
     if (error) {
@@ -109,21 +109,21 @@ class EditBlockoutModal extends React.Component {
   deleteHandler = async _ => {
     const { state: { selectedRecurrenceOption, blockoutId }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo } } = this
     let result
-    switch(selectedRecurrenceOption) {
+    switch (selectedRecurrenceOption) {
       case 'one':
         result = await this.updateBlockout(this.excludeBlockoutParams())
-        break;
+        break
       case 'future':
         result = await this.updateBlockout(this.excludefutureBlockoutsParams())
-        break;
+        break
       case 'all':
         result = await this.deleteBlockout()
-        break;
+        break
     }
 
     if (result.success) {
-      selectedRecurrenceOption === 'all' ?
-        removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
+      selectedRecurrenceOption === 'all'
+        ? removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
       this.setError(result.error)
@@ -144,7 +144,7 @@ class EditBlockoutModal extends React.Component {
   }
 
   selectRecurrenceOption = option => {
-    return _ => this.setState(state => ({ selectedRecurrenceOption: option})) 
+    return _ => this.setState(state => ({ selectedRecurrenceOption: option }))
   }
 
   render () {
@@ -158,7 +158,7 @@ class EditBlockoutModal extends React.Component {
           <hr />
           <ReasonInput />
           <hr />
-          {blockout.rrule && 
+          {blockout.rrule &&
             <RecurrenceOptions
               selectRecurrenceOption={selectRecurrenceOption}
               selectedRecurrenceOption={selectedRecurrenceOption}
@@ -166,13 +166,13 @@ class EditBlockoutModal extends React.Component {
           }
         </div>
         <div className='blockout-modal-footer'>
-          <div className="group">
-            <div className="float-left">
-              <button className='hollow button alert' onClick={ this.deleteHandler }>Delete</button>
+          <div className='group'>
+            <div className='float-left'>
+              <button className='hollow button alert' onClick={this.deleteHandler}>Delete</button>
             </div>
-            <div className="float-right">
-              <button className='clear button secondary' onClick={ setModalInfo.bind(this, {}) }>Cancel</button>
-              <button className='button primary' onClick={ this.updateHandler }>Save</button>
+            <div className='float-right'>
+              <button className='clear button secondary' onClick={setModalInfo.bind(this, {})}>Cancel</button>
+              <button className='button primary' onClick={this.updateHandler}>Save</button>
             </div>
           </div>
         </div>

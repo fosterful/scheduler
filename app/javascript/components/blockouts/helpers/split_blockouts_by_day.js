@@ -14,7 +14,7 @@ const blockoutsWithDays = (blockouts, calendarMonth) => {
     const dates = Array.from(range.by(interval))
 
     if (dates[dates.length - 1].isSame(range.end))
-      dates.pop()
+      { dates.pop() }
 
     const days = dates.map((date, index, dates) => {
       const rangeStart = date.clone()
@@ -27,7 +27,7 @@ const blockoutsWithDays = (blockouts, calendarMonth) => {
         // End of blockout
         dates.length > 1 && rangeStart.startOf(interval)
         rangeEnd.set({
-          hour:   end.get('hour'),
+          hour: end.get('hour'),
           minute: end.get('minute'),
           second: end.get('second')
         })
@@ -35,7 +35,7 @@ const blockoutsWithDays = (blockouts, calendarMonth) => {
         rangeStart.startOf(interval)
         rangeEnd.endOf(interval)
       }
-      return {...blockout, ...{range: moment.range(rangeStart, rangeEnd)}}
+      return { ...blockout, ...{ range: moment.range(rangeStart, rangeEnd) } }
     })
     return days.filter(b => dateIsWithinMonth(b.range.start, calendarMonth))
   })

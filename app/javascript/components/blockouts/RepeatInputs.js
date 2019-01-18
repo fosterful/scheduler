@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 import BlockoutFormContext from './blockout-form-context'
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { RRule, RRuleSet, rrulestr } from 'rrule'
 import moment from 'moment'
 
@@ -22,9 +22,10 @@ class RepeatInputs extends React.Component {
   }
 
   getNumberWithOrdinal(n) {
-    var s=["th","st","nd","rd"],
-    v=n%100;
-    return n+(s[(v-20)%10]||s[v]||s[0]);
+    var s = ['th', 'st', 'nd', 'rd']
+
+var v = n % 100
+    return n + (s[(v - 20) % 10] || s[v] || s[0])
   }
 
   computeRrule = _ => {
@@ -49,7 +50,7 @@ class RepeatInputs extends React.Component {
     }
   }
 
-  handleInputChange = (input) => {
+  handleInputChange = input => {
     return ({ target: { value } }) => {
       this.setState(state => ({ [input]: value }), this.computeRrule)
     }
@@ -71,7 +72,7 @@ class RepeatInputs extends React.Component {
     IntervalSelect = _ => {
       const { IntervalSelectOptions, handleInputChange, state: { interval } } = this
       return (
-        <div className="cell large-4">
+        <div className='cell large-4'>
           <select value={interval} onChange={handleInputChange('interval')}>
             <IntervalSelectOptions />
           </select>
@@ -83,7 +84,7 @@ class RepeatInputs extends React.Component {
       const { handleInputChange, state: { interval, frequency } } = this
       if (!interval) return null
       return (
-        <div className="cell large-3">
+        <div className='cell large-3'>
           <select value={frequency} onChange={handleInputChange('frequency')}>
             <option value='DAILY'>day</option>
             <option value='WEEKLY'>week</option>
@@ -100,7 +101,7 @@ class RepeatInputs extends React.Component {
       const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
       const dayOfWeek = moment(startAt).format('dddd')
       return (
-        <div className="cell large-4">
+        <div className='cell large-4'>
           <select value={byWeekDay} onChange={handleInputChange('byWeekDay')}>
             <option value=''>on the {moment(startAt).format('Do')} day</option>
             <option value='true'>on the {weekOfMonth} {dayOfWeek}</option>
@@ -113,7 +114,7 @@ class RepeatInputs extends React.Component {
       const { handleInputChange, state: { interval, until } } = this
       if (!interval) return null
       return (
-        <div className="cell large-3">
+        <div className='cell large-3'>
           <select value={until} onChange={handleInputChange('until')}>
             <option value=''>forever</option>
             <option value='until'>until</option>
@@ -127,7 +128,7 @@ class RepeatInputs extends React.Component {
       if (!interval || until != 'until') return null
       const handler = handleInputChange('untilDate')
       return (
-        <div className="cell large-3">
+        <div className='cell large-3'>
           <DayPickerInput
             inputProps={{ type: 'text' }}
             value={untilDate}
@@ -146,7 +147,7 @@ class RepeatInputs extends React.Component {
     return (
       <React.Fragment>
         <label>Repeat</label>
-        <div className="grid-x blockout-repeat-inputs">
+        <div className='grid-x blockout-repeat-inputs'>
           <IntervalSelect />
           <FrequencySelect />
           <ByWeekDaySelect />

@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 import SchedulerContext from './scheduler-context'
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 import './scheduler.scss'
@@ -12,8 +12,8 @@ class Calendar extends React.Component {
     }
     return (
       <SchedulerContext.Consumer>
-        {({setCalendarMonth}) => (
-          <DayPicker 
+        {({ setCalendarMonth }) => (
+          <DayPicker
             modifiers={modifiers}
             onMonthChange={setCalendarMonth}
           />

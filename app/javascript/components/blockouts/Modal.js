@@ -1,11 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import SchedulerContext from './scheduler-context'
 import ReactModal from 'react-modal'
-import NewBlockoutModal from "./NewBlockoutModal"
-import EditBlockoutModal from "./EditBlockoutModal"
+import NewBlockoutModal from './NewBlockoutModal'
+import EditBlockoutModal from './EditBlockoutModal'
 import { isNil } from 'ramda'
-
 
 ReactModal.setAppElement('#scheduler')
 
@@ -27,8 +26,8 @@ class Modal extends React.Component {
           <ReactModal
             overlayClassName='reveal-overlay blockout-modal-overlay'
             className='reveal blockout-modal-content'
-            isOpen={ !isNil(component) }
-            onRequestClose={ setModalInfo.bind(this, {}) }
+            isOpen={!isNil(component)}
+            onRequestClose={setModalInfo.bind(this, {})}
           >
             { this.renderComponent(component, data) }
           </ReactModal>

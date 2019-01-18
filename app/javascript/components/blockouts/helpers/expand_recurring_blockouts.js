@@ -15,7 +15,7 @@ const expandRecurringBlockOuts = (blockouts, calendarMonth) => {
     return rruleSet.between(lowerBound, upperBound).map(o => {
       const diff = moment(parent.end_at).diff(moment(parent.start_at))
       const end_at = moment(o).add(diff, 'milliseconds')
-      return {...parent, ...{ id: null, parent_id: parent.id, start_at: moment(o).format(), end_at: end_at.format() }}
+      return { ...parent, ...{ id: null, parent_id: parent.id, start_at: moment(o).format(), end_at: end_at.format() } }
     })
   })
   return blockouts.filter(b => dateIsWithinMonth(b.start_at, calendarMonth) && !b.rrule).concat(expanded.flat())

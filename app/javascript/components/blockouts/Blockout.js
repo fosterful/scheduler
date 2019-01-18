@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import SchedulerContext from './scheduler-context'
 
 class Blockout extends React.Component {
   renderTime = _ => {
-    const { blockout: { range: {start, end} } } = this.props
+    const { blockout: { range: { start, end } } } = this.props
     const formatedStart = moment(start).format('h:mm a')
     const formatedEnd = moment(end).format('h:mm a')
     if (formatedStart === '12:00 am' && formatedEnd === '11:59 pm') {
@@ -16,8 +16,8 @@ class Blockout extends React.Component {
   }
 
   renderReason = _ => {
-    const { blockout: { reason }} = this.props
-    return reason ? reason : 'no reason'
+    const { blockout: { reason } } = this.props
+    return reason || 'no reason'
   }
 
   render () {
@@ -26,8 +26,8 @@ class Blockout extends React.Component {
       <SchedulerContext.Consumer>
         {({ setModalInfo }) => (
           <div
-            className="blockout-container"
-            onClick={ setModalInfo.bind(this, { component: 'EditBlockoutModal', data: { blockout: blockout }}) }
+            className='blockout-container'
+            onClick={setModalInfo.bind(this, { component: 'EditBlockoutModal', data: { blockout: blockout } })}
           >
             Blockout Date<br />
             <div className='blockout-reason'>{this.renderReason()}</div>

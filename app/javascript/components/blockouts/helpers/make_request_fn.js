@@ -10,7 +10,7 @@ const makeRequestFn = authenticity_token => {
       },
       body: JSON.stringify(snakecaseKeys(data || {}))
     })
-    
+
     if (response.status >= 200 && response.status < 300) {
       data = await response.json()
       return { success: true, data: data }
@@ -24,6 +24,5 @@ const makeRequestFn = authenticity_token => {
     }
   }
 }
-
 
 export default makeRequestFn

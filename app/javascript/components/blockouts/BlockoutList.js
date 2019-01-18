@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Blockout from "./Blockout"
+import React from 'react'
+import PropTypes from 'prop-types'
+import Blockout from './Blockout'
 import moment from 'moment'
 import * as R from 'ramda'
 
 class BlockoutList extends React.Component {
-  sortByDate = (a, b) => moment(a[0]).diff(moment(b[0])) 
+  sortByDate = (a, b) => moment(a[0]).diff(moment(b[0]))
 
   blockoutsByDay = R.pipe(R.groupBy(b => b.range.start.clone().startOf('day').toISOString()),
                           R.toPairs,
@@ -15,7 +15,7 @@ class BlockoutList extends React.Component {
     return this.blockoutsByDay(blockoutsWithDays).map((pair, index) => {
       return (
         <div key={index}>
-          <div className="day-heading">
+          <div className='day-heading'>
             {moment(pair[0]).format('dddd L')}
           </div>
           <div className='day-blockOuts'>

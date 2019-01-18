@@ -1,22 +1,21 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import DayPickerInput from 'react-day-picker/DayPickerInput'
 import BlockoutFormContext from './blockout-form-context'
 
 const moment = extendMoment(Moment)
 
 class DateTimePicker extends React.Component {
-
   timeOptions = _ => {
     const begin = moment().hour(8).minute(0).second(0)
-    const end   = moment().hour(17).minute(0).second(0)
+    const end = moment().hour(17).minute(0).second(0)
     const range = moment.range(begin, end)
-    const times = Array.from(range.by('minutes', {step: 30}))
-    const options = times.map(t => ({value: t.format('HH:mm'), text: t.format('h:mm a')}))
-    options.unshift({value: moment().startOf('day').format('HH:mm'), text: 'Start of Day'})
-    options.push({value: moment().endOf('day').format('HH:mm'), text: 'End of Day'})
+    const times = Array.from(range.by('minutes', { step: 30 }))
+    const options = times.map(t => ({ value: t.format('HH:mm'), text: t.format('h:mm a') }))
+    options.unshift({ value: moment().startOf('day').format('HH:mm'), text: 'Start of Day' })
+    options.push({ value: moment().endOf('day').format('HH:mm'), text: 'End of Day' })
     return options
   }
 
@@ -56,14 +55,14 @@ class DateTimePicker extends React.Component {
   toggleAllDay = _ => {
     const { state: { allDay, fromDate, toDate } } = this
     if (allDay) {
-      this.setState(state => ({ allDay: false, toDate: (toDate || fromDate)}))
+      this.setState(state => ({ allDay: false, toDate: (toDate || fromDate) }))
     } else {
       this.setState(state => ({ allDay: true, fromTime: '00:00', toTime: '23:59' }), this.computeResult)
     }
   }
 
   renderTimeSelectOptions = _ => {
-    return this.state.timeOptions.map(({value, text}, index) => {
+    return this.state.timeOptions.map(({ value, text }, index) => {
       return <option value={value} key={index}>{text}</option>
     })
   }
@@ -94,7 +93,7 @@ class DateTimePicker extends React.Component {
     this.context.setFormInputs(update)
   }
 
-  handleInputChange = (input) => {
+  handleInputChange = input => {
     return value => {
       this.setState(state => ({ [input]: value }), this.computeResult)
     }
@@ -103,14 +102,14 @@ class DateTimePicker extends React.Component {
   render () {
     const { toggleAllDay, handleInputChange, renderTimeSelect, state: { allDay, fromDate, toDate, fromTime, toTime } } = this
     return (
-      <div className="grid-x grid-margin-x blockout-date-time-picker">
-        <div className="cell small-2">
+      <div className='grid-x grid-margin-x blockout-date-time-picker'>
+        <div className='cell small-2'>
           <label>
             All Day
-            <input type='checkbox' checked={allDay} onChange={ toggleAllDay } />
+            <input type='checkbox' checked={allDay} onChange={toggleAllDay} />
           </label>
         </div>
-        <div className="cell small-5">
+        <div className='cell small-5'>
           <label htmlFor=''>Start Date</label>
           <DayPickerInput
             inputProps={{ type: 'text' }}
@@ -124,7 +123,7 @@ class DateTimePicker extends React.Component {
           />
           {renderTimeSelect('fromTime', fromTime, handleInputChange)}
         </div>
-        <div className="cell small-5">
+        <div className='cell small-5'>
           <label htmlFor=''>End Date</label>
           <DayPickerInput
             inputProps={{ type: 'text' }}

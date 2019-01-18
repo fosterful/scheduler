@@ -1,15 +1,15 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import DayPicker from 'react-day-picker'
 import moment from 'moment'
 import SchedulerContext from './scheduler-context'
 import Calendar from './Calendar'
 import BlockoutList from './BlockoutList'
-import AddBlockoutButton from "./AddBlockoutButton"
-import Modal from "./Modal"
+import AddBlockoutButton from './AddBlockoutButton'
+import Modal from './Modal'
 import splitblockoutsWithDays from './helpers/split_blockouts_by_day'
-import expandRecurringBlockOuts from "./helpers/expand_recurring_blockouts"
-import makeRequestFn from "./helpers/make_request_fn"
+import expandRecurringBlockOuts from './helpers/expand_recurring_blockouts'
+import makeRequestFn from './helpers/make_request_fn'
 import 'react-day-picker/lib/style.css'
 
 class Scheduler extends React.Component {
@@ -51,7 +51,7 @@ class Scheduler extends React.Component {
     const expandedRecurringBlockouts = this.expandedBlockouts(blockouts, calendarMonth)
     const blockoutsWithDays = this.blockoutsWithDays(expandedRecurringBlockouts, calendarMonth)
     return (
-      <SchedulerContext.Provider value={{...this.state, ...{ authenticity_token: authenticity_token }}}>
+      <SchedulerContext.Provider value={{ ...this.state, ...{ authenticity_token: authenticity_token } }}>
         <React.Fragment>
           <Modal />
           <Calendar blockouts={blockoutsWithDays} />
