@@ -68,78 +68,78 @@ class RepeatInputs extends React.Component {
       <option value='8'>Every eight</option>
     </React.Fragment>
 
-    IntervalSelect = _ => {
-      const { IntervalSelectOptions, handleInputChange, state: { interval } } = this
-      return (
-        <div className="cell large-4">
-          <select value={interval} onChange={handleInputChange('interval')}>
-            <IntervalSelectOptions />
-          </select>
-        </div>
-      )
-    }
+  IntervalSelect = _ => {
+    const { IntervalSelectOptions, handleInputChange, state: { interval } } = this
+    return (
+      <div className="cell large-4">
+        <select value={interval} onChange={handleInputChange('interval')}>
+          <IntervalSelectOptions />
+        </select>
+      </div>
+    )
+  }
 
-    FrequencySelect = _ => {
-      const { handleInputChange, state: { interval, frequency } } = this
-      if (!interval) return null
-      return (
-        <div className="cell large-3">
-          <select value={frequency} onChange={handleInputChange('frequency')}>
-            <option value='DAILY'>day</option>
-            <option value='WEEKLY'>week</option>
-            <option value='MONTHLY'>month</option>
-            <option value='YEARLY'>year</option>
-          </select>
-        </div>
-      )
-    }
+  FrequencySelect = _ => {
+    const { handleInputChange, state: { interval, frequency } } = this
+    if (!interval) return null
+    return (
+      <div className="cell large-3">
+        <select value={frequency} onChange={handleInputChange('frequency')}>
+          <option value='DAILY'>day</option>
+          <option value='WEEKLY'>week</option>
+          <option value='MONTHLY'>month</option>
+          <option value='YEARLY'>year</option>
+        </select>
+      </div>
+    )
+  }
 
-    ByWeekDaySelect = _ => {
-      const { getNumberWithOrdinal, handleInputChange, state: { interval, frequency, byWeekDay }, context: { inputs: { startAt } } } = this
-      if (!interval || frequency != 'MONTHLY') return null
-      const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
-      const dayOfWeek = moment(startAt).format('dddd')
-      return (
-        <div className="cell large-4">
-          <select value={byWeekDay} onChange={handleInputChange('byWeekDay')}>
-            <option value=''>on the {moment(startAt).format('Do')} day</option>
-            <option value='true'>on the {weekOfMonth} {dayOfWeek}</option>
-          </select>
-        </div>
-      )
-    }
+  ByWeekDaySelect = _ => {
+    const { getNumberWithOrdinal, handleInputChange, state: { interval, frequency, byWeekDay }, context: { inputs: { startAt } } } = this
+    if (!interval || frequency != 'MONTHLY') return null
+    const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
+    const dayOfWeek = moment(startAt).format('dddd')
+    return (
+      <div className="cell large-4">
+        <select value={byWeekDay} onChange={handleInputChange('byWeekDay')}>
+          <option value=''>on the {moment(startAt).format('Do')} day</option>
+          <option value='true'>on the {weekOfMonth} {dayOfWeek}</option>
+        </select>
+      </div>
+    )
+  }
 
-    UntilSelect = _ => {
-      const { handleInputChange, state: { interval, until } } = this
-      if (!interval) return null
-      return (
-        <div className="cell large-3">
-          <select value={until} onChange={handleInputChange('until')}>
-            <option value=''>forever</option>
-            <option value='until'>until</option>
-          </select>
-        </div>
-      )
-    }
+  UntilSelect = _ => {
+    const { handleInputChange, state: { interval, until } } = this
+    if (!interval) return null
+    return (
+      <div className="cell large-3">
+        <select value={until} onChange={handleInputChange('until')}>
+          <option value=''>forever</option>
+          <option value='until'>until</option>
+        </select>
+      </div>
+    )
+  }
 
-    UntilDatePicker = _ => {
-      const { handleInputChange, state: { interval, until, untilDate }, context: { inputs: { toDate } } } = this
-      if (!interval || until != 'until') return null
-      const handler = handleInputChange('untilDate')
-      return (
-        <div className="cell large-3">
-          <DayPickerInput
-            inputProps={{ type: 'text' }}
-            value={untilDate}
-            formatDate={date => moment(date).format('ll')}
-            onDayChange={day => handler({ target: { value: day } })}
-            dayPickerProps={{
-              disabledDays: { before: toDate }
-            }}
-          />
-        </div>
-      )
-    }
+  UntilDatePicker = _ => {
+    const { handleInputChange, state: { interval, until, untilDate }, context: { inputs: { toDate } } } = this
+    if (!interval || until != 'until') return null
+    const handler = handleInputChange('untilDate')
+    return (
+      <div className="cell large-3">
+        <DayPickerInput
+          inputProps={{ type: 'text' }}
+          value={untilDate}
+          formatDate={date => moment(date).format('ll')}
+          onDayChange={day => handler({ target: { value: day } })}
+          dayPickerProps={{
+            disabledDays: { before: toDate }
+          }}
+        />
+      </div>
+    )
+  }
 
   render () {
     const { IntervalSelect, FrequencySelect, ByWeekDaySelect, UntilSelect, UntilDatePicker } = this
