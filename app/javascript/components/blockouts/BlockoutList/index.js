@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Blockout from './Blockout'
+import Blockout from 'blockouts/Blockout'
 import moment from 'moment'
 import * as R from 'ramda'
 

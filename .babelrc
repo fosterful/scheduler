@@ -21,6 +21,9 @@
       {
         "spec": true
       }
-    ]
+    ],
+    ["module-resolver", {
+      "root": ["./app/javascript/components"]
+    }]
   ]
 }

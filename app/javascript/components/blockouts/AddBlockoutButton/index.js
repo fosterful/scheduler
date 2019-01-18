@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import SchedulerContext from 'components/blockouts/contexts/scheduler'
+import SchedulerContext from 'blockouts/contexts/scheduler'
 
 class AddBlockoutButton extends React.Component {
   render () {

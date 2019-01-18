@@ -1,7 +1,7 @@
 import React from 'react'
-import BlockoutFormContext from 'components/blockouts/contexts/blockoutForm'
+import BlockoutFormContext from 'blockouts/contexts/blockoutForm'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
-import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { RRule } from 'rrule'
 import moment from 'moment'
 
 class RepeatInputs extends React.Component {

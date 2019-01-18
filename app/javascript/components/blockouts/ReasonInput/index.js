@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import BlockoutFormContext from 'components/blockouts/contexts/blockoutForm'
+import BlockoutFormContext from 'blockouts/contexts/blockoutForm'
 
 class ReasonInput extends React.Component {
   render () {

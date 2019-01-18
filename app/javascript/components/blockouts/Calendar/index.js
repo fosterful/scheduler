@@ -1,9 +1,9 @@
 import React from 'react'
-import SchedulerContext from 'components/blockouts/contexts/scheduler'
+import SchedulerContext from 'blockouts/contexts/scheduler'
 import PropTypes from 'prop-types'
 import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
-import './scheduler.scss'
+import 'blockouts/scheduler.scss'
 
 class Calendar extends React.Component {
   render () {

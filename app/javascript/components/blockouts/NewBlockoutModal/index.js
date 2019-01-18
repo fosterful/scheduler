@@ -1,11 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import SchedulerContext from 'components/blockouts/contexts/scheduler'
-import BlockoutFormContext from 'components/blockouts/contexts/blockoutForm'
-import DateTimePicker from './DateTimePicker'
-import ReasonInput from './ReasonInput'
-import RepeatInputs from './RepeatInputs'
-import Errors from './Errors'
+import SchedulerContext from 'blockouts/contexts/scheduler'
+import BlockoutFormContext from 'blockouts/contexts/blockoutForm'
+import DateTimePicker from 'blockouts/DateTimePicker'
+import ReasonInput from 'blockouts/ReasonInput'
+import RepeatInputs from 'blockouts/RepeatInputs'
+import Errors from 'blockouts/Errors'
 import moment from 'moment'
 
 class NewBlockoutModal extends React.Component {
