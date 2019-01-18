@@ -1,6 +1,6 @@
 import moment from 'moment'
 import dateIsWithinMonth from 'blockouts/helpers/dateIsWithinMonth'
-import getDatesBetweenRruleSet from 'blockouts/helpers/get_dates_between_rrule_set'
+import getDatesBetweenRruleSet from 'blockouts/helpers/getDatesBetweenRruleSet'
 
 const expandRecurringBlockOuts = (blockouts, calendarMonth) => {
   const recurringBlockoutParents = blockouts.filter(b => b.rrule)
