@@ -1,6 +1,6 @@
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
-import dateIsWithinMonth from './date_is_within_month'
+import dateIsWithinMonth from 'blockouts/helpers/dateIsWithinMonth'
 
 const moment = extendMoment(Moment)
 
