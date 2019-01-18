@@ -1,12 +1,12 @@
 import snakecaseKeys from 'snakecase-keys'
 
-const makeRequestFn = authenticity_token => {
+const makeRequestFn = authenticityToken => {
   return async ({ url, method, data }) => {
     const response = await fetch(url, {
       method: method,
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': authenticity_token
+        'X-CSRF-Token': authenticityToken
       },
       body: JSON.stringify(snakecaseKeys(data || {}))
     })

@@ -12,42 +12,46 @@ import makeRequestFn from 'blockouts/helpers/makeRequest'
 import 'react-day-picker/lib/style.css'
 
 class Scheduler extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      blockouts: props.blockouts,
-      calendarMonth: moment().startOf('month'),
-      setCalendarMonth: this.setCalendarMonth,
-      modalInfo: {},
-      setModalInfo: this.setModalInfo,
-      updateBlockoutsState: this.updateBlockoutsState,
-      makeRequest: makeRequestFn(props.authenticity_token),
-      removeBlockoutFromState: this.removeBlockoutFromState
-    }
+  state = {
+    blockouts: this.props.blockouts,
+    calendarMonth: moment().startOf('month'),
+    setCalendarMonth: this.setCalendarMonth,
+    modalInfo: {},
+    setModalInfo: this.setModalInfo,
+    updateBlockoutsState: this.updateBlockoutsState,
+    makeRequest: makeRequestFn(this.props.authenticity_token),
+    removeBlockoutFromState: this.removeBlockoutFromState
   }
 
-  setCalendarMonth = calendarMonth => this.setState(state => ({ calendarMonth: moment(calendarMonth).startOf('month') }))
-  setModalInfo = info => this.setState(state => ({ modalInfo: info }))
+  setCalendarMonth = calendarMonth => this.setState({ calendarMonth: moment(calendarMonth).startOf('month') })
+  setModalInfo = modalInfo => this.setState({ modalInfo })
 
   updateBlockoutsState = blockoutsToUpdate => {
     const { state: { blockouts } } = this
     const ids = blockoutsToUpdate.map(b => b.id)
-    const updatedBlockouts = blockouts.filter(b => !ids.includes(b.id)).concat(blockoutsToUpdate)
-    this.setState(state => ({ blockouts: updatedBlockouts }))
+    this.setState({
+      blockouts: [
+        ...blockouts.filter(b => !ids.includes(b.id)),
+        ...blockoutsToUpdate
+      ]
+    })
   }
 
   removeBlockoutFromState = blockoutId => {
     const { state: { blockouts } } = this
-    const updatedBlockouts = blockouts.filter(b => b.id != blockoutId)
-    this.setState(state => ({ blockouts: updatedBlockouts }))
+    this.setState({
+      blockouts: blockouts.filter(b => b.id !== blockoutId)
+    })
   }
 
   render () {
-    const { props: { authenticity_token }, state: { blockouts, calendarMonth } } = this
-    const expandedRecurringBlockouts = expandRecurringBlockOuts(blockouts, calendarMonth)
-    const blockoutsWithDays = splitblockoutsWithDays(expandedRecurringBlockouts, calendarMonth)
+    const { state: { blockouts, calendarMonth } } = this
+    const blockoutsWithDays = splitblockoutsWithDays(
+      expandRecurringBlockOuts(blockouts, calendarMonth),
+      calendarMonth
+    )
     return (
-      <SchedulerContext.Provider value={{ ...this.state, ...{ authenticity_token: authenticity_token } }}>
+      <SchedulerContext.Provider value={{ ...this.state, ...{ authenticityToken: this.props.authenticity_token } }}>
         <React.Fragment>
           <Modal />
           <Calendar blockouts={blockoutsWithDays} />

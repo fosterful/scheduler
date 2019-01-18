@@ -5,7 +5,7 @@ export default React.createContext({
   setCalendarMonth: _ => {},
   modalInfo: {},
   setModalInfo: _ => {},
-  authenticity_token: '',
+  authenticityToken: '',
   updateBlockoutsState: _ => {},
   removeBlockoutFromState: _ => {}
 })
