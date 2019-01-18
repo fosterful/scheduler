@@ -30,11 +30,11 @@ class EditBlockoutModal extends React.Component {
   }
 
   inputsWithDefaults = _ => {
-    const { state: { blockoutId, inputs } } = this
+    const { state: { inputs } } = this
     return { ...inputs, endAt: (inputs.endAt || moment(inputs.startAt).endOf('day').toDate()) }
   }
 
-  setError = errorMsg => this.setState(state => ({errorMsg: errorMsg}))
+  setError = errorMsg => this.setState(state => ({ errorMsg: errorMsg }))
 
   createBlockout = data => {
     const { context: { makeRequest } } = this
