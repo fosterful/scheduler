@@ -5,25 +5,20 @@ import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 import 'blockouts/scheduler.scss'
 
-class Calendar extends React.Component {
-  render () {
-    const modifiers = {
-      highlighted: this.props.blockouts.flat().map(b => b.range.start.toDate())
-    }
-    return (
-      <SchedulerContext.Consumer>
-        {({ setCalendarMonth }) => (
-          <DayPicker
-            modifiers={modifiers}
-            onMonthChange={setCalendarMonth}
-          />
-        )}
-      </SchedulerContext.Consumer>
-    )
-  }
-}
+const Calendar = ({ blockouts }) =>
+  <SchedulerContext.Consumer>
+    {({ setCalendarMonth }) => (
+      <DayPicker
+        modifiers={{
+          highlighted: blockouts.flat().map(b => b.range.start.toDate())
+        }}
+        onMonthChange={setCalendarMonth}
+      />
+    )}
+  </SchedulerContext.Consumer>
 
 Calendar.propTypes = {
   blockouts: PropTypes.array
 }
+
 export default Calendar
