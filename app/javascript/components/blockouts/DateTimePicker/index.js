@@ -30,7 +30,6 @@ class DateTimePicker extends React.Component {
 
   componentDidMount() {
     const { context: { inputs: { startAt, endAt } } } = this
-    console.log(this.context)
     const update = {}
     if (startAt) {
       update.fromDate = startAt

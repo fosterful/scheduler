@@ -7,5 +7,6 @@ export default React.createContext({
   setModalInfo: _ => {},
   authenticityToken: '',
   updateBlockoutsState: _ => {},
-  removeBlockoutFromState: _ => {}
+  removeBlockoutFromState: _ => {},
+  getParentBlockoutByID: _ => {}
 })

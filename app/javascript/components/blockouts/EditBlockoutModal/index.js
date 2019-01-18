@@ -7,6 +7,8 @@ import ReasonInput from 'blockouts/ReasonInput'
 import Errors from 'blockouts/Errors'
 import RecurrenceOptions from 'blockouts/RecurrenceOptions'
 import moment from 'moment'
+import getDatesBetweenRruleSet from 'blockouts/helpers/get_dates_between_rrule_set'
+import { isEmpty } from 'ramda'
 
 class EditBlockoutModal extends React.Component {
   constructor(props) {
@@ -14,7 +16,6 @@ class EditBlockoutModal extends React.Component {
     const { data: { blockout } } = props
     this.state = {
       blockout: blockout,
-      blockoutId: blockout.id || blockout.parent_id,
       selectedRecurrenceOption: blockout.rrule ? 'one' : 'all',
       inputs: {
         startAt: new Date(blockout.start_at),
@@ -42,13 +43,13 @@ class EditBlockoutModal extends React.Component {
   }
 
   updateBlockout = data => {
-    const { state: { blockoutId }, context: { makeRequest } } = this
-    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'PUT', data: { blockout: data } })
+    const { state: { blockout: { parent_id } }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${parent_id}.json`, method: 'PUT', data: { blockout: data } })
   }
 
   deleteBlockout = _ => {
-    const { state: { blockoutId }, context: { makeRequest } } = this
-    return makeRequest({ url: `/blockouts/${blockoutId}.json`, method: 'DELETE' })
+    const { state: { blockout: { parent_id } }, context: { makeRequest } } = this
+    return makeRequest({ url: `/blockouts/${parent_id}.json`, method: 'DELETE' })
   }
 
   updateHandler = async _ => {
@@ -100,14 +101,41 @@ class EditBlockoutModal extends React.Component {
   }
 
   deleteHandler = async _ => {
-    const { state: { selectedRecurrenceOption, blockoutId }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo } } = this
+    const { state: { selectedRecurrenceOption, blockout }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo, getParentBlockoutByID } } = this
+    const parent = getParentBlockoutByID(blockout.parent_id)
+
     let result
+    let allPossibleDates
     switch (selectedRecurrenceOption) {
       case 'one':
-        result = await this.updateBlockout(this.excludeBlockoutParams())
+        const excludeBlockoutParams = this.excludeBlockoutParams()
+
+        allPossibleDates = getDatesBetweenRruleSet({
+          rrule: parent.rrule,
+          startAt: parent.start_at,
+          exdates: excludeBlockoutParams.exdate,
+          lowerBound: new Date(parent.start_at),
+          upperBound: moment(parent.start_at).add(3, 'years').endOf('day').toDate()
+        })
+
+         console.log(isEmpty(allPossibleDates) ? "It's gonna blow!" : 'All good in the hood')
+
+        result = await this.updateBlockout(excludeBlockoutParams)
         break
       case 'future':
-        result = await this.updateBlockout(this.excludefutureBlockoutsParams())
+        const excludefutureBlockoutsParams = this.excludefutureBlockoutsParams()
+
+        allPossibleDates = getDatesBetweenRruleSet({
+          rrule: excludefutureBlockoutsParams.rrule,
+          startAt: parent.start_at,
+          exdates: parent.exdate,
+          lowerBound: new Date(parent.start_at),
+          upperBound: moment(parent.start_at).add(3, 'years').endOf('day').toDate()
+        })
+
+        console.log(isEmpty(allPossibleDates) ? "It's gonna blow!" : 'All good in the hood')
+
+        result = await this.updateBlockout(excludefutureBlockoutsParams)
         break
       case 'all':
         result = await this.deleteBlockout()
@@ -116,7 +144,7 @@ class EditBlockoutModal extends React.Component {
 
     if (result.success) {
       selectedRecurrenceOption === 'all'
-        ? removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
+        ? removeBlockoutFromState(blockout.parent_id) : updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
       this.setError(result.error)

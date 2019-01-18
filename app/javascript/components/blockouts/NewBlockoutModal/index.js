@@ -34,7 +34,6 @@ class NewBlockoutModal extends React.Component {
   }
 
   render () {
-    console.log(this.state)
     const { state: { errorMsg }, context: { setModalInfo } } = this
     return (
       <BlockoutFormContext.Provider value={this.state}>
