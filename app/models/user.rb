@@ -62,6 +62,10 @@ class User < ApplicationRecord
       .where(blockouts: { id: nil })
   end
 
+  def self.speaks_language(language)
+    where(first_language: language).or(where(second_language: language))
+  end
+
   def has_at_least_one_office
     errors.add(:base, 'At least one office assignment is required') if offices.blank?
   end
