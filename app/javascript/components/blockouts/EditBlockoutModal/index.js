@@ -6,7 +6,6 @@ import { RRule } from 'rrule'
 import ReasonInput from 'blockouts/ReasonInput'
 import Errors from 'blockouts/Errors'
 import RecurrenceOptions from 'blockouts/RecurrenceOptions'
-import moment from 'moment'
 import getDatesBetweenRruleSet from 'blockouts/helpers/getDatesBetweenRruleSet'
 import { isEmpty } from 'ramda'
 

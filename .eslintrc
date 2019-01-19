@@ -1,3 +1,6 @@
 {
-  "extends": ["hint"]
+  "extends": ["hint"],
+  "globals": {
+    "moment": true
+  }
 }

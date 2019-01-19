@@ -6,6 +6,8 @@
     %title Scheduler
     = csrf_meta_tags
     = csp_meta_tag
+    :javascript
+      window.time_zone = '#{Time.zone.tzinfo.name}'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body

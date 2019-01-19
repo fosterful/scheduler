@@ -2,7 +2,6 @@ import React from 'react'
 import BlockoutFormContext from 'blockouts/contexts/blockoutForm'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { RRule } from 'rrule'
-import moment from 'moment'
 
 class RepeatInputs extends React.Component {
   state = {
@@ -133,7 +132,7 @@ var v = n % 100
           inputProps={{ type: 'text' }}
           value={untilDate}
           formatDate={date => moment(date).format('ll')}
-          onDayChange={day => handler({ target: { value: day } })}
+          onDayChange={day => handler({ target: { value: moment(day).startOf('day').toDate() } })}
           dayPickerProps={{
             disabledDays: { before: toDate }
           }}

@@ -6,6 +6,11 @@ import Selectize from 'selectize'
 import Turbolinks from 'turbolinks'
 import Inputmask from 'inputmask'
 import OMDLogo from 'images/omd-logo.png'
+import moment from 'moment-timezone'
+import { extendMoment } from 'moment-range'
+
+moment.tz.setDefault(window.time_zone)
+window.moment = extendMoment(moment)
 
 Rails.start()
 Turbolinks.start()

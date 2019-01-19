@@ -1,8 +1,4 @@
-import Moment from 'moment'
-import { extendMoment } from 'moment-range'
 import dateIsWithinMonth from 'blockouts/helpers/dateIsWithinMonth'
-
-const moment = extendMoment(Moment)
 
 const blockoutsWithDays = (blockouts, calendarMonth) => {
   return blockouts.map(blockout => {

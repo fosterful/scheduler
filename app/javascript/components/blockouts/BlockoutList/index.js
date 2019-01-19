@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Blockout from 'blockouts/Blockout'
-import moment from 'moment'
 import { sort } from 'ramda'
 import blockoutsByDay from './blockoutsByDay'
 import sortByDate from 'blockouts/BlockoutList/sortByDate'

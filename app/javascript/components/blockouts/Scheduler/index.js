@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 import SchedulerContext from 'blockouts/contexts/scheduler'
 import Calendar from 'blockouts/Calendar'
 import BlockoutList from 'blockouts/BlockoutList'

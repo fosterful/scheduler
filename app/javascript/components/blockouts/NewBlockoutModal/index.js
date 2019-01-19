@@ -5,7 +5,6 @@ import DateTimePicker from 'blockouts/DateTimePicker'
 import ReasonInput from 'blockouts/ReasonInput'
 import RepeatInputs from 'blockouts/RepeatInputs'
 import Errors from 'blockouts/Errors'
-import moment from 'moment'
 
 class NewBlockoutModal extends React.Component {
   setFormInputs = value => {

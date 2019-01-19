@@ -1,7 +1,6 @@
 import blockoutsByDay from 'blockouts/BlockoutList/blockoutsByDay'
 import splitblockoutsWithDays from 'blockouts/helpers/splitBlockoutsByDay'
 import expandRecurringBlockOuts from 'blockouts/helpers/expandRecurringBlockouts'
-import moment from 'moment'
 
 const notNormalizedBlockouts = [
   {
