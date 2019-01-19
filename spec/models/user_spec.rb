@@ -65,4 +65,15 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.speaks_language' do
+    let(:language) { create :language }
+    subject { User.speaks_language(language) }
+
+    it 'includes primary and secondary speakers' do
+      primary_speaker = create :user, first_language: language
+      secondary_speaker = create :user, second_language: language
+      expect(subject).to include(primary_speaker, secondary_speaker)
+    end
+  end
 end
