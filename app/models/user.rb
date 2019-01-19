@@ -11,6 +11,7 @@ class User < ApplicationRecord
                      last_name
                      time_zone
                      race_id
+                     first_language_id
                      birth_date
                      phone
                      resident_since
@@ -31,6 +32,7 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 
   validates :birth_date, :phone, :resident_since, :discovered_omd_by, :race,
+            :first_language,
             presence: true, if: :require_volunteer_profile_attributes?
 
   validates :medical_limitations, :conviction,
