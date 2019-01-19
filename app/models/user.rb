@@ -25,6 +25,9 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
 
+  belongs_to :first_language, optional: true, class_name: 'Language'
+  belongs_to :second_language, optional: true, class_name: 'Language'
+
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 
   validates :birth_date, :phone, :resident_since, :discovered_omd_by, :race,

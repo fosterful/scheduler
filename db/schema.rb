@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_17_185850) do
+ActiveRecord::Schema.define(version: 2019_01_19_052810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,12 @@ ActiveRecord::Schema.define(version: 2019_01_17_185850) do
     t.datetime "updated_at", null: false
     t.index ["parent_id"], name: "index_blockouts_on_parent_id"
     t.index ["user_id"], name: "index_blockouts_on_user_id"
+  end
+
+  create_table "languages", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offices", force: :cascade do |t|
@@ -111,6 +117,8 @@ ActiveRecord::Schema.define(version: 2019_01_17_185850) do
     t.text "conviction_desc"
     t.string "time_zone"
     t.bigint "race_id"
+    t.bigint "first_language_id"
+    t.bigint "second_language_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
