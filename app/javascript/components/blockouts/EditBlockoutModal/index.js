@@ -100,6 +100,7 @@ class EditBlockoutModal extends React.Component {
     }
   }
 
+  // TODO: Refactor me :-)
   deleteHandler = async _ => {
     const { state: { selectedRecurrenceOption, blockout, blockoutId }, context: { updateBlockoutsState, removeBlockoutFromState, setModalInfo, getParentBlockoutById } } = this
     const parent = getParentBlockoutById(blockout.parent_id)

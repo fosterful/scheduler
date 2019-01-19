@@ -9,7 +9,7 @@ import OMDLogo from 'images/omd-logo.png'
 import moment from 'moment-timezone'
 import { extendMoment } from 'moment-range'
 
-moment.tz.setDefault(window.time_zone)
+moment.tz.setDefault(window.timeZone)
 window.moment = extendMoment(moment)
 
 Rails.start()
