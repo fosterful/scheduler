@@ -106,6 +106,7 @@ class EditBlockoutModal extends React.Component {
 
     let result
     let allPossibleDates
+    let blockoutDeleted
     switch (selectedRecurrenceOption) {
       case 'one':
         const excludeBlockoutParams = this.excludeBlockoutParams()
@@ -118,9 +119,13 @@ class EditBlockoutModal extends React.Component {
           upperBound: moment(parent.start_at).add(3, 'years').endOf('day').toDate()
         })
 
-         console.log(isEmpty(allPossibleDates) ? "It's gonna blow!" : 'All good in the hood')
+         if (isEmpty(allPossibleDates)) {
+          result = await this.deleteBlockout()
+          blockoutDeleted = true
+         } else {
+           result = await this.updateBlockout(excludeBlockoutParams)
+         }
 
-        result = await this.updateBlockout(excludeBlockoutParams)
         break
       case 'future':
         const excludefutureBlockoutsParams = this.excludefutureBlockoutsParams()
@@ -133,17 +138,22 @@ class EditBlockoutModal extends React.Component {
           upperBound: moment(parent.start_at).add(3, 'years').endOf('day').toDate()
         })
 
-        console.log(isEmpty(allPossibleDates) ? "It's gonna blow!" : 'All good in the hood')
+        if (isEmpty(allPossibleDates)) {
+          result = await this.deleteBlockout()
+          blockoutDeleted = true
+         } else {
+           result = await this.updateBlockout(excludefutureBlockoutsParams)
+         }
 
-        result = await this.updateBlockout(excludefutureBlockoutsParams)
         break
       case 'all':
         result = await this.deleteBlockout()
+        blockoutDeleted = true
         break
     }
 
     if (result.success) {
-      selectedRecurrenceOption === 'all'
+      blockoutDeleted
         ? removeBlockoutFromState(blockoutId) : updateBlockoutsState([result.data])
       setModalInfo({})
     } else {
