@@ -6,4 +6,7 @@ class Need < ApplicationRecord
   has_many :shifts
 
   validates :start_at, :expected_duration, :number_of_children, presence: true
+  validates :expected_duration, inclusion: { in: ->(need) { (60..) }, message: 'must be at least on hour' }
+
+  alias_attribute :duration, :expected_duration
 end
