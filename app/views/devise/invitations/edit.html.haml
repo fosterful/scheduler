@@ -25,22 +25,22 @@
     .cell
       = f.label :time_zone do
         Time Zone
-        = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select Timezone...'
+        = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select a Timezone...'
   - if profile_attributes_required?(resource)
     .grid-x.grid-padding-x
       .cell
         = f.label :race_id do
           Race
-        = f.collection_select :race_id, Race.all, :id, :name, include_blank: true
+        = f.collection_select :race_id, Race.all, :id, :name, prompt: 'Select a race...'
     .grid-x.grid-padding-x
       .cell.auto
         = f.label :first_language_id do
           First Language
-        = f.collection_select :first_language_id, Language.all, :id, :name, include_blank: true
+        = f.collection_select :first_language_id, Language.all, :id, :name, prompt: 'Select a language...'
       .cell.auto
         = f.label :second_language_id do
-          Second Language
-        = f.collection_select :second_language_id, Language.all, :id, :name, include_blank: true
+          Second Language (optional)
+        = f.collection_select :second_language_id, Language.all, :id, :name, prompt: 'Select a language...'
     .grid-x.grid-padding-x
       .cell
         = f.label :birth_date do
@@ -56,6 +56,12 @@
         = f.label :resident_since do
           U.S. Resident Since
           = f.date_field :resident_since
+    .grid-x.grid-padding-x
+      .cell
+        = f.label :age_range_ids do
+          Select one or more age ranges that you would like to work with
+          - selected_age_range_ids = f.object.age_range_ids.any? ? f.object.age_range_ids : AgeRange.all.pluck(:id)
+          = f.collection_select :age_range_ids, AgeRange.all, :id, :to_s, { selected: selected_age_range_ids, prompt: 'Select one or more age ranges...' }, { :multiple => true }
     .grid-x.grid-padding-x
       .cell
         = f.label :discovered_omd_by do

@@ -60,7 +60,8 @@ RSpec.describe "User invitations", type: :request do
 
     context 'with required attributes' do
       let(:user_accept_attributes) do
-        attributes_for(:user).slice(*User::PROFILE_ATTRS | %i[password password_confirmation])
+        attrs = User::PROFILE_ATTRS.flat_map { |attr| attr.try(:keys) || attr }
+        attributes_for(:user).slice(*attrs | %i[password password_confirmation])
                              .merge(invitation_token: raw_invitation_token)
       end
 

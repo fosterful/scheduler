@@ -12,6 +12,7 @@ FactoryBot.define do
 
     role { 'volunteer' }
     confirmed_at { Time.zone.now }
+    invitation_accepted_at { Time.zone.now }
 
     birth_date { 35.years.ago }
     phone { '0123456789' }
@@ -23,6 +24,7 @@ FactoryBot.define do
 
     race_id { 1 }
     first_language_id { 1 }
+    age_range_ids { [1] }
 
     after :build do |user|
       user.offices << build(:office)

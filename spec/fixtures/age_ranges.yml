@@ -1,0 +1,4 @@
+default:
+  id: 1
+  min: 0
+  max: 2

@@ -7,24 +7,26 @@ class User < ApplicationRecord
 
   ROLES = %w[volunteer coordinator social_worker admin].freeze
   REGISTERABLE_ROLES = %w[volunteer coordinator social_worker].freeze
-  PROFILE_ATTRS = %i[first_name
-                     last_name
-                     time_zone
-                     race_id
-                     first_language_id
-                     birth_date
-                     phone
-                     resident_since
-                     discovered_omd_by
-                     medical_limitations
-                     medical_limitations_desc
-                     conviction
-                     conviction_desc].freeze
+  PROFILE_ATTRS = [:first_name,
+                   :last_name,
+                   :time_zone,
+                   :race_id,
+                   :first_language_id,
+                   {age_range_ids: []},
+                   :birth_date,
+                   :phone,
+                   :resident_since,
+                   :discovered_omd_by,
+                   :medical_limitations,
+                   :medical_limitations_desc,
+                   :conviction,
+                   :conviction_desc].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
   has_and_belongs_to_many :offices
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
+  has_and_belongs_to_many :age_ranges
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
@@ -50,6 +52,7 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :has_at_least_one_office
+  validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
@@ -68,6 +71,10 @@ class User < ApplicationRecord
 
   def has_at_least_one_office
     errors.add(:base, 'At least one office assignment is required') if offices.blank?
+  end
+
+  def has_at_least_one_age_range
+    errors.add(:base, 'At least one age range selection is required') if age_ranges.blank?
   end
 
   ROLES.each do |role|
