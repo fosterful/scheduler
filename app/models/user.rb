@@ -56,6 +56,8 @@ class User < ApplicationRecord
   validate :has_at_least_one_office
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
+  scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
+
   def self.available_within(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
