@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_20_025335) do
+ActiveRecord::Schema.define(version: 2019_01_20_045415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,21 @@ ActiveRecord::Schema.define(version: 2019_01_20_025335) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "needs", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "preferred_language_id", null: false
+    t.datetime "start_at", null: false
+    t.integer "expected_duration", null: false
+    t.integer "number_of_children", null: false
+    t.text "notified_users", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_needs_on_office_id"
+    t.index ["preferred_language_id"], name: "index_needs_on_preferred_language_id"
+    t.index ["user_id"], name: "index_needs_on_user_id"
+  end
+
   create_table "offices", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -79,6 +94,18 @@ ActiveRecord::Schema.define(version: 2019_01_20_025335) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shifts", force: :cascade do |t|
+    t.bigint "need_id", null: false
+    t.bigint "user_id"
+    t.datetime "start_at", null: false
+    t.integer "duration", null: false
+    t.boolean "canceled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["need_id"], name: "index_shifts_on_need_id"
+    t.index ["user_id"], name: "index_shifts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -136,4 +163,9 @@ ActiveRecord::Schema.define(version: 2019_01_20_025335) do
 
   add_foreign_key "blockouts", "blockouts", column: "parent_id"
   add_foreign_key "blockouts", "users"
+  add_foreign_key "needs", "languages", column: "preferred_language_id"
+  add_foreign_key "needs", "offices"
+  add_foreign_key "needs", "users"
+  add_foreign_key "shifts", "needs"
+  add_foreign_key "shifts", "users"
 end
