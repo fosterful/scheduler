@@ -23,6 +23,10 @@
     left: calc(50% - 2px);
   }
 }
+.DayPicker--interactionDisabled {
+  display: flex;
+  justify-content: center;
+}
 
 .blockout-date-time-picker {
   .DayPickerInput-Overlay {
