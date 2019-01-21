@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Services
   class BuildNeedShifts
     include Procto.call
     include Concord.new(:need)
     include Adamantium::Flat
 
-    SHIFT_LENGTH = 60.freeze
+    SHIFT_LENGTH = 60
 
     delegate :duration, :start_at, to: :need
 
@@ -20,9 +22,9 @@ module Services
     private
 
     def calculate_shift_lengths
-      shift_count = duration/SHIFT_LENGTH
+      shift_count = duration / SHIFT_LENGTH
       shift_count.times.map.with_index do |n, index|
-        index == (shift_count -1) ? (SHIFT_LENGTH + (duration % SHIFT_LENGTH)) : SHIFT_LENGTH
+        index == (shift_count - 1) ? (SHIFT_LENGTH + (duration % SHIFT_LENGTH)) : SHIFT_LENGTH
       end
     end
   end
