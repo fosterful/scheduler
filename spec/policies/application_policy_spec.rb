@@ -6,14 +6,26 @@ RSpec.describe ApplicationPolicy, type: :policy do
 
   subject { described_class.new(user, record) }
 
-  it { expect(subject).to forbid_action(:index) }
-  it { expect(subject).to forbid_action(:show) }
-  it { expect(subject).to forbid_action(:new) }
-  it { expect(subject).to forbid_action(:create) }
-  it { expect(subject).to forbid_action(:edit) }
-  it { expect(subject).to forbid_action(:update) }
-  it { expect(subject).to forbid_action(:destroy) }
-  
+  it { is_expected.to forbid_action(:index) }
+  it { is_expected.to forbid_action(:show) }
+  it { is_expected.to forbid_action(:new) }
+  it { is_expected.to forbid_action(:create) }
+  it { is_expected.to forbid_action(:edit) }
+  it { is_expected.to forbid_action(:update) }
+  it { is_expected.to forbid_action(:destroy) }
+
+  context 'for an admin user' do
+    let(:user) { build(:user, role: 'admin') }
+
+    it { is_expected.to permit_action(:index) }
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:new) }
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:edit) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_action(:destroy) }
+  end
+
   describe ApplicationPolicy::Scope do
     subject { described_class.new(user, scope) }
 

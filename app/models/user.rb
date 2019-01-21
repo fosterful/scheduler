@@ -27,6 +27,8 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
+  has_many :needs, dependent: :restrict_with_error
+  has_many :shifts, dependent: :restrict_with_error
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
@@ -53,6 +55,8 @@ class User < ApplicationRecord
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :has_at_least_one_office
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
+
+  scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
@@ -86,6 +90,10 @@ class User < ApplicationRecord
   def name
     name = "#{first_name} #{last_name}"
     name.present? ? name : email
+  end
+
+  def scheduler?
+    role.in? %w[coordinator social_worker]
   end
 
   private

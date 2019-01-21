@@ -27,7 +27,7 @@ FactoryBot.define do
     age_range_ids { [1] }
 
     after :build do |user|
-      user.offices << build(:office)
+      user.offices << build(:office) unless user.offices.any?
     end
   end
 end

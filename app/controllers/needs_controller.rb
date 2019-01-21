@@ -1,0 +1,53 @@
+class NeedsController < ApplicationController
+  def index
+    authorize Need
+    @needs = policy_scope(Need)
+  end
+
+  def show
+    @need = policy_scope(Need).find(params[:id])
+    authorize @need
+  end
+
+  def new
+    authorize Need
+  end
+
+  def create
+    @need = current_user.needs.build(permitted_attributes(Need))
+    authorize @need
+    if @need.update(shifts: Services::BuildNeedShifts.call(@need))
+      Services::SendNeedNotifications.call(@need)
+      redirect_to(@need)
+    else
+      render('new')
+    end
+  end
+
+  def edit
+    @need = policy_scope(Need).find(params[:id])
+    authorize @need
+  end
+
+  def update
+    @need = policy_scope(Need).find(params[:id])
+    @need.assign_attributes(permitted_attributes(@need))
+    authorize @need
+    if @need.save
+      Services::SendNeedNotifications.call(@need)
+      redirect_to(@need)
+    else
+      render('edit')
+    end
+  end
+
+  def destroy
+    @need = policy_scope(Need).find(params[:id])
+    authorize @need
+    if @need.destroy
+      redirect_back fallback_location: needs_path
+    else
+      redirect_back fallback_location: needs_path, flash: { error: 'Need could not be deleted' }
+    end
+  end
+end
