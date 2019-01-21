@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import BlockoutFormContext from 'blockouts/contexts/blockoutForm'
+import Toggle from 'react-toggle'
 
 class DateTimePicker extends React.Component {
   timeOptions = _ => {
@@ -100,8 +101,11 @@ class DateTimePicker extends React.Component {
       <div className='grid-x grid-margin-x blockout-date-time-picker'>
         <div className='cell small-2'>
           <label>
-            All Day
-            <input type='checkbox' checked={allDay} onChange={toggleAllDay} />
+            <span>All Day</span>
+            <Toggle
+              checked={allDay}
+              onChange={toggleAllDay}
+            />
           </label>
         </div>
         <div className='cell small-5'>
