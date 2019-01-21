@@ -8,6 +8,7 @@
     "@babel/polyfill": "^7.2.5",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
+    "@rails/webpacker": "3.5",
     "eslint": "^5.12.0",
     "eslint-config-hint": "^0.0.3",
     "foundation-sites": "6.5.0",
@@ -31,7 +32,6 @@
     "turbolinks": "^5.0.3"
   },
   "devDependencies": {
-    "@rails/webpacker": "3.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
