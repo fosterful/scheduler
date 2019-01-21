@@ -11,7 +11,7 @@ class NeedPolicy < ApplicationPolicy
     user.admin? || (user_in_office? && user.scheduler?)
   end
 
-  def new
+  def new?
     create?
   end
 
