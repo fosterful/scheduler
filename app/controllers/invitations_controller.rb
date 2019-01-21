@@ -1,6 +1,4 @@
 class InvitationsController < Devise::InvitationsController
-  skip_after_action :verify_authorized
-
   rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
     redirect_to root_path, flash: { error: "Required parameter missing: #{parameter_missing_exception.param}" }
   end
