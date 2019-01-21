@@ -29,7 +29,7 @@ RSpec.describe "Needs", type: :request do
     it 'is redirects to the need' do
       expect(Services::BuildNeedShifts).to receive(:call).and_return([])
       expect(Services::SendNeedNotifications).to receive(:call)
-      post needs_path, params: { need: { **attributes_for(:need).merge({ office_id: need.office_id }) } }
+      post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
       expect(response).to redirect_to(assigns(:need))
     end
   end
