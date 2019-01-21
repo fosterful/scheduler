@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   end
 
   resources :blockouts, except: %i[index new edit show]
-  resources :needs
+  resources :needs do
+    resources :shifts, only: %i[new create update destroy]
+  end
 
   root to: 'application#hello_world'
 end
