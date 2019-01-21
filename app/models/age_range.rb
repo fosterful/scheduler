@@ -1,8 +1,9 @@
 class AgeRange < ApplicationRecord
   validates :min, :max, presence: true, numericality: { only_integer: true }
-  validate :min_less_or_equal_to_max
+  validates :max, inclusion: { in: ->(age_range) { (age_range.min..) }, message: 'must be greater than or equal to min age' }
+  has_and_belongs_to_many :users
 
-  def min_less_or_equal_to_max
-    errors.add(:base, 'Minimum age must be less than or equal to max age') if min.to_i > max.to_i
+  def to_s
+    "#{min}-#{max}"
   end
 end
