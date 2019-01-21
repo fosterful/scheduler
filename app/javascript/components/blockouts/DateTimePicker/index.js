@@ -101,11 +101,11 @@ class DateTimePicker extends React.Component {
       <div className='grid-x grid-margin-x blockout-date-time-picker'>
         <div className='cell small-2'>
           <label>
+            <span>All Day</span>
             <Toggle
               checked={allDay}
               onChange={toggleAllDay}
             />
-            <span>All Day</span>
           </label>
         </div>
         <div className='cell small-5'>
