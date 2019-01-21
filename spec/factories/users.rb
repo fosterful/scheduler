@@ -22,6 +22,7 @@ FactoryBot.define do
     time_zone { 'Pacific Time (US & Canada)' }
 
     race_id { 1 }
+    first_language_id { 1 }
 
     after :build do |user|
       user.offices << build(:office)

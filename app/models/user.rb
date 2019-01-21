@@ -11,6 +11,7 @@ class User < ApplicationRecord
                      last_name
                      time_zone
                      race_id
+                     first_language_id
                      birth_date
                      phone
                      resident_since
@@ -25,9 +26,13 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
 
+  belongs_to :first_language, optional: true, class_name: 'Language'
+  belongs_to :second_language, optional: true, class_name: 'Language'
+
   validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
 
   validates :birth_date, :phone, :resident_since, :discovered_omd_by, :race,
+            :first_language,
             presence: true, if: :require_volunteer_profile_attributes?
 
   validates :medical_limitations, :conviction,
@@ -55,6 +60,10 @@ class User < ApplicationRecord
 
     joins(sql)
       .where(blockouts: { id: nil })
+  end
+
+  def self.speaks_language(language)
+    where(first_language: language).or(where(second_language: language))
   end
 
   def has_at_least_one_office

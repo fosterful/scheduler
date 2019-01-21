@@ -33,6 +33,15 @@
           Race
         = f.collection_select :race_id, Race.all, :id, :name, include_blank: true
     .grid-x.grid-padding-x
+      .cell.auto
+        = f.label :first_language_id do
+          First Language
+        = f.collection_select :first_language_id, Language.all, :id, :name, include_blank: true
+      .cell.auto
+        = f.label :second_language_id do
+          Second Language
+        = f.collection_select :second_language_id, Language.all, :id, :name, include_blank: true
+    .grid-x.grid-padding-x
       .cell
         = f.label :birth_date do
           Birth Date

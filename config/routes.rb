@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :offices
     resources :age_ranges
     resources :races
+    resources :languages
 
     root to: "users#index"
   end
