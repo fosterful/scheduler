@@ -12,7 +12,7 @@ class NeedPolicy < ApplicationPolicy
   end
 
   def new?
-    create?
+    user.admin? || user.scheduler?
   end
 
   def edit?
@@ -48,6 +48,6 @@ class NeedPolicy < ApplicationPolicy
   private
 
   def user_in_office?
-    user.id.in? record.office.user_ids
+    record.office&.user_ids&.include? user.id
   end
 end
