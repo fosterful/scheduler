@@ -25,7 +25,7 @@ services:
       - .:/app
       - gems:/gems
     ports:
-      - "3035"
+      - "3035:3035"
     entrypoint: /app/docker/webpack-entrypoint
   postgres:
     image: postgres:9.6

@@ -1,0 +1,6 @@
+{
+  "extends": ["hint"],
+  "globals": {
+    "moment": true
+  }
+}

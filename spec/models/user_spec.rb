@@ -34,4 +34,35 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.available_within' do
+    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
+    subject { User.available_within(*time.values) }
+
+    context 'user has no blockouts' do
+      let!(:user) { create :user }
+
+      it 'includes the user' do
+        expect(subject).to include(user)
+      end
+    end
+
+    context 'user has blockouts with overlap' do
+      let(:user) { build :user }
+      let!(:blockout) { create :blockout, user: user, **time }
+
+      it 'excludes the user' do
+        expect(subject).not_to include(user)
+      end
+    end
+
+    context 'user has blockouts with no overlap' do
+      let(:user) { build :user }
+      let!(:blockout) { create :blockout, user: user, start_at: 1.hour.from_now, end_at: 2.hours.from_now }
+
+      it 'includes the user' do
+        expect(subject).to include(user)
+      end
+    end
+  end
 end

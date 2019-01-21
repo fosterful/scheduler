@@ -1,24 +1,42 @@
 {
   "name": "scheduler",
   "private": true,
+  "scripts": {
+    "test": "jest --config=jest.config.js"
+  },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@rails/webpacker": "3.5",
-    "babel-preset-react": "^6.24.1",
+    "eslint": "^5.12.0",
+    "eslint-config-hint": "^0.0.3",
     "foundation-sites": "6.5.0",
     "inputmask": "^4.0.6",
     "jquery": "^3.3.1",
     "lodash": "^4.17.4",
+    "moment-range": "^4.0.1",
+    "moment-timezone": "^0.5.23",
     "prop-types": "^15.6.2",
     "rails-ujs": "^5.1.4",
+    "ramda": "^0.26.1",
     "react": "^16.7.0",
+    "react-day-picker": "^7.2.4",
     "react-dom": "^16.7.0",
+    "react-modal": "^3.8.1",
     "react_ujs": "^2.4.4",
+    "rrule": "^2.6.0",
     "selectize": "^0.12.6",
+    "snakecase-keys": "^2.1.0",
     "turbolinks": "^5.0.3"
   },
   "devDependencies": {
+    "@rails/webpacker": "3.5",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-module-resolver": "^3.1.2",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^23.6.0",
     "webpack-dev-server": "2.11.2"
   }
 }

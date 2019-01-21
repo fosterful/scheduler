@@ -12,4 +12,15 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   box-sizing: border-box;
 }
 
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.button.primary {
+  color: white !important;
+}
+
 @import 'stylesheets/nav';
+@import '../components/blockouts/scheduler'

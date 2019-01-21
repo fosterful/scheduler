@@ -7,7 +7,7 @@ class Blockout < ApplicationRecord
   validates :start_at, :end_at,
             presence: true
   validates :start_at,
-            inclusion: { in: ->(blockout) { (Date.today..) }, message: 'must be in the future' },
+            inclusion: { in: ->(blockout) { (Time.zone.now.beginning_of_day..) }, message: 'must be in the future' },
             if: :start_at_changed?
 
   validates :end_at,
@@ -18,6 +18,7 @@ class Blockout < ApplicationRecord
   validates :last_occurrence, presence: true, if: :rrule?
 
   scope :occurrences, -> { joins(:parent) }
+  scope :excluding_occurrences, -> { where(parent_id: nil) }
   scope :current, -> { where('start_at < ? AND last_occurrence > ?', 15.days.from_now.end_of_day, Time.zone.now.beginning_of_day) }
   scope :recurring, -> { current.where.not(rrule: nil) }
   scope :current_recurring, -> { current.merge(recurring) }
