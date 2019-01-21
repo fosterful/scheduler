@@ -99,42 +99,58 @@ class DateTimePicker extends React.Component {
     const { toggleAllDay, handleInputChange, renderTimeSelect, state: { allDay, fromDate, toDate, fromTime, toTime } } = this
     return (
       <div className='grid-x grid-margin-x blockout-date-time-picker'>
-        <div className='cell small-2'>
-          <label>
-            <span>All Day</span>
-            <Toggle
-              checked={allDay}
-              onChange={toggleAllDay}
-            />
-          </label>
+        <div className='cell small-12 medium-2'>
+          <div className='grid-x'>
+            <div className='cell small-3 medium-12'>
+              <label className='middle'>All Day</label>
+            </div>
+            <div className='cell small-9 medium-12'>
+              <Toggle
+                checked={allDay}
+                onChange={toggleAllDay}
+              />
+            </div>
+          </div>
         </div>
-        <div className='cell small-5'>
-          <label htmlFor=''>Start Date</label>
-          <DayPickerInput
-            inputProps={{ type: 'text' }}
-            value={fromDate}
-            formatDate={date => moment(date).format('ll')}
-            onDayChange={handleInputChange('fromDate')}
-            dayPickerProps={{
-              selectedDays: [fromDate, { fromDate, toDate }],
-              disabledDays: { before: fromDate, after: toDate }
-            }}
-          />
-          {renderTimeSelect('fromTime', fromTime, handleInputChange)}
+        <div className='cell small-12 medium-5'>
+          <div className='grid-x'>
+            <div className='cell small-3 medium-12'>
+              <label htmlFor='' className='middle'>Start Date</label>
+            </div>
+            <div className='cell small-9 medium-12'>
+              <DayPickerInput
+                inputProps={{ type: 'text' }}
+                value={fromDate}
+                formatDate={date => moment(date).format('ll')}
+                onDayChange={handleInputChange('fromDate')}
+                dayPickerProps={{
+                  selectedDays: [fromDate, { fromDate, toDate }],
+                  disabledDays: { before: fromDate, after: toDate }
+                }}
+              />
+              {renderTimeSelect('fromTime', fromTime, handleInputChange)}
+            </div>
+          </div>
         </div>
-        <div className='cell small-5'>
-          <label htmlFor=''>End Date</label>
-          <DayPickerInput
-            inputProps={{ type: 'text' }}
-            value={toDate}
-            formatDate={date => moment(date).format('ll')}
-            onDayChange={handleInputChange('toDate')}
-            dayPickerProps={{
-              selectedDays: [fromDate, { fromDate, toDate }],
-              disabledDays: { before: fromDate }
-            }}
-          />
-          {renderTimeSelect('toTime', toTime, handleInputChange)}
+        <div className='cell small-12 medium-5'>
+          <div className='grid-x'>
+            <div className='cell small-3 medium-12'>
+              <label htmlFor='' className='middle'>End Date</label>
+            </div>
+            <div className='cell small-9 medium-12'>
+              <DayPickerInput
+                inputProps={{ type: 'text' }}
+                value={toDate}
+                formatDate={date => moment(date).format('ll')}
+                onDayChange={handleInputChange('toDate')}
+                dayPickerProps={{
+                  selectedDays: [fromDate, { fromDate, toDate }],
+                  disabledDays: { before: fromDate }
+                }}
+              />
+              {renderTimeSelect('toTime', toTime, handleInputChange)}
+            </div>
+          </div>
         </div>
       </div>
     )
