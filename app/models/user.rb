@@ -92,6 +92,10 @@ class User < ApplicationRecord
     name.present? ? name : email
   end
 
+  def scheduler?
+    role.in? %w[coordinator social_worker]
+  end
+
   private
 
   def require_volunteer_profile_attributes?

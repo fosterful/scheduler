@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 2019_01_20_204703) do
     t.bigint "user_id"
     t.datetime "start_at", null: false
     t.integer "duration", null: false
-    t.boolean "canceled", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["need_id"], name: "index_shifts_on_need_id"
