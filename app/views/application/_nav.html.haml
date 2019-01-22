@@ -11,23 +11,8 @@
         = link_to root_path do
           = image_pack_tag 'images/omd-logo.png', class: 'logo'
       .top-bar-right
-        %button.button{ data: { toggle: 'profile-dropdown' } }
-          Profile
-          %i.fas.fa-caret-down
-        .dropdown-pane#profile-dropdown{ data: { dropdown: true, position: 'bottom', alignment: 'right' } }
-          - if current_user&.admin?
-            = link_to admin_users_path do
-              .grid-x.menu-item
-                .cell.small-9.text-right Admin
-                .cell.small-2.small-offset-1
-                  %i.fas.fa-user-cog
-          = link_to edit_user_registration_path do
-            .grid-x.menu-item
-              .cell.small-9.text-right Settings
-              .cell.small-2.small-offset-1
-                %i.fas.fa-sliders-h
-          = link_to destroy_user_session_path, method: :delete do
-            .grid-x.menu-item
-              .cell.small-9.text-right Sign Out
-              .cell.small-2.small-offset-1
-                %i.fas.fa-sign-out-alt
+        - if user_signed_in?
+          = render partial: 'dropdown_menu'
+        - else
+          = link_to new_user_session_path do
+            %button.button Sign In
