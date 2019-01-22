@@ -67,7 +67,7 @@ class DateTimePicker extends React.Component {
     if (!this.state.allDay) {
       const handler = this.handleInputChange(input)
       return (
-        <select value={value} onChange={event => handler(event.target.value)}>
+        <select className='conditional-time-select' value={value} onChange={event => handler(event.target.value)}>
           {this.renderTimeSelectOptions(input)}
         </select>
       )
@@ -100,24 +100,25 @@ class DateTimePicker extends React.Component {
     return (
       <div className='grid-x grid-margin-x blockout-date-time-picker'>
         <div className='cell small-12 medium-2'>
-          <div className='grid-x'>
-            <div className='cell small-3 medium-12'>
-              <label className='middle'>All Day</label>
+          <div className='grid-x grid-margin-x align-middle'>
+            <div className='cell small-4 medium-12'>
+              <label className='text-right medium-text-center medium-margin-bottom-0 margin-bottom-1'>All Day</label>
             </div>
-            <div className='cell small-9 medium-12'>
+            <div className='cell small-8 medium-12 medium-flex-container align-center'>
               <Toggle
                 checked={allDay}
                 onChange={toggleAllDay}
+                className='margin-bottom-1'
               />
             </div>
           </div>
         </div>
         <div className='cell small-12 medium-5'>
-          <div className='grid-x'>
-            <div className='cell small-3 medium-12'>
-              <label htmlFor='' className='middle'>Start Date</label>
+          <div className='grid-x grid-margin-x align-middle'>
+            <div className='cell small-4 medium-12'>
+              <label htmlFor='' className='text-right medium-text-left medium-margin-bottom-0 margin-bottom-1'>Start Date</label>
             </div>
-            <div className='cell small-9 medium-12'>
+            <div className='cell small-8 medium-12'>
               <DayPickerInput
                 inputProps={{ type: 'text' }}
                 value={fromDate}
@@ -133,11 +134,11 @@ class DateTimePicker extends React.Component {
           </div>
         </div>
         <div className='cell small-12 medium-5'>
-          <div className='grid-x'>
-            <div className='cell small-3 medium-12'>
-              <label htmlFor='' className='middle'>End Date</label>
+          <div className='grid-x grid-margin-x align-middle'>
+            <div className='cell small-4 medium-12'>
+              <label htmlFor='' className='text-right medium-text-left medium-margin-bottom-0 margin-bottom-1'>End Date</label>
             </div>
-            <div className='cell small-9 medium-12'>
+            <div className='cell small-8 medium-12'>
               <DayPickerInput
                 inputProps={{ type: 'text' }}
                 value={toDate}
