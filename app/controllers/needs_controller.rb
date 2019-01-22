@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NeedsController < ApplicationController
   def index
     authorize Need
