@@ -1,3 +1,7 @@
+.DayPickerInput, .conditional-time-select {
+  width: 100%;
+  max-width: 14rem;
+}
 .DayPicker-Month {
   margin-left: 0;
   margin-right: 0;
@@ -24,7 +28,7 @@
   }
 }
 
-.blockout-date-time-picker {
+.blockout-modal-inner-content {
   .DayPickerInput-Overlay {
     left: unset;
     right: 0;
@@ -82,8 +86,7 @@
     margin-right: .5rem;
   }
   .DayPickerInput-Overlay {
-    top: -150px;
-    left: calc(100% + 1rem);
+    top: -368px;
   }
 }
 
