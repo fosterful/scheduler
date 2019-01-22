@@ -2,13 +2,21 @@
   .header-text OMD Scheduler
 
 .grid-x
-  .cell.medium-5.large-3
+  .cell.medium-7.large-9.small-order-1.medium-order-2
+    %table.hover.stack.striped
+      %thead
+        %tr
+          %th Office
+          %th # of Children
+          %th Start At
+          %th Shifts
+      %tbody
+        - @needs.each do |need|
+          %tr
+            %td= link_to need.office.name, need_path(need)
+            %td= link_to need.number_of_children, need_path(need)
+            %td= link_to need.start_at.strftime('%l:%M%P %A, %b %d'), need_path(need)
+            %td= link_to need.shifts.count, need_path(need)
+  .cell.medium-5.large-3.small-order-2.medium-order-1
     = react_component("blockouts/Scheduler/index", { blockouts: current_user.blockouts.excluding_occurrences.shuffle, authenticity_token: form_authenticity_token }, {id: 'scheduler'})
-  .cell.medium-7.large-9
-    = react_component("HelloWorld", { email: current_user.email, role: current_user.role.titleize })
 
-    %p You can #{ link_to 'sign out', destroy_user_session_path, method: :delete }, or #{ link_to 'edit', edit_user_registration_path } your profile.
-    %p Invite a #{invite_links.html_safe}
-
-    - if current_user.admin?
-      %p As an admin, you can access the #{link_to 'admin area', admin_root_path}

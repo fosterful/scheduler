@@ -1,2 +1,37 @@
-%h1 Needs#new
-%p Find me in app/views/needs/new.html.haml
+- content_for :page_header do
+  .header-text Create a Need
+= form_for(@need, url: {action: 'create'}, html: { method: :post }) do |f|
+  .grid-x.grid-padding-x
+    .cell
+      = f.label :preferred_language do
+        Preferred Language
+        = f.select :preferred_language, options_for_select(Language.all.map { |l| [l.name, l.id] }), include_blank: true
+  .grid-x.grid-padding-x
+    .cell
+      = f.label :office do
+        Office
+        = f.select :office, options_for_select(@offices.map { |o| [o.name, o.id]})
+  -# .grid-x.grid-padding-x
+  -#   .cell
+  -#     = f.label :phone do
+  -#       Phone Number
+  -#       = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }
+  -# - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+  -#   %div
+  -#     Currently waiting confirmation for: #{resource.unconfirmed_email}
+  -# %fieldset.fieldset
+  -#   %legend
+  -#     Change Password
+  -#     %i (leave blank if you don't want to change it)
+  -#   = f.password_field :password, placeholder: 'Password', autocomplete: "new-password", minlength: @minimum_password_length, maxlength: @maximum_password_length
+  -#   = f.password_field :password_confirmation, placeholder: 'Password Confirmation', autocomplete: "new-password", minlength: @minimum_password_length, maxlength: @maximum_password_length
+  -# .grid-x.grid-padding-x
+  -#   .cell
+  -#     = f.label :current_password do
+  -#       Current Password
+  -#       = f.password_field :current_password, autocomplete: "current-password", aria: { describedby: 'currentPasswordHelpText' }
+  -#     %p.help-text#currentPasswordHelpText (we need your current password to confirm your changes)
+  -# .grid-x.grid-padding-x
+  -#   .cell
+  -#     .actions
+  -#       = f.submit "Update", class: 'button'

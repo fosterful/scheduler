@@ -3,7 +3,7 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need)
+    @needs = policy_scope(Need).order(:start_at)
   end
 
   def show
@@ -12,7 +12,9 @@ class NeedsController < ApplicationController
   end
 
   def new
-    authorize Need
+    @need = Need.new
+    @offices = policy_scope(Office)
+    authorize @need
   end
 
   def create
