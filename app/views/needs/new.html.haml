@@ -10,7 +10,7 @@
     .cell
       = f.label :office do
         Office
-        = f.select :office, options_for_select(@offices.map { |o| [o.name, o.id]})
+        = f.select :office, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]})
   -# .grid-x.grid-padding-x
   -#   .cell
   -#     = f.label :phone do

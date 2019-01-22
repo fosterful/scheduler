@@ -13,7 +13,6 @@ class NeedsController < ApplicationController
 
   def new
     @need = Need.new
-    @offices = policy_scope(Office)
     authorize @need
   end
 
