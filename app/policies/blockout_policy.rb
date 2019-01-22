@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BlockoutPolicy < ApplicationPolicy
   def create?
     record.user == user

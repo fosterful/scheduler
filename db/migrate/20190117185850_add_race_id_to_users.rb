@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRaceIdToUsers < ActiveRecord::Migration[5.2]
   def change
     add_column :users, :race_id, :bigint

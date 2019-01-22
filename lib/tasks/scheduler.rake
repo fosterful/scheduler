@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :scheduler do
   desc "This task is called by the Heroku scheduler add-on"
   task :update_blockouts => :environment do

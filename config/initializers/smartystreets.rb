@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 credentials = Rails.application.credentials.smartystreets || {}
 
 Geocoder.config[:smarty_streets] ||= {

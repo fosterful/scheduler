@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OmdRrule
   def initialize(*args)
     self.rule = RRule::Rule.new(*args)

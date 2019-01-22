@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BlockoutsController < ApplicationController
   def create
     @blockout = current_user.blockouts.build(permitted_attributes(Blockout))
