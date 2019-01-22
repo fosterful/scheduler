@@ -31,7 +31,7 @@ class DateTimePicker extends React.Component {
     if (startAt) {
       update.fromDate = startAt
       const startAtTime = moment(startAt).format('HH:mm')
-      if (startAtTime != '00:00') {
+      if (startAtTime !== '00:00') {
         update.fromTime = startAtTime
         update.allDay = false
       }
@@ -40,7 +40,7 @@ class DateTimePicker extends React.Component {
     if (endAt) {
       update.toDate = endAt
       const endAtTime = moment(endAt).format('HH:mm')
-      if (endAtTime != '23:59') {
+      if (endAtTime !== '23:59') {
         update.toTime = endAtTime
         update.allDay = false
       }

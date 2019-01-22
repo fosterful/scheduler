@@ -14,7 +14,7 @@ class RepeatInputs extends React.Component {
 
   componentDidUpdate = _ => {
     const { computeRrule, state: { fromDateWas }, context: { inputs: { fromDate } } } = this
-    if (fromDate != fromDateWas) {
+    if (fromDate !== fromDateWas) {
       computeRrule()
       this.setState(state => ({ fromDateWas: fromDate }))
     }
@@ -71,7 +71,7 @@ var v = n % 100
   IntervalSelect = _ => {
     const { IntervalSelectOptions, handleInputChange, state: { interval } } = this
     return (
-      <div className="cell large-4">
+      <div className='cell large-4'>
         <select value={interval} onChange={handleInputChange('interval')}>
           <IntervalSelectOptions />
         </select>
@@ -83,7 +83,7 @@ var v = n % 100
     const { handleInputChange, state: { interval, frequency } } = this
     if (!interval) return null
     return (
-      <div className="cell large-3">
+      <div className='cell large-3'>
         <select value={frequency} onChange={handleInputChange('frequency')}>
           <option value='DAILY'>day</option>
           <option value='WEEKLY'>week</option>
@@ -96,7 +96,7 @@ var v = n % 100
 
   ByWeekDaySelect = _ => {
     const { getNumberWithOrdinal, handleInputChange, state: { interval, frequency, byWeekDay }, context: { inputs: { startAt } } } = this
-    if (!interval || frequency != 'MONTHLY') return null
+    if (!interval || frequency !== 'MONTHLY') return null
     const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
     const dayOfWeek = moment(startAt).format('dddd')
     return (
@@ -124,7 +124,7 @@ var v = n % 100
 
   UntilDatePicker = _ => {
     const { handleInputChange, state: { interval, until, untilDate }, context: { inputs: { toDate } } } = this
-    if (!interval || until != 'until') return null
+    if (!interval || until !== 'until') return null
     const handler = handleInputChange('untilDate')
     return (
       <div className='cell large-3'>
