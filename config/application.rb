@@ -29,7 +29,7 @@ module Scheduler
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
+    config.autoload_paths += [Rails.root.join('app', 'models', 'null_objects')]
     config.time_zone = 'Pacific Time (US & Canada)'
   end
 end
