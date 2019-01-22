@@ -6,7 +6,7 @@ const AddBlockoutButton = () =>
     {({ setModalInfo }) => (
       <button
         type='button'
-        className='primary button tiny add-new-blockout-button'
+        className='primary button add-new-blockout-button'
         onClick={setModalInfo.bind(this, { component: 'NewBlockoutModal' })}
       >
         Add Blockout
