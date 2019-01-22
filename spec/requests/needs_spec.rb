@@ -26,11 +26,21 @@ RSpec.describe "Needs", type: :request do
   end
 
   describe '#create' do
-    it 'is redirects to the need' do
-      expect(Services::BuildNeedShifts).to receive(:call).and_return([])
-      expect(Services::SendNeedNotifications).to receive(:call)
-      post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
-      expect(response).to redirect_to(assigns(:need))
+    context 'success' do
+      it 'is redirects to the need' do
+        expect(Services::BuildNeedShifts).to receive(:call).and_return([])
+        expect(Services::SendNeedNotifications).to receive(:call)
+        post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
+        expect(response).to redirect_to(assigns(:need))
+      end
+    end
+
+    context 'failure' do
+      it 'renders the new view' do
+        expect_any_instance_of(Need).to receive(:update).and_return(false)
+        post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
+        expect(response).to render_template(:new)
+      end
     end
   end
 
@@ -42,17 +52,39 @@ RSpec.describe "Needs", type: :request do
   end
 
   describe '#update' do
-    it 'is redirects to the need' do
-      expect(Services::SendNeedNotifications).to receive(:call)
-      put need_path(need), params: { need: { number_of_children: 20 } }
-      expect(response).to redirect_to(assigns(:need))
+    context 'success' do
+      it 'redirects to the need' do
+        expect(Services::SendNeedNotifications).to receive(:call)
+        put need_path(need), params: { need: { number_of_children: 20 } }
+        expect(response).to redirect_to(assigns(:need))
+      end
+    end
+
+    context 'failure' do
+      it 'renders the edit view' do
+        expect_any_instance_of(Need).to receive(:save).and_return(false)
+        put need_path(need), params: { need: { number_of_children: 20 } }
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
-  describe '#edit' do
-    it 'is successful' do
-      delete need_path(need)
-      expect(response).to redirect_to(needs_path)
+  describe '#destroy' do
+    context 'success' do
+      it 'redirects to the index view with success message' do
+        delete need_path(need)
+        expect(response).to redirect_to(needs_path)
+        expect(flash[:success]).to eql('Need successfully deleted')
+      end
+    end
+
+    context 'failure' do
+      it 'redirects to the index view' do
+        expect_any_instance_of(Need).to receive(:destroy).and_return(false)
+        delete need_path(need)
+        expect(response).to redirect_to(needs_path)
+        expect(flash[:error]).to eql('Failed to delete Need')
+      end
     end
   end
 end
