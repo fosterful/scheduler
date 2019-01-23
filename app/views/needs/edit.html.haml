@@ -1,7 +1,7 @@
 - content_for :page_header do
   .header-text Update a Need
 = form_for(@need, url: {action: 'update'}, html: { method: :put }) do |f|
-  = render partial: 'form_fields', locals: { f: f }
+  = render partial: 'form_fields', locals: { f: f, action: :edit }
   .grid-x
     .cell
       .actions
