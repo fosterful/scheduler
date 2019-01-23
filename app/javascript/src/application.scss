@@ -23,4 +23,5 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 }
 
 @import 'stylesheets/nav';
-@import '../components/blockouts/scheduler'
+@import 'stylesheets/needs';
+@import '../components/blockouts/scheduler';
