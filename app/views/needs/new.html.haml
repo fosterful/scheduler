@@ -1,32 +1,7 @@
 - content_for :page_header do
   .header-text Create a Need
 = form_for(@need, url: {action: 'create'}, html: { method: :post }) do |f|
-  .grid-x
-    .cell
-      = f.label :preferred_language do
-        Preferred Language
-        = f.select :preferred_language, options_for_select(Language.all.map { |l| [l.name, l.id] }), include_blank: true
-  .grid-x
-    .cell
-      = f.label :office do
-        Office
-        = f.select :office, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]})
-  .grid-x
-    .cell
-      = f.label :number_of_children do
-        Number of Children
-        = f.number_field :number_of_children, min: 1, max: 20, step: 1
-  %fieldset.fieldset
-    %legend Expected Duration
-    .grid-x.grid-margin-x
-      .cell.small-12.medium-3
-        = f.label :expected_duration, class: 'duration-label' do
-          = f.number_field :expected_duration, min: 15, max: 480, step: 15, class: 'duration-input'
-          .middle Minutes
-      .cell.small-12.medium-9
-        .slider{ data: { slider: true, initial_start: '60', step: '15', end: '480', start: '15' } }
-          %span.slider-handle{ role: 'slider', data: { slider_handle: true}, tabindex: '1', aria: { controls: 'need_expected_duration' } }
-          %span.slider-fill{ data: { slider_fill: true } }
+  = render partial: 'form_fields', locals: { f: f }
   .grid-x
     .cell
       .actions
