@@ -18,7 +18,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   clear: both;
 }
 
-.button.primary {
+.button.primary,
+.button.secondary,
+.button.success,
+.button.alert,
+.button.warning  {
   color: white !important;
 }
 

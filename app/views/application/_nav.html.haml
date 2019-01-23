@@ -12,6 +12,11 @@
           = image_pack_tag 'images/omd-logo.png', class: 'logo'
       .top-bar-right
         - if user_signed_in?
+          - if policy(Need).new?
+            = link_to new_need_path do
+              %button.button.success
+                %fa.fas.fa-plus
+                New Need
           = render partial: 'dropdown_menu'
         - else
           = link_to new_user_session_path do
