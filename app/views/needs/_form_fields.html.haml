@@ -1,9 +1,10 @@
 - if action == :new
-  .grid-x
-    .cell
-      = f.label :start_at do
-        Start Date/Time
-        = react_component('forms/DayPicker/index')
+  %fieldset.fieldset
+    %legend Start Date/Time
+    .grid-x
+      .cell
+        = f.label :start_at, class: 'start-at-label' do
+          = f.datetime_select :start_at, {default: 1.hour.from_now, discard_year: true, minute_step: 15}, class: 'start-at-input'
   %fieldset.fieldset
     %legend Expected Duration
     .grid-x.grid-margin-x
