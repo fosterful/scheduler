@@ -2,6 +2,10 @@
 
 class ShiftPolicy < ApplicationPolicy
 
+  def index?
+    record.user == user
+  end
+
   def create?
     user.admin? || (user_in_office? && user.scheduler?)
   end

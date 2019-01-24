@@ -1,21 +1,41 @@
 - content_for :page_header do
   .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3 Office
-  .cell.small-6.medium-4.large-3= @need.office.name
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3 Preferred Language
-  .cell.small-6.medium-4.large-3= @need.preferred_language.name
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3 Start Time
-  .cell.small-6.medium-4.large-3= @need.start_at.strftime('%l:%M%P on %A, %b %d')
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3 Number of Children
-  .cell.small-6.medium-4.large-3= @need.number_of_children
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3
-    = link_to edit_need_path(@need) do
-      %button.button.secondary Edit
-  .cell.small-6.medium-4.large-3
-    = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
-      %button.button.alert Delete
+.grid-x.grid-padding-y
+  .cell.small-12.medium-6.large-3
+    .grid-x.text-center
+      .cell
+        %h4
+          %strong Number of Children
+      .cell= @need.number_of_children
+  .cell.small-12.medium-6.large-3
+    .grid-x.text-center
+      .cell
+        %h4
+          %strong Start Time
+      .cell= @need.start_at.strftime('%l:%M%P on %A, %b %d')
+  .cell.small-12.medium-6.large-3
+    .grid-x.text-center
+      .cell
+        %h4
+          %strong Office
+      .cell= @need.office.name
+  .cell.small-12.medium-6.large-3
+    .grid-x.text-center
+      .cell
+        %h4
+          %strong Preferred Language
+      .cell= @need.preferred_language.name
+  
+.grid-x
+  - @shifts.each do |shift|
+    .cell.button.shift{ class: shift.user_id ? 'claimed' : 'unclaimed' }
+      .grid-x.grid-padding-x.grid-padding-y
+        .cell.small-3.medium-2.large-1= shift.duration
+        .cell.small-9.medium-10.large-11= shift.start_at.strftime('%I:%M%p')
+-# .grid-x.grid-padding-x.align-center
+-#   .cell.small-6.medium-4.large-3
+-#     = link_to edit_need_path(@need) do
+-#       %button.button.secondary Edit
+-#   .cell.small-6.medium-4.large-3
+-#     = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
+-#       %button.button.alert Delete

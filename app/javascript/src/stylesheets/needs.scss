@@ -12,7 +12,18 @@
   width: auto;
   display: inline-block;
 }
-
 .duration-description {
   display: inline-block;
+}
+
+.shift {
+
+  &.claimed {
+    background-color: $secondary-color;
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+  &.unclaimed {
+    background-color: $success-color;
+  }
 }

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :needs do
     resources :shifts, only: %i[new create update destroy]
   end
+  resources :shifts, only: :index
 
   root to: 'needs#index'
 end

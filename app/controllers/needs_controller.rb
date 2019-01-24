@@ -3,11 +3,12 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need).order(:start_at)
+    @needs = policy_scope(Need).includes(:shifts).order(:start_at)
   end
 
   def show
-    @need = policy_scope(Need).find(params[:id])
+    @need = policy_scope(Need).includes(:shifts).find(params[:id])
+    @shifts = @need.shifts
     authorize @need
   end
 
