@@ -1,21 +1,20 @@
-- if action == :new
-  %fieldset.fieldset
-    %legend Start Date/Time
-    .grid-x
-      .cell
-        = f.label :start_at, class: 'start-at-label' do
-          = f.datetime_select :start_at, {default: 1.hour.from_now, discard_year: true, minute_step: 15}, class: 'start-at-input'
-  %fieldset.fieldset
-    %legend Expected Duration
-    .grid-x.grid-margin-x
-      .cell.small-12.medium-3
-        = f.label :expected_duration, class: 'duration-label' do
-          = f.number_field :expected_duration, min: 60, max: 480, step: 15, class: 'duration-input'
-          .middle Minutes
-      .cell.small-12.medium-9
-        .slider{ data: { slider: true, step: '15', start: '60', end: '480', initial_start: @need.expected_duration } }
-          %span.slider-handle{ role: 'slider', data: { slider_handle: true}, tabindex: '1', aria: { controls: 'need_expected_duration' } }
-          %span.slider-fill{ data: { slider_fill: true } }
+%fieldset.fieldset
+  %legend Start Date/Time
+  .grid-x
+    .cell
+      = f.label :start_at, class: 'start-at-label' do
+        = f.datetime_select :start_at, {default: 1.hour.from_now, discard_year: true, minute_step: 15}, class: 'start-at-input', disabled: action == :edit
+%fieldset.fieldset
+  %legend Expected Duration
+  .grid-x.grid-margin-x
+    .cell.small-12.medium-3
+      = f.label :expected_duration, class: 'duration-label' do
+        = f.number_field :expected_duration, min: 60, max: 480, step: 15, class: 'duration-input', disabled: action == :edit
+        .middle Minutes
+    .cell.small-12.medium-9
+      .slider{ data: { slider: true, step: '15', start: '60', end: '480', initial_start: @need.expected_duration }, class: (action == :edit ? 'disabled' : '') }
+        %span.slider-handle{ role: 'slider', data: { slider_handle: true}, tabindex: '1', aria: { controls: 'need_expected_duration' } }
+        %span.slider-fill{ data: { slider_fill: true } }
 .grid-x
   .cell
     = f.label :number_of_children do
