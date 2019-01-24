@@ -48,7 +48,7 @@ class NeedsController < ApplicationController
     @need = policy_scope(Need).find(params[:id])
     authorize @need
     if @need.destroy
-      redirect_back fallback_location: needs_path, flash: { success: 'Need successfully deleted' }
+      redirect_to needs_path, flash: { success: 'Need successfully deleted' }
     else
       redirect_back fallback_location: needs_path, flash: { error: 'Failed to delete Need' }
     end
