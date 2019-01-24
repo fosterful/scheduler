@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateJoinTableAgeRangesUsers < ActiveRecord::Migration[5.2]
   def change
     create_join_table :age_ranges, :users do |t|
