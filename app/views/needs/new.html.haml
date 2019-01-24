@@ -1,2 +1,8 @@
-%h1 Needs#new
-%p Find me in app/views/needs/new.html.haml
+- content_for :page_header do
+  .header-text Create a Need
+= form_for(@need, url: {action: 'create'}, html: { method: :post }) do |f|
+  = render partial: 'form_fields', locals: { f: f, action: :new }
+  .grid-x
+    .cell
+      .actions
+        = f.submit "Create", class: 'button'

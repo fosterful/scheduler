@@ -12,6 +12,10 @@ class Need < ApplicationRecord
 
   alias_attribute :duration, :expected_duration
 
+  def preferred_language
+    super || NullLanguage.new
+  end
+
   def end_at
     start_at.advance(minutes: expected_duration)
   end

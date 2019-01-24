@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvitationsController < Devise::InvitationsController
   rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
     redirect_to root_path, flash: { error: "Required parameter missing: #{parameter_missing_exception.param}" }

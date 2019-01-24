@@ -19,5 +19,8 @@
             .cell= yield :page_header
     .grid-container
       - flash.each do |name, msg|
-        .callout.margin-top-1{ class: flash_classes[name] }= msg
+        .callout.margin-top-1{ class: flash_classes[name], data: { closable: true } }
+          %button.close-button{ 'aria-label': 'Dismiss Alert', data: { close: true } }
+            %i.fas.fa-times
+          = msg
       = yield

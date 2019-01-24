@@ -1,2 +1,21 @@
-%h1 Needs#show
-%p Find me in app/views/needs/show.html.haml
+- content_for :page_header do
+  .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
+.grid-x.grid-padding-x.align-center
+  .cell.small-6.medium-4.large-3 Office
+  .cell.small-6.medium-4.large-3= @need.office.name
+.grid-x.grid-padding-x.align-center
+  .cell.small-6.medium-4.large-3 Preferred Language
+  .cell.small-6.medium-4.large-3= @need.preferred_language.name
+.grid-x.grid-padding-x.align-center
+  .cell.small-6.medium-4.large-3 Start Time
+  .cell.small-6.medium-4.large-3= @need.start_at.strftime('%l:%M%P on %A, %b %d')
+.grid-x.grid-padding-x.align-center
+  .cell.small-6.medium-4.large-3 Number of Children
+  .cell.small-6.medium-4.large-3= @need.number_of_children
+.grid-x.grid-padding-x.align-center
+  .cell.small-6.medium-4.large-3
+    = link_to edit_need_path(@need) do
+      %button.button.secondary Edit
+  .cell.small-6.medium-4.large-3
+    = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
+      %button.button.alert Delete

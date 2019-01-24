@@ -17,7 +17,10 @@ Rails.start()
 Turbolinks.start()
 
 $(document).on('turbolinks:load', function() {
-  $('select').selectize()
+  $('select.single').selectize()
+  $('select.multiple').selectize({
+    maxItems: null
+  })
   Inputmask().mask(document.querySelectorAll('input'))
 })
 

@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 if Rails.env.development?
   address = Address.where(
-    street: "800 K St NW",
-    city: "Washington",
-    state: "DC",
-    postal_code: "20001",
-    latitude: "38.90204",
-    longitude: "-77.02284"
+    street: '800 K St NW',
+    city: 'Washington',
+    state: 'DC',
+    postal_code: '20001',
+    latitude: '38.90204',
+    longitude: '-77.02284'
   ).first_or_initialize
   # Will save Address with Office below
 
@@ -16,7 +18,7 @@ if Rails.env.development?
   age_range.save! unless age_range.persisted?
 
   office = Office.where(
-    name: "Post Office of Washington DC"
+    name: 'Post Office of Washington DC'
   ).first_or_initialize
   unless office.persisted?
     address.skip_api_validation!
@@ -28,7 +30,7 @@ if Rails.env.development?
     first_name: 'Postal',
     last_name: 'Worker',
     email: ENV.fetch('SEED_ADMIN_EMAIL', 'admin@example.com'),
-    role: 'admin',
+    role: 'admin'
   ).first_or_initialize
   unless user.persisted?
     user.password = ENV.fetch('SEED_ADMIN_PASSWORD', 'Password1')
