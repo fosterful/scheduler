@@ -2,17 +2,17 @@
   = current_user.name
   %i.fas.fa-caret-down
 .dropdown-pane#profile-dropdown{ data: { dropdown: true, position: 'bottom', alignment: 'right' } }
-  = link_to shifts_path do
-    .grid-x.menu-item
-      .cell.small-9.text-right My Shifts
-      .cell.small-2.small-offset-1
-        %i.fas.fa-user-circle
   - if current_user.admin?
     = link_to admin_users_path do
       .grid-x.menu-item
         .cell.small-9.text-right Admin
         .cell.small-2.small-offset-1
           %i.fas.fa-user-cog
+  = link_to shifts_path do
+    .grid-x.menu-item
+      .cell.small-9.text-right My Shifts
+      .cell.small-2.small-offset-1
+        %i.fas.fa-user-circle
   = link_to edit_user_registration_path do
     .grid-x.menu-item
       .cell.small-9.text-right Settings

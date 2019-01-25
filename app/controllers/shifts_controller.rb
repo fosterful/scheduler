@@ -4,6 +4,9 @@ class ShiftsController < ApplicationController
   def index
     authorize Shift
     @shifts = policy_scope(Shift)
+                .includes(need: :office)
+                .order(:start_at)
+                .where('shifts.start_at >= ?', Time.zone.now)
   end
 
   def new

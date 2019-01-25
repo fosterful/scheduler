@@ -3,7 +3,7 @@
 class ShiftPolicy < ApplicationPolicy
 
   def index?
-    record.user == user
+    !user.social_worker?
   end
 
   def create?

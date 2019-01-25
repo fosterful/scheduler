@@ -1,0 +1,6 @@
+- content_for :page_header do
+  .header-text My Shifts
+- @shifts.each do |shift|
+  .grid-x.text-center
+    .cell.small-6= shift.start_at.strftime('%l:%M%P on %A, %b %d')
+    .cell.small-6= shift.need.office.name
