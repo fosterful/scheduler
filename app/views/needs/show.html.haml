@@ -49,10 +49,11 @@
             = form_for shift, url: need_shift_path(@need, shift), method: :patch do |f|
               = f.hidden_field(:user_id, value: current_user.id)
               = f.submit 'Assign Self', class: 'button success'
-.grid-x.grid-padding-x.align-center
-  .cell.small-6.medium-4.large-3
-    = link_to edit_need_path(@need) do
-      %button.button.secondary Edit
-  .cell.small-6.medium-4.large-3
-    = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
-      %button.button.alert Delete
+- if policy(@need).edit?
+  .grid-x.grid-padding-x.align-center
+    .cell.small-6.medium-4.large-3
+      = link_to edit_need_path(@need) do
+        %button.button.secondary Edit
+    .cell.small-6.medium-4.large-3
+      = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
+        %button.button.alert Delete
