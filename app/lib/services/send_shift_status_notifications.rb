@@ -6,8 +6,8 @@ module Services
     include Concord.new(:shift)
     include Adamantium::Flat
 
-    delegate :need, :duration, :user
-             to: :shift
+    # delegate :need, :duration, :user
+    #          to: :shift
 
     def call
       Rails.logger.info("Shift status changed")
