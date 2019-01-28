@@ -18,15 +18,15 @@ class ShiftsController < ApplicationController
   end
 
   def update
-    authorize Shift
-    @need = policy_scope(Need).find(params[:need_id])
     @shift = policy_scope(Shift).find(params[:id])
+    @need = policy_scope(Need).find(params[:need_id])
+    authorize @shift
     @shift.assign_attributes(permitted_attributes(@shift))
     if @shift.save
       Services::SendShiftStatusNotifications.call(@shift)
       flash[:notice] = 'Shift Claimed!'
     else
-      flash[:notice] = 'Whoops! something went wrong.'
+      flash[:alert] = 'Whoops! something went wrong.'
     end
     redirect_to @need
   end
