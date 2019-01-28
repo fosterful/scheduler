@@ -23,6 +23,7 @@ class ShiftsController < ApplicationController
     @shift = policy_scope(Shift).find(params[:id])
     @shift.assign_attributes(permitted_attributes(@shift))
     if @shift.save
+      Services::SendShiftStatusNotifications.call(@shift)
       flash[:notice] = 'Shift Claimed!'
     else
       flash[:notice] = 'Whoops! something went wrong.'
@@ -31,5 +32,6 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
+    authorize Shift
   end
 end
