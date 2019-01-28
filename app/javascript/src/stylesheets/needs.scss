@@ -19,11 +19,11 @@
 .shift {
 
   &.claimed {
-    background-color: $secondary-color;
+    color: $secondary-color;
     opacity: 0.25;
     cursor: not-allowed;
   }
   &.unclaimed {
-    background-color: $success-color;
+    color: $success-color;
   }
 }

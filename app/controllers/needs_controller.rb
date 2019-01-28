@@ -8,7 +8,7 @@ class NeedsController < ApplicationController
 
   def show
     @need = policy_scope(Need).includes(:shifts).find(params[:id])
-    @shifts = @need.shifts
+    @shifts = @need.shifts.order(:start_at)
     authorize @need
   end
 

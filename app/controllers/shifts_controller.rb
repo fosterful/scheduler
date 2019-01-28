@@ -10,12 +10,24 @@ class ShiftsController < ApplicationController
   end
 
   def new
+    authorize Shift
   end
 
   def create
+    authorize Shift
   end
 
   def update
+    authorize Shift
+    @need = policy_scope(Need).find(params[:need_id])
+    @shift = policy_scope(Shift).find(params[:id])
+    @shift.assign_attributes(permitted_attributes(@shift))
+    if @shift.save
+      flash[:notice] = 'Shift Claimed!'
+    else
+      flash[:notice] = 'Whoops! something went wrong.'
+    end
+    redirect_to @need
   end
 
   def destroy
