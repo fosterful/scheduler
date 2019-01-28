@@ -16,6 +16,10 @@ RSpec.describe "Shifts", type: :request do
   end
 
   describe '#update' do
+    it 'redirects to the associated need' do
+      put need_shift_path(need, shift), params: {}
+      expect(response).to redirect_to(need_path(need))
+    end
     context 'success' do
       it 'sets the flash to display the successful change message' do
         expect(Services::SendShiftStatusNotifications).to receive(:call).and_return(true)
