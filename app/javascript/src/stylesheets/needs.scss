@@ -20,7 +20,6 @@
 
   &.claimed {
     color: $secondary-color;
-    opacity: 0.25;
     cursor: not-allowed;
   }
   &.unclaimed {

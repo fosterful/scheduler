@@ -27,8 +27,16 @@
       .cell= @need.preferred_language.name
 
 .grid-x
-  - @shifts.each do |shift|
-    .cell.button.hollow.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed' }
+  - @shifts.each_with_index do |shift, i|
+    - if policy(shift).create?
+      .small.reveal{ id: "shiftModal#{i}", data: { reveal: true } }
+        %h4 Update the #{shift.start_at.strftime('%l:%M%P')} shift
+        = form_for shift, url: need_shift_path(@need, shift), method: :patch do |f|
+          = f.collection_select :user_id, shift.need.office.users, :id, :name
+          = f.submit 'Update', class: 'button success'
+        %button.close-button{ data: { close: true } }
+          %i.fas.fa-times
+    .cell.button.hollow.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed', data: { open: "shiftModal#{i}" } }
       .grid-x.grid-padding-x.grid-padding-y
         .cell.small-3= shift.duration
         .cell.small-3= shift.start_at.strftime('%I:%M%p')
