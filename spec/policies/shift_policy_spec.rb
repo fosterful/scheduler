@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ShiftPolicy do
   let(:creator) { build :user, role: 'social_worker' }
-  let(:record) { build :shift }
+  let(:record) { build :shift, user: creator }
 
   subject { described_class.new(user, record) }
 
