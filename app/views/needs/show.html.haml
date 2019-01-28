@@ -31,7 +31,7 @@
     - if policy(shift).create?
       .small.reveal{ id: "shiftModal#{i}", data: { reveal: true } }
         %h4 Update the #{shift.start_at.strftime('%l:%M%P')} shift
-        = form_for shift, url: need_shift_path(@need, shift), method: :patch do |f|
+        = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
           = f.collection_select :user_id, shift.need.office.users, :id, :name
           = f.submit 'Update', class: 'button success'
         %button.close-button{ data: { close: true } }
@@ -42,11 +42,11 @@
         .cell.small-3= shift.start_at.strftime('%I:%M%p')
         .cell.small-6
           - if shift.user_id == current_user.id
-            = form_for shift, url: need_shift_path(@need, shift), method: :patch do |f|
+            = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
               = f.hidden_field(:user_id, value: nil)
               = f.submit 'Unassign Self', class: 'button alert'
           - if shift.user_id == nil
-            = form_for shift, url: need_shift_path(@need, shift), method: :patch do |f|
+            = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
               = f.hidden_field(:user_id, value: current_user.id)
               = f.submit 'Assign Self', class: 'button success'
 - if policy(@need).edit?
