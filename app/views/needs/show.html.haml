@@ -25,7 +25,7 @@
         %h4
           %strong Preferred Language
       .cell= @need.preferred_language.name
-  
+
 .grid-x
   - @shifts.each do |shift|
     .cell.button.shift{ class: shift.user_id ? 'claimed' : 'unclaimed' }
