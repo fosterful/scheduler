@@ -3,18 +3,23 @@
 class ShiftsController < ApplicationController
   def index
     authorize Shift
-    @shifts = policy_scope(Shift)
-                .includes(need: :office)
-                .order(:start_at)
-                .where('shifts.start_at >= ?', Time.zone.now)
   end
 
   def new
-    authorize Shift
+    @need = policy_scope(Need).find(params[:need_id])
+    @shift = @need.shifts.build
+    authorize @shift
   end
 
   def create
-    authorize Shift
+    @need = policy_scope(Need).find(params[:need_id])
+    @shift = @need.shifts.build(permitted_attributes(Shift))
+    authorize @shift
+    if @shift.save
+      redirect_to need_path(@need)
+    else
+      render(:new)
+    end
   end
 
   def update
@@ -32,6 +37,7 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
-    authorize Shift
+    @shift = policy_scope(Shift).find(params[:id])
+    authorize @shift
   end
 end

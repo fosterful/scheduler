@@ -26,8 +26,8 @@
           %strong Preferred Language
       .cell= @need.preferred_language.name
 
-.grid-x
-  - @shifts.each_with_index do |shift, i|
+- @shifts.each_with_index do |shift, i|
+  .grid-x.align-spaced.align-middle
     - if policy(shift).create?
       .small.reveal{ id: "shiftModal#{i}", data: { reveal: true } }
         %h4 Update the #{shift.start_at.strftime('%l:%M%P')} shift
@@ -36,19 +36,27 @@
           = f.submit 'Update', class: 'button success'
         %button.close-button{ data: { close: true } }
           %i.fas.fa-times
-    .cell.button.hollow.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed', data: { open: "shiftModal#{i}" } }
+    .cell.small-12.medium-8.button.hollow.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed', data: { open: "shiftModal#{i}" } }
       .grid-x.grid-padding-x.grid-padding-y
-        .cell.small-3= shift.duration
         .cell.small-3= shift.start_at.strftime('%I:%M%p')
-        .cell.small-6
-          - if shift.user_id == current_user.id
-            = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
-              = f.hidden_field(:user_id, value: nil)
-              = f.submit 'Unassign Self', class: 'button alert'
-          - if shift.user_id == nil
-            = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
-              = f.hidden_field(:user_id, value: current_user.id)
-              = f.submit 'Assign Self', class: 'button success'
+    .cell.small-12.medium-4
+      .button-group.align-right
+        - if shift.user_id == current_user.id
+          = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
+            = f.hidden_field(:user_id, value: nil)
+            = f.submit 'Unassign Self', class: 'button alert'
+        - if shift.user_id == nil
+          = link_to need_shift_path(@need, shift, shift: { user_id: current_user.id }), method: :put do
+            %button.button.success Link Assign
+          = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
+            = f.hidden_field(:user_id, value: current_user.id)
+            = f.submit 'Assign Self', class: 'button success'
+        - if current_user.admin? || current_user.scheduler?
+          %button.button.secondary{ data: { open: "shiftModal#{i}" } } Edit User
+          %button.button.alert Delete Shift
+.grid-x
+  .cell.small-12
+    %button.button.success Add a Thing
 - if policy(@need).edit?
   .grid-x.grid-padding-x.align-center
     .cell.small-6.medium-4.large-3

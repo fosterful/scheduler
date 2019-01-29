@@ -9,10 +9,36 @@ RSpec.describe "Shifts", type: :request do
   let(:need) { create :need_with_shifts, user: user, office: office }
   let!(:shift) { need.shifts.first }
   before { sign_in volunteer }
+
   describe '#new' do
+    context 'success' do
+      it 'renders the view if the user is an admin' do
+      end
+      it 'renders the view if the user is in the office and a scheduler' do
+      end
+    end
+    context 'failure' do
+      it 'redirects to something' do
+        get new_need_shift_path(need)
+        expect(response).to be nil
+      end
+    end
   end
 
   describe '#create' do
+    context 'success' do
+      it 'is redirects to the need' do
+        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
+        expect(response).to redirect_to(assigns(:need))
+      end
+    end
+
+    context 'failure' do
+      it 'renders the new view' do
+        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe '#update' do
@@ -37,6 +63,18 @@ RSpec.describe "Shifts", type: :request do
   end
 
   describe '#destroy' do
+    context 'success' do
+      it 'is redirects to the need' do
+        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
+        expect(response).to redirect_to(assigns(:need))
+      end
+    end
+    context 'failure' do
+      it 'is redirects to the need' do
+        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
+        expect(response).to redirect_to(assigns(:need))
+      end
+    end
   end
 
 end
