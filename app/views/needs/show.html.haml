@@ -48,9 +48,6 @@
         - if shift.user_id == nil
           = link_to need_shift_path(@need, shift, shift: { user_id: current_user.id }), method: :put do
             %button.button.success Link Assign
-          = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
-            = f.hidden_field(:user_id, value: current_user.id)
-            = f.submit 'Assign Self', class: 'button success'
         - if current_user.admin? || current_user.scheduler?
           %button.button.secondary{ data: { open: "shiftModal#{i}" } } Edit User
           %button.button.alert Delete Shift
