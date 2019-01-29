@@ -3,7 +3,7 @@
 class ShiftPolicy < ApplicationPolicy
 
   def index?
-    record.user == user
+    false # for now until we nail down 'My Shifts' section
   end
 
   def create?
