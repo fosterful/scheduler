@@ -1,64 +1,73 @@
 - content_for :page_header do
   .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
-.grid-x.grid-padding-y
-  .cell.small-12.medium-6.large-3
-    .grid-x.text-center
-      .cell
-        %h4
-          %strong Number of Children
-      .cell= @need.number_of_children
-  .cell.small-12.medium-6.large-3
-    .grid-x.text-center
-      .cell
-        %h4
-          %strong Start Time
-      .cell= @need.start_at.strftime('%l:%M%P on %A, %b %d')
-  .cell.small-12.medium-6.large-3
-    .grid-x.text-center
-      .cell
-        %h4
-          %strong Office
-      .cell= @need.office.name
-  .cell.small-12.medium-6.large-3
-    .grid-x.text-center
-      .cell
-        %h4
-          %strong Preferred Language
-      .cell= @need.preferred_language.name
-
-- @shifts.each_with_index do |shift, i|
-  .grid-x.align-spaced.align-middle
-    - if policy(shift).create?
-      .small.reveal{ id: "shiftModal#{i}", data: { reveal: true } }
-        %h4 Update the #{shift.start_at.strftime('%l:%M%P')} shift
-        = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
-          = f.collection_select :user_id, shift.need.office.users, :id, :name
-          = f.submit 'Update', class: 'button success'
-        %button.close-button{ data: { close: true } }
-          %i.fas.fa-times
-    .cell.small-12.medium-8.button.hollow.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed', data: { open: "shiftModal#{i}" } }
-      .grid-x.grid-padding-x.grid-padding-y
-        .cell.small-3= shift.start_at.strftime('%I:%M%p')
-    .cell.small-12.medium-4
-      .button-group.align-right
-        - if shift.user_id == current_user.id
-          = form_for shift, url: need_shift_path(@need, shift), method: :put do |f|
-            = f.hidden_field(:user_id, value: nil)
-            = f.submit 'Unassign Self', class: 'button alert'
-        - if shift.user_id == nil
-          = link_to need_shift_path(@need, shift, shift: { user_id: current_user.id }), method: :put do
-            %button.button.success Link Assign
-        - if current_user.admin? || current_user.scheduler?
-          %button.button.secondary{ data: { open: "shiftModal#{i}" } } Edit User
-          %button.button.alert Delete Shift
-.grid-x
-  .cell.small-12
-    %button.button.success Add a Thing
 - if policy(@need).edit?
-  .grid-x.grid-padding-x.align-center
-    .cell.small-6.medium-4.large-3
-      = link_to edit_need_path(@need) do
-        %button.button.secondary Edit
-    .cell.small-6.medium-4.large-3
-      = link_to need_path(@need), method: :delete, data: { confirm: 'Are you sure you want to destroy this Need?' } do
-        %button.button.alert Delete
+  .grid-x.grid-padding-x.align-right
+    .cell.small-12
+      .button-group.align-right.stacked-for-small
+        = link_to 'Manage Shifts', need_shifts_path(@need), class: 'button primary'
+        = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
+        = link_to 'Delete Need', need_path(@need), method: :delete, class: 'button alert', data: { confirm: 'Are you sure you want to destroy this Need?' }
+%h2 Details
+.grid-x.align-center
+  .cell.small-12.medium-8.large-6
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Number of Children
+      .cell.small-7.text-center
+        %strong= @need.number_of_children
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Start Time
+      .cell.small-7.text-center
+        %strong= @need.start_at.strftime('%l:%M%P')
+        %br
+        = @need.start_at.strftime('%A, %b %d')
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Office
+      .cell.small-7.text-center
+        %strong= @need.office.name
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Preferred Language
+      .cell.small-7.text-center
+        %strong= @need.preferred_language.name
+%h2 Shifts
+.shifts-container
+  - @shifts.each do |shift|
+    %hr
+    .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
+      .cell.small-12.medium-9.large-10.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed' }
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            %strong= shift.start_at.strftime('%I:%M%p')
+      .cell.small-12.medium-3.large-2
+        - if shift.user_id == current_user.id
+          = link_to need_shift_path(@need, shift, shift: { user_id: nil }), method: :put, class: 'button alert expanded' do
+            .grid-x.hide-for-small-only.align-middle
+              .cell.small-6.small-text-right.medium-3
+                %i.fas.fa-calendar-minus
+              .cell.small-6.medium-9.text-left
+                Release Shift
+            .grid-x.show-for-small-only
+              .cell
+                %i.fas.fa-calendar-minus
+                Release Shift
+        - if shift.user_id == nil
+          = link_to need_shift_path(@need, shift, shift: { user_id: current_user.id }), method: :put, class: 'button success expanded' do
+            .grid-x.hide-for-small-only.align-middle
+              .cell.small-6.small-text-right.medium-3
+                %i.fas.fa-calendar-plus
+              .cell.small-6.small-text-left.medium-9.text-left
+                Take Shift
+            .grid-x.show-for-small-only
+              .cell
+                %i.fas.fa-calendar-plus
+                Take Shift
+  = link_to new_need_shift_path(@need) do
+    .grid-x.grid-margin-y.grid-margin-x
+      .cell.small-12.medium-9.large-10.shift.add-shift
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            Add Shift
+            %i.fas.fa-plus
