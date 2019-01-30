@@ -1,2 +1,4 @@
-%h1 Shifts#new
-%p Find me in app/views/shifts/new.html.haml
+- content_for :page_header do
+  .header-text Add a Shift
+= form_for @shift, url: need_shifts_path(@need) do |f|
+  = f.submit 'Add Shift', class: 'button success'
