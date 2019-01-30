@@ -33,8 +33,8 @@
 .grid-x
   .cell
     = f.label :race do
-     Preferred Culture
-     = f.collection_select :race, Race.all, :id, :name, class: 'single'
+      Preferred Culture
+      = f.collection_select :race, Race.all, :id, :name, class: 'single'
 .grid-x
   .cell
     = f.label :preferred_language_id do
