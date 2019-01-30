@@ -2,7 +2,7 @@
 
 class ShiftsController < ApplicationController
   def index
-    @need = policy_scope(Need).includes(shifts: :user).find(params[:need_id])
+    @need = policy_scope(Need).includes(shifts: :user).includes(:office).find(params[:need_id])
     @shifts = @need.shifts.order(:start_at)
     authorize @shifts.first
   end
@@ -35,7 +35,7 @@ class ShiftsController < ApplicationController
     else
       flash[:alert] = 'Whoops! something went wrong.'
     end
-    redirect_to @need
+    redirect_to params[:redirect_to] || @need
   end
 
   def destroy
