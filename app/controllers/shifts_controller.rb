@@ -12,10 +12,11 @@ class ShiftsController < ApplicationController
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
-      redirect_to need_shifts_path(@need)
+      flash[:notice] = 'Shift Successfully Created!'
     else
-      render(:new)
+      flash[:alert] = 'Whoops! something went wrong.'
     end
+    redirect_to need_shifts_path(@need)
   end
 
   def update

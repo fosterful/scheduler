@@ -17,27 +17,19 @@ RSpec.describe "Shifts", type: :request do
     end
   end
 
-  describe '#new' do
-    before { sign_in user }
-    it 'renders the view ' do
-      get new_need_shift_path(need)
-      expect(response).to render_template(:new)
-    end
-  end
-
   describe '#create' do
     before { sign_in user }
     context 'success' do
       it 'is redirects to the need' do
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
-        expect(response).to redirect_to(assigns(:need))
+        expect(response).to redirect_to(need_shifts_path(need))
       end
     end
     context 'failure' do
       it 'renders the new view' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
-        expect(response).to render_template(:new)
+        expect(flash[:alert]).to eql('Whoops! something went wrong.')
       end
     end
   end
