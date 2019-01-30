@@ -16,13 +16,25 @@
   display: inline-block;
 }
 
-.shift {
-
-  &.claimed {
-    color: $secondary-color;
-    cursor: not-allowed;
+.shifts-container {
+  hr {
+    @include first-child   {
+      display: none;
+    }
   }
-  &.unclaimed {
-    color: $success-color;
+  .shift {
+    color: $white;
+    border-radius: $global-radius;
+    &.claimed {
+      background-color:lighten($secondary-color, 15%);
+    }
+    &.unclaimed {
+      background-color: $success-color;
+    }
+    &.add-shift {
+      color: lighten($secondary-color, 15%);
+      background-color: $white;
+      border: 1px dashed lighten($secondary-color, 15%);
+    }
   }
 }
