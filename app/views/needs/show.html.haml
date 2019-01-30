@@ -1,12 +1,10 @@
 - content_for :page_header do
   .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
 - if policy(@need).edit?
-  .grid-x.grid-padding-x.align-right
-    .cell.small-12
-      .button-group.align-right.stacked-for-small
-        = link_to 'Manage Shifts', need_shifts_path(@need), class: 'button primary'
-        = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
-        = link_to 'Delete Need', need_path(@need), method: :delete, class: 'button alert', data: { confirm: 'Are you sure you want to destroy this Need?' }
+  - content_for :nav_buttons do
+    = link_to 'Manage Shifts', need_shifts_path(@need), class: 'button primary'
+    = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
+    = link_to 'Delete Need', need_path(@need), method: :delete, class: 'button alert', data: { confirm: 'Are you sure you want to destroy this Need?' }
 %h2 Details
 .grid-x.align-center
   .cell.small-12.medium-8.large-6

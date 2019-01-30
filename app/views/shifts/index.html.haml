@@ -1,5 +1,7 @@
 - content_for :page_header do
   .header-text Shift Management
+- content_for :nav_buttons do
+  = link_to 'Back', need_path(@need), class: 'button primary'
 .shifts-container
   = link_to new_need_shift_path(@need) do
     .grid-x.grid-margin-y.grid-margin-x

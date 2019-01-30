@@ -17,6 +17,10 @@
         .grid-container
           .grid-x.grid-padding-x
             .cell= yield :page_header
+    - if content_for :nav_buttons
+      .grid-container
+        .button-group.align-right.stacked-for-small
+          = yield  :nav_buttons
     .grid-container
       - flash.each do |name, msg|
         .callout.margin-top-1{ class: flash_classes[name], data: { closable: true } }
