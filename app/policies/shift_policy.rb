@@ -2,12 +2,12 @@
 
 class ShiftPolicy < ApplicationPolicy
 
-  def index?
-    false # for now until we nail down 'My Shifts' section
-  end
-
   def create?
     user.admin? || (user_in_office? && user.scheduler?)
+  end
+
+  def index?
+    create?
   end
 
   def new?
