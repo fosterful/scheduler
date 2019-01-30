@@ -1,7 +1,7 @@
 - content_for :page_header do
   .header-text Shift Management
 - content_for :nav_buttons do
-  = link_to 'Back', need_path(@need), class: 'button primary'
+  = link_to 'Back to Need', need_path(@need), class: 'button primary'
 .shifts-container
   = link_to new_need_shift_path(@need) do
     .grid-x.grid-margin-y.grid-margin-x
@@ -29,7 +29,7 @@
         .reveal{ id: "volunteerModal#{i}", data: { reveal: true } }
           %button.close-button{ data: { close: true }, aria: { label: 'Close Modal' } }
             %i.fas.fa-times
-          = form_for shift, url: need_shift_path(@need, shift), method: :patch, class: 'user-select-form' do |f|
+          = form_for shift, url: need_shift_path(@need, shift, redirect_to: need_shifts_path(@need)), method: :patch, class: 'user-select-form' do |f|
             = f.collection_select :user_id, @need.office.users.volunteers, :id, :name
             = f.submit 'Update', class: 'button success'
   = link_to new_need_shift_path(@need) do
