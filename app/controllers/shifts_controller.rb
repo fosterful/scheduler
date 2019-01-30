@@ -7,18 +7,12 @@ class ShiftsController < ApplicationController
     authorize @shifts.first
   end
 
-  def new
-    @need = policy_scope(Need).includes(:shifts).find(params[:need_id])
-    @shift = @need.shifts.build
-    authorize @shift
-  end
-
   def create
     @need = policy_scope(Need).find(params[:need_id])
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
-      redirect_to need_path(@need)
+      redirect_to need_shifts_path(@need)
     else
       render(:new)
     end

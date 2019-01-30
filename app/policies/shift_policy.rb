@@ -10,10 +10,6 @@ class ShiftPolicy < ApplicationPolicy
     create?
   end
 
-  def new?
-    create?
-  end
-
   def update?
     create? || record.user == user || (user_in_office? && record.user.nil?)
   end
