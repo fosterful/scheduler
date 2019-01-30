@@ -34,7 +34,7 @@ class NeedPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:office_id, :preferred_language_id, :number_of_children, age_range_ids: []]
+    [:office_id, :race_id, :preferred_language_id, :number_of_children, age_range_ids: []]
   end
 
   class Scope < Scope
