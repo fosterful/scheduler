@@ -1,0 +1,32 @@
+- content_for :page_header do
+  .header-text Shift Management
+.shifts-container
+  = link_to new_need_shift_path(@need) do
+    .grid-x.grid-margin-y.grid-margin-x
+      .cell.small-12.medium-6.shift.add-shift
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            Add Shift
+            %i.fas.fa-plus
+  - @shifts.each do |shift|
+    %hr
+    .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
+      .cell.small-12.medium-6.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed' }
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            %strong= shift.start_at.strftime('%I:%M%p')
+            - if shift.user
+              \-
+              = link_to shift.user.name, admin_user_path(shift.user)
+      .cell.small-12.medium-6
+        .button-group.stacked-for-small
+          %button.button.success Assign User
+          = link_to 'Delete Shift', need_shift_path(@need, shift), method: :delete, class: 'button alert'
+        -# Buttons go here
+  = link_to new_need_shift_path(@need) do
+    .grid-x.grid-margin-y.grid-margin-x
+      .cell.small-12.medium-6.shift.add-shift
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            Add Shift
+            %i.fas.fa-plus
