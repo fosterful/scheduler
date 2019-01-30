@@ -3,13 +3,13 @@
 - content_for :nav_buttons do
   = link_to 'Back to Need', need_path(@need), class: 'button primary'
 .shifts-container
-  = link_to new_need_shift_path(@need) do
+  = link_to need_shifts_path(@need, shift: { start_at: @shifts.first.start_at - 1.hour, duration: 60 }), method: :post do
     .grid-x.grid-margin-y.grid-margin-x
       .cell.small-12.medium-6.shift.add-shift
         .grid-x.grid-padding-x.grid-padding-y
           .cell.text-center
-            Add Shift
             %i.fas.fa-plus
+            Add Shift Before
   - @shifts.each_with_index do |shift, i|
     %hr
     .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
@@ -32,10 +32,10 @@
           = form_for shift, url: need_shift_path(@need, shift, redirect_to: need_shifts_path(@need)), method: :patch, class: 'user-select-form' do |f|
             = f.collection_select :user_id, @need.office.users.volunteers, :id, :name
             = f.submit 'Update', class: 'button success'
-  = link_to new_need_shift_path(@need) do
+  = link_to need_shifts_path(@need, shift: { start_at: @shifts.last.start_at + @shifts.last.duration.minutes, duration: 60 }), method: :post do
     .grid-x.grid-margin-y.grid-margin-x
       .cell.small-12.medium-6.shift.add-shift
         .grid-x.grid-padding-x.grid-padding-y
           .cell.text-center
-            Add Shift
             %i.fas.fa-plus
+            Add Shift After
