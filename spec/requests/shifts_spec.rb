@@ -4,37 +4,38 @@ require "rails_helper"
 
 RSpec.describe "Shifts", type: :request do
   let(:office) { create :office }
-  let(:user) { create :user, role: 'admin', offices: [office] }
+  let(:user) { create :user, role: 'coordinator', offices: [office] }
   let(:volunteer) { create :user, role: 'volunteer', offices: [office] }
   let(:need) { create :need_with_shifts, user: user, office: office }
   let!(:shift) { need.shifts.first }
-  before { sign_in volunteer }
+
+  describe '#index' do
+    before { sign_in user }
+    it 'renders the index view' do
+      get need_shifts_path(need)
+      expect(response).to render_template(:index)
+    end
+  end
 
   describe '#new' do
-    context 'success' do
-      it 'renders the view if the user is an admin' do
-      end
-      it 'renders the view if the user is in the office and a scheduler' do
-      end
-    end
-    context 'failure' do
-      it 'redirects to something' do
-        get new_need_shift_path(need)
-        expect(response).to be nil
-      end
+    before { sign_in user }
+    it 'renders the view ' do
+      get new_need_shift_path(need)
+      expect(response).to render_template(:new)
     end
   end
 
   describe '#create' do
+    before { sign_in user }
     context 'success' do
       it 'is redirects to the need' do
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
         expect(response).to redirect_to(assigns(:need))
       end
     end
-
     context 'failure' do
       it 'renders the new view' do
+        expect_any_instance_of(Shift).to receive(:save).and_return(false)
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
         expect(response).to render_template(:new)
       end
@@ -42,8 +43,9 @@ RSpec.describe "Shifts", type: :request do
   end
 
   describe '#update' do
+    before { sign_in volunteer }
     it 'redirects to the associated need' do
-      put need_shift_path(need, shift), params: {}
+      put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
       expect(response).to redirect_to(need_path(need))
     end
     context 'success' do
@@ -63,18 +65,24 @@ RSpec.describe "Shifts", type: :request do
   end
 
   describe '#destroy' do
+    before { sign_in user }
+    it 'redirects to shift index' do
+      delete need_shift_path(need, shift)
+      expect(response).to redirect_to(need_shifts_path(need))
+    end
     context 'success' do
-      it 'is redirects to the need' do
-        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
-        expect(response).to redirect_to(assigns(:need))
+      it 'sets the flash to display the successful change message' do
+        expect(Services::SendShiftStatusNotifications).to receive(:call).and_return(true)
+        delete need_shift_path(need, shift)
+        expect(flash[:notice]).to eql('Shift Successfully Destroyed')
       end
     end
     context 'failure' do
-      it 'is redirects to the need' do
-        post need_shifts_path(need), params: { shift: attributes_for(:shift) }
-        expect(response).to redirect_to(assigns(:need))
+      it 'sets the flash to display an error message' do
+        expect_any_instance_of(Shift).to receive(:destroy).and_return(false)
+        delete need_shift_path(need, shift)
+        expect(flash[:alert]).to eql('Whoops! something went wrong.')
       end
     end
   end
-
 end
