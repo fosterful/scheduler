@@ -6,7 +6,7 @@ class ShiftPolicy < ApplicationPolicy
     user.admin? || (user_in_office? && user.scheduler?)
   end
 
-  def new?
+  def index?
     create?
   end
 

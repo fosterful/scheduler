@@ -8,6 +8,16 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be(true)
   end
 
+  describe '.volunteers' do
+    let!(:volunteer) { create :user, role: 'volunteer' }
+    let!(:coordinator) { create :user, role: 'coordinator' }
+    let!(:social_worker) { create :user, role: 'social_worker' }
+    it 'returns a list of users that are volunteers or coordinators' do
+      expect(described_class.volunteers).to contain_exactly(volunteer, coordinator)
+      expect(described_class.volunteers).not_to include(social_worker)
+    end
+  end
+
   describe '{role}?' do
     it 'checks the role' do
       expect(user.volunteer?).to eq(true)

@@ -1,7 +1,7 @@
 .title-bar.align-middle.align-justify{ data: { responsive_toggle: 'responsive-menu', hide_for: 'medium' } }
   .top-bar-left
     = link_to root_path do
-      = image_pack_tag 'images/omd-logo.png', class: 'logo'
+      = image_pack_tag 'images/omd-logo-horiz.png', class: 'logo'
   .top-bar-right
     %button.menu-icon{ type: 'button', data: { toggle: 'responsive-menu' } }
 .nav
@@ -9,7 +9,7 @@
     .top-bar#responsive-menu
       .top-bar-left
         = link_to root_path do
-          = image_pack_tag 'images/omd-logo.png', class: 'logo'
+          = image_pack_tag 'images/omd-logo-horiz.png', class: 'logo'
       .top-bar-right
         - if user_signed_in?
           - if policy(Need).new?

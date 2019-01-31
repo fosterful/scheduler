@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   resources :blockouts, except: %i[index new edit show]
   resources :needs do
-    resources :shifts, only: %i[new create update destroy]
+    resources :shifts, except: %i[new]
   end
 
   root to: 'needs#index'

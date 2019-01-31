@@ -12,7 +12,29 @@
   width: auto;
   display: inline-block;
 }
-
 .duration-description {
   display: inline-block;
+}
+
+.shifts-container {
+  hr {
+    @include first-child   {
+      display: none;
+    }
+  }
+  .shift {
+    color: $white;
+    border-radius: $global-radius;
+    &.claimed {
+      background-color:lighten($secondary-color, 15%);
+    }
+    &.unclaimed {
+      background-color: $success-color;
+    }
+    &.add-shift {
+      color: lighten($secondary-color, 15%);
+      background-color: $white;
+      border: 1px dashed lighten($secondary-color, 15%);
+    }
+  }
 }
