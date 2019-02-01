@@ -58,7 +58,10 @@ class User < ApplicationRecord
   validate :has_at_least_one_office
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
-  scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
+  scope :social_workers, -> { where(role: 'social_worker') }
+  scope :coordinators, -> { where(role: 'coordinator') }
+  scope :volunteers, -> {  where(role: 'volunteer') }
+  scope :volunteerable, -> { volunteers.or(coordinators) }
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
