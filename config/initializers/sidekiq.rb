@@ -1,5 +1,5 @@
 # # frozen_string_literal: true
-credentials = Rails.application.credentials.redis[Rails.env.to_sym] || {}
+credentials = Rails.application.credentials.redis[Rails.env.to_sym] || { host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db_num: ENV['REDIS_DB_NUM'] }
 
 def build_redis_url(redis_config)
   "redis://#{redis_config[:host]}:#{redis_config[:port]}/#{redis_config[:db_num]}"
