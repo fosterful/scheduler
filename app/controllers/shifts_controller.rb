@@ -12,6 +12,7 @@ class ShiftsController < ApplicationController
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
+      Services::SendShiftStatusNotifications.call(@shift, :created, need_url(@need))
       flash[:notice] = 'Shift Successfully Created!'
     else
       flash[:alert] = 'Whoops! something went wrong.'
