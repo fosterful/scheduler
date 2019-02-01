@@ -4,7 +4,6 @@ class SendTextMessageWorker
   include Sidekiq::Worker
 
   def perform(number, message)
-    # TODO: Make me send text messages :-)
-    Rails.logger.info("Sending text to #{number}: #{message}")
+    $twilio.api.account.messages.create(from: '+15005550006', to: number, body: message)
   end
 end
