@@ -1,7 +1,10 @@
 version: '3'
 services:
   app:
-    build: .
+    build:
+      context: ./docker/ruby
+      args:
+        - INSTALL_PG_CLIENT=true
     command: rails server -p 3000 -b '0.0.0.0'
     volumes:
       - .:/app
@@ -11,6 +14,7 @@ services:
       - "1080:1080"
     depends_on:
       - postgres
+      - redis
     entrypoint: /app/dev-entrypoint
     tty: true
     stdin_open: true
@@ -19,7 +23,10 @@ services:
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
   webpacker:
-    build: .
+    build:
+      context: ./docker/ruby
+      args:
+        - INSTALL_PG_CLIENT=false
     command: ./bin/webpack-dev-server
     volumes:
       - .:/app
@@ -33,7 +40,30 @@ services:
       - "5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  redis:
+    build:
+      context: ./docker/redis
+      args:
+        - REDIS_VERSION=3.2
+    ports:
+      - "6379"
+    volumes:
+      - redis:/data
+  sidekiq:
+    build:
+      context: ./docker/ruby
+      args:
+        - INSTALL_PG_CLIENT=true
+    command: bundle exec sidekiq
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app
+      - gems:/gems
+    entrypoint: /app/dev-entrypoint
 
 volumes:
   postgres-data:
   gems:
+  redis:

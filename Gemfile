@@ -57,6 +57,7 @@ gem 'procto'
 gem 'adamantium'
 gem 'concord'
 
+gem 'sidekiq'
 gem 'twilio-ruby'
 
 group :development, :test do
