@@ -254,6 +254,8 @@ GEM
       railties (>= 3.2)
       tilt
     redis (4.1.0)
+    redis-namespace (1.6.0)
+      redis (>= 3.0.4)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -394,6 +396,8 @@ DEPENDENCIES
   rails (~> 5.2.2)
   rails-controller-testing
   react-rails
+  redis
+  redis-namespace
   rrule
   rspec-rails
   rspec_junit_formatter
