@@ -11,7 +11,7 @@ module Services
 
       def call
         who_to_send_to.each do |user|
-          SendTextMessageWorker.perform_async(user.phone, [build_message, need_url(need)].join(' '))
+          SendTextMessageWorker.perform_async(user.phone, [build_message, url].join(' '))
         end
       end
 

@@ -22,7 +22,7 @@ class NeedsController < ApplicationController
     @need = current_user.needs.build(permitted_attributes(Need))
     authorize @need
     if @need.update(shifts: Services::BuildNeedShifts.call(@need))
-      Services::NeedNotifications::Create.call(@need)
+      Services::NeedNotifications::Create.call(@need, need_url(@need))
       redirect_to(@need)
     else
       render(:new)

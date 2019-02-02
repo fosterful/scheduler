@@ -31,7 +31,7 @@ RSpec.describe "Needs", type: :request do
     context 'success' do
       it 'is redirects to the need' do
         expect(Services::BuildNeedShifts).to receive(:call).and_return([])
-        expect(Services::SendNeedNotifications).to receive(:call)
+        expect(Services::NeedNotifications::Create).to receive(:call)
         post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
         expect(response).to redirect_to(assigns(:need))
       end
@@ -56,7 +56,7 @@ RSpec.describe "Needs", type: :request do
   describe '#update' do
     context 'success' do
       it 'redirects to the need' do
-        expect(Services::SendNeedNotifications).to receive(:call)
+        expect(Services::NeedNotifications::Update).to receive(:call)
         put need_path(need), params: { need: { number_of_children: 20 } }
         expect(response).to redirect_to(assigns(:need))
       end

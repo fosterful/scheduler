@@ -4,7 +4,7 @@ module Services
   module NeedNotifications
     class Create
       include Procto.call
-      include Concord.new(:need)
+      include Concord.new(:need, :url)
       include Adamantium::Flat
 
       delegate :office, :preferred_language, :user_id,
@@ -15,7 +15,7 @@ module Services
         shifts
           .flat_map { |shift| get_users_for_shift(shift) }
           .uniq
-          .tap { |users| users.each { |user| SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{need_url(need)}") } }
+          .tap { |users| users.each { |user| SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{}") } }
           .tap { |users| need.update(notified_user_ids: notified_user_ids | users.map(&:id)) }
       end
 
