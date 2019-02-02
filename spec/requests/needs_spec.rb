@@ -31,7 +31,7 @@ RSpec.describe "Needs", type: :request do
     context 'success' do
       it 'is redirects to the need' do
         expect(Services::BuildNeedShifts).to receive(:call).and_return([])
-        expect(Services::NeedNotifications::Create).to receive(:call)
+        expect(Services::NeedNotifications::Create).to receive(:call).and_return(true)
         post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
         expect(response).to redirect_to(assigns(:need))
       end
@@ -56,7 +56,7 @@ RSpec.describe "Needs", type: :request do
   describe '#update' do
     context 'success' do
       it 'redirects to the need' do
-        expect(Services::NeedNotifications::Update).to receive(:call)
+        expect(Services::NeedNotifications::Update).to receive(:call).and_return(true)
         put need_path(need), params: { need: { number_of_children: 20 } }
         expect(response).to redirect_to(assigns(:need))
       end
@@ -74,6 +74,7 @@ RSpec.describe "Needs", type: :request do
   describe '#destroy' do
     context 'success' do
       it 'redirects to the index view with success message' do
+        expect(Services::NeedNotifications::Destroy).to receive(:call).and_return(true)
         delete need_path(need)
         expect(response).to redirect_to(needs_path)
         expect(flash[:success]).to eql('Need successfully deleted')

@@ -11,7 +11,7 @@ RSpec.describe Services::NeedNotifications::Create do
 
   let(:user) { build(:user) }
 
-  subject { described_class.call(need, need_url(need)) }
+  subject { described_class.call(need, 'https://test.com') }
 
   it 'does not include the need user/creator' do
     expect(need.office.users).to include(need.user)

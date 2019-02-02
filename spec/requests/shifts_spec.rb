@@ -38,6 +38,7 @@ RSpec.describe "Shifts", type: :request do
   describe '#update' do
     before { sign_in volunteer }
     it 'redirects to the associated need' do
+      expect(Services::ShiftNotifications::Update).to receive(:call).and_return(true)
       put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
       expect(response).to redirect_to(need_path(need))
     end

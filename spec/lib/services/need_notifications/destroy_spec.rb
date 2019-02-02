@@ -11,7 +11,7 @@ RSpec.describe Services::NeedNotifications::Destroy do
 
   let(:user) { build(:user) }
 
-  subject { described_class.call(need) }
+  subject { described_class.call(need, []) }
 
   # it 'does not include the need user/creator' do
   #   expect(need.office.users).to include(need.user)
