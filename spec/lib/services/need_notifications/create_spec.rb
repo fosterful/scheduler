@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::SendNeedNotifications do
+RSpec.describe Services::NeedNotifications::Create do
   let(:need) do
     build(:need).tap do |need|
       need.update(shifts: Services::BuildNeedShifts.call(need))
