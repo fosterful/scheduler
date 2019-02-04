@@ -15,7 +15,7 @@ module Services
         shifts
           .flat_map { |shift| get_users_for_shift(shift) }
           .uniq
-          .tap { |users| users.each { |user| SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{}") } }
+          .tap { |users| users.each { |user| SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{url}") } }
           .tap { |users| need.update(notified_user_ids: notified_user_ids | users.map(&:id)) }
       end
 
