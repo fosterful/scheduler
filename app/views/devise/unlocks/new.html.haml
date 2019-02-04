@@ -1,11 +1,16 @@
 - content_for :page_header do
-  .header-text Resend unlock instructions
+  .header-text Resend Unlock Instructions
 = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .actions
-    = f.submit "Resend unlock instructions"
-= render "devise/shared/links"
+  .grid-x.align-center
+    .cell.small-12.medium-8.large-4
+      = f.label :email do
+        Email
+        = f.email_field :email, autofocus: true, autocomplete: "email"
+  .grid-x.align-center
+    .cell.small-12.medium-8.large-4
+      .actions
+        = f.submit "Resend unlock instructions", class: 'button primary'
+  .grid-x.align-center.grid-padding-y
+    .cell.small-12.medium-8.large-4
+      .actions
+        = render "devise/shared/links"

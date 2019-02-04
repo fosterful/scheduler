@@ -3,18 +3,24 @@
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
   = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-    %br/
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-      %br/
-    = f.password_field :password, autofocus: true, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Change my password", class: 'button'
-= render "devise/shared/links"
+  .grid-x.align-center
+    .cell.small-12.medium-8.large-4
+      = f.label :password do
+        New Password
+        - if @minimum_password_length
+          %em
+            (#{@minimum_password_length} characters minimum)
+      = f.password_field :password, autofocus: true, autocomplete: "new-password"
+  .grid-x.align-center
+    .cell.small-12.medium-8.large-4
+      = f.label :password_confirmation do
+        Confirm New Password
+        = f.password_field :password_confirmation, autocomplete: "off"
+  .grid-x.align-center
+    .cell.small-12.medium-8.large-4
+      .actions
+        = f.submit "Change my password", class: 'button'
+  .grid-x.align-center.grid-padding-y
+    .cell.small-12.medium-8.large-4
+      .actions
+        = render "devise/shared/links"
