@@ -40,3 +40,18 @@ if Rails.env.development?
     user.save!
   end
 end
+
+%w(Spanish Mandarin Cantonese Vietnamese Russian Tagalog Filipino Korean Amharic Somali
+   Austronesian Ilocano Samoan Hawaiian German Ukrainian Romanian Japanese Hindi French Khmer
+   Arabic Punjabi Thai Lao Other).each do |language|
+  Language.find_or_create_by(name: language)
+end
+
+%w(White/Caucasian Black/African American Hispanic Asian Native Hawaiian/Pacific Islander
+   Eastern European Indian American Indian/Alaska Native Other).each do |race|
+  Race.find_or_create_by(name: race)
+end
+
+{ {min: 0, max: 2}, {min: 3, max: 5}, {min: 6, max: 9}, {min: 10, max: 12}, min: 13, max: 17} }.each do |age_range|
+  AgeRange.find_or_create_by(age_range)
+end
