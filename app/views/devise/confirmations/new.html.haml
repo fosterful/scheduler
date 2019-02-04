@@ -1,11 +1,11 @@
 - content_for :page_header do
-  .header-text Resend confirmation instructions
+  .header-text Resend Confirmation Instructions
 = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
   .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+    = f.label :email do
+      Email
+      = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
   .actions
-    = f.submit "Resend confirmation instructions"
+    = f.submit "Resend confirmation instructions", class: 'button primary'
 = render "devise/shared/links"
