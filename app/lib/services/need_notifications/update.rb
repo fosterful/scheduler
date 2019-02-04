@@ -8,7 +8,7 @@ module Services
       include Adamantium::Flat
 
       delegate :office, :preferred_language, :notified_user_ids,
-               :age_range_ids, :shifts to: :need
+               :age_range_ids, :shifts, to: :need
 
       def call
         users_to_notify.each do |user|
