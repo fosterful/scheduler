@@ -12,7 +12,7 @@ class ShiftsController < ApplicationController
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
-      Services::ShiftNotifications::Create.call(@shift, :created, need_url(@need))
+      Services::ShiftNotifications::Create.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Created!'
     else
       flash[:alert] = 'Whoops! something went wrong.'
@@ -26,7 +26,7 @@ class ShiftsController < ApplicationController
     authorize @shift
     @shift.assign_attributes(permitted_attributes(@shift))
     if @shift.save
-      Services::ShiftNotifications::Update.call(@shift, :updated, need_url(@need))
+      Services::ShiftNotifications::Update.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Claimed!'
     else
       flash[:alert] = 'Whoops! something went wrong.'
@@ -39,7 +39,7 @@ class ShiftsController < ApplicationController
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
     if @shift.destroy
-      Services::ShiftNotifications::Destroy.call(@shift, :destroyed, need_url(@need))
+      Services::ShiftNotifications::Destroy.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Destroyed'
     else
       flash[:alert] = 'Whoops! something went wrong.'

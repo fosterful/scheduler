@@ -39,7 +39,7 @@ class NeedsController < ApplicationController
     @need.assign_attributes(permitted_attributes(@need))
     authorize @need
     if @need.save
-      Services::NeedNotifications::Update.call(@need)
+      Services::NeedNotifications::Update.call(@need, need_url(@need))
       redirect_to(@need)
     else
       render(:edit)
