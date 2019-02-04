@@ -3,13 +3,13 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need).includes(:shifts).order(:start_at)
+    @needs = policy_scope(Need).includes(:shifts)
   end
 
   def show
     @need = policy_scope(Need).includes(:shifts).find(params[:id])
     return redirect_to(root_path, alert: "Sorry, we couldn't find that need.") if @need.nil?
-    @shifts = @need.shifts.order(:start_at)
+    @shifts = @need.shifts
     authorize @need
   end
 
