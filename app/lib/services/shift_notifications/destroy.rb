@@ -10,7 +10,7 @@ module Services
       delegate :need, :duration, to: :shift
 
       def call
-        notified_users.each do |user|
+        (notified_users | User.where(id: shift.user_id)).each do |user|
           SendTextMessageWorker.perform_async(user.phone, "A shift has been removed from a need at your local office. #{url}")
         end
       end
@@ -22,7 +22,6 @@ module Services
           .office
           .users
           .schedulers
-          .or(User.where(id: shift.user_id))
       end
     end
   end
