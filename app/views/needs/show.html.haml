@@ -40,7 +40,7 @@
           .cell.text-center
             %strong= shift.start_at.strftime('%I:%M%p')
       .cell.small-12.medium-3.large-2
-        - if shift.user_id == current_user.id
+        - if !shift.expired && shift.user_id == current_user.id
           = link_to need_shift_path(@need, shift, shift: { user_id: nil }), method: :put, class: 'button alert expanded' do
             .grid-x.hide-for-small-only.align-middle
               .cell.small-6.small-text-right.medium-3
@@ -51,7 +51,7 @@
               .cell
                 %i.fas.fa-calendar-minus
                 Release Shift
-        - if shift.user_id == nil
+        - if !shift.expired && shift.user_id == nil
           = link_to need_shift_path(@need, shift, shift: { user_id: current_user.id }), method: :put, class: 'button success expanded' do
             .grid-x.hide-for-small-only.align-middle
               .cell.small-6.small-text-right.medium-3
