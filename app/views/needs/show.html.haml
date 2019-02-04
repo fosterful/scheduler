@@ -1,6 +1,6 @@
 - content_for :page_header do
   .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
-- if policy(@need).edit?
+- if policy(@need).edit? && !@need.expired
   - content_for :nav_buttons do
     = link_to 'Manage Shifts', need_shifts_path(@need), class: 'button primary'
     = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
