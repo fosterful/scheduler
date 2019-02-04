@@ -19,7 +19,7 @@
   .cell
     = f.label :office_id do
       Office
-      = f.select :office_id, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]}), { include_blank: false }, class: "single #{(action == :edit ? 'disabled' : '')}"
+      = f.select :office_id, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]}), { include_blank: false }, class: 'single', disabled: action == :edit
 .grid-x
   .cell
     = f.label :number_of_children do
