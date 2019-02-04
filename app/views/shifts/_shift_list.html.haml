@@ -1,0 +1,7 @@
+.cell.small-12.shift{ class: classes.join(' ') }
+  .grid-x.grid-padding-x.grid-padding-y
+    .cell.text-center
+      %strong= shift.start_at.strftime('%I:%M%p')
+      - if shift.user
+        \-
+        = link_to shift.user.name, admin_user_path(shift.user)
