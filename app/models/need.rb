@@ -12,6 +12,8 @@ class Need < ApplicationRecord
   validates :start_at, :expected_duration, :number_of_children, presence: true
   validates :expected_duration, inclusion: { in: ->(need) { (60..) }, message: 'must be at least on hour' }
 
+  scope :current, -> { where('start_at > ?', Time.zone.now) }
+
   alias_attribute :duration, :expected_duration
 
   def preferred_language
