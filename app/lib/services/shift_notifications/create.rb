@@ -30,7 +30,7 @@ module Services
       def scope_users_by_language(users)
         return users unless need.preferred_language.present?
 
-        users.speaks_language(preferred_language)
+        users.speaks_language(need.preferred_language)
       end
 
       def scope_users_by_age_ranges(users)
