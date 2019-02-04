@@ -2,6 +2,7 @@
   .header-text Shift Management
 - content_for :nav_buttons do
   = link_to 'Back to Need', need_path(@need), class: 'button primary'
+  = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
 .shifts-container
   = link_to need_shifts_path(@need, shift: { start_at: @shifts.first.start_at - 1.hour, duration: 60 }), method: :post do
     .grid-x.grid-margin-y.grid-margin-x
