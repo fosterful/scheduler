@@ -17,6 +17,11 @@
         %span.slider-fill{ data: { slider_fill: true } }
 .grid-x
   .cell
+    = f.label :office_id do
+      Office
+      = f.select :office_id, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]}), { include_blank: false }, class: "single #{(action == :edit ? 'disabled' : '')}"
+.grid-x
+  .cell
     = f.label :number_of_children do
       Number of Children
       = f.number_field :number_of_children, min: 1, max: 20, step: 1
@@ -25,11 +30,6 @@
     = f.label :age_range_ids do
       Age Range of Children
       = f.select :age_range_ids, options_for_select(AgeRange.all.each.with_object({}) { |a, o| o["#{a.min}-#{a.max}"] = a.id }, @need.age_range_ids), { include_blank: true }, {class: 'multiple', multiple: true, name: 'need[age_range_ids][]'}
-.grid-x
-  .cell
-    = f.label :office_id do
-      Office
-      = f.select :office_id, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]}), { include_blank: false }, class: 'single'
 .grid-x
   .cell
     = f.label :race do
