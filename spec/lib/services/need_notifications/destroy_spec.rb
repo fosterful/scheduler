@@ -9,7 +9,7 @@ RSpec.describe Services::NeedNotifications::Destroy do
     end
   end
 
-  let(:user) { build(:user) }
+  let(:user) { create(:user) }
 
   subject { described_class.call(need, []) }
 
