@@ -13,8 +13,8 @@ RSpec.describe Shift, type: :model do
     it 'notifies the user when the shift is deleted' do
       shift = create(:shift, start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'), user: create(:user))
       expect { shift.destroy }
-        .to have_enqueued_job(SendTextMessageJob)
-        .with('0123456789', 'Your shift on 01/09/2019 at 9:00AM has been canceled.')
+        .to change(SendTextMessageWorker.jobs, :size)
+        .by(1)
     end
   end
 end
