@@ -3,14 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe Services::NeedNotifications::Destroy do
-  let(:need) do
-    build(:need).tap do |need|
-      need.update(shifts: Services::BuildNeedShifts.call(need))
-    end
+  let(:office) { create(:office) }
+  let(:scheduler) { create(:user, role: 'social_worker', offices: [office]) }
+  let(:need) { create(:need_with_shifts, office: office, user: scheduler) }
+  let(:volunteer) { create(:user, offices: [office]) }
+  let!(:other_volunteer) { create(:user, offices: [office]) }
+
+  subject { described_class.call(need) }
+
+  it 'includes the office schedulers and users signed up for shifts' do
+    need.shifts.last.update(user: volunteer)
+    expect(subject).to contain_exactly(scheduler, volunteer)
   end
-
-  let(:user) { create(:user) }
-
-  subject { described_class.call(need, [user.id]) }
-
 end

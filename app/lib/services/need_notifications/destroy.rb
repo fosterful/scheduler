@@ -4,13 +4,13 @@ module Services
   module NeedNotifications
     class Destroy
       include Procto.call
-      include Concord.new(:need, :user_ids)
+      include Concord.new(:need)
       include Adamantium::Flat
 
       delegate :office, :user_id, to: :need
 
       def call
-        (office.users.schedulers | User.find(user_ids)).each do |user|
+        (office.users.schedulers | need.users).each do |user|
           SendTextMessageWorker.perform_async(user.phone, 'A Need at your office has been deleted.')
         end
       end
