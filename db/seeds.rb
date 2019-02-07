@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if false
+if Rails.env.development?
   address = Address.where(
     street: '800 K St NW',
     city: 'Washington',
