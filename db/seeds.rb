@@ -52,6 +52,6 @@ end
   Race.find_or_create_by(name: race)
 end
 
-{ {min: 0, max: 2}, {min: 3, max: 5}, {min: 6, max: 9}, {min: 10, max: 12}, min: 13, max: 17} }.each do |age_range|
+[{min: 0, max: 2}, {min: 3, max: 5}, {min: 6, max: 9}, {min: 10, max: 12}, {min: 13, max: 17}].each do |age_range|
   AgeRange.find_or_create_by(age_range)
 end
