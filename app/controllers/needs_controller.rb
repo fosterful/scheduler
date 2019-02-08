@@ -8,9 +8,10 @@ class NeedsController < ApplicationController
 
   def show
     @need = policy_scope(Need).includes(:shifts).find(params[:id])
-    return redirect_to(root_path, alert: "Sorry, we couldn't find that need.") if @need.nil?
     @shifts = @need.shifts
     authorize @need
+  rescue ActiveRecord::RecordNotFound
+    redirect_to(root_path, alert: "Sorry, we couldn't find that need.")
   end
 
   def new

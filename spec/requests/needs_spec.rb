@@ -18,6 +18,12 @@ RSpec.describe "Needs", type: :request do
       get need_path(need)
       expect(response).to be_successful
     end
+
+    it 'fails' do
+      get need_path('foobar')
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eql("Sorry, we couldn't find that need.")
+    end
   end
 
   describe '#new' do
