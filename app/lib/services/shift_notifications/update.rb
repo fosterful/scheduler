@@ -21,7 +21,7 @@ module Services
         if current_user == user && user
           { users:  (need.office.users.social_workers | [need.user]),
             message: 'A Volunteer has taken a shift.' }
-        elsif current_user == user && user.nil?
+        elsif user.nil? && current_user.id == user_id_was
           { users: (need.office.users.social_workers | [need.user]),
             message: 'A Volunteer has unassigned themself from a shift.' }
         elsif current_user.scheduler? && user
