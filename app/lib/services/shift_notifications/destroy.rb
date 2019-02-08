@@ -7,21 +7,12 @@ module Services
       include Concord.new(:shift, :url)
       include Adamantium::Flat
 
-      delegate :need, :duration, to: :shift
+      delegate :user_id, to: :shift
 
       def call
-        (notified_users | User.where(id: shift.user_id)).each do |user|
+        User.where(id: user_id).each do |user|
           SendTextMessageWorker.perform_async(user.phone, "A shift has been removed from a need at your local office. #{url}")
         end
-      end
-
-      private
-
-      def notified_users
-        need
-          .office
-          .users
-          .schedulers
       end
     end
   end
