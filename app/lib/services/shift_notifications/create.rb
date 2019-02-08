@@ -10,19 +10,20 @@ module Services
       delegate :need, to: :shift
 
       def call
-        notified_users.each do |user|
+        users_to_notify.each do |user|
           SendTextMessageWorker.perform_async(user.phone, "A new shift has been added to a need at your local office! #{url}")
         end
       end
 
       private
 
-      def notified_users
+      def users_to_notify
         need
           .office
           .users
           .volunteerable
           .available_within(shift.start_at, shift.end_at)
+          .where.not(id: need.notified_user_ids.push(need.user_id))
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
       end
