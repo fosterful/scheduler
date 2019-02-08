@@ -9,4 +9,11 @@ RSpec.describe SendTextMessageWorker do
       expect { subject }.to change(described_class.jobs, :size).by(1)
     end
   end
+
+  describe '#perform' do
+    it 'calls to twilio api' do
+      expect($twilio).to receive_message_chain(:api, :account, :messages, :create)
+      described_class.new.perform('123-456-7890', 'Hello World')
+    end
+  end
 end
