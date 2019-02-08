@@ -26,7 +26,7 @@ class ShiftsController < ApplicationController
     authorize @shift
     @shift.assign_attributes(permitted_attributes(@shift))
     if @shift.save
-      Services::ShiftNotifications::Update.call(@shift, need_url(@need))
+      Services::ShiftNotifications::Update.call(@shift, need_url(@need), current_user)
       flash[:notice] = 'Shift Claimed!'
     else
       flash[:alert] = 'Whoops! something went wrong.'

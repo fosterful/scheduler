@@ -4,46 +4,32 @@ module Services
   module ShiftNotifications
     class Update
       include Procto.call
-      include Concord.new(:shift, :url)
+      include Concord.new(:shift, :url, :current_user)
       include Adamantium::Flat
 
-      delegate :need, :duration, :user, to: :shift
+      delegate :need, :duration, :user, :user_id_was, to: :shift
 
       def call
-        notified_users.each do |user|
-          SendTextMessageWorker.perform_async(user.phone, [build_message, need_url(need)].join(' '))
+        notification_hash[:users].each do |user|
+          SendTextMessageWorker.perform_async(user.phone, [notification_hash[:message], url].join(' '))
         end
       end
 
       private
 
-      def notified_users
-        need
-          .office
-          .users
-          .volunteerable
-          .available_within(shift.start_at, shift.end_at)
-          .then { |users| scope_users_by_language(users) }
-          .then { |users| scope_users_by_age_ranges(users) }
-      end
-
-      def scope_users_by_language(users)
-        return users unless need.preferred_language.present?
-
-        users.speaks_language(need.preferred_language)
-      end
-
-      def scope_users_by_age_ranges(users)
-        return users unless need.age_range_ids.any?
-
-        users.joins(:age_ranges).where(age_ranges: { id: need.age_range_ids })
-      end
-
-      def build_update_message
-        if shift.user_id.nil?
-          'A Volunteer has been removed from a shift.'
-        else
-          'A Volunteer has been assigned a shift.'
+      def notification_hash
+        if current_user == user && user
+          { users:  (need.office.users.social_workers | [need.user]),
+            message: 'A Volunteer has taken a shift.' }
+        elsif current_user == user && user.nil?
+          { users: (need.office.users.social_workers | [need.user]),
+            message: 'A Volunteer has unassigned themself from a shift.' }
+        elsif current_user.scheduler? && user
+          { users: [user],
+            message: 'You have been assigned a shift.' }
+        elsif current_user.scheduler? && user.nil?
+          { users: User.where(id: user_id_was),
+            message: 'You have been unassigned from a shift' }
         end
       end
     end
