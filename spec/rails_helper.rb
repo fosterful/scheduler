@@ -10,17 +10,18 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-require 'support/factory_bot'
+require 'support/capybara'
 require 'support/devise'
+require 'support/factory_bot'
 require 'pundit/matchers'
 
 include WebMock::API
 
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
-  config.hook_into :webmock
-  config.configure_rspec_metadata!
-end
+# VCR.configure do |config|
+#   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+#   config.hook_into :webmock
+#   config.configure_rspec_metadata!
+# end
 
 # Globally stub smartystreets
 stub_request(:any, /smartystreets.com/).to_return(
