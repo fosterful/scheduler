@@ -71,7 +71,7 @@ var v = n % 100
   IntervalSelect = _ => {
     const { IntervalSelectOptions, handleInputChange, state: { interval } } = this
     return (
-      <div className='cell large-4'>
+      <div className='cell large-shrink'>
         <select value={interval} onChange={handleInputChange('interval')}>
           <IntervalSelectOptions />
         </select>
@@ -83,12 +83,12 @@ var v = n % 100
     const { handleInputChange, state: { interval, frequency } } = this
     if (!interval) return null
     return (
-      <div className='cell large-3'>
+      <div className='cell large-shrink'>
         <select value={frequency} onChange={handleInputChange('frequency')}>
-          <option value='DAILY'>day</option>
-          <option value='WEEKLY'>week</option>
-          <option value='MONTHLY'>month</option>
-          <option value='YEARLY'>year</option>
+          <option value='DAILY'>day{interval >= 2 ? 's' : ''}</option>
+          <option value='WEEKLY'>week{interval >= 2 ? 's' : ''}</option>
+          <option value='MONTHLY'>month{interval >= 2 ? 's' : ''}</option>
+          <option value='YEARLY'>year{interval >= 2 ? 's' : ''}</option>
         </select>
       </div>
     )
@@ -100,7 +100,7 @@ var v = n % 100
     const weekOfMonth = getNumberWithOrdinal(Math.ceil(moment(startAt).date() / 7))
     const dayOfWeek = moment(startAt).format('dddd')
     return (
-      <div className='cell large-4'>
+      <div className='cell large-shrink'>
         <select value={byWeekDay} onChange={handleInputChange('byWeekDay')}>
           <option value=''>on the {moment(startAt).format('Do')} day</option>
           <option value='true'>on the {weekOfMonth} {dayOfWeek}</option>
@@ -113,7 +113,7 @@ var v = n % 100
     const { handleInputChange, state: { interval, until } } = this
     if (!interval) return null
     return (
-      <div className='cell large-3'>
+      <div className='cell large-shrink'>
         <select value={until} onChange={handleInputChange('until')}>
           <option value=''>forever</option>
           <option value='until'>until</option>
@@ -127,7 +127,7 @@ var v = n % 100
     if (!interval || until !== 'until') return null
     const handler = handleInputChange('untilDate')
     return (
-      <div className='cell large-3'>
+      <div className='cell large-shrink'>
         <DayPickerInput
           inputProps={{ type: 'text' }}
           value={untilDate}
