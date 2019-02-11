@@ -1,23 +1,24 @@
-.title-bar.align-middle.align-justify{ data: { responsive_toggle: 'responsive-menu', hide_for: 'medium' } }
-  .top-bar-left
-    = link_to root_path do
-      = image_pack_tag 'images/omd-logo-horiz.png', class: 'logo'
-  .top-bar-right
-    %button.menu-icon{ type: 'button', data: { toggle: 'responsive-menu' } }
 .nav
   .grid-container
-    .top-bar#responsive-menu
-      .top-bar-left
+    .grid-x.grid-padding-y
+      .cell.shrink
         = link_to root_path do
           = image_pack_tag 'images/omd-logo-horiz.png', class: 'logo'
-      .top-bar-right
+      .cell.auto.align-right.align-middle.grid-x
         - if user_signed_in?
           - if policy(Need).new?
-            = link_to new_need_path do
-              %button.button.success
-                %fa.fas.fa-plus
-                New Need
-          = render partial: 'dropdown_menu'
+            = link_to new_need_path, class: 'button success show-for-medium' do
+              %fa.fas.fa-plus
+              New Need
+          %button.show-for-medium.button.dropdown-menu-button{ data: { toggle: 'profile-dropdown' } }
+            = current_user.name
+            %i.fas.fa-caret-down
+          .dropdown-pane.show-for-medium#profile-dropdown{ data: { dropdown: true, position: 'bottom', alignment: 'right' } }
+            = render partial: 'dropdown_menu'
+          %div{ data: { responsive_toggle: 'mobile-dropdown', hide_for: 'medium' } }
+            %button.menu-icon{ data: { toggle: 'mobile-dropdown'} }
         - else
-          = link_to new_user_session_path do
-            %button.button Sign In
+          = link_to 'Sign In', new_user_session_path, class: 'button'
+- if user_signed_in?
+  #mobile-dropdown
+    = render partial: 'dropdown_menu'
