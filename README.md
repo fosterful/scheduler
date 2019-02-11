@@ -54,3 +54,7 @@ you have the [ChromeDriver WebDriver](https://sites.google.com/a/chromium.org/ch
 downloaded and installed on your host machine.
 
 E.g. `HEADLESS=false bundle exec rspec spec/system/mytest_spec.rb`
+
+If you are running in non-headless mode, you'll need to be sure you have the ChromeDriver running and able to accept connections from the IP the server is running on. This can be done by running ChromeDriver in a separate tab/console via:
+
+`./chromedriver --whitelisted-ips`
