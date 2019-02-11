@@ -1,3 +1,4 @@
+@import '~foundation-sites/scss/util/util';
 .DayPickerInput, .conditional-time-select {
   width: 100%;
 }
@@ -33,8 +34,8 @@
 
 .blockout-modal-inner-content {
   .DayPickerInput-Overlay {
-    left: 0;
-    right: unset;
+    left: unset;
+    right: 0;
   }
 }
 
@@ -54,11 +55,13 @@
 
 .blockout-modal-content {
   display: block !important;
-  max-width: 96vw;
+  max-width: 100vw;
   outline: none;
   padding: 0;
   border: none;
-  overflow: unset;
+  @include breakpoint(medium) {
+    overflow: unset;
+  }
 }
 
 .blockout-modal-header {
