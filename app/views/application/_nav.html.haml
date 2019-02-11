@@ -25,5 +25,6 @@
             %button.menu-icon{ data: { toggle: 'mobile-dropdown'} }
         - else
           = link_to 'Sign In', new_user_session_path, class: 'button'
-#mobile-dropdown
-  = render partial: 'dropdown_menu'
+- if user_signed_in?
+  #mobile-dropdown
+    = render partial: 'dropdown_menu'
