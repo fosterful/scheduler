@@ -13,11 +13,13 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://circleci-user@127.0.0.1/test_db
           CC_TEST_REPORTER_ID: 3eb0a4ad46937f9c44053ed82830fde407b01e50d717bc6146a05a31753d718f
+          SELENIUM_REMOTE_HOST: localhost
       - image: circleci/postgres:9.6-alpine
         environment:
           POSTGRES_USER: circleci-user
           POSTGRES_DB: test_db
           POSTGRES_PASSWORD: ""
+      - image: selenium/standalone-chrome
     steps:
       - checkout
 
