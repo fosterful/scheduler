@@ -8,4 +8,6 @@ class Office < ApplicationRecord
   validates :region, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :address, update_only: true
+
+  scope :total_volunteer_minutes, -> { joins(needs: :shifts).group('offices.id').sum('shifts.duration') }
 end

@@ -59,6 +59,7 @@ class User < ApplicationRecord
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
   scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
+  scope :total_volunteer_minutes, -> { joins(:shifts).group('users.id').sum('shifts.duration') }
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
