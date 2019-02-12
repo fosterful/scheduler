@@ -20,5 +20,5 @@
         - else
           = link_to 'Sign In', new_user_session_path, class: 'button'
 - if user_signed_in?
-  #mobile-dropdown
+  .hide-for-medium#mobile-dropdown
     = render partial: 'dropdown_menu'
