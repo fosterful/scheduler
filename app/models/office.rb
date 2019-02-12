@@ -10,4 +10,5 @@ class Office < ApplicationRecord
   accepts_nested_attributes_for :address, update_only: true
 
   scope :total_volunteer_minutes, -> { joins(needs: :shifts).group('offices.id').sum('shifts.duration') }
+  scope :total_volunteer_minutes_by_state, -> { joins(:address).joins(needs: :shifts).group('offices.id, addresses.state').sum('shifts.duration') }
 end
