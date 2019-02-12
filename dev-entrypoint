@@ -5,12 +5,14 @@ set -e
 : ${APP_TEMP_PATH:="$APP_PATH/tmp"}
 : ${APP_SETUP_LOCK:="$APP_TEMP_PATH/setup.lock"}
 : ${APP_SETUP_WAIT:="5"}
+: ${HOST_DOMAIN:="host.docker.internal"}
 
 # 1: Define the functions lock and unlock our app containers setup
 # processes:
 function lock_setup { mkdir -p $APP_TEMP_PATH && touch $APP_SETUP_LOCK; }
 function unlock_setup { rm -rf $APP_SETUP_LOCK; }
 function wait_setup { echo "Waiting for app setup to finish..."; sleep $APP_SETUP_WAIT; }
+function check_host { ping -q -c1 $HOST_DOMAIN > /dev/null 2>&1; }
 
 # 2: 'Unlock' the setup process if the script exits prematurely:
 trap unlock_setup HUP INT QUIT KILL TERM EXIT
@@ -48,6 +50,13 @@ then
   fi
   # Start mailcatcher
   mailcatcher --http-ip 0.0.0.0
+
+  # check if the docker host is running on mac or windows
+  if ! check_host; then
+    HOST_IP=$(ip route | awk 'NR==1 {print $3}')
+    echo "$HOST_IP $HOST_DOMAIN" >> /etc/hosts
+  fi
+
   # 10: 'Unlock' the setup process:
   unlock_setup
 
