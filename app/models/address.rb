@@ -25,11 +25,10 @@ class Address < ApplicationRecord
 
   def validate_and_geocode
     address = ADDRESS_FIELDS.map { |v| send(v).presence }.compact.join(", ")
-
     if address.present?
       verifier = MainStreet::AddressVerifier.new(address)
       if verifier.success?
-        self.assign_attributes(latitude: verifier.latitude, longitude: verifier.longitude)
+        self.assign_attributes(latitude: verifier.latitude, longitude: verifier.longitude, county: verifier.result.data['metadata']['county_name'])
       else
         errors.add(:base, verifier.failure_message)
       end
