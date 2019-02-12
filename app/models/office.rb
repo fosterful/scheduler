@@ -11,4 +11,5 @@ class Office < ApplicationRecord
 
   scope :total_volunteer_minutes, -> { joins(needs: :shifts).group('offices.id').sum('shifts.duration') }
   scope :total_volunteer_minutes_by_state, -> { joins(:address).joins(needs: :shifts).group('offices.id, addresses.state').sum('shifts.duration') }
+  scope :total_volunteer_minutes_by_county, ->(state) { joins(:address).joins(needs: :shifts).where('addresses.state = ?', state).group('offices.id, addresses.county').sum('shifts.duration') }
 end
