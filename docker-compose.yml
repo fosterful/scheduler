@@ -22,9 +22,6 @@ services:
       - SELENIUM_REMOTE_HOST=selenium
   selenium:
     image: selenium/standalone-chrome
-    ports:
-      - 4444:4444
-      - 5900:5900
   webpacker:
     build: .
     command: ./bin/webpack-dev-server
