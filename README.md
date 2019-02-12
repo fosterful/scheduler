@@ -4,6 +4,7 @@
 * [Development Environment Setup](#development-environment-setup)
 * [Helpful Docker Commands](#helpful-docker-commands)
 * [Rails Commands in a Docker World](#rails-commands-in-a-docker-world)
+* [System Tests](#system-tests)
 
 ### Development Environment Setup
 
