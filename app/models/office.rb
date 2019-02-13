@@ -9,7 +9,12 @@ class Office < ApplicationRecord
 
   accepts_nested_attributes_for :address, update_only: true
 
-  scope :total_volunteer_minutes, -> { joins(needs: :shifts).group('offices.id').sum('shifts.duration') }
-  scope :total_volunteer_minutes_by_state, -> { joins(:address).joins(needs: :shifts).group('offices.id, addresses.state').sum('shifts.duration') }
-  scope :total_volunteer_minutes_by_county, ->(state) { joins(:address).joins(needs: :shifts).where('addresses.state = ?', state).group('offices.id, addresses.county').sum('shifts.duration') }
+  scope :volunteer_minutes, -> { joins(needs: :shifts).group('offices.id').sum('shifts.duration') }
+  scope :volunteer_minutes_by_state, -> { joins(:address).joins(needs: :shifts).group('offices.id, addresses.state').sum('shifts.duration') }
+  scope :volunteer_minutes_by_county, ->(state) { joins(:address).joins(needs: :shifts).where('addresses.state = ?', state).group('offices.id, addresses.county').sum('shifts.duration') }
+  scope :children_served, -> { joins(:needs).group('offices.id').sum('needs.number_of_children') }
+  scope :children_served_by_state, -> { joins(:address).joins(:needs).group('offices.id, addresses.state').sum('needs.number_of_children')}
+  scope :children_served_by_county, ->(state) { joins(:address).joins(:needs).where('addresses.state= ?', state).group('offices.id, addresses.county').sum('needs.number_of_children')}
+  scope :children_by_demographic, -> { joins(needs: :preferred_language).group('offices.id, languages.name').count('needs.id') }
+  scope :volunteers_by_demographic, -> { joins(users: :race).group('races.name').count('users.id') }
 end
