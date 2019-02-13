@@ -5,6 +5,7 @@ FactoryBot.define do
     street { "1901 Main St" }
     street2 { nil }
     city { "Vancouver" }
+    county { "Clark"}
     state { "WA" }
     postal_code { "98660" }
 
