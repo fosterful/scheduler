@@ -18,6 +18,14 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.total_volunteer_minutes' do
+    let!(:user1) { create(:user, shifts: create_list(:shift, 3, duration: 60)) }
+    let!(:user2) { create(:user, shifts: create_list(:shift, 2, duration: 60)) }
+    it 'returns the total volunteer minutes grouped by user' do
+      expect(User.total_volunteer_minutes).to eql(user1.id=> 180, user2.id => 120)
+    end
+  end
+
   describe '{role}?' do
     it 'checks the role' do
       expect(user.volunteer?).to eq(true)
