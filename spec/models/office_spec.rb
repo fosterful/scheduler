@@ -13,10 +13,10 @@ RSpec.describe Office, type: :model do
     let(:office2) { build(:office, name: Faker::Company.name) }
     let(:office3) { build(:office, name: Faker::Company.name) }
     let(:office4) { build(:office, name: Faker::Company.name) }
-    let(:addr1) { create(:address, county: 'Clark', state: 'WA', addressable: office1) }
-    let(:addr2) { create(:address, county: 'Multnoma', state: 'OR', addressable: office2) }
-    let(:addr3) { create(:address, county: 'Kitsap', state: 'WA', addressable: office3) }
-    let(:addr3) { create(:address, county: 'Clark', state: 'WA', addressable: office4) }
+    let(:addr1) { create(:address, :wa, addressable: office1) }
+    let(:addr2) { create(:address, :or, addressable: office2) }
+    let(:addr3) { create(:address, :wa, addressable: office3) }
+    let(:addr3) { create(:address, :wa, addressable: office4) }
     let!(:need1) { create(:need_with_shifts, expected_duration: 120, office: office1) }
     let!(:need2) { create(:need_with_shifts, expected_duration: 120, office: office2) }
     let!(:need3) { create(:need_with_shifts, expected_duration: 120, office: office3) }
