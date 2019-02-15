@@ -2,12 +2,20 @@
 
 FactoryBot.define do
   factory :address do
-    street { Faker::Address.street_address }
     street2 { nil }
-    city { Faker::Address.city }
-    county { Faker::Address.street_name }
-    state { Faker::Address.state_abbr }
-    postal_code { Faker::Address.zip }
+    latitude { nil }
+    longitude { nil }
+
+    # Default Trait
+    random
+
+    trait :random do
+      street { Faker::Address.street_address }
+      city { Faker::Address.city }
+      county { Faker::Address.street_name }
+      state { Faker::Address.state_abbr }
+      postal_code { Faker::Address.zip }
+    end
 
     trait :wa do
       street { "1901 Main St" }
@@ -24,9 +32,6 @@ FactoryBot.define do
       state { "OR" }
       postal_code { "97035" }
     end
-
-    latitude { nil }
-    longitude { nil }
 
     association :addressable, factory: :user, strategy: :build
   end
