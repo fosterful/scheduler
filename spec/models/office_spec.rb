@@ -9,18 +9,18 @@ RSpec.describe Office, type: :model do
     expect(office.valid?).to be(true)
   end
   context 'scope' do
-    let(:office1) { build(:office, name: Faker::Company.name) }
-    let(:office2) { build(:office, name: Faker::Company.name) }
-    let(:office3) { build(:office, name: Faker::Company.name) }
-    let(:office4) { build(:office, name: Faker::Company.name) }
-    let(:addr1) { create(:address, :wa, addressable: office1) }
-    let(:addr2) { create(:address, :or, addressable: office2) }
-    let(:addr3) { create(:address, :wa, addressable: office3) }
-    let(:addr3) { create(:address, :wa, addressable: office4) }
-    let!(:need1) { create(:need_with_shifts, expected_duration: 120, office: office1) }
-    let!(:need2) { create(:need_with_shifts, expected_duration: 120, office: office2) }
-    let!(:need3) { create(:need_with_shifts, expected_duration: 120, office: office3) }
-    let!(:need4) { create(:need_with_shifts, expected_duration: 120, office: office4) }
+    let(:addr1) { build(:address, :wa) }
+    let(:addr2) { build(:address, :or) }
+    let(:addr3) { build(:address, :wa) }
+    let(:addr4) { build(:address, :wa) }
+    let(:office1) { create(:office, name: Faker::Company.name, address: addr1) }
+    let(:office2) { create(:office, name: Faker::Company.name, address: addr2) }
+    let(:office3) { create(:office, name: Faker::Company.name, address: addr3) }
+    let(:office4) { create(:office, name: Faker::Company.name, address: addr4) }
+    let!(:need1) { create(:need_with_shifts, number_of_children: 2, expected_duration: 120, office: office1) }
+    let!(:need2) { create(:need_with_shifts, number_of_children: 3, expected_duration: 120, office: office2) }
+    let!(:need3) { create(:need_with_shifts, number_of_children: 4, expected_duration: 120, office: office3) }
+    let!(:need4) { create(:need_with_shifts, number_of_children: 2, expected_duration: 120, office: office4) }
     let(:user1) { create(:user, offices: [office1]) }
     let(:user2) { create(:user, offices: [office2]) }
     let(:user3) { create(:user, offices: [office3]) }
@@ -44,8 +44,13 @@ RSpec.describe Office, type: :model do
     end
 
     describe '.children_served' do
-      it 'does something' do
-        expect(Office.children_served).to be nil
+      before do
+        need1.shifts.update(user_id: user1.id)
+        need2.shifts.update(user_id: user2.id)
+        need3.shifts.update(user_id: user3.id)
+      end
+      it 'returns the total children served grouped by office' do
+        expect(Office.children_served).to eql(office1.id => 2, office2.id => 3, office3.id => 4)
       end
     end
 
