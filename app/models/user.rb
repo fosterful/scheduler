@@ -60,7 +60,7 @@ class User < ApplicationRecord
 
   scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
   scope :total_volunteer_minutes, -> { joins(:shifts).group('users.id').sum('shifts.duration') }
-
+  scope :children_served, -> { joins(shifts: :need).distinct('needs.id').group('users.id').sum('needs.number_of_children') }
   def self.available_within(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
