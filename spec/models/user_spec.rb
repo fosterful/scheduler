@@ -26,6 +26,24 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.children_served_by_user' do
+    let(:office1) { create(:office) }
+    let(:office2) { create(:office) }
+    let(:office3) { create(:office) }
+    let(:need1) { create(:need_with_shifts, number_of_children: 2, office: office1) }
+    let(:need2) { create(:need_with_shifts, shifts_count: 4, number_of_children: 3, office: office2) }
+    let(:need3) { create(:need_with_shifts, number_of_children: 4, office: office3) }
+    let(:need4) { create(:need_with_shifts, shifts_count: 2, number_of_children: 7, office: office3) }
+    let!(:user1) { create(:user, offices: [office1], shifts: need1.shifts) }
+    let!(:user2) { create(:user, offices: [office2], shifts: need2.shifts | need4.shifts) }
+    let!(:user3) { create(:user, offices: [office3], shifts: [need3.shifts.first]) }
+    let!(:user4) { create(:user, offices: [office2], shifts: [need3.shifts.last]) }
+
+    it 'returns the number of children served grouped by user id' do
+      expect(User.children_served_by_user).to eql(user1.id => 2, user2.id => 3, user3.id => 4)
+    end
+  end
+
   describe '{role}?' do
     it 'checks the role' do
       expect(user.volunteer?).to eq(true)

@@ -16,6 +16,9 @@ module Admin
       end
     end
 
+    def reports
+    end
+
     private
 
     def invite_resource(&block)

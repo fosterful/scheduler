@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
+  has_many :served_needs,  -> { distinct }, through: :shifts, class_name: 'Need', source: 'need'
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
@@ -59,8 +60,10 @@ class User < ApplicationRecord
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
   scope :volunteers, -> { where(role: 'volunteer').or(where(role: 'coordinator')) }
+
   scope :total_volunteer_minutes, -> { joins(:shifts).group('users.id').sum('shifts.duration') }
-  scope :children_served, -> { joins(shifts: :need).distinct('needs.id').group('users.id').sum('needs.number_of_children') }
+  scope :children_served_by_user, -> { joins(shifts: :need).group('needs.id, users.id').select('needs.id, users.id, needs.number_of_children') }
+
   def self.available_within(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
@@ -74,6 +77,10 @@ class User < ApplicationRecord
 
   def self.speaks_language(language)
     where(first_language: language).or(where(second_language: language))
+  end
+
+  def foobar
+    served_needs.sum(:number_of_children)
   end
 
   def has_at_least_one_office

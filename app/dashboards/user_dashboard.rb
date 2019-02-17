@@ -97,6 +97,7 @@ class UserDashboard < Administrate::BaseDashboard
     :locked_at,
     :sign_in_count,
     :current_sign_in_at,
+    :foobar
   ].freeze
 
   # FORM_ATTRIBUTES

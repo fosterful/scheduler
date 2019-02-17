@@ -16,6 +16,10 @@ class UserPolicy < ApplicationPolicy
     authorize_role_assignment && authorize_office_assignment
   end
 
+  def reports?
+    index?
+  end
+
   def permitted_attributes_for_new
     permitted_attributes_for_create
   end
