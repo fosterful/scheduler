@@ -2,8 +2,18 @@
 
 Rails.application.routes.draw do
   namespace :admin do
-    resources :users
-    resources :offices
+    resources :users do
+      collection do
+        get 'reports' => 'users#reports'
+      end
+      get 'reports' => 'users#reports'
+    end
+    resources :offices do
+      collection do
+        get 'reports' => 'offices#reports'
+      end
+      get 'reports' => 'offices#reports'
+    end
     resources :age_ranges
     resources :races
     resources :languages
