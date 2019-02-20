@@ -4,14 +4,15 @@ module Services
   module ShiftNotifications
     class Update
       include Procto.call
-      include Concord.new(:shift, :url, :current_user)
+      include Concord.new(:shift, :current_user, :user_id_was)
       include Adamantium::Flat
 
-      delegate :need, :duration, :user, :user_id_was, to: :shift
+      delegate :need, :duration, :user, to: :shift
+      delegate :need_url, to: 'Rails.application.routes.url_helpers'
 
       def call
         notification_hash[:users].each do |user|
-          SendTextMessageWorker.perform_async(user.phone, [notification_hash[:message], url].join(' '))
+          SendTextMessageWorker.perform_async(user.phone, [notification_hash[:message], need_url(need)].join(' '))
         end
       end
 
