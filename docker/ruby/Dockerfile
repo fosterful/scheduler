@@ -13,8 +13,7 @@ RUN apt-get update && apt-get install -y \
   locales \
   vim \
   git \
-  netcat \
-  postgresql-client
+  netcat
 
 ENV LANG C.UTF-8
 
