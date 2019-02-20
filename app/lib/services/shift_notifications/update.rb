@@ -30,6 +30,8 @@ module Services
         elsif current_user.scheduler? && user.nil?
           { users: User.where(id: user_id_was),
             message: 'You have been unassigned from a shift' }
+        else
+          { users:[], message: '' }
         end
       end
     end
