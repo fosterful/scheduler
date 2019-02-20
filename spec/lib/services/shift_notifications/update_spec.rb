@@ -11,17 +11,15 @@ RSpec.describe Services::ShiftNotifications::Update do
   let!(:social_worker) { create(:user, role: 'social_worker', offices: [office]) }
 
   context 'when a volunteer' do
-    subject { described_class.call(shift, 'https://test.com', volunteer) }
-
     context 'assigns themself to a shift' do
       it 'notifies the social workers' do
         shift.assign_attributes(user_id: volunteer.id)
-        expect(subject).to include(social_worker)
+        expect(described_class.call(shift, volunteer, nil)).to include(social_worker)
       end
 
       it 'notifies the need creator' do
         shift.assign_attributes(user_id: volunteer.id)
-        expect(subject).to include(coordinator)
+        expect(described_class.call(shift, volunteer, nil)).to include(coordinator)
       end
     end
 
@@ -29,23 +27,21 @@ RSpec.describe Services::ShiftNotifications::Update do
       before { shift.update(user: volunteer) }
       it 'notifies the social workers' do
         shift.assign_attributes(user_id: nil)
-        expect(subject).to include(social_worker)
+        expect(described_class.call(shift, volunteer, volunteer.id)).to include(social_worker)
       end
 
       it 'notifies the need creator' do
         shift.assign_attributes(user_id: nil)
-        expect(subject).to include(coordinator)
+        expect(described_class.call(shift, volunteer, volunteer.id)).to include(coordinator)
       end
     end
   end
 
   context 'when a scheduler' do
-    subject { described_class.call(shift, 'https://test.com', social_worker) }
-
     context 'assigns a volunteer' do
       it 'notifies the user being assigned' do
         shift.assign_attributes(user_id: volunteer.id)
-        expect(subject).to include(volunteer)
+        expect(described_class.call(shift, social_worker, nil)).to include(volunteer)
       end
     end
 
@@ -54,7 +50,7 @@ RSpec.describe Services::ShiftNotifications::Update do
 
       it 'notifies the user being unassigned' do
         shift.assign_attributes(user_id: nil)
-        expect(subject).to include(volunteer)
+        expect(described_class.call(shift, social_worker, volunteer.id)).to include(volunteer)
       end
     end
   end
