@@ -12,6 +12,7 @@ services:
     ports:
       - "3000:3000"
       - "1080:1080"
+      - "43447:43447"
     depends_on:
       - postgres
       - redis
@@ -22,6 +23,9 @@ services:
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
+      - SELENIUM_REMOTE_HOST=selenium
+  selenium:
+    image: selenium/standalone-chrome
   webpacker:
     build:
       context: ./docker/ruby

@@ -4,6 +4,7 @@
 * [Development Environment Setup](#development-environment-setup)
 * [Helpful Docker Commands](#helpful-docker-commands)
 * [Rails Commands in a Docker World](#rails-commands-in-a-docker-world)
+* [System Tests](#system-tests)
 
 ### Development Environment Setup
 
@@ -27,7 +28,7 @@
 * `docker-compose run app bash` Starts a bash session on app, bringing up only dependent services.
 * `docker exec -it ID_FROM_DOCKER_PS bash`. Connects another bash session to a running container.
 * `docker attach ID_FROM_DOCKER_PS` Attach is useful for pry debugging in a running container
-> Note: To dettach use `ctrl-p + ctrl-q`
+> Note: To detach use `ctrl-p + ctrl-q`
 
 ### Rails Commands in a Docker World
 Now that the app is running in Docker we will run all Rails and Rake commands in the container.
@@ -42,3 +43,19 @@ The pattern is docker-compose exec (container_name) rails or rake command.
 This pattern works for non-Rails commands also.
 
 * `docker-compose exec app bash` will open the terminal on the container
+
+### System Tests
+
+System tests open the browser and make assertions against the content of the 
+page or verify expected behavior. These tests can be run in headless mode (the
+default), which means that they are executed in a virtual browser. If you would
+like them to be run in an actual, viewable browser, you will need to disable
+headless mode by setting the HEADLESS environment variable to 'false' and ensure
+you have the [ChromeDriver WebDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+downloaded and installed on your host machine.
+
+E.g. `HEADLESS=false bundle exec rspec spec/system/mytest_spec.rb`
+
+If you are running in non-headless mode, you'll need to be sure you have the ChromeDriver running and able to accept connections from the IP the server is running on. This can be done by running ChromeDriver in a separate tab/console via:
+
+`./chromedriver --whitelisted-ips`
