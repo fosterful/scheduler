@@ -7,9 +7,12 @@
   .button {
     margin-bottom: 0;
   }
+  .dropdown-menu-button {
+    margin-left: .5rem;
+  }
 }
 
-#profile-dropdown {
+#profile-dropdown, #mobile-dropdown {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 32px;
   :last-child {
     .menu-item {
