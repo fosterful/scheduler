@@ -99,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def scheduler?
-    role.in? %w[coordinator social_worker]
+    role.in? %w[coordinator social_worker admin]
   end
 
   private
