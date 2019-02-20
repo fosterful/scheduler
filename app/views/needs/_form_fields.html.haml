@@ -34,7 +34,7 @@
   .cell
     = f.label :race do
       Preferred Culture
-      = f.collection_select :race, Race.all, :id, :name, class: 'single', include_blank: true
+      = f.select :race, options_for_select(Race.all.map { |r| [r.name, r.id]}), { include_blank: true }, class: 'single'
 .grid-x
   .cell
     = f.label :preferred_language_id do
