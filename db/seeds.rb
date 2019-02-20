@@ -61,7 +61,6 @@ end
  'Hawaiian/Pacific Islander',
  'Hispanic',
  'Indian',
- 'Native',
  'White/Caucasian',
  'Other'].each { |race| Race.find_or_create_by(name: race) }
 
