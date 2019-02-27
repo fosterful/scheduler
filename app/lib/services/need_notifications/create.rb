@@ -7,25 +7,40 @@ module Services
       include Concord.new(:need, :url)
       include Adamantium::Flat
 
-      delegate :office, :preferred_language, :user_id,
-              :shifts, :notified_user_ids, :age_range_ids,
-              to: :need
+      delegate :age_range_ids,
+               :notified_user_ids, 
+               :office, 
+               :preferred_language, 
+               :shifts, 
+               :user_id,
+               to: :need
 
       def call
-        shifts
-          .flat_map { |shift| get_users_for_shift(shift) }
-          .uniq
-          .tap { |users| users.each { |user| SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{url}") } }
-          .tap { |users| need.update(notified_user_ids: notified_user_ids | users.map(&:id)) }
+        shift_users.tap do |u|
+          u.each(&method(:notify_user))
+          need.update(notified_user_ids: notify_user_ids)
+        end
       end
 
       private
 
-      def get_users_for_shift(shift)
+      def notify_user_ids
+        notified_user_ids | shift_users.map(&:id)
+      end
+
+      def notify_user(user)
+        SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{url}")
+      end
+
+      def shift_users
+        shifts.flat_map(&method(:users_for_shift)).uniq
+      end
+
+      def users_for_shift(shift)
         office
           .users
           .volunteerable
-          .where.not(id: notified_user_ids.push(user_id))
+          .where.not(id: notified_user_ids | [user_id])
           .available_within(shift.start_at, shift.end_at)
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
