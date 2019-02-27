@@ -7,8 +7,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable, :lockable, validate_on_invite: true
 
-  ROLES = %w[volunteer coordinator social_worker admin].freeze
-  REGISTERABLE_ROLES = %w[volunteer coordinator social_worker].freeze
+  COORDINATOR   = 'coordinator'
+  SOCIAL_WORKER = 'social_worker'
+  VOLUNTEER     = 'volunteer'
+  ADMIN         = 'admin'
+
+  ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER, ADMIN].freeze
+  REGISTERABLE_ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER].freeze
   PROFILE_ATTRS = [:first_name,
                    :last_name,
                    :time_zone,
@@ -58,9 +63,9 @@ class User < ApplicationRecord
   validate :has_at_least_one_office
   validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
 
-  scope :social_workers, -> { where(role: 'social_worker') }
-  scope :coordinators, -> { where(role: 'coordinator') }
-  scope :volunteers, -> {  where(role: 'volunteer') }
+  scope :coordinators, -> { where(role: COORDINATOR) }
+  scope :social_workers, -> { where(role: SOCIAL_WORKER) }
+  scope :volunteers, -> {  where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
   scope :schedulers, -> { coordinators.or(social_workers)}
 
