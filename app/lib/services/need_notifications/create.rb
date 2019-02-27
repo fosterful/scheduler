@@ -3,6 +3,7 @@
 module Services
   module NeedNotifications
     class Create
+      include NotificationConcern
       include Procto.call
       include Concord.new(:need, :url)
       include Adamantium::Flat
@@ -46,17 +47,6 @@ module Services
           .then { |users| scope_users_by_age_ranges(users) }
       end
 
-      def scope_users_by_language(users)
-        return users unless preferred_language.present?
-
-        users.speaks_language(preferred_language)
-      end
-
-      def scope_users_by_age_ranges(users)
-        return users unless age_range_ids.any?
-
-        users.joins(:age_ranges).where(age_ranges: { id: age_range_ids })
-      end
     end
   end
 end
