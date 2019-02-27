@@ -8,6 +8,7 @@ module Services
       include Adamantium::Flat
 
       delegate :need, to: :shift
+      delegate :notified_user_ids, :user_id, :preferred_language, :age_range_ids, to: :need
 
       def call
         msg = "A new shift has been added to a need at your local office! #{url}"
@@ -24,21 +25,21 @@ module Services
           .users
           .volunteerable
           .available_within(shift.start_at, shift.end_at)
-          .where.not(id: need.notified_user_ids.push(need.user_id))
+          .where.not(id: notified_user_ids.push(user_id))
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
       end
 
       def scope_users_by_language(users)
-        return users unless need.preferred_language.present?
+        return users unless preferred_language.present?
 
-        users.speaks_language(need.preferred_language)
+        users.speaks_language(preferred_language)
       end
 
       def scope_users_by_age_ranges(users)
-        return users unless need.age_range_ids.any?
+        return users unless age_range_ids.any?
 
-        users.joins(:age_ranges).where(age_ranges: { id: need.age_range_ids })
+        users.joins(:age_ranges).where(age_ranges: { id: age_range_ids })
       end
     end
   end
