@@ -18,7 +18,7 @@ const expandRecurringBlockOuts = (blockouts, calendarMonth) => {
       return { ...parent, ...{ id: null, parent_id: parent.id, start_at: moment(o).format(), end_at: end_at.format() } }
     })
   })
-  return blockouts.filter(b => dateIsWithinMonth(b.start_at, calendarMonth) && !b.rrule).concat(expanded.flat())
+  return blockouts.filter(b => !b.rrule).concat(expanded.flat())
 }
 
 export default expandRecurringBlockOuts

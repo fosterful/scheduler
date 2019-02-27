@@ -39,10 +39,18 @@
   }
 }
 
+.blockout-day-heading {
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+}
+
 .blockout-container {
-  border: 1px solid black;
   margin-bottom: 1rem;
   cursor: pointer;
+  .card-divider, .card-section {
+    padding: .5rem;
+  }
 }
 
 .blockout-time {

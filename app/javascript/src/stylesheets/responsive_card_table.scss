@@ -1,0 +1,48 @@
+$responsive-card-table-bottom-gap: 1.5rem;
+$responsive-card-table-border: 1px solid #e6e6e6;
+$responsive-card-table-stack-point: 640px;
+$responsive-card-table-label-bg: $light-gray;
+
+.responsive-card-table {
+  @media screen and (max-width: $responsive-card-table-stack-point) {
+    thead tr {
+      position: absolute;
+      top: -9999em;
+      left: -9999em;
+    }
+
+    tr {
+      border: $responsive-card-table-border;
+      display: block;
+    }
+
+    tr + tr {
+      margin-top: $responsive-card-table-bottom-gap;
+    }
+    /* Get table cells to act like rows */
+
+    td {
+      border: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      border-bottom: $responsive-card-table-border;
+      &:last-of-type {
+        border-bottom: none;
+      }
+      padding-left: 50%;
+      position: relative;
+
+      &:before {
+        content: attr(data-label);
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.5;
+        margin-left: -100%;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+}

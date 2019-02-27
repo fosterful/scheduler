@@ -23,10 +23,29 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .button.success,
 .button.alert,
 .button.warning  {
-  color: white !important;
+  color: white;
+  &:hover {
+    color: white;
+  }
+  &:active {
+    color: white;
+  }
+  &:focus {
+    color: white;
+  }
+}
+
+#error_explanation {
+  @extend .alert;
+  @extend .callout;
+}
+
+.field_with_errors {
+  @extend .is-invalid-input;
 }
 
 @import 'stylesheets/nav';
 @import 'stylesheets/needs';
 @import 'stylesheets/shifts';
 @import '../components/blockouts/scheduler';
+@import 'stylesheets/responsive_card_table';
