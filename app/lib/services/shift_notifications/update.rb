@@ -6,9 +6,9 @@ module Services
       include Procto.call
       include Concord.new(:shift, :current_user, :user_id_was)
       include Adamantium::Flat
+      include Rails.application.routes.url_helpers
 
       delegate :need, :duration, :user, to: :shift
-      delegate :need_url, to: 'Rails.application.routes.url_helpers'
 
       def call
         notification_hash[:users].each do |user|
