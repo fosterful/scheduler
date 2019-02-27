@@ -3,7 +3,8 @@
 
 .grid-x
   .cell.medium-7.large-9.small-order-1.medium-order-2
-    %table.hover.stack.striped
+    %h5.separator-left Needs
+    %table.responsive-card-table.hover.unstriped
       %thead
         %tr
           %th Office
@@ -13,10 +14,11 @@
       %tbody
         - @needs.each do |need|
           %tr
-            %td= link_to need.office.name, need_path(need)
-            %td= link_to need.number_of_children, need_path(need)
-            %td= link_to need.start_at.strftime('%l:%M%P %A, %b %d'), need_path(need)
-            %td= link_to need.shifts.count, need_path(need)
+            %td{data: {label: 'Office'}}= link_to need.office.name, need_path(need)
+            %td{data: {label: 'Children'}}= link_to need.number_of_children, need_path(need)
+            %td{data: {label: 'Start At'}}= link_to need.start_at.strftime('%l:%M%P %A, %b %d'), need_path(need)
+            %td{data: {label: 'Shifts'}}= link_to need.shifts.count, need_path(need)
   .cell.medium-5.large-3.small-order-2.medium-order-1
+    %h5.separator-left My Schedule
     = react_component("blockouts/Scheduler/index", { blockouts: current_user.blockouts.excluding_occurrences.shuffle, authenticity_token: form_authenticity_token }, {id: 'scheduler'})
 
