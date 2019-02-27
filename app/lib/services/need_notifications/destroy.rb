@@ -7,11 +7,13 @@ module Services
       include Concord.new(:need)
       include Adamantium::Flat
 
+      MSG = 'A Need at your office has been deleted.'.freeze
+
       delegate :office, :user_id, to: :need
 
       def call
         (office.users.schedulers | need.users).each do |user|
-          SendTextMessageWorker.perform_async(user.phone, 'A Need at your office has been deleted.')
+          SendTextMessageWorker.perform_async(user.phone, MSG)
         end
       end
     end
