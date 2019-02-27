@@ -3,7 +3,7 @@
 class ShiftsController < ApplicationController
   def index
     @need = policy_scope(Need).includes(shifts: :user).includes(:office).find(params[:need_id])
-    @shifts = @need.shifts.order(:start_at)
+    @shifts = @need.shifts
     authorize @shifts.first
   end
 
@@ -12,6 +12,7 @@ class ShiftsController < ApplicationController
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
+      Services::ShiftNotifications::Create.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Created!'
     else
       flash[:alert] = 'Whoops! something went wrong.'
@@ -23,9 +24,10 @@ class ShiftsController < ApplicationController
     @need = policy_scope(Need).find(params[:need_id])
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
+    user_id_was = @shift.user_id
     @shift.assign_attributes(permitted_attributes(@shift))
     if @shift.save
-      Services::SendShiftStatusNotifications.call(@shift)
+      Services::ShiftNotifications::Update.call(@shift, current_user, user_id_was)
       flash[:notice] = 'Shift Claimed!'
     else
       flash[:alert] = 'Whoops! something went wrong.'
@@ -38,7 +40,7 @@ class ShiftsController < ApplicationController
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
     if @shift.destroy
-      Services::SendShiftStatusNotifications.call(@shift)
+      Services::ShiftNotifications::Destroy.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Destroyed'
     else
       flash[:alert] = 'Whoops! something went wrong.'

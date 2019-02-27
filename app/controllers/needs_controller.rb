@@ -3,13 +3,15 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need).includes(:shifts).order(:start_at)
+    @needs = policy_scope(Need).includes(:shifts)
   end
 
   def show
     @need = policy_scope(Need).includes(:shifts).find(params[:id])
-    @shifts = @need.shifts.order(:start_at)
+    @shifts = @need.shifts
     authorize @need
+  rescue ActiveRecord::RecordNotFound
+    redirect_to(root_path, alert: "Sorry, we couldn't find that need.")
   end
 
   def new
@@ -21,7 +23,7 @@ class NeedsController < ApplicationController
     @need = current_user.needs.build(permitted_attributes(Need))
     authorize @need
     if @need.update(shifts: Services::BuildNeedShifts.call(@need))
-      Services::SendNeedNotifications.call(@need)
+      Services::NeedNotifications::Create.call(@need, need_url(@need))
       redirect_to(@need)
     else
       render(:new)
@@ -38,7 +40,7 @@ class NeedsController < ApplicationController
     @need.assign_attributes(permitted_attributes(@need))
     authorize @need
     if @need.save
-      Services::SendNeedNotifications.call(@need)
+      Services::NeedNotifications::Update.call(@need, need_url(@need))
       redirect_to(@need)
     else
       render(:edit)
@@ -49,6 +51,7 @@ class NeedsController < ApplicationController
     @need = policy_scope(Need).find(params[:id])
     authorize @need
     if @need.destroy
+      Services::NeedNotifications::Destroy.call(@need)
       redirect_to needs_path, flash: { success: 'Need successfully deleted' }
     else
       redirect_back fallback_location: needs_path, flash: { error: 'Failed to delete Need' }

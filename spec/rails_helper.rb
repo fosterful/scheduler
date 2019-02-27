@@ -14,6 +14,7 @@ require 'support/capybara'
 require 'support/devise'
 require 'support/factory_bot'
 require 'pundit/matchers'
+require 'sidekiq/testing'
 
 include WebMock::API
 
@@ -57,6 +58,10 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
+
   config.include ActiveSupport::Testing::TimeHelpers
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

@@ -44,4 +44,30 @@ RSpec.describe ShiftPolicy do
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:destroy) }
   end
+
+  describe '.scope' do
+    context 'for admins' do
+      let!(:admin) { create(:user, role: 'admin') }
+      before { create_list(:need_with_shifts, 2) }
+
+      it 'contains all' do
+        expect(described_class::Scope.new(admin, Shift).resolve).to contain_exactly(*Shift.all)
+      end
+    end
+
+    context 'for non-admins' do
+      let(:office1) { create(:office) }
+      let(:office2) { create(:office) }
+      let(:user) { create(:user) }
+      before do
+        create(:need_with_shifts, office: office1)
+        create(:need_with_shifts, office: office2)
+        user.offices << office1
+      end
+
+      it "contains only needs for the user's office" do
+        expect(described_class::Scope.new(user, Shift).resolve).to contain_exactly(*Shift.joins(:need).where(needs: { office_id: office1.id }))
+      end
+    end
+  end
 end

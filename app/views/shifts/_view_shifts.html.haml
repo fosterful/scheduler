@@ -1,0 +1,4 @@
+- shifts.each do |shift|
+  %hr
+  .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
+    = render partial: 'shift_list', locals: { shift: shift, classes: [(shift.user_id ? 'secondary claimed' : 'success unclaimed')] }

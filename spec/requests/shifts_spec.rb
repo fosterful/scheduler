@@ -21,6 +21,7 @@ RSpec.describe "Shifts", type: :request do
     before { sign_in user }
     context 'success' do
       it 'is redirects to the need' do
+        expect(Services::ShiftNotifications::Create).to receive(:call).and_return(true)
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
         expect(response).to redirect_to(need_shifts_path(need))
       end
@@ -37,12 +38,13 @@ RSpec.describe "Shifts", type: :request do
   describe '#update' do
     before { sign_in volunteer }
     it 'redirects to the associated need' do
+      expect(Services::ShiftNotifications::Update).to receive(:call).and_return(true)
       put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
       expect(response).to redirect_to(need_path(need))
     end
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect(Services::SendShiftStatusNotifications).to receive(:call).and_return(true)
+        expect(Services::ShiftNotifications::Update).to receive(:call).and_return(true)
         put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
         expect(flash[:notice]).to eql('Shift Claimed!')
       end
@@ -64,7 +66,7 @@ RSpec.describe "Shifts", type: :request do
     end
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect(Services::SendShiftStatusNotifications).to receive(:call).and_return(true)
+        expect(Services::ShiftNotifications::Destroy).to receive(:call).and_return(true)
         delete need_shift_path(need, shift)
         expect(flash[:notice]).to eql('Shift Successfully Destroyed')
       end

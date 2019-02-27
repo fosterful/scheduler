@@ -30,11 +30,11 @@ class NeedPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    permitted_attributes | %i[start_at expected_duration]
+    permitted_attributes | %i[office_id start_at expected_duration]
   end
 
   def permitted_attributes
-    [:office_id, :race_id, :preferred_language_id, :number_of_children, age_range_ids: []]
+    [:race_id, :preferred_language_id, :number_of_children, age_range_ids: []]
   end
 
   class Scope < Scope

@@ -34,6 +34,21 @@ ENV GEM_PATH /gems
 # Add /gems/bin to the path so any installed gem binaries are runnable from bash.
 ENV PATH /gems/bin:$PATH
 
+###############################################################################
+# Optional Software Install
+###############################################################################
+
+#------------------------------------------------------------------------------
+# Postgres Client:
+#------------------------------------------------------------------------------
+
+ARG INSTALL_PG_CLIENT=true
+
+RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
+  # Install the pgsql client
+  apt-get install -y postgresql-client \
+;fi
+
 RUN mkdir -p /app
 WORKDIR /app
 

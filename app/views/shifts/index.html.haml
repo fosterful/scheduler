@@ -2,40 +2,9 @@
   .header-text Shift Management
 - content_for :nav_buttons do
   = link_to 'Back to Need', need_path(@need), class: 'button primary'
+  = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary' unless @need.shifts.last.expired?
 .shifts-container
-  = link_to need_shifts_path(@need, shift: { start_at: @shifts.first.start_at - 1.hour, duration: 60 }), method: :post do
-    .grid-x.grid-margin-y.grid-margin-x
-      .cell.small-12.medium-6.shift.add-shift
-        .grid-x.grid-padding-x.grid-padding-y
-          .cell.text-center
-            %i.fas.fa-plus
-            Add Shift Before
-  - @shifts.each_with_index do |shift, i|
-    %hr
-    .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
-      .cell.small-12.medium-6.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed' }
-        .grid-x.grid-padding-x.grid-padding-y
-          .cell.text-center
-            %strong= shift.start_at.strftime('%I:%M%p')
-            - if shift.user
-              \-
-              = link_to shift.user.name, admin_user_path(shift.user)
-      .cell.small-12.medium-6
-        .button-group.stacked-for-small
-          %button.button.success{ data: { open: "volunteerModal#{i}" } } Assign Volunteer
-          - if shift.user_id
-            = link_to 'Remove Volunteer', need_shift_path(@need, shift, { shift: { user_id: nil }, redirect_to: need_shifts_path(@need) }), method: :put, class: 'button warning', data: { confirm: 'Are you sure you want to unassign this Volunteer?' }
-          = link_to 'Delete Shift', need_shift_path(@need, shift, redirect_to: need_shifts_path(@need)), method: :delete, class: 'button alert', data: { confirm: 'Are you sure you want to delete this Shift?' }
-        .reveal{ id: "volunteerModal#{i}", data: { reveal: true } }
-          %button.close-button{ data: { close: true }, aria: { label: 'Close Modal' } }
-            %i.fas.fa-times
-          = form_for shift, url: need_shift_path(@need, shift, redirect_to: need_shifts_path(@need)), method: :patch, class: 'user-select-form' do |f|
-            = f.collection_select :user_id, @need.office.users.volunteers, :id, :name
-            = f.submit 'Update', class: 'button success'
-  = link_to need_shifts_path(@need, shift: { start_at: @shifts.last.start_at + @shifts.last.duration.minutes, duration: 60 }), method: :post do
-    .grid-x.grid-margin-y.grid-margin-x
-      .cell.small-12.medium-6.shift.add-shift
-        .grid-x.grid-padding-x.grid-padding-y
-          .cell.text-center
-            %i.fas.fa-plus
-            Add Shift After
+  - if @need.expired?
+    = render partial: 'view_shifts', locals: { shifts: @shifts }
+  - else
+    = render partial: 'manage_shifts', locals: { shifts: @shifts }

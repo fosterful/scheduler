@@ -111,6 +111,10 @@ GEM
       devise (>= 4.0.0)
     diff-lcs (1.3)
     docile (1.3.1)
+    dotenv (2.6.0)
+    dotenv-rails (2.6.0)
+      dotenv (= 2.6.0)
+      railties (>= 3.2, < 6.0)
     equalizer (0.0.11)
     erubi (1.8.0)
     erubis (2.7.0)
@@ -120,6 +124,8 @@ GEM
     factory_bot_rails (4.11.1)
       factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
     ffi (1.10.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -153,6 +159,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (2.1.0)
+    jwt (2.1.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -189,6 +196,7 @@ GEM
       railties (>= 3.1)
     msgpack (1.2.6)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     nio4r (2.3.1)
     nokogiri (1.10.0)
       mini_portile2 (~> 2.4.0)
@@ -214,6 +222,8 @@ GEM
     pundit-matchers (1.6.0)
       rspec-rails (>= 3.0.0)
     rack (2.0.6)
+    rack-protection (2.0.5)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -257,6 +267,9 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redis (4.1.0)
+    redis-namespace (1.6.0)
+      redis (>= 3.0.4)
     regexp_parser (1.3.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -316,6 +329,11 @@ GEM
     sexp_processor (4.11.0)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
+    sidekiq (5.2.5)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -342,6 +360,10 @@ GEM
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
+    twilio-ruby (5.19.0)
+      faraday (~> 0.9)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.1)
@@ -379,6 +401,7 @@ DEPENDENCIES
   concord
   devise
   devise_invitable
+  dotenv-rails
   factory_bot_rails
   geocoder!
   haml-rails
@@ -396,16 +419,20 @@ DEPENDENCIES
   rails (~> 5.2.2)
   rails-controller-testing
   react-rails
+  redis
+  redis-namespace
   rrule
   rspec-rails
   rspec_junit_formatter
   selenium-webdriver
   shoulda-matchers (~> 3.1)
+  sidekiq
   simplecov
   spring
   spring-commands-rspec
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
+  twilio-ruby
   tzinfo-data
   vcr
   web-console (>= 3.3.0)
