@@ -4,6 +4,6 @@ class SendTextMessageWorker
   include Sidekiq::Worker
 
   def perform(number, message)
-    $twilio.api.account.messages.create(from: '+16309841220', to: number, body: message) if number
+    $twilio.api.account.messages.create(from: Rails.configuration.twilio_number, to: number, body: message) if number
   end
 end
