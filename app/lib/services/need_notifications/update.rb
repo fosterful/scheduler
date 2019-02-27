@@ -22,7 +22,7 @@ module Services
         office
           .users
           .volunteerable
-          .where.not(id: notified_user_ids.push(user_id))
+          .where.not(id: notified_user_ids | [user_id])
           .available_within(shifts.first.start_at, shifts.last.end_at)
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
