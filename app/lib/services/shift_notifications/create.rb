@@ -10,8 +10,9 @@ module Services
       delegate :need, to: :shift
 
       def call
+        msg = "A new shift has been added to a need at your local office! #{url}"
         users_to_notify.each do |user|
-          SendTextMessageWorker.perform_async(user.phone, "A new shift has been added to a need at your local office! #{url}")
+          SendTextMessageWorker.perform_async(user.phone, msg)
         end
       end
 
