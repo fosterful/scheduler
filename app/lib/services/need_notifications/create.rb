@@ -46,7 +46,6 @@ module Services
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
       end
-
     end
   end
 end
