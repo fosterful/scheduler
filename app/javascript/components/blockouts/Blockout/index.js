@@ -25,12 +25,16 @@ class Blockout extends React.Component {
       <SchedulerContext.Consumer>
         {({ setModalInfo }) => (
           <div
-            className='blockout-container'
+            className='card blockout-container'
             onClick={setModalInfo.bind(this, { component: 'EditBlockoutModal', data: { blockout: blockout } })}
           >
-            Blockout Date<br />
-            <div className='blockout-reason'>{this.renderReason()}</div>
-            <div className='blockout-time'>{this.renderTime()}</div>
+            <div className='card-divider'>
+              Blockout
+            </div>
+            <div className='card-section'>
+              <div className='blockout-reason'>{this.renderReason()}</div>
+              <div className='blockout-time'>{this.renderTime()}</div>
+            </div>
           </div>
         )}
       </SchedulerContext.Consumer>

@@ -10,7 +10,7 @@ const BlockoutList = ({ blockoutsWithDays }) =>
     {
       blockoutsByDay(blockoutsWithDays).map(([heading, days], index) =>
         <div key={index}>
-          <div className='day-heading'>
+          <div className='blockout-day-heading'>
             {moment(heading).format('dddd L')}
           </div>
           <div className='day-blockOuts'>
