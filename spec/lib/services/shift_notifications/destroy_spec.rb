@@ -11,7 +11,8 @@ RSpec.describe Services::ShiftNotifications::Destroy do
     let(:shift) { create(:shift, user: user) }
 
     it 'notifies the user' do
-      expect(subject).to include(user)
+      expect(SendTextMessageWorker).to receive(:perform_async).with(user.phone, "A shift has been removed from a need at your local office. https://test.com")
+      subject
     end
   end
 
