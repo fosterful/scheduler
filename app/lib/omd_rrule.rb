@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class OmdRrule
-  def initialize(*args)
-    self.rule = RRule::Rule.new(*args)
+  def initialize(rule, options)
+    options[:tzid] = Time.zone.tzinfo.name
+    self.rule = RRule::Rule.new(rule, options)
   end
 
   def last_occurrence
