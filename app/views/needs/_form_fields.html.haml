@@ -1,3 +1,12 @@
+- if f.object.errors.any?
+  #error_explanation
+    %h5
+      = pluralize(f.object.errors.count, "error")
+      prohibited this task from being saved:
+    %ul
+      - f.object.errors.full_messages.each do |msg|
+        %li= msg
+
 %fieldset.fieldset
   %legend Start Date/Time
   .grid-x
