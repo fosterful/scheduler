@@ -23,7 +23,16 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .button.success,
 .button.alert,
 .button.warning  {
-  color: white !important;
+  color: white;
+  &:hover {
+    color: white;
+  }
+  &:active {
+    color: white;
+  }
+  &:focus {
+    color: white;
+  }
 }
 
 #error_explanation {
