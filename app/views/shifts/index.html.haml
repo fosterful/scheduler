@@ -2,9 +2,9 @@
   .header-text Shift Management
 - content_for :nav_buttons do
   = link_to 'Back to Need', need_path(@need), class: 'button primary'
-  = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary' unless @need.shifts.last.expired
+  = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary' unless @need.shifts.last.expired?
 .shifts-container
-  - if @need.expired
+  - if @need.expired?
     = render partial: 'view_shifts', locals: { shifts: @shifts }
   - else
     = render partial: 'manage_shifts', locals: { shifts: @shifts }

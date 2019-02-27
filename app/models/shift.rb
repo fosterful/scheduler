@@ -11,7 +11,7 @@ class Shift < ApplicationRecord
     start_at.advance(minutes: duration)
   end
 
-  def expired
+  def expired?
     end_at <= Time.zone.now
   end
 

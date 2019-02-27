@@ -25,7 +25,7 @@ class Need < ApplicationRecord
     start_at.advance(minutes: expected_duration)
   end
 
-  def expired
+  def expired?
     end_at <= Time.zone.now
   end
 end

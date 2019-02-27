@@ -9,7 +9,7 @@
   %hr
   .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
     = render partial: 'shift_list', locals: { shift: shift, classes: [(shift.user_id ? 'secondary claimed' : 'success unclaimed'), 'medium-6'] }
-    - unless shift.expired
+    - unless shift.expired?
       .cell.small-12.medium-6
         .button-group.stacked-for-small
           - if shift.user_id
