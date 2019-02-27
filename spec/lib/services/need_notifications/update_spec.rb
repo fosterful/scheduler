@@ -19,7 +19,7 @@ RSpec.describe Services::NeedNotifications::Update do
   end
 
   it 'does not include non-volunteers' do
-    need.office.users << social_worker = build(:user, role: 'social_worker')
+    need.office.users << (social_worker = build(:user, role: 'social_worker'))
     expect(subject).not_to include(social_worker)
   end
 
