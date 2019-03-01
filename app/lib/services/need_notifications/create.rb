@@ -42,6 +42,7 @@ module Services
           .users
           .volunteerable
           .where.not(id: notified_user_ids | [user_id])
+          .where.not(phone: nil)
           .available_within(shift.start_at, shift.end_at)
           .then { |users| scope_users_by_language(users) }
           .then { |users| scope_users_by_age_ranges(users) }
