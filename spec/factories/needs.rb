@@ -7,7 +7,10 @@ FactoryBot.define do
     start_at { Time.zone.now }
     expected_duration { 120 }
     number_of_children { 1 }
-    age_ranges { [build(:age_range)] }
+
+    after(:build) do |need|
+      need.age_ranges << build(:age_range)
+    end
 
     factory :need_with_shifts do
       transient do
