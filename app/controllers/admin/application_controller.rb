@@ -13,7 +13,7 @@ module Admin
 
     def authenticate_admin
       return if current_user&.role == 'admin'
-      redirect_to root_path, flash: { error: 'Not authroized.' }
+      redirect_to root_path, flash: { error: 'Not authorized.' }
     end
 
     # Uses Pundit helper
