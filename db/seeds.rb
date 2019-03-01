@@ -31,6 +31,7 @@ end
    Arabic
    Austronesian
    Cantonese
+   English
    Filipino
    French
    German
