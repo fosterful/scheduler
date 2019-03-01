@@ -10,7 +10,7 @@ class Need < ApplicationRecord
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
 
-  validates :start_at, :expected_duration, :number_of_children, presence: true
+  validates :age_ranges, :start_at, :expected_duration, :number_of_children, presence: true
   validates :expected_duration, inclusion: { in: ->(need) { (60..) }, message: 'must be at least on hour' }
 
   scope :current, -> { where('start_at > ?', Time.zone.now) }
