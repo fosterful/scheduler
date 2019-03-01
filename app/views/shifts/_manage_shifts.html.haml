@@ -1,10 +1,11 @@
-= link_to need_shifts_path(@need, shift: { start_at: shifts.first.start_at - 1.hour, duration: 60 }), method: :post do
-  .grid-x.grid-margin-y.grid-margin-x
-    .cell.small-12.medium-6.shift.add-shift
-      .grid-x.grid-padding-x.grid-padding-y
-        .cell.text-center
-          %i.fas.fa-plus
-          Add Shift Before
+- if shifts.first.start_at.advance(hours: -1) > Time.zone.now
+  = link_to need_shifts_path(@need, shift: { start_at: shifts.first.start_at - 1.hour, duration: 60 }), method: :post do
+    .grid-x.grid-margin-y.grid-margin-x
+      .cell.small-12.medium-6.shift.add-shift
+        .grid-x.grid-padding-x.grid-padding-y
+          .cell.text-center
+            %i.fas.fa-plus
+            Add Shift Before
 - shifts.each_with_index do |shift, i|
   %hr
   .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle

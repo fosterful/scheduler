@@ -28,4 +28,8 @@ class Need < ApplicationRecord
   def expired?
     end_at <= Time.zone.now
   end
+
+  def effective_start_at
+    [start_at, *shifts.pluck(:start_at)].min
+  end
 end
