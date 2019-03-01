@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Services::ShiftNotifications::Create do
   let(:shift) { create(:need_with_shifts).shifts.first }
+  let(:need) { shift.need }
 
   let(:user) { create(:user) }
 
@@ -21,7 +22,8 @@ RSpec.describe Services::ShiftNotifications::Create do
 
   context 'with multiple users' do
     it 'returns volunteers notified' do
-      shift.need.office.users << users = build_list(:user, 2)
+      users = build_list(:user, 2, age_ranges: need.age_ranges)
+      need.office.users << users
       expect(subject).to include(*users)
     end
   end
@@ -47,7 +49,9 @@ RSpec.describe Services::ShiftNotifications::Create do
 
   context 'preferred language was specified' do
     let(:language) { create(:language, name: 'gibberish') }
-    let(:language_speaking_user) { create(:user, first_language: language) }
+    let(:language_speaking_user) do
+      create(:user, first_language: language, age_ranges: need.age_ranges)
+    end
 
     before do
       shift.need.update(preferred_language: language)
