@@ -68,6 +68,7 @@ class User < ApplicationRecord
   scope :volunteers, -> {  where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
   scope :schedulers, -> { coordinators.or(social_workers)}
+  scope :with_phone, -> { where.not(phone: nil) }
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
