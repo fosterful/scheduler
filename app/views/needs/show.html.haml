@@ -1,5 +1,5 @@
 - content_for :page_header do
-  .header-text Need at #{@need.start_at.strftime('%l:%M%P on %A, %b %d')}
+  .header-text Need at #{@need.effective_start_at.strftime('%l:%M%P on %A, %b %d')}
 - if policy(@need).edit? && !@need.expired?
   - content_for :nav_buttons do
     = link_to 'Manage Shifts', need_shifts_path(@need), class: 'button primary'
@@ -12,7 +12,7 @@
       .cell.small-5
         %div Start Time
       .cell.small-7.text-center
-        %strong= @need.start_at.strftime('%l:%M%P')
+        %strong= @need.effective_start_at.strftime('%l:%M%P')
         %br
         = @need.start_at.strftime('%A, %b %d')
     .grid-x.grid-padding-y.align-middle
