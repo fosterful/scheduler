@@ -6,9 +6,15 @@
         %i.fas.fa-user-cog
 = link_to edit_user_registration_path do
   .grid-x.menu-item
-    .cell.small-9.text-right Settings
+    .cell.small-9.text-right Profile
     .cell.small-2.small-offset-1
       %i.fas.fa-sliders-h
+- if current_user.scheduler?
+  = link_to new_user_invitation_path do
+    .grid-x.menu-item
+      .cell.small-9.text-right Invite User
+      .cell.small-2.small-offset-1
+        %i.fas.fa-user-plus
 = link_to destroy_user_session_path, method: :delete do
   .grid-x.menu-item
     .cell.small-9.text-right Sign Out

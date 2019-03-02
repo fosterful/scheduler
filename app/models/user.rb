@@ -13,13 +13,12 @@ class User < ApplicationRecord
   ADMIN         = 'admin'
 
   ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER, ADMIN].freeze
-  REGISTERABLE_ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER].freeze
   PROFILE_ATTRS = [:first_name,
                    :last_name,
                    :time_zone,
                    :race_id,
                    :first_language_id,
-                   {age_range_ids: []},
+                   { age_range_ids: [] },
                    :birth_date,
                    :phone,
                    :resident_since,
@@ -67,7 +66,7 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> {  where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :schedulers, -> { coordinators.or(social_workers)}
+  scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
   def self.available_within(start_at, end_at)
@@ -101,7 +100,7 @@ class User < ApplicationRecord
 
   def name
     name = "#{first_name} #{last_name}"
-    name.present? ? name : email
+    name.presence || email
   end
 
   def scheduler?

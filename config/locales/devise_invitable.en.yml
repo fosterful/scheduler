@@ -10,8 +10,8 @@ en:
       no_invitations_remaining: "No invitations remaining"
       invitation_removed: "Your invitation was removed."
       new:
-        header: "Send invitation"
-        submit_button: "Send an invitation"
+        header: "Send an invitation"
+        submit_button: "Send invitation"
       edit:
         header: "Create your account"
         submit_button: "Create my account"
