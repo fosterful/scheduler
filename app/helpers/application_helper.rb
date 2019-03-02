@@ -9,7 +9,7 @@ module ApplicationHelper
     title_map = {
       'coordinator' => 'Volunteer Coordinator'
     }
-    User::REGISTERABLE_ROLES.map do |role|
+    User::ROLES.map do |role|
       u = User.new(role: role)
       [title_map[role] || role.titleize, role] if policy(u).new?
     end.compact
