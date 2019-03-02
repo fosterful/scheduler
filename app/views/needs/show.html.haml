@@ -10,11 +10,6 @@
   .cell.small-12.medium-8.large-6
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
-        %div Number of Children
-      .cell.small-7.text-center
-        %strong= @need.number_of_children
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
         %div Start Time
       .cell.small-7.text-center
         %strong= @need.start_at.strftime('%l:%M%P')
@@ -25,6 +20,16 @@
         %div Office
       .cell.small-7.text-center
         %strong= @need.office.name
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Number of Children
+      .cell.small-7.text-center
+        %strong= @need.number_of_children
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Age Range(s)
+      .cell.small-7.text-center
+        %strong= @need.age_ranges.join(', ')
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
         %div Preferred Language

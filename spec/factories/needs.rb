@@ -8,6 +8,10 @@ FactoryBot.define do
     expected_duration { 120 }
     number_of_children { 1 }
 
+    after(:build) do |need|
+      need.age_ranges << build(:age_range)
+    end
+
     factory :need_with_shifts do
       transient do
         shifts_count { 2 }

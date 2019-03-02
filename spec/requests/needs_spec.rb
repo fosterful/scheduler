@@ -35,10 +35,16 @@ RSpec.describe "Needs", type: :request do
 
   describe '#create' do
     context 'success' do
+      let(:params) do
+        {
+          need: attributes_for(:need).merge(office_id:     need.office_id,
+                                            age_range_ids: [AgeRange.first.id])
+        }
+      end
       it 'is redirects to the need' do
         expect(Services::BuildNeedShifts).to receive(:call).and_return([]).once
         expect(Services::NeedNotifications::Create).to receive(:call).and_return(true).once
-        post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
+        post needs_path, params: params
         expect(response).to redirect_to(assigns(:need))
       end
     end

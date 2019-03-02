@@ -25,7 +25,8 @@ RSpec.describe Services::NeedNotifications::Update do
 
   context 'with multiple users' do
     it 'returns volunteers notified' do
-      need.office.users << users = build_list(:user, 2)
+      users = build_list(:user, 2, age_ranges: need.age_ranges)
+      need.office.users << users
       expect(subject).to include(*users)
     end
   end
@@ -51,7 +52,9 @@ RSpec.describe Services::NeedNotifications::Update do
 
   context 'preferred language was specified' do
     let(:language) { build(:language, name: 'gibberish') }
-    let(:language_speaking_user) { build(:user, first_language: language) }
+    let(:language_speaking_user) do
+      build(:user, first_language: language, age_ranges: need.age_ranges)
+    end
 
     before do
       need.update(preferred_language: language)
