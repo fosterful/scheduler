@@ -9,12 +9,12 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#invite_links' do
+  describe '#invite_options_for_select' do
     it 'returns a string' do
       without_partial_double_verification do
         user = build(:user)
         allow(helper).to receive(:policy).and_return(Pundit.policy(user, user))
-        expect(helper.invite_links).to be_a(String)
+        expect(helper.invite_options_for_select).to be_a(Array)
       end
     end
   end

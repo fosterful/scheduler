@@ -16,10 +16,6 @@ class UserPolicy < ApplicationPolicy
     authorize_role_assignment && authorize_office_assignment
   end
 
-  def permitted_attributes_for_new
-    permitted_attributes_for_create
-  end
-
   def permitted_attributes_for_create
     permitted_attributes | %i[email role]
   end
@@ -33,6 +29,7 @@ class UserPolicy < ApplicationPolicy
   private
 
   def authorize_role_assignment
+    return true if user.scheduler? && other_user == User
     case user.role
     when 'admin'
       true

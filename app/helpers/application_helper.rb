@@ -5,14 +5,14 @@ module ApplicationHelper
     { notice: 'success', error: 'alert', alert: 'warning' }.with_indifferent_access
   end
 
-  def invite_links
+  def invite_options_for_select
     title_map = {
       'coordinator' => 'Volunteer Coordinator'
     }
     User::REGISTERABLE_ROLES.map do |role|
       u = User.new(role: role)
-      link_to title_map[role] || role.titleize, new_user_invitation_path(user: { role: role }) if policy(u).new?
-    end.compact.to_sentence(last_word_connector: ' or ')
+      [title_map[role] || role.titleize, role] if policy(u).new?
+    end.compact
   end
 
   def offices_for_select(scope)
