@@ -13,7 +13,7 @@
       .grid-x.grid-padding-x
         .cell
           = f.label :role do
-            Office(s)*
+            Role*
             = f.select(:role, nil, { prompt: 'Select a role...' }, required: true, class: 'single') do
               = options_for_select(invite_options_for_select)
       .grid-x.grid-padding-x
