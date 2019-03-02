@@ -7,80 +7,96 @@
     .medium-6.xlarge-3.cell
       = f.label :first_name do
         First Name
-        = f.text_field :first_name, placeholder: 'Enter your first name'
+        = f.text_field :first_name, placeholder: 'Enter your first name', required: true
+      .help-text Required
     .medium-6.xlarge-9.cell
       = f.label :last_name do
         Last Name
-        = f.text_field :last_name, placeholder: 'Enter your last name'
+        = f.text_field :last_name, placeholder: 'Enter your last name', required: true
+      .help-text Required
   - if f.object.class.require_password_on_accepting
     %fieldset.fieldset
       %legend Password
       %em Password must be at least 6 characters long
       = f.label :password do
-        = f.password_field :password, placeholder: 'Password'
+        = f.password_field :password, placeholder: 'Password', required: true
+      .help-text Required
+      %br
       = f.label :password_confirmation do
-        = f.password_field :password_confirmation, placeholder: 'Password Confirmation'
+        = f.password_field :password_confirmation, placeholder: 'Password Confirmation', required: true
+      .help-text Required
 
   .grid-x.grid-padding-x
     .cell
       = f.label :time_zone do
         Time Zone
-        = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select a Timezone...'
+        = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select a Timezone...', required: true
+      .help-text Required
   - if profile_attributes_required?(resource)
     .grid-x.grid-padding-x
       .cell
         = f.label :race_id do
           Race
-        = f.collection_select :race_id, Race.all, :id, :name, prompt: 'Select a race...'
+        = f.collection_select :race_id, Race.all, :id, :name, prompt: 'Select a race...', required: true
+        .help-text Required
     .grid-x.grid-padding-x
       .cell.auto
         = f.label :first_language_id do
           First Language
-        = f.collection_select :first_language_id, Language.all, :id, :name, prompt: 'Select a language...'
+        = f.collection_select :first_language_id, Language.all, :id, :name, prompt: 'Select a language...', required: true
+        .help-text Required
       .cell.auto
         = f.label :second_language_id do
-          Second Language (optional)
-        = f.collection_select :second_language_id, Language.all, :id, :name, prompt: 'Select a language...'
+          Second Language
+        = f.collection_select :second_language_id, Language.all, :id, :name, prompt: 'Select a language...', required: true
+        .help-text Optional
     .grid-x.grid-padding-x
       .cell
         = f.label :birth_date do
           Birth Date
-          = f.date_field :birth_date
+          = f.date_field :birth_date, required: true
+        .help-text Required
     .grid-x.grid-padding-x
       .cell
         = f.label :phone do
           Phone Number
-          = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }
+          = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }, required: true
+        .help-text Required
     .grid-x.grid-padding-x
       .cell
         = f.label :resident_since do
           U.S. Resident Since
-          = f.date_field :resident_since
+          = f.date_field :resident_since, required: true
+        .help-text Required
     .grid-x.grid-padding-x
       .cell
         = f.label :age_range_ids do
           Select one or more age ranges that you would like to work with
-          - selected_age_range_ids = f.object.age_range_ids.any? ? f.object.age_range_ids : AgeRange.all.pluck(:id)
-          = f.collection_select :age_range_ids, AgeRange.all, :id, :to_s, { selected: selected_age_range_ids, prompt: 'Select one or more age ranges...' }, { :multiple => true }
+          - selected_age_range_ids = f.object.age_range_ids.presence || AgeRange.pluck(:id)
+          = f.collection_select :age_range_ids, AgeRange.all, :id, :to_s, { selected: selected_age_range_ids, prompt: 'Select one or more age ranges...' }, { multiple: true, required: true }
+        .help-text Required
     .grid-x.grid-padding-x
       .cell
         = f.label :discovered_omd_by do
           How did you discover Office Moms & Dads?
-          = f.text_area :discovered_omd_by
+          = f.text_area :discovered_omd_by, required: true
+        .help-text Required
     .grid-x.grid-padding-x
       .cell.medium-6
         %fieldset.fieldset
-          = f.check_box :medical_limitations
+          = f.check_box :medical_limitations, required: true
           = f.label :medical_limitations do
             Do you have any medical limitations?
+          .help-text Required
           = f.label :medical_limitations_desc do
             If so, please describe below:
             = f.text_area :medical_limitations_desc
       .cell.medium-6
         %fieldset.fieldset
-          = f.check_box :conviction
+          = f.check_box :conviction, required: true
           = f.label :conviction do
             Have you ever been convicted of a felony?
+          .help-text Required
           = f.label :conviction_desc do
             If so, please describe below:
             = f.text_area :conviction_desc
