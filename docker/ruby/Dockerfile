@@ -1,5 +1,5 @@
 
-FROM ruby:2.6.0
+FROM ruby:2.6.1
 
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 
