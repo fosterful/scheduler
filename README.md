@@ -10,12 +10,13 @@
 
 1. [Download Docker CE for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 > Note: remove boot2docker or other Docker implementations if any were previously installed
+2.  Copy the `env.example` file to `.env`
+    `cp env.example .env `
+    > Note: There exists a .env file in 1Password intended for development.
+    > Note: On Mac, make sure to append `:docker-compose.mac.yml` to `COMPOSE_FILE` to take advantage of cached volumes
 
-2. Move Docker to your Applications and open the App
-3. Change `config/database.yml.example` to `config/database.yml` and configure it for your environment
-4. Open Terminal navigate to the root of the app and run `docker-compose build`
-5. Run `docker-compose up`
-6. Open a browser to localhost:3000 verify the app is up.
+3. Run `docker-compose up`
+4. Open a browser to localhost:3000 verify the app is up.
 
 ### Helpful Docker Commands
 * `docker-compose up` Starts fresh containers `-d` starts it in daemon mode
@@ -46,7 +47,7 @@ This pattern works for non-Rails commands also.
 
 ### System Tests
 
-System tests open the browser and make assertions against the content of the 
+System tests open the browser and make assertions against the content of the
 page or verify expected behavior. These tests can be run in headless mode (the
 default), which means that they are executed in a virtual browser. If you would
 like them to be run in an actual, viewable browser, you will need to disable
