@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) { build :user }
+
   it 'has a valid factory' do
     expect(user.valid?).to be(true)
   end
@@ -12,6 +13,7 @@ RSpec.describe User, type: :model do
     let!(:volunteer) { create :user, role: 'volunteer' }
     let!(:coordinator) { create :user, role: 'coordinator' }
     let!(:social_worker) { create :user, role: 'social_worker' }
+
     it 'returns a list of users that are volunteers or coordinators' do
       expect(described_class.volunteerable).to contain_exactly(volunteer, coordinator)
       expect(described_class.volunteerable).not_to include(social_worker)
@@ -48,8 +50,9 @@ RSpec.describe User, type: :model do
   end
 
   describe '.available_within' do
-    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
     subject { User.available_within(*time.values) }
+
+    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
 
     context 'user has no blockouts' do
       let!(:user) { create :user }
@@ -79,8 +82,9 @@ RSpec.describe User, type: :model do
   end
 
   describe '.speaks_language' do
-    let(:language) { create :language }
     subject { User.speaks_language(language) }
+
+    let(:language) { create :language }
 
     it 'includes primary and secondary speakers' do
       primary_speaker = create :user, first_language: language

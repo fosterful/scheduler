@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class OfficeDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -23,33 +23,33 @@ class OfficeDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  COLLECTION_ATTRIBUTES = [
-    :id,
-    :name,
-    :region,
-    :address,
-    :created_at
-  ].freeze
+  COLLECTION_ATTRIBUTES = %i(
+    id
+    name
+    region
+    address
+    created_at
+  ).freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = [
-    :name,
-    :region,
-    :address,
-    :id,
-    :created_at,
-    :updated_at
-  ].freeze
+  SHOW_PAGE_ATTRIBUTES = %i(
+    name
+    region
+    address
+    id
+    created_at
+    updated_at
+  ).freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :name,
-    :region,
-    :address
-  ].freeze
+  FORM_ATTRIBUTES = %i(
+    name
+    region
+    address
+  ).freeze
 
   # Overwrite this method to customize how offices are displayed
   # across all pages of the admin dashboard.

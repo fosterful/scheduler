@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe NeedPolicy do
+  subject { described_class.new(user, record) }
+
   let(:creator) { build :user, role: 'social_worker' }
   let(:record) { create :need, user: creator }
-
-  subject { described_class.new(user, record) }
 
   context 'for volunteers' do
     let(:user) { create :user, role: 'volunteer' }
@@ -43,6 +43,7 @@ RSpec.describe NeedPolicy do
 
   context 'for social workers' do
     let(:user) { create :user, role: 'social_worker' }
+
     before { record.office.users << user }
 
     it { is_expected.to permit_action(:index) }

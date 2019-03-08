@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :office do
-    name { "Vancouver Office" }
+    name { 'Vancouver Office' }
     region { 1 }
     after :build do |office|
       office.address = build(:address, addressable: office)

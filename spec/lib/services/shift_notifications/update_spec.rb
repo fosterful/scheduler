@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Services::ShiftNotifications::Update do
   let(:office) { create(:office) }
   let(:coordinator) { create(:user, role: 'coordinator', offices: [office]) }
-  let(:need) { create(:need_with_shifts, user: coordinator, office: office ) }
+  let(:need) { create(:need_with_shifts, user: coordinator, office: office) }
   let(:shift) { need.shifts.first }
   let(:volunteer) { create(:user, offices: [office]) }
   let!(:social_worker) { create(:user, role: 'social_worker', offices: [office]) }
@@ -25,6 +25,7 @@ RSpec.describe Services::ShiftNotifications::Update do
 
     context 'unassigns themself from a shift' do
       before { shift.update(user: volunteer) }
+
       it 'notifies the social workers' do
         shift.assign_attributes(user_id: nil)
         expect(described_class.call(shift, volunteer, volunteer.id)).to include(social_worker)

@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationPolicy, type: :policy do
+  subject { described_class.new(user, record) }
+
   let(:user)   { build(:user) }
   let(:record) { build(:user) }
-
-  subject { described_class.new(user, record) }
 
   it { is_expected.to forbid_action(:index) }
   it { is_expected.to forbid_action(:show) }

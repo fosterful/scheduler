@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class AgeRangeDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -14,7 +14,7 @@ class AgeRangeDashboard < Administrate::BaseDashboard
     min: Field::Number,
     max: Field::Number,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -22,30 +22,30 @@ class AgeRangeDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  COLLECTION_ATTRIBUTES = [
-    :id,
-    :min,
-    :max,
-    :created_at,
-  ].freeze
+  COLLECTION_ATTRIBUTES = %i(
+    id
+    min
+    max
+    created_at
+  ).freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = [
-    :id,
-    :min,
-    :max,
-    :created_at,
-    :updated_at,
-  ].freeze
+  SHOW_PAGE_ATTRIBUTES = %i(
+    id
+    min
+    max
+    created_at
+    updated_at
+  ).freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :min,
-    :max,
-  ].freeze
+  FORM_ATTRIBUTES = %i(
+    min
+    max
+  ).freeze
 
   # Overwrite this method to customize how age ranges are displayed
   # across all pages of the admin dashboard.

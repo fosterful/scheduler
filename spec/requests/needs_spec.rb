@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "Needs", type: :request do
+RSpec.describe 'Needs', type: :request do
   let(:need) { create :need }
+
   before { sign_in need.user }
 
   describe '#index' do
@@ -37,10 +38,11 @@ RSpec.describe "Needs", type: :request do
     context 'success' do
       let(:params) do
         {
-          need: attributes_for(:need).merge(office_id:     need.office_id,
+          need: attributes_for(:need).merge(office_id: need.office_id,
                                             age_range_ids: [AgeRange.first.id])
         }
       end
+
       it 'is redirects to the need' do
         expect(Services::BuildNeedShifts).to receive(:call).and_return([]).once
         expect(Services::NeedNotifications::Create).to receive(:call).and_return(true).once

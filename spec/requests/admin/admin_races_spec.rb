@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Admin races spec", type: :request do
+RSpec.describe 'Admin races spec', type: :request do
   before { sign_in create :user }
 
   it 'does not allow unauthorized access' do
@@ -10,10 +10,10 @@ RSpec.describe "Admin races spec", type: :request do
     expect(response).to redirect_to(:root)
   end
 
-  describe "#create" do
+  describe '#create' do
     before { sign_in create :user, role: 'admin' }
 
-    it "redirects to show view after creating the race" do
+    it 'redirects to show view after creating the race' do
       post admin_races_path, params: { race: { name: 'foo' } }
       expect(response).to redirect_to(admin_race_path(Race.last))
     end

@@ -20,7 +20,7 @@ module Services
 
       def notification_hash
         if current_user == user && user
-          { users:  (need.office.users.social_workers | [need.user]),
+          { users: (need.office.users.social_workers | [need.user]),
             message: 'A Volunteer has taken a shift.' }
         elsif user.nil? && current_user.id == user_id_was
           { users: (need.office.users.social_workers | [need.user]),
@@ -32,7 +32,7 @@ module Services
           { users: User.where(id: user_id_was),
             message: 'You have been unassigned from a shift' }
         else
-          { users:[], message: '' }
+          { users: [], message: '' }
         end
       end
     end

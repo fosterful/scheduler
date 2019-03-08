@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "Shifts", type: :request do
+RSpec.describe 'Shifts', type: :request do
   let(:office) { create :office }
   let(:user) { create :user, role: 'coordinator', offices: [office] }
   let(:volunteer) { create :user, role: 'volunteer', offices: [office] }
@@ -11,6 +11,7 @@ RSpec.describe "Shifts", type: :request do
 
   describe '#index' do
     before { sign_in user }
+
     it 'renders the index view' do
       get need_shifts_path(need)
       expect(response).to render_template(:index)
@@ -19,6 +20,7 @@ RSpec.describe "Shifts", type: :request do
 
   describe '#create' do
     before { sign_in user }
+
     context 'success' do
       it 'is redirects to the need' do
         expect(Services::ShiftNotifications::Create).to receive(:call).and_return(true)
@@ -26,6 +28,7 @@ RSpec.describe "Shifts", type: :request do
         expect(response).to redirect_to(need_shifts_path(need))
       end
     end
+
     context 'failure' do
       it 'renders the new view' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
@@ -37,6 +40,7 @@ RSpec.describe "Shifts", type: :request do
 
   describe '#update' do
     before { sign_in volunteer }
+
     it 'redirects to the associated need' do
       expect(Services::ShiftNotifications::Update).to receive(:call).and_return(true)
       put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
@@ -49,6 +53,7 @@ RSpec.describe "Shifts", type: :request do
         expect(flash[:notice]).to eql('Shift Claimed!')
       end
     end
+
     context 'failure' do
       it 'sets the flash to display an error message' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
@@ -60,6 +65,7 @@ RSpec.describe "Shifts", type: :request do
 
   describe '#destroy' do
     before { sign_in user }
+
     it 'redirects to shift index' do
       delete need_shift_path(need, shift)
       expect(response).to redirect_to(need_shifts_path(need))
@@ -71,6 +77,7 @@ RSpec.describe "Shifts", type: :request do
         expect(flash[:notice]).to eql('Shift Successfully Destroyed')
       end
     end
+
     context 'failure' do
       it 'sets the flash to display an error message' do
         expect_any_instance_of(Shift).to receive(:destroy).and_return(false)

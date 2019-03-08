@@ -9,10 +9,10 @@ module Services
       include Adamantium::Flat
 
       delegate :age_range_ids,
-               :notified_user_ids, 
-               :office, 
-               :preferred_language, 
-               :shifts, 
+               :notified_user_ids,
+               :office,
+               :preferred_language,
+               :shifts,
                :user_id,
                to: :need
 

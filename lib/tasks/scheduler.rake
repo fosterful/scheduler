@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 namespace :scheduler do
-  desc "This task is called by the Heroku scheduler add-on"
-  task :update_blockouts => :environment do
+  desc 'This task is called by the Heroku scheduler add-on'
+  task update_blockouts: :environment do
     Rails.logger.info("Updating #{Blockout.current_recurring.count} Blockouts")
     Blockout.current_recurring.find_each do |blockout|
       Services::ExpandRecurringBlockout.call(blockout)

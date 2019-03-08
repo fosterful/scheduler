@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Admin languages spec", type: :request do
+RSpec.describe 'Admin languages spec', type: :request do
   before { sign_in create :user }
 
   it 'does not allow unauthorized access' do
@@ -10,10 +10,10 @@ RSpec.describe "Admin languages spec", type: :request do
     expect(response).to redirect_to(:root)
   end
 
-  describe "#create" do
+  describe '#create' do
     before { sign_in create :user, role: 'admin' }
 
-    it "redirects to show view after creating the language" do
+    it 'redirects to show view after creating the language' do
       post admin_languages_path, params: { language: { name: 'foo' } }
       expect(response).to redirect_to(admin_language_path(Language.last))
     end
@@ -26,6 +26,7 @@ RSpec.describe "Admin languages spec", type: :request do
 
   describe 'show' do
     before { sign_in create :user, role: 'admin' }
+
     let(:language) { create :language }
 
     it 'displays the language' do

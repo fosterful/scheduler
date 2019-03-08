@@ -4,12 +4,12 @@ class Blockout < ApplicationRecord
   belongs_to :user
 
   has_many :occurrences, class_name: 'Blockout', foreign_key: :parent_id, inverse_of: :parent, dependent: :destroy
-  belongs_to :parent, class_name: 'Blockout', inverse_of: :occurrences, required: false
+  belongs_to :parent, class_name: 'Blockout', inverse_of: :occurrences, optional: true
 
   validates :start_at, :end_at,
             presence: true
   validates :start_at,
-            inclusion: { in: ->(blockout) { (Time.zone.now.beginning_of_day..) }, message: 'must be in the future' },
+            inclusion: { in: ->(_blockout) { (Time.zone.now.beginning_of_day..) }, message: 'must be in the future' },
             if: :start_at_changed?
 
   validates :end_at,

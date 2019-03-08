@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "User invitations", type: :request do
+RSpec.describe 'User invitations', type: :request do
   let(:user_attributes) { attributes_for(:user).slice(:email, :role).merge(office_ids: [office.id]) }
   let(:user) { create :user, role: 'coordinator' }
   let(:raw_invitation_token) { user.instance_variable_get(:@raw_invitation_token) }
@@ -25,6 +25,7 @@ RSpec.describe "User invitations", type: :request do
 
   describe '#new' do
     before { sign_in user }
+
     it 'renders a 200 response' do
       get new_user_invitation_path
       expect(response).to be_successful
@@ -53,7 +54,7 @@ RSpec.describe "User invitations", type: :request do
     context 'with required attributes' do
       let(:user_accept_attributes) do
         attrs = User::PROFILE_ATTRS.flat_map { |attr| attr.try(:keys) || attr }
-        attributes_for(:user).slice(*attrs | %i[password password_confirmation])
+        attributes_for(:user).slice(*attrs | %i(password password_confirmation))
                              .merge(invitation_token: raw_invitation_token)
       end
 

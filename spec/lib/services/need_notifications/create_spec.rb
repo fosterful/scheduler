@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Services::NeedNotifications::Create do
+  subject { described_class.call(need, 'https://test.com') }
+
   let(:need) do
     build(:need).tap do |need|
       need.update(shifts: Services::BuildNeedShifts.call(need))
@@ -10,8 +12,6 @@ RSpec.describe Services::NeedNotifications::Create do
   end
 
   let(:user) { build(:user) }
-
-  subject { described_class.call(need, 'https://test.com') }
 
   it 'does not include the need user/creator' do
     expect(need.office.users).to include(need.user)

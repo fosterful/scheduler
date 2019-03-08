@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Services::ShiftNotifications::Create do
+  subject { described_class.call(shift, 'https://test.com') }
+
   let(:shift) { create(:need_with_shifts).shifts.first }
   let(:need) { shift.need }
 
   let(:user) { create(:user) }
-
-  subject { described_class.call(shift, 'https://test.com') }
 
   it 'does not include the need user/creator' do
     expect(shift.need.office.users).to include(shift.need.user)

@@ -19,11 +19,11 @@ class ShiftPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    permitted_attributes | %i[start_at duration]
+    permitted_attributes | %i(start_at duration)
   end
 
   def permitted_attributes
-    %i[user_id]
+    %i(user_id)
   end
 
   class Scope < Scope

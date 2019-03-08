@@ -30,7 +30,7 @@ class NeedPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    permitted_attributes | %i[office_id start_at expected_duration]
+    permitted_attributes | %i(office_id start_at expected_duration)
   end
 
   def permitted_attributes
