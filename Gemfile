@@ -71,6 +71,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
   gem 'shoulda-matchers'
   gem 'pundit-matchers'
   gem 'factory_bot_rails'
