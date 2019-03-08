@@ -26,6 +26,6 @@ class Blockout < ApplicationRecord
   scope :current_recurring, -> { current.merge(recurring) }
 
   def duration_in_seconds
-    end_at - start_at
+    (end_at - start_at).to_i
   end
 end

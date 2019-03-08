@@ -11,8 +11,11 @@ RSpec.describe Services::NeedNotifications::Destroy do
   let(:volunteer) { create(:user, offices: [office]) }
   let!(:other_volunteer) { create(:user, offices: [office]) }
 
-  it 'includes the office schedulers and users signed up for shifts' do
-    need.shifts.last.update(user: volunteer)
-    expect(subject).to contain_exactly(scheduler, volunteer)
+  describe '#call' do
+    it 'includes the office schedulers and users signed up for shifts' do
+      need.shifts.last.update(user: volunteer)
+      expect(subject).to contain_exactly(scheduler, volunteer)
+    end
   end
+
 end

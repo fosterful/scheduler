@@ -92,4 +92,55 @@ RSpec.describe User, type: :model do
       expect(subject).to include(primary_speaker, secondary_speaker)
     end
   end
+
+  describe '.coordinators' do # scope test
+    it 'supports named scope coordinators' do
+      expect(described_class.limit(3).coordinators).to all(be_a(described_class))
+    end
+  end
+
+  describe '.social_workers' do # scope test
+    it 'supports named scope social_workers' do
+      expect(described_class.limit(3).social_workers)
+        .to all(be_a(described_class))
+    end
+  end
+
+  describe '.volunteers' do # scope test
+    it 'supports named scope volunteers' do
+      expect(described_class.limit(3).volunteers).to all(be_a(described_class))
+    end
+  end
+
+  describe '.schedulers' do # scope test
+    it 'supports named scope schedulers' do
+      expect(described_class.limit(3).schedulers).to all(be_a(described_class))
+    end
+  end
+
+  describe '.with_phone' do # scope test
+    it 'supports named scope with_phone' do
+      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
+    end
+  end
+
+  describe '#has_at_least_one_age_range' do
+    it 'has_at_least_one_age_range' do
+      user = described_class.new
+
+      user.has_at_least_one_age_range
+
+      expect(user.errors[:base])
+        .to include('At least one age range selection is required')
+    end
+  end
+
+  describe '#scheduler?' do
+    it 'scheduler?' do
+      result = user.scheduler?
+
+      expect(result).to be false
+    end
+  end
+
 end

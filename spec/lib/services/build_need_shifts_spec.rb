@@ -54,4 +54,13 @@ RSpec.describe Services::BuildNeedShifts do
       )
     end
   end
+
+  describe '#call' do
+    it 'call' do
+      result = subject
+
+      expect(result).to all(be_an_instance_of(Shift)).and have(2).entries
+    end
+  end
+
 end

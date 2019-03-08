@@ -34,4 +34,5 @@ namespace :cleanup do
     system("#{COMMAND_PREFIX} #{command}")
     puts "Finishing #{task}"
   end
+
 end

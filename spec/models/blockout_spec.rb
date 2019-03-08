@@ -77,4 +77,27 @@ RSpec.describe Blockout, type: :model do
       expect(result).not_to include(b2, b3)
     end
   end
+
+  describe '.occurrences' do # scope test
+    it 'supports named scope occurrences' do
+      expect(described_class.limit(3).occurrences).to all(be_a(described_class))
+    end
+  end
+
+  describe '.excluding_occurrences' do # scope test
+    it 'supports named scope excluding_occurrences' do
+      expect(described_class.limit(3).excluding_occurrences)
+        .to all(be_a(described_class))
+    end
+  end
+
+  describe '#duration_in_seconds' do
+    it 'duration_in_seconds' do
+      result = blockout.duration_in_seconds
+
+      expect(result).to eql(3600)
+    end
+  end
+
+
 end

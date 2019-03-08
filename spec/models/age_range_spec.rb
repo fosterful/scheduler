@@ -32,4 +32,13 @@ RSpec.describe AgeRange, type: :model do
       end
     end
   end
+
+  describe '#to_s' do
+    it 'to_s' do
+      result = age_range.to_s
+
+      expect(result).to eql('1-1')
+    end
+  end
+
 end

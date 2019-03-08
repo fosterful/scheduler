@@ -17,4 +17,29 @@ RSpec.describe Shift, type: :model do
         .by(1)
     end
   end
+
+  describe '#end_at' do
+    it 'end_at' do
+      result = shift.end_at
+
+      expect(result).to be_within(5.seconds).of(Time.zone.now.advance(hours: 1))
+    end
+  end
+
+  describe '#expired?' do
+    it 'expired?' do
+      result = shift.expired?
+
+      expect(result).to be false
+    end
+
+    it 'returns true if expired' do
+      shift.start_at = Time.zone.now.advance(hours: -3)
+
+      result = shift.expired?
+
+      expect(result).to be true
+    end
+  end
+
 end
