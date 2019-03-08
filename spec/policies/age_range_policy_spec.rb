@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe LanguagePolicy do
-  subject { described_class.new(user, record) }
+RSpec.describe AgeRangePolicy do
+  let(:subject) { described_class.new(user, record) }
 
-  let(:user)   { build(:user) }
+  let(:user) { build(:user) }
   let(:record) { build(:need) }
 
   describe '#permitted_attributes' do
     it 'permitted_attributes' do
       result = subject.permitted_attributes
 
-      expect(result).to eql([:name])
+      expect(result).to match_array(%i(min max))
     end
   end
 

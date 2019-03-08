@@ -7,6 +7,7 @@ RSpec.describe NeedPolicy do
 
   let(:creator) { build :user, role: 'social_worker' }
   let(:record) { create :need, user: creator }
+  let(:user)   { build(:user) }
 
   context 'for volunteers' do
     let(:user) { create :user, role: 'volunteer' }
@@ -24,7 +25,8 @@ RSpec.describe NeedPolicy do
 
       describe '.scope' do
         it 'scopes the query' do
-          expect(described_class::Scope.new(user.reload, Need.all).resolve).to include(record)
+          expect(described_class::Scope.new(user.reload, Need.all).resolve)
+            .to include(record)
         end
       end
     end
@@ -35,7 +37,8 @@ RSpec.describe NeedPolicy do
 
       describe '.scope' do
         it 'scopes the query' do
-          expect(described_class::Scope.new(user.reload, Need.all).resolve).not_to include(record)
+          expect(described_class::Scope.new(user.reload, Need.all).resolve)
+            .not_to include(record)
         end
       end
     end
@@ -56,7 +59,8 @@ RSpec.describe NeedPolicy do
 
     describe '.scope' do
       it 'scopes the query' do
-        expect(described_class::Scope.new(user.reload, Need.all).resolve).to include(record)
+        expect(described_class::Scope.new(user.reload, Need.all).resolve)
+          .to include(record)
       end
     end
   end
@@ -74,8 +78,92 @@ RSpec.describe NeedPolicy do
 
     describe '.scope' do
       it 'scopes the query' do
-        expect(described_class::Scope.new(user.reload, Need.all).resolve).to match_array Need.all
+        expect(described_class::Scope.new(user.reload, Need.all).resolve)
+          .to match_array Need.all
       end
     end
   end
+
+  describe '#index?' do
+    it 'index?' do
+      result = subject.index?
+
+      expect(result).to be true
+    end
+  end
+
+  describe '#show?' do
+    it 'show?' do
+      result = subject.show?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#create?' do
+    it 'create?' do
+      result = subject.create?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#new?' do
+    it 'new?' do
+      result = subject.new?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#edit?' do
+    it 'edit?' do
+      result = subject.edit?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#update?' do
+    it 'update?' do
+      result = subject.update?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#destroy?' do
+    it 'destroy?' do
+      result = subject.destroy?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#permitted_attributes_for_create' do
+    it 'permitted_attributes_for_create' do
+      result = subject.permitted_attributes_for_create
+
+      expect(result)
+        .to match_array([:expected_duration,
+                         :number_of_children,
+                         :office_id,
+                         :preferred_language_id,
+                         :race_id,
+                         :start_at,
+                         age_range_ids: []])
+    end
+  end
+
+  describe '#permitted_attributes' do
+    it 'permitted_attributes' do
+      result = subject.permitted_attributes
+
+      expect(result).to match_array([:number_of_children,
+                                     :preferred_language_id,
+                                     :race_id,
+                                     age_range_ids: []])
+    end
+  end
+
 end

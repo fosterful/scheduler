@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe ShiftPolicy do
   subject { described_class.new(user, record) }
 
+  let(:user) { creator }
   let(:creator) { build :user, role: 'social_worker' }
   let(:record) { build :shift, user: creator }
 
@@ -75,4 +76,53 @@ RSpec.describe ShiftPolicy do
       end
     end
   end
+
+  describe '#create?' do
+    it 'create?' do
+      result = subject.create?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#index?' do
+    it 'index?' do
+      result = subject.index?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#update?' do
+    it 'update?' do
+      result = subject.update?
+
+      expect(result).to be true
+    end
+  end
+
+  describe '#destroy?' do
+    it 'destroy?' do
+      result = subject.destroy?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#permitted_attributes_for_create' do
+    it 'permitted_attributes_for_create' do
+      result = subject.permitted_attributes_for_create
+
+      expect(result).to match_array(%i(user_id start_at duration))
+    end
+  end
+
+  describe '#permitted_attributes' do
+    it 'permitted_attributes' do
+      result = subject.permitted_attributes
+
+      expect(result).to eql(%i(user_id))
+    end
+  end
+
 end
