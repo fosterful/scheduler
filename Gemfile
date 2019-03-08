@@ -75,6 +75,7 @@ group :development, :test do
   gem 'pundit-matchers'
   gem 'factory_bot_rails'
   gem 'rspec_junit_formatter'
+  gem 'rspec-jumpstart'
   gem 'spring-commands-rspec'
   gem 'rails-controller-testing'
   gem 'webmock'
