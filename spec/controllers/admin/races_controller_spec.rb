@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 
-RSpec.describe ApplicationRecord, type: :model do
-
+RSpec.describe Admin::RacesController, type: :controller do
 
 end
