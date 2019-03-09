@@ -31,8 +31,8 @@ RSpec.describe NeedsController, type: :controller do
         post :create, params: { need: { number_of_children: 2,
                                         expected_duration:  120,
                                         start_at:           Time.zone.now.advance(weeks: 1).to_param,
-                                        office_id: need.office_id.to_param,
-                                        age_range_ids: [AgeRange.first!.id] } }
+                                        office_id:          need.office_id.to_param,
+                                        age_range_ids:      [AgeRange.first!.id] } }
       end.to change(Need, :count).by(1)
 
       expect(response).to have_http_status(:found)

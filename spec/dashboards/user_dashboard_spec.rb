@@ -14,5 +14,4 @@ RSpec.describe UserDashboard do
     end
   end
 
-
 end

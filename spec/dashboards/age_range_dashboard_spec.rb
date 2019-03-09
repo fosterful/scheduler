@@ -14,5 +14,4 @@ RSpec.describe AgeRangeDashboard do
     end
   end
 
-
 end

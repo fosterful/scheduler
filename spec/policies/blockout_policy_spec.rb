@@ -40,7 +40,7 @@ RSpec.describe BlockoutPolicy do
                                      :end_at,
                                      :rrule,
                                      :reason,
-                                      exdate: []])
+                                     exdate: []])
     end
   end
 

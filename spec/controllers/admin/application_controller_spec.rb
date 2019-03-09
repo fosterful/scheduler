@@ -22,9 +22,19 @@ RSpec.describe Admin::ApplicationController, type: :controller do
   end
 
   describe '#resource_params' do
-    xit 'resource_params' do
-      # TODO: spec this
+    let(:params) do
+      ActionController::Parameters
+        .new({ need: { age_range_ids: [], duration: 20 } })
+    end
+
+    it 'resource_params' do
+      allow_any_instance_of(described_class)
+        .to receive(:params).and_return(params)
+      expect(object).to receive(:resource_class).and_return(need)
+
+      result = object.resource_params
+
+      expect(result.keys).to match_array(%w(age_range_ids))
     end
   end
-
 end

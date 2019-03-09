@@ -6,7 +6,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
   describe '#create' do
     it 'POST create' do
-      post :create, {}
+      post :create
 
       expect(response).to have_http_status(:redirect)
     end

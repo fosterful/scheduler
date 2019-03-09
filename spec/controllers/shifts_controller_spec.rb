@@ -43,7 +43,6 @@ RSpec.describe ShiftsController, type: :controller do
     end
   end
 
-  # TODO: auto-generated
   describe '#destroy' do
     it 'DELETE destroy' do
       delete :destroy, params: { need_id: need.id, id: shift.id }

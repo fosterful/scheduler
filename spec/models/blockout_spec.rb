@@ -95,9 +95,8 @@ RSpec.describe Blockout, type: :model do
     it 'duration_in_seconds' do
       result = blockout.duration_in_seconds
 
-      expect(result).to eql(3600)
+      expect(result).to be(3600)
     end
   end
-
 
 end

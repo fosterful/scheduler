@@ -23,5 +23,4 @@ RSpec.describe OfficePolicy, type: :policy do
     end
   end
 
-
 end

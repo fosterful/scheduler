@@ -3,15 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe RaceDashboard do
+  let(:object) { described_class.new }
 
-  # TODO: auto-generated
   describe '#display_resource' do
-    it 'display_resource' do
-      race_dashboard = described_class.new
-      race = double('race')
-      result = race_dashboard.display_resource(race)
+    let(:race) { build(:race) }
 
-      expect(result).not_to be_nil
+    it 'display_resource' do
+      result = object.display_resource(race)
+
+      expect(result).to eql('Hispanic')
     end
   end
 
