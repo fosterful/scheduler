@@ -15,5 +15,6 @@ class OmdRrule
   end
 
   private
+
   attr_accessor :rule
 end

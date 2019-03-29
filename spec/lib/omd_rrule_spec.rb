@@ -9,13 +9,13 @@ RSpec.describe OmdRrule do
   end
 
   describe '#current_occurrence_times' do
-    it 'should only include the next 16 days worth of occurrences' do
+    it 'only includes the next 16 days worth of occurrences' do
       expect(subject.current_occurrence_times.length).to eq(16)
     end
   end
 
   describe '#last_occurrence' do
-    it 'should enforce an upper bound of three years' do
+    it 'enforces an upper bound of three years' do
       expect(subject.last_occurrence.year).to eq(3.years.from_now.year)
     end
   end

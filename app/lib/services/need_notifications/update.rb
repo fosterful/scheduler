@@ -13,7 +13,7 @@ module Services
 
       def call
         users_to_notify.each do |user|
-          SendTextMessageWorker.perform_async(user.phone, "A new Need has opened up at your local office! #{url}" )
+          SendTextMessageWorker.perform_async(user.phone, "A new Need has opened up at your local office! #{url}")
         end
       end
 

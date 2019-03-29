@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Something", type: :system, js: true do
+RSpec.describe 'Something', type: :system, js: true do
 
   describe 'home page' do
     it 'does something' do
@@ -11,5 +11,3 @@ RSpec.describe "Something", type: :system, js: true do
     end
   end
 end
-
-

@@ -9,6 +9,7 @@ module Services
     def call
       return blockout.save if blockout.rrule.blank?
       return false unless save_blockout
+
       blockout.occurrences.delete_all
       Services::BulkInserter::Insert.call(occurrences) if occurrences.any?
       true

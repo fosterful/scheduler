@@ -15,7 +15,7 @@ RSpec.describe Services::ExpandRecurringBlockout do
       end
 
       it 'saves the blockout' do
-        expect { subject }.to change { blockout.persisted? }.from(false).to(true)
+        expect { subject }.to change(blockout, :persisted?).from(false).to(true)
       end
 
       it 'expands the occurrences' do

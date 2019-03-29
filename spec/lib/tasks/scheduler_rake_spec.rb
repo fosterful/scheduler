@@ -7,13 +7,13 @@ describe 'scheduler:update_blockouts' do
   include_context 'rake'
 
   context 'with an end to occurrence' do
-    it "updates current_recurring Blockouts over time" do
+    it 'updates current_recurring Blockouts over time' do
       travel_to Time.zone.parse('2019-01-09')
 
       blockout = create :blockout_with_occurrences,
-                         start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'),
-                         end_at: Time.zone.parse('2019-01-09 10:00:00 -0800'),
-                         rrule: "FREQ=DAILY;UNTIL=#{Time.zone.parse('2019-01-29')}"
+                        start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'),
+                        end_at: Time.zone.parse('2019-01-09 10:00:00 -0800'),
+                        rrule: "FREQ=DAILY;UNTIL=#{Time.zone.parse('2019-01-29')}"
 
       expect(blockout.occurrences.count).to eq(16)
 
@@ -35,13 +35,13 @@ describe 'scheduler:update_blockouts' do
   end
 
   context 'scheduled in the future with no end in sight' do
-    it "updates current_recurring Blockouts over time" do
+    it 'updates current_recurring Blockouts over time' do
       travel_to Time.zone.parse('2019-01-09')
 
       blockout = create :blockout_with_occurrences,
-                         start_at: Time.zone.parse('2019-01-14 09:00:00 -0800'),
-                         end_at: Time.zone.parse('2019-01-14 10:00:00 -0800'),
-                         rrule: 'FREQ=DAILY'
+                        start_at: Time.zone.parse('2019-01-14 09:00:00 -0800'),
+                        end_at: Time.zone.parse('2019-01-14 10:00:00 -0800'),
+                        rrule: 'FREQ=DAILY'
 
       expect(blockout.occurrences.count).to eq(11)
 
@@ -64,4 +64,3 @@ describe 'scheduler:update_blockouts' do
     end
   end
 end
-

@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ShiftPolicy do
+  subject { described_class.new(user, record) }
+
+  let(:user) { creator }
   let(:creator) { build :user, role: 'social_worker' }
   let(:record) { build :shift, user: creator }
-
-  subject { described_class.new(user, record) }
 
   context 'for volunteers' do
     let(:user) { build :user, role: 'volunteer' }
@@ -21,11 +22,13 @@ RSpec.describe ShiftPolicy do
 
       context 'assigned as the shift user' do
         let(:record) { build :shift, user: user }
+
         it { is_expected.to permit_action(:update) }
       end
 
       context 'with no user assigned to shift' do
         let(:record) { build :shift, user: nil }
+
         it { is_expected.to permit_action(:update) }
       end
     end
@@ -37,6 +40,7 @@ RSpec.describe ShiftPolicy do
 
   context 'for social workers' do
     let(:user) { build :user, role: 'social_worker' }
+
     before { record.need.office.users << user }
 
     it { is_expected.to permit_action(:create) }
@@ -48,6 +52,7 @@ RSpec.describe ShiftPolicy do
   describe '.scope' do
     context 'for admins' do
       let!(:admin) { create(:user, role: 'admin') }
+
       before { create_list(:need_with_shifts, 2) }
 
       it 'contains all' do
@@ -59,6 +64,7 @@ RSpec.describe ShiftPolicy do
       let(:office1) { create(:office) }
       let(:office2) { create(:office) }
       let(:user) { create(:user) }
+
       before do
         create(:need_with_shifts, office: office1)
         create(:need_with_shifts, office: office2)
@@ -70,4 +76,53 @@ RSpec.describe ShiftPolicy do
       end
     end
   end
+
+  describe '#create?' do
+    it 'create?' do
+      result = subject.create?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#index?' do
+    it 'index?' do
+      result = subject.index?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#update?' do
+    it 'update?' do
+      result = subject.update?
+
+      expect(result).to be true
+    end
+  end
+
+  describe '#destroy?' do
+    it 'destroy?' do
+      result = subject.destroy?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#permitted_attributes_for_create' do
+    it 'permitted_attributes_for_create' do
+      result = subject.permitted_attributes_for_create
+
+      expect(result).to match_array(%i(user_id start_at duration))
+    end
+  end
+
+  describe '#permitted_attributes' do
+    it 'permitted_attributes' do
+      result = subject.permitted_attributes
+
+      expect(result).to eql(%i(user_id))
+    end
+  end
+
 end

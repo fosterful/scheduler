@@ -8,11 +8,13 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    before_action :authenticate_admin
     include Administrate::Punditize
+
+    before_action :authenticate_admin
 
     def authenticate_admin
       return if current_user&.role == 'admin'
+
       redirect_to root_path, flash: { error: 'Not authorized.' }
     end
 

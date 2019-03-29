@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Services
   module NotificationConcern
     def scope_users_by_language(users)
-      return users unless preferred_language.present?
+      return users if preferred_language.blank?
 
       users.speaks_language(preferred_language)
     end

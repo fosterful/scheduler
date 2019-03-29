@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class UserDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -62,66 +62,66 @@ class UserDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  COLLECTION_ATTRIBUTES = [
-    :name,
-    :email,
-    :offices,
-    :id
-  ].freeze
+  COLLECTION_ATTRIBUTES = %i(
+    name
+    email
+    offices
+    id
+  ).freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = [
-    :first_name,
-    :last_name,
-    :email,
-    :role,
-    :time_zone,
-    :race,
-    :first_language,
-    :second_language,
-    :birth_date,
-    :phone,
-    :resident_since,
-    :discovered_omd_by,
-    :medical_limitations,
-    :medical_limitations_desc,
-    :conviction,
-    :conviction_desc,
-    :offices,
-    :age_ranges,
-    :invited_by,
-    :unconfirmed_email,
-    :created_at,
-    :updated_at,
-    :locked_at,
-    :sign_in_count,
-    :current_sign_in_at,
-  ].freeze
+  SHOW_PAGE_ATTRIBUTES = %i(
+    first_name
+    last_name
+    email
+    role
+    time_zone
+    race
+    first_language
+    second_language
+    birth_date
+    phone
+    resident_since
+    discovered_omd_by
+    medical_limitations
+    medical_limitations_desc
+    conviction
+    conviction_desc
+    offices
+    age_ranges
+    invited_by
+    unconfirmed_email
+    created_at
+    updated_at
+    locked_at
+    sign_in_count
+    current_sign_in_at
+  ).freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :first_name,
-    :last_name,
-    :email,
-    :role,
-    :race,
-    :first_language,
-    :second_language,
-    :time_zone,
-    :offices,
-    :age_ranges,
-    :birth_date,
-    :phone,
-    :resident_since,
-    :discovered_omd_by,
-    :medical_limitations,
-    :medical_limitations_desc,
-    :conviction,
-    :conviction_desc
-  ].freeze
+  FORM_ATTRIBUTES = %i(
+    first_name
+    last_name
+    email
+    role
+    race
+    first_language
+    second_language
+    time_zone
+    offices
+    age_ranges
+    birth_date
+    phone
+    resident_since
+    discovered_omd_by
+    medical_limitations
+    medical_limitations_desc
+    conviction
+    conviction_desc
+  ).freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.

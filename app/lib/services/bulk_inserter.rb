@@ -10,6 +10,7 @@ module Services
 
       def insert
         raise(BulkInserter::Error, 'Some records were invalid!') if records.any? { |r| !r.valid? }
+
         ActiveRecord::Base.connection.execute(insert_sql)
       end
 
@@ -18,7 +19,7 @@ module Services
       def present_attributes_for(record)
         record.attributes.select { |_, v| v.present? }.tap do |attrs|
           now = Time.zone.now
-          ['created_at', 'updated_at'].each { |v| attrs[v] ||= now }
+          %w(created_at updated_at).each { |v| attrs[v] ||= now }
         end
       end
 

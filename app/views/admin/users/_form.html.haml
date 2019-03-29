@@ -11,7 +11,7 @@
         - page.resource.errors.full_messages.each do |message|
           %li.flash-error= message
   - filtered_attributes(page).each do |attribute|
-    %div{:class => "field-unit field-unit--#{attribute.html_class}"}
+    %div{ class: "field-unit field-unit--#{attribute.html_class}" }
       = render_field attribute, f: f
   .form-actions
     = f.submit

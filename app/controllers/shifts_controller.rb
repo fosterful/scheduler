@@ -2,13 +2,13 @@
 
 class ShiftsController < ApplicationController
   def index
-    @need = policy_scope(Need).includes(shifts: :user).includes(:office).find(params[:need_id])
+    @need   = policy_scope(Need).includes(shifts: :user).includes(:office).find(params[:need_id])
     @shifts = @need.shifts
     authorize @shifts.first
   end
 
   def create
-    @need = policy_scope(Need).find(params[:need_id])
+    @need  = policy_scope(Need).find(params[:need_id])
     @shift = @need.shifts.build(permitted_attributes(Shift))
     authorize @shift
     if @shift.save
@@ -21,7 +21,7 @@ class ShiftsController < ApplicationController
   end
 
   def update
-    @need = policy_scope(Need).find(params[:need_id])
+    @need  = policy_scope(Need).find(params[:need_id])
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
     user_id_was = @shift.user_id
@@ -36,7 +36,7 @@ class ShiftsController < ApplicationController
   end
 
   def destroy
-    @need = policy_scope(Need).find(params[:need_id])
+    @need  = policy_scope(Need).find(params[:need_id])
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
     if @shift.destroy

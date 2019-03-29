@@ -6,9 +6,9 @@ SimpleCov.start 'rails'
 
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'support/capybara'
 require 'support/devise'
@@ -20,7 +20,7 @@ include WebMock::API
 
 VCR.configure do |config|
   config.allow_http_connections_when_no_cassette = true
-  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   config.hook_into :webmock
   config.configure_rspec_metadata!
 end
@@ -28,7 +28,8 @@ end
 # Globally stub smartystreets
 stub_request(:any, /smartystreets.com/).to_return(
   body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
-  status: 200)
+  status: 200
+)
 
 ActiveJob::Base.queue_adapter = :test
 
@@ -58,7 +59,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.before(:each) do
+  config.before do
     Sidekiq::Worker.clear_all
   end
 

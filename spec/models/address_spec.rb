@@ -39,4 +39,13 @@ RSpec.describe Address, type: :model do
       end
     end
   end
+
+  describe '#skip_api_validation!' do
+    it 'skip_api_validation!' do
+      address.skip_api_validation!
+
+      expect(address.send(:skip_api_validation?)).to be true
+    end
+  end
+
 end

@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) { build :user }
+
   it 'has a valid factory' do
     expect(user.valid?).to be(true)
   end
@@ -12,6 +13,7 @@ RSpec.describe User, type: :model do
     let!(:volunteer) { create :user, role: 'volunteer' }
     let!(:coordinator) { create :user, role: 'coordinator' }
     let!(:social_worker) { create :user, role: 'social_worker' }
+
     it 'returns a list of users that are volunteers or coordinators' do
       expect(described_class.volunteerable).to contain_exactly(volunteer, coordinator)
       expect(described_class.volunteerable).not_to include(social_worker)
@@ -48,8 +50,9 @@ RSpec.describe User, type: :model do
   end
 
   describe '.available_within' do
-    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
     subject { User.available_within(*time.values) }
+
+    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
 
     context 'user has no blockouts' do
       let!(:user) { create :user }
@@ -79,8 +82,9 @@ RSpec.describe User, type: :model do
   end
 
   describe '.speaks_language' do
-    let(:language) { create :language }
     subject { User.speaks_language(language) }
+
+    let(:language) { create :language }
 
     it 'includes primary and secondary speakers' do
       primary_speaker = create :user, first_language: language
@@ -88,4 +92,55 @@ RSpec.describe User, type: :model do
       expect(subject).to include(primary_speaker, secondary_speaker)
     end
   end
+
+  describe '.coordinators' do # scope test
+    it 'supports named scope coordinators' do
+      expect(described_class.limit(3).coordinators).to all(be_a(described_class))
+    end
+  end
+
+  describe '.social_workers' do # scope test
+    it 'supports named scope social_workers' do
+      expect(described_class.limit(3).social_workers)
+        .to all(be_a(described_class))
+    end
+  end
+
+  describe '.volunteers' do # scope test
+    it 'supports named scope volunteers' do
+      expect(described_class.limit(3).volunteers).to all(be_a(described_class))
+    end
+  end
+
+  describe '.schedulers' do # scope test
+    it 'supports named scope schedulers' do
+      expect(described_class.limit(3).schedulers).to all(be_a(described_class))
+    end
+  end
+
+  describe '.with_phone' do # scope test
+    it 'supports named scope with_phone' do
+      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
+    end
+  end
+
+  describe '#has_at_least_one_age_range' do
+    it 'has_at_least_one_age_range' do
+      user = described_class.new
+
+      user.has_at_least_one_age_range
+
+      expect(user.errors[:base])
+        .to include('At least one age range selection is required')
+    end
+  end
+
+  describe '#scheduler?' do
+    it 'scheduler?' do
+      result = user.scheduler?
+
+      expect(result).to be false
+    end
+  end
+
 end

@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Services::BuildNeedShifts do
+  subject { described_class.call(need) }
+
   let(:need_start_at) { Time.zone.parse('2019-01-09 08:00:00 -0800') }
   let(:need) { build :need, start_at: need_start_at }
-  subject { described_class.call(need) }
 
   it 'returns an array of shifts' do
     expect(subject).to include(a_kind_of(Shift))
@@ -53,4 +54,13 @@ RSpec.describe Services::BuildNeedShifts do
       )
     end
   end
+
+  describe '#call' do
+    it 'call' do
+      result = subject
+
+      expect(result).to all(be_an_instance_of(Shift)).and have(2).entries
+    end
+  end
+
 end

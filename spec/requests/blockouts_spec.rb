@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "Blockouts", type: :request do
+RSpec.describe 'Blockouts', type: :request do
   let(:user) { create :user }
   let(:blockout) { create :blockout, user: user }
+
   before { sign_in user }
 
   describe '#create' do

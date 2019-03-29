@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class AddressDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
@@ -13,17 +13,17 @@ class AddressDashboard < Administrate::BaseDashboard
     latitude: Field::Number.with_options(decimals: 2),
     longitude: Field::Number.with_options(decimals: 2),
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :street,
-    :street2,
-    :city,
-    :state,
-    :postal_code
-  ].freeze
+  FORM_ATTRIBUTES = %i(
+    street
+    street2
+    city
+    state
+    postal_code
+  ).freeze
 end

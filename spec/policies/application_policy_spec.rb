@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationPolicy, type: :policy do
-  let(:user)   { build(:user) }
-  let(:record) { build(:user) }
-
   subject { described_class.new(user, record) }
+
+  let(:user)   { build(:user) }
+  let(:record) { build(:need) }
 
   it { is_expected.to forbid_action(:index) }
   it { is_expected.to forbid_action(:show) }
@@ -46,4 +46,61 @@ RSpec.describe ApplicationPolicy, type: :policy do
       expect(subject.resolve).to eq(scope)
     end
   end
+
+  describe '#index?' do
+    it 'index?' do
+      result = subject.index?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#show?' do
+    it 'show?' do
+      result = subject.show?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#create?' do
+    it 'create?' do
+      result = subject.create?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#new?' do
+    it 'new?' do
+      result = subject.new?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#update?' do
+    it 'update?' do
+      result = subject.update?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#edit?' do
+    it 'edit?' do
+      result = subject.edit?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '#destroy?' do
+    it 'destroy?' do
+      result = subject.destroy?
+
+      expect(result).to be false
+    end
+  end
+
 end
