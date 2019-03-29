@@ -5,14 +5,20 @@ require 'rails_helper'
 RSpec.describe NeedsController, type: :controller do
   let(:user) { need.user }
   let(:need) { create(:need_with_shifts) }
+  let(:another_need) do
+    create(:need_with_shifts, user: user, office: need.office)
+  end
 
   before { sign_in user }
 
   describe '#index' do
     it 'GET index' do
+      another_need
+
       get :index
 
       expect(response).to have_http_status(:ok)
+      expect(assigns(:needs).to_a).to eql([another_need, need])
     end
   end
 
