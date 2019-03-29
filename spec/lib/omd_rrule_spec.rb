@@ -9,7 +9,7 @@ RSpec.describe OmdRrule do
   end
 
   describe '#current_occurrence_times' do
-    it 'onlies include the next 16 days worth of occurrences' do
+    it 'only includes the next 16 days worth of occurrences' do
       expect(subject.current_occurrence_times.length).to eq(16)
     end
   end
