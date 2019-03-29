@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::NeedNotifications::Destroy do
+RSpec.describe Services::Notifications::Needs::Destroy do
   subject { described_class.call(need) }
 
   let(:office) { create(:office) }
@@ -14,6 +14,7 @@ RSpec.describe Services::NeedNotifications::Destroy do
   describe '#call' do
     it 'includes the office schedulers and users signed up for shifts' do
       need.shifts.last.update(user: volunteer)
+
       expect(subject).to contain_exactly(scheduler, volunteer)
     end
   end

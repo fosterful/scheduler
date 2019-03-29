@@ -99,8 +99,7 @@ class User < ApplicationRecord
   end
 
   def name
-    name = "#{first_name} #{last_name}"
-    name.presence || email
+    "#{first_name} #{last_name}".presence || email
   end
 
   def scheduler?

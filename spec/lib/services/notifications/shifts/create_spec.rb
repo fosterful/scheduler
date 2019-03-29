@@ -2,11 +2,12 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::ShiftNotifications::Create do
+RSpec.describe Services::Notifications::Shifts::Create do
   subject { described_class.call(shift, 'https://test.com') }
 
   let(:shift) { create(:need_with_shifts).shifts.first }
   let(:need) { shift.need }
+  let(:social_worker) { create(:user, role: 'social_worker') }
 
   let(:user) { create(:user) }
 
@@ -17,7 +18,8 @@ RSpec.describe Services::ShiftNotifications::Create do
     end
 
     it 'does not include non-volunteers' do
-      shift.need.office.users << social_worker = create(:user, role: 'social_worker')
+      shift.need.office.users << social_worker
+
       expect(subject).not_to include(social_worker)
     end
 
@@ -25,12 +27,15 @@ RSpec.describe Services::ShiftNotifications::Create do
       it 'returns volunteers notified' do
         users = build_list(:user, 2, age_ranges: need.age_ranges)
         need.office.users << users
+
         expect(subject).to include(*users)
       end
     end
 
     context 'with volunteers that are not available' do
-      let(:blockout) { create(:blockout, start_at: shift.start_at, end_at: shift.end_at) }
+      let(:blockout) do
+        create(:blockout, start_at: shift.start_at, end_at: shift.end_at)
+      end
       let(:unavailable_user) { create(:user, blockouts: [blockout]) }
 
       before { shift.need.office.users << [user, unavailable_user] }
@@ -44,6 +49,7 @@ RSpec.describe Services::ShiftNotifications::Create do
       it 'does not notify users again' do
         shift.need.office.users << user
         shift.need.update(notified_user_ids: [user.id])
+
         expect(subject).not_to include(user)
       end
     end

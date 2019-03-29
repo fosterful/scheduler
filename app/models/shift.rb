@@ -4,7 +4,7 @@ class Shift < ApplicationRecord
   default_scope { order(:start_at) }
   belongs_to :need
   belongs_to :user, optional: true
-  before_destroy :notify_user_of_cancelation, if: -> { user.present? }
+  before_destroy :notify_user_of_cancelation, if: -> { user&.phone.present? }
   validates :start_at, :duration, presence: true
 
   def end_at

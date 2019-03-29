@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::NeedNotifications::Create do
+RSpec.describe Services::Notifications::Needs::Create do
   subject { described_class.call(need, 'https://test.com') }
 
   let(:need) do
@@ -34,7 +34,9 @@ RSpec.describe Services::NeedNotifications::Create do
     end
 
     context 'with volunteers that are not available' do
-      let(:blockout) { build(:blockout, start_at: need.start_at, end_at: need.end_at) }
+      let(:blockout) do
+        build(:blockout, start_at: need.start_at, end_at: need.end_at)
+      end
       let(:unavailable_user) { build(:user, blockouts: [blockout]) }
 
       before { need.office.users << [user, unavailable_user] }
@@ -48,6 +50,7 @@ RSpec.describe Services::NeedNotifications::Create do
       it 'does not notify users again' do
         need.office.users << user
         need.update(notified_user_ids: [user.id])
+
         expect(subject).not_to include(user)
       end
     end
