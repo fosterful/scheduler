@@ -14,6 +14,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     region: Field::Number,
+    skip_confirmation: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -49,6 +50,7 @@ class OfficeDashboard < Administrate::BaseDashboard
     name
     region
     address
+    skip_confirmation
   ).freeze
 
   # Overwrite this method to customize how offices are displayed

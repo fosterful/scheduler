@@ -8,4 +8,12 @@ class Office < ApplicationRecord
   validates :region, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :address, update_only: true
+
+  def skip_confirmation
+    !!address&.send(:skip_api_validation)
+  end
+
+  def skip_confirmation!
+    address.skip_api_validation!
+  end
 end
