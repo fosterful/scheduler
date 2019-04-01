@@ -4,7 +4,7 @@ module Admin
   class OfficesController < Admin::ApplicationController
     def create
       # Gets geocode skip confirmation checkbox
-      skip_conf = params['office'].delete('skip_confirmation')['1']
+      skip_conf = params.dig('office', 'skip_confirmation') == '1'
       resource = resource_class.new(resource_params)
       authorize_resource(resource)
       # Acts on geocode skip confirmation checkbox
