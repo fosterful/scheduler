@@ -26,10 +26,18 @@ VCR.configure do |config|
 end
 
 # Globally stub smartystreets
-stub_request(:any, /smartystreets.com/).to_return(
-  body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
-  status: 200
-)
+SMARTYSTREETS_STUB = \
+  stub_request(:any, /smartystreets.com/).to_return(
+    body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
+    status: 200
+  )
+
+def without_stub_request(stub)
+  wmsr = WebMock::StubRegistry.instance
+  wmsr.remove_request_stub(stub)
+  yield
+  wmsr.register_request_stub(stub)
+end
 
 ActiveJob::Base.queue_adapter = :test
 

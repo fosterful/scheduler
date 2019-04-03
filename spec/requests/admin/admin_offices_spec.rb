@@ -22,5 +22,19 @@ RSpec.describe 'Admin offices spec', type: :request do
       post admin_offices_path, params: { office: { name: 'foo' } }
       expect(response.body).to include('error')
     end
+
+    describe 'skip_confirmation' do
+      it 'off — renders error when geocode lookup fails on invalid address' do
+        without_stub_request(SMARTYSTREETS_STUB) do
+          post admin_offices_path, params: { office: { name: 'foo@example.com', address_attributes: { street: 'aaaaaaaaaaaa', city: 'aaaaaaaaa', state: 'AA', postal_code: '00000' }, skip_confirmation: '0' } }
+          expect(response.body).to include('error')
+        end
+      end
+
+      it 'on — redirects to show view creating the office on invalid address' do
+        post admin_offices_path, params: { office: { name: 'foo@example.com', address_attributes: { street: 'aaaaaaaaaaaa', city: 'aaaaaaaaa', state: 'AA', postal_code: '00000' }, skip_confirmation: '1' } }
+        expect(response).to redirect_to(admin_office_path(Office.last))
+      end
+    end
   end
 end
