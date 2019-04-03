@@ -32,8 +32,10 @@ RSpec.describe 'Admin offices spec', type: :request do
       end
 
       it 'on — redirects to show view creating the office on invalid address' do
-        post admin_offices_path, params: { office: { name: 'foo@example.com', address_attributes: { street: 'aaaaaaaaaaaa', city: 'aaaaaaaaa', state: 'AA', postal_code: '00000' }, skip_confirmation: '1' } }
-        expect(response).to redirect_to(admin_office_path(Office.last))
+        without_stub_request(SMARTYSTREETS_STUB) do
+          post admin_offices_path, params: { office: { name: 'foo@example.com', address_attributes: { street: 'aaaaaaaaaaaa', city: 'aaaaaaaaa', state: 'AA', postal_code: '00000' }, skip_confirmation: '1' } }
+          expect(response).to redirect_to(admin_office_path(Office.last))
+        end
       end
     end
   end
