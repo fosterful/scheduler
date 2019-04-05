@@ -2,9 +2,10 @@
 
 module Services
   module Notifications
-    module Shifts
+    module Needs
       class Base < ::Services::Notifications::TextNotification
         include Adamantium::Flat
+        include Concord.new(:need)
 
         private
 
