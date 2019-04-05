@@ -54,6 +54,7 @@ gem 'rrule'
 
 # For callable service objects
 gem 'procto'
+gem 'abstract_type'
 gem 'adamantium'
 gem 'concord'
 
