@@ -7,7 +7,8 @@ module Services
 
         MSG = 'A Need at your office has been deleted.'
 
-        delegate :office, :user_id, to: :need
+        delegate :office,
+                 to: :need
 
         private
 

@@ -5,7 +5,6 @@ module Services
     module Needs
       class Create < Base
 
-
         delegate :age_range_ids,
                  :notified_user_ids,
                  :office,
