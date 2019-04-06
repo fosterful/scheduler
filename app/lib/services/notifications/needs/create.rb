@@ -5,12 +5,8 @@ module Services
     module Needs
       class Create < Base
 
-        delegate :age_range_ids,
-                 :notified_user_ids,
-                 :office,
-                 :preferred_language,
+        delegate :notified_user_ids,
                  :shifts,
-                 :user_id,
                  to: :need
 
         def call
@@ -34,19 +30,9 @@ module Services
         end
 
         def shift_users
-          shifts.flat_map(&method(:users_for_shift)).uniq
+          shifts.flat_map(&:users_to_notify).uniq
         end
 
-        def users_for_shift(shift)
-          office
-            .users
-            .volunteerable
-            .with_phone
-            .where.not(id: notified_user_ids | [user_id])
-            .available_within(shift.start_at, shift.end_at)
-            .then { |users| scope_users_by_language(users) }
-            .then { |users| scope_users_by_age_ranges(users) }
-        end
       end
     end
   end
