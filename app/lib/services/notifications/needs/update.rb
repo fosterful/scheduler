@@ -5,11 +5,7 @@ module Services
     module Needs
       class Update < Base
 
-        delegate :notified_user_ids,
-                 :office,
-                 :shifts,
-                 :user_id,
-                 :users_to_notify,
+        delegate :users_to_notify,
                  to: :need
 
         private

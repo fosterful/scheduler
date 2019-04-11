@@ -6,14 +6,16 @@ module Services
     include Procto.call
 
     def call
-      case action
-        when :create
-          Services::Notifications::Needs::Create.call(need)
-        when :update
-          Services::Notifications::Needs::Update.call(need)
-        when :destroy
-          Services::Notifications::Needs::Destroy.call(need)
-      end
+      klass = case action
+                when :create
+                  Services::Notifications::Needs::Create
+                when :update
+                  Services::Notifications::Needs::Update
+                when :destroy
+                  Services::Notifications::Needs::Destroy
+              end
+
+      klass.call(need)
     end
   end
 end

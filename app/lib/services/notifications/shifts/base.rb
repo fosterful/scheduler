@@ -5,6 +5,7 @@ module Services
     module Shifts
       class Base < ::Services::Notifications::TextNotification
         include Adamantium::Flat
+        include Concord.new(:shift, :current_user, :user_id_was)
 
         private
 

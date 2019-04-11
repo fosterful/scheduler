@@ -4,7 +4,6 @@ module Services
   module Notifications
     module Shifts
       class Update < Base
-        include Concord.new(:shift, :current_user, :user_id_was)
 
         SHIFT_TAKEN      = 'A Volunteer has taken a shift.'
         SHIFT_RETURNED   = 'A Volunteer has unassigned themself from a shift.'

@@ -4,7 +4,6 @@ module Services
   module Notifications
     module Shifts
       class Create < Base
-        include Concord.new(:shift)
 
         delegate :users_to_notify,
                  to: :shift

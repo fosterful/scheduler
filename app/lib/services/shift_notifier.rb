@@ -12,14 +12,16 @@ module Services
     end
 
     def call
-      case action
-        when :create
-          Services::Notifications::Shifts::Create.call(shift)
-        when :update
-          Services::Notifications::Shifts::Update.call(shift, user_is, user_was)
-        when :destroy
-          Services::Notifications::Shifts::Destroy.call(shift)
-      end
+      klass = case action
+                when :create
+                  Services::Notifications::Shifts::Create
+                when :update
+                  Services::Notifications::Shifts::Update
+                when :destroy
+                  Services::Notifications::Shifts::Destroy
+              end
+
+      klass.call(shift, user_is, user_was)
     end
 
     attr_reader :shift,
