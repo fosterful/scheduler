@@ -19,8 +19,8 @@ module Services
         end
 
         def message
-          return SHIFT_TAKEN if user_is_current_user?
-          return SHIFT_RETURNS if user_was_current_user?
+          return SHIFT_TAKEN if shift_user_is_current_user?
+          return SHIFT_RETURNS if current_user_left_shift?
           return SHIFT_ASSIGNED if scheduler_with_user?
           return SHIFT_UNASSIGNED if scheduler_without_user?
 
@@ -28,7 +28,7 @@ module Services
         end
 
         def recipients
-          if user_is_current_user? || user_was_current_user?
+          if shift_user_is_current_user? || user_was_current_user?
             social_workers_and_need_user
           elsif scheduler_with_user?
             [user]
@@ -39,7 +39,7 @@ module Services
           end
         end
 
-        def user_is_current_user?
+        def shift_user_is_current_user?
           user.present? && user.eql?(current_user)
         end
 

@@ -34,7 +34,9 @@ class Shift < ApplicationRecord
 
   def users_to_notify
     need
-      .users_to_notify
+      .notification_candidates
       .available_within(start_at, end_at)
+      .then { |users| scope_users_by_language(users) }
+      .then { |users| scope_users_by_age_ranges(users) }
   end
 end

@@ -8,4 +8,8 @@ class Office < ApplicationRecord
   validates :region, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :address, update_only: true
+
+  def notifiable_users
+    users.notifiable
+  end
 end

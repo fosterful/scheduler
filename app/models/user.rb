@@ -66,6 +66,7 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> {  where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
+  scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
