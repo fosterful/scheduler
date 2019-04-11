@@ -18,7 +18,6 @@ module Services
           "A new Need has opened up at your local office! #{url}"
         end
 
-
       end
     end
   end

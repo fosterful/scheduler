@@ -24,7 +24,7 @@ RSpec.describe Admin::ApplicationController, type: :controller do
   describe '#resource_params' do
     let(:params) do
       ActionController::Parameters
-        .new({ need: { age_range_ids: [], duration: 20 } })
+        .new(need: { age_range_ids: [], duration: 20 })
     end
 
     it 'resource_params' do

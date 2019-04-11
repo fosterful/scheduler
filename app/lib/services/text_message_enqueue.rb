@@ -5,7 +5,6 @@ module Services
     include Concord.new(:phone_number, :message)
     include Procto.call
 
-
     def call
       SendTextMessageWorker.perform_async(phone_number, message)
     end
