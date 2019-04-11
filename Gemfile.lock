@@ -70,6 +70,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.4.4)
       execjs
+    awesome_print (1.8.0)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -401,6 +402,7 @@ DEPENDENCIES
   abstract_type
   adamantium
   administrate
+  awesome_print
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)
