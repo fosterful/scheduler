@@ -6,6 +6,10 @@ default: &default
   port: 5432
   username: postgres
 
+staging:
+  <<: *default
+  database: omd
+
 development:
   <<: *default
   database: omd_development
