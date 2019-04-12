@@ -42,4 +42,12 @@ RSpec.describe Shift, type: :model do
     end
   end
 
+  describe '#users_to_notify' do
+    it 'users_to_notify' do
+      result = shift.users_to_notify
+
+      expect(result).not_to be_nil
+    end
+  end
+
 end

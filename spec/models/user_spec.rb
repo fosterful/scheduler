@@ -143,4 +143,11 @@ RSpec.describe User, type: :model do
     end
   end
 
+  # TODO: auto-generated
+  describe '.notifiable' do # scope test
+    it 'supports named scope notifiable' do
+      expect(described_class.limit(3).notifiable).to all(be_a(described_class))
+    end
+  end
+
 end

@@ -7,6 +7,7 @@ module Services
 
         delegate :notified_user_ids,
                  :shifts,
+                 :users_to_notify,
                  to: :need
 
         def call
@@ -30,7 +31,7 @@ module Services
         end
 
         def shift_users
-          shifts.flat_map(&:users_to_notify).uniq
+          (users_to_notify | shifts.flat_map(&:users_to_notify)).uniq
         end
 
       end

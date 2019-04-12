@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module NotificationConcern
+  # Please note that this concern expects both `preferred_language` and
+  # `age_range_ids` to be defined and accessible in the including module/class
+
   def scope_users_by_language(users)
     return users if preferred_language.blank?
 

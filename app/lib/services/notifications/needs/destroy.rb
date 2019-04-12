@@ -12,13 +12,15 @@ module Services
 
         private
 
+        def message
+          MSG
+        end
+
         def phone_numbers
           (office.users.schedulers | need.users).map(&:phone).compact
         end
 
-        def message
-          MSG
-        end
+        def url; end
       end
     end
   end

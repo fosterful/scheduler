@@ -5,20 +5,20 @@ module Services
     module Shifts
       class Create < Base
 
-        delegate :users_to_notify,
+        delegate :need,
+                 :users_to_notify,
                  to: :shift
 
         private
-
-        def phone_numbers
-          users_to_notify.pluck(:phone)
-        end
 
         def message
           "A new shift has been added to a need at your local office! #{url}"
         end
 
-      end
+        def phone_numbers
+          users_to_notify.pluck(:phone)
+        end
+     end
     end
   end
 end

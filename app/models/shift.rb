@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Shift < ApplicationRecord
+  include NotificationConcern
 
   default_scope { order(:start_at) }
 
@@ -14,6 +15,11 @@ class Shift < ApplicationRecord
   validates :duration,
             :start_at,
             presence: true
+
+  delegate :age_range_ids,
+           :age_ranges,
+           :preferred_language,
+           to: :need
 
   def end_at
     start_at.advance(minutes: duration)

@@ -3,8 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Need, type: :model do
-  let(:need) { build :need }
+  let(:need) { create(:need) }
+  let(:shift) { create(:shift, need: need) }
   let(:spanish) { Language.find_by!(name: 'Spanish') }
+  let(:new_user) { create(:user) }
 
   it 'has a valid factory' do
     expect(need.valid?).to be(true)
@@ -22,7 +24,7 @@ RSpec.describe Need, type: :model do
 
       result = need.effective_start_at
 
-      expect(result).to eql(need.start_at)
+      expect(result.to_s(:db)).to eql(need.start_at.to_s(:db))
     end
 
     it 'returns earliest shift start at if earlier than need start at' do
@@ -32,7 +34,7 @@ RSpec.describe Need, type: :model do
 
       result = need.effective_start_at
 
-      expect(result).to eql(starts)
+      expect(result.to_s(:db)).to eql(starts.to_s(:db))
     end
   end
 
@@ -79,6 +81,40 @@ RSpec.describe Need, type: :model do
       result = need.expired?
 
       expect(result).to be true
+    end
+  end
+
+  describe '#notification_candidates' do
+    it 'returns empty array if no office users with phone' do
+      result = need.notification_candidates
+
+      expect(result).to match_array([])
+    end
+
+    it 'returns office users with phone that have not been notified' do
+      need.office.users << new_user
+
+      result = need.notification_candidates
+
+      expect(result.to_a).to eql([new_user])
+    end
+  end
+
+  describe '#users_to_notify' do
+    it 'returns [] if no shifts' do
+      result = need.users_to_notify
+
+      expect(result).to eql([])
+    end
+
+    it 'users_to_notify' do
+      need.office.users << new_user
+      need.shifts << shift
+      new_user.age_ranges << shift.age_ranges
+
+      result = need.users_to_notify
+
+      expect(result.to_a).to eql([new_user])
     end
   end
 

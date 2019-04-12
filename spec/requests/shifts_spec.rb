@@ -87,6 +87,7 @@ RSpec.describe 'Shifts', type: :request do
 
     it 'redirects to shift index' do
       delete need_shift_path(need, shift)
+
       expect(response).to redirect_to(need_shifts_path(need))
     end
 

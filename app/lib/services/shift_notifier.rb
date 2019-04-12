@@ -24,13 +24,13 @@ module Services
       klass.call(shift, user_is, user_was)
     end
 
-    attr_reader :shift,
-                :action,
+    attr_reader :action,
+                :shift,
                 :user_is,
                 :user_was
 
-    protected :shift,
-              :action,
+    protected :action,
+              :shift,
               :user_is,
               :user_was
   end

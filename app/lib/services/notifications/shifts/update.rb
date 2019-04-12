@@ -10,7 +10,10 @@ module Services
         SHIFT_ASSIGNED   = 'You have been assigned a shift.'
         SHIFT_UNASSIGNED = 'You have been unassigned from a shift.'
 
-        delegate :need, :duration, :user, to: :shift
+        delegate :duration,
+                 :need,
+                 :user,
+                 to: :shift
 
         private
 
@@ -28,7 +31,7 @@ module Services
         end
 
         def recipients
-          if shift_user_is_current_user? || user_was_current_user?
+          if shift_user_is_current_user? || current_user_left_shift?
             social_workers_and_need_user
           elsif scheduler_with_user?
             [user]
@@ -43,7 +46,7 @@ module Services
           user.present? && user.eql?(current_user)
         end
 
-        def user_was_current_user?
+        def current_user_left_shift?
           user.nil? && current_user.id.equal?(user_id_was)
         end
 
