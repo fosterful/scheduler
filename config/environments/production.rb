@@ -69,7 +69,7 @@ Rails.application.configure do
    config.action_mailer.delivery_method = :smtp
    config.action_mailer.perform_deliveries = true
    config.action_mailer.smtp_settings = {
-     :user_name => Rails.application.credentials.dig(:sendgrid, :user_name),
+     :user_name => Rails.application.credentials.dig(:sendgrid, :username),
      :password => Rails.application.credentials.dig(:sendgrid, :password),
      :domain => 'officemomsanddads.com',
      :address => 'smtp.sendgrid.net',

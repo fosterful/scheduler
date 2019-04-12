@@ -23,6 +23,8 @@ staging:
 
 production:
   <<: *default
-  database: omd
+  database: <%= Rails.application.credentials.dig(:postgres, :database) %>
   username: <%= Rails.application.credentials.dig(:postgres, :username) %>
   password: <%= Rails.application.credentials.dig(:postgres, :password) %>
+  host: <%= Rails.application.credentials.dig(:postgres, :host) %>
+  port: <%= Rails.application.credentials.dig(:postgres, :port) %>
