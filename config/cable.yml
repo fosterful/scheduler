@@ -11,5 +11,5 @@ staging:
 
 production:
   adapter: redis
-  url: <%= Rails.application.credentials.redis_url %>
+  url: <%= Rails.application.credentials.dig(:redis, :url) %>
   channel_prefix: scheduler_production
