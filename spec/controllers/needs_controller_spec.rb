@@ -6,7 +6,7 @@ RSpec.describe NeedsController, type: :controller do
   let(:user) { need.user }
   let(:need) { create(:need_with_shifts) }
   let(:another_need) do
-    create(:need_with_shifts, user: user, office: need.office)
+    create(:need_with_shifts, start_at: 1.day.from_now, user: user, office: need.office)
   end
 
   before { sign_in user }
