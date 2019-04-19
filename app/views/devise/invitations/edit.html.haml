@@ -84,21 +84,31 @@
     .grid-x.grid-padding-x
       .cell.medium-6
         %fieldset.fieldset
-          = f.check_box :medical_limitations, required: true
+          .help-text Required
           = f.label :medical_limitations do
             Do you have any medical limitations?
-          .help-text Required
+            = f.label :medical_limitations_true do
+              = f.radio_button :medical_limitations, true, required: true
+              Yes
+            = f.label :medical_limitations_false do
+              = f.radio_button :medical_limitations, false, required: true
+              No
           = f.label :medical_limitations_desc do
-            If so, please describe below:
+            If Yes, please describe below:
             = f.text_area :medical_limitations_desc
       .cell.medium-6
         %fieldset.fieldset
-          = f.check_box :conviction, required: true
+          .help-text Required
           = f.label :conviction do
             Have you ever been convicted of a felony?
-          .help-text Required
+            = f.label :conviction_true do
+              = f.radio_button :conviction, true, required: true
+              Yes
+            = f.label :conviction_false do
+              = f.radio_button :conviction, false, required: true
+              No
           = f.label :conviction_desc do
-            If so, please describe below:
+            If Yes, please describe below:
             = f.text_area :conviction_desc
   .grid-x.grid-padding-x
     .cell= f.submit t("devise.invitations.edit.submit_button"), class: 'button'
