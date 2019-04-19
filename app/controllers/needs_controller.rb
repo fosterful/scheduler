@@ -3,7 +3,7 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need).includes(:shifts).reorder(created_at: :desc)
+    @needs = policy_scope(Need).includes(:shifts).current
   end
 
   def show

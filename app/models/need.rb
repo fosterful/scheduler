@@ -13,7 +13,7 @@ class Need < ApplicationRecord
   validates :age_ranges, :start_at, :expected_duration, :number_of_children, presence: true
   validates :expected_duration, inclusion: { in: ->(_need) { (60..) }, message: 'must be at least on hour' }
 
-  scope :current, -> { where('start_at > ?', Time.zone.now) }
+  scope :current, -> { where('start_at > ?', Time.zone.now.at_beginning_of_day) }
 
   alias_attribute :duration, :expected_duration
 
