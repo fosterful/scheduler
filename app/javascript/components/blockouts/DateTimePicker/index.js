@@ -51,7 +51,7 @@ class DateTimePicker extends React.Component {
   toggleAllDay = _ => {
     const { state: { allDay, fromDate, toDate } } = this
     if (allDay) {
-      this.setState(state => ({ allDay: false, toDate: (toDate || fromDate) }))
+      this.setState(state => ({ allDay: false, toDate: toDate }))
     } else {
       this.setState(state => ({ allDay: true, fromTime: '00:00', toTime: '23:59' }), this.computeResult)
     }
