@@ -18,7 +18,7 @@ RSpec.describe NeedsController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:ok)
-      expect(assigns(:needs).to_a).to eql([another_need, need])
+      expect(assigns(:needs).to_a).to eql([need, another_need])
     end
   end
 
