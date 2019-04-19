@@ -1,4 +1,4 @@
-credentials = Rails.application.credentials.smartystreets || {}
+credentials = Rails.application.credentials.smartystreets || { auth_id: ENV['SMARTY_STREETS_AUTH_ID'], auth_token: ENV['SMARTY_STREETS_AUTH_TOKEN'] }
 
 Geocoder.config[:smarty_streets] ||= {
   api_key: [
