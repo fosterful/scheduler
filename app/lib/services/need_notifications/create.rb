@@ -13,6 +13,7 @@ module Services
                :office,
                :preferred_language,
                :shifts,
+               :start_at,
                :user_id,
                to: :need
 
@@ -30,11 +31,15 @@ module Services
       end
 
       def notify_user(user)
-        SendTextMessageWorker.perform_async(user.phone, "A new need has opened up at your local office! #{url}")
+        SendTextMessageWorker.perform_async(user.phone, "A new need starting #{starting_day} at #{start_at.strftime('%l:%M %p')} has opened up at your local office!  #{url}")
       end
 
       def shift_users
         shifts.flat_map(&method(:users_for_shift)).uniq
+      end
+
+      def starting_day
+        start_at.today? ? 'Today' : start_at.strftime('%a, %b %e')
       end
 
       def users_for_shift(shift)
