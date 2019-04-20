@@ -18,7 +18,7 @@ module Services
       private
 
       def shift_duration_in_words
-        [start_at.strftime('%l:%M'), start_at.strftime('%l:%M %p')].join(' to ')
+        [start_at.strftime('%l:%M %p'), start_at.strftime('%l:%M %p')].join(' to ')
       end
     end
   end
