@@ -7,7 +7,9 @@ module Services
       include Concord.new(:shift, :url)
       include Adamantium::Flat
 
-      delegate :user, to: :shift
+      delegate :user,
+               :start_at,
+               to: :shift
 
       def call
         return if user.nil?
