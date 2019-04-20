@@ -18,7 +18,7 @@ module Services
                to: :need
 
       def call
-        msg = "A new shift starting at #{start_at.strftime('%l:%M %p')} #{starting_day} has been added to a need at your local office! #{url}"
+        msg = "A new shift from #{shift_duration_in_words} #{starting_day} has been added to a need at your local office! #{url}"
         users_to_notify.each do |user|
           SendTextMessageWorker.perform_async(user.phone, msg)
         end
@@ -28,6 +28,10 @@ module Services
 
       def starting_day
         start_at.today? ? 'Today' : start_at.strftime('on %a, %b %e')
+      end
+
+      def shift_duration_in_words
+        [start_at.strftime('%l:%M'), start_at.strftime('%l:%M %p')].join(' to ')
       end
 
       def users_to_notify
