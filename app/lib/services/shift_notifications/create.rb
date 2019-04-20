@@ -8,17 +8,27 @@ module Services
       include Concord.new(:shift, :url)
       include Adamantium::Flat
 
-      delegate :need, to: :shift
-      delegate :notified_user_ids, :user_id, :preferred_language, :age_range_ids, to: :need
+      delegate :need,
+               :start_at,
+               to: :shift
+      delegate :age_range_ids,
+               :notified_user_ids,
+               :preferred_language,
+               :user_id,
+               to: :need
 
       def call
-        msg = "A new shift has been added to a need at your local office! #{url}"
+        msg = "A new shift starting at #{start_at.strftime('%l:%M %p')} #{starting_day} has been added to a need at your local office! #{url}"
         users_to_notify.each do |user|
           SendTextMessageWorker.perform_async(user.phone, msg)
         end
       end
 
       private
+
+      def starting_day
+        start_at.today? ? 'Today' : start_at.strftime('on %a, %b %e')
+      end
 
       def users_to_notify
         need
