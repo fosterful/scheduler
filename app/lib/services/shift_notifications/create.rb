@@ -10,6 +10,8 @@ module Services
 
       delegate :need,
                :start_at,
+               :end_at,
+               :duration,
                to: :shift
       delegate :age_range_ids,
                :notified_user_ids,
@@ -31,7 +33,7 @@ module Services
       end
 
       def shift_duration_in_words
-        [start_at.strftime('%l:%M %p'), start_at.strftime('%l:%M %p')].join(' to ')
+        [start_at.strftime('%I:%M%P'), end_at.strftime('%I:%M%P')].join(' to ')
       end
 
       def users_to_notify

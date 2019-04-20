@@ -9,6 +9,7 @@ module Services
 
       delegate :user,
                :start_at,
+               :end_at,
                to: :shift
 
       def call
@@ -20,7 +21,7 @@ module Services
       private
 
       def shift_duration_in_words
-        [start_at.strftime('%l:%M %p'), start_at.strftime('%l:%M %p')].join(' to ')
+        [start_at.strftime('%I:%M%P'), end_at.strftime('%I:%M%P')].join(' to ')
       end
     end
   end

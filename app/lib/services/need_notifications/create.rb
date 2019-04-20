@@ -31,7 +31,7 @@ module Services
       end
 
       def notify_user(user)
-        SendTextMessageWorker.perform_async(user.phone, "A new need starting #{starting_day} at #{start_at.strftime('%l:%M %p')} has opened up at your local office!  #{url}")
+        SendTextMessageWorker.perform_async(user.phone, "A new need starting #{starting_day} at #{start_at.strftime('%I:%M%P')} has opened up at your local office!  #{url}")
       end
 
       def shift_users
