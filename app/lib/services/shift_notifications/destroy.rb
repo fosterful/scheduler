@@ -7,13 +7,18 @@ module Services
       include Concord.new(:shift, :url)
       include Adamantium::Flat
 
-      delegate :user_id, to: :shift
+      delegate :user, to: :shift
 
       def call
         return if user_id.blank?
+        msg = "The shift from #{shift_duration_in_words} has been removed from a need at your local office. #{url}"
+        SendTextMessageWorker.perform_async(user.phone, msg)
+      end
 
-        user = User.find(user_id)
-        SendTextMessageWorker.perform_async(user.phone, "A shift has been removed from a need at your local office. #{url}")
+      private
+
+      def shift_duration_in_words
+        [start_at.strftime('%l:%M'), start_at.strftime('%l:%M %p')].join(' to ')
       end
     end
   end
