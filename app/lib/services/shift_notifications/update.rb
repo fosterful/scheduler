@@ -8,7 +8,12 @@ module Services
       include Adamantium::Flat
       include Rails.application.routes.url_helpers
 
-      delegate :need, :duration, :user, to: :shift
+      delegate :need,
+               :duration,
+               :start_at,
+               :user,
+               to: :shift
+
 
       def call
         notification_hash[:users].each do |user|
@@ -18,19 +23,27 @@ module Services
 
       private
 
+      def shift_duration_in_words
+        [start_at.strftime('%l:%M'), start_at.strftime('%l:%M %p')].join(' to ')
+      end
+
+      def starting_day
+        start_at.today? ? 'Today' : start_at.strftime('on %a, %b %e')
+      end
+
       def notification_hash
         if current_user == user && user
           { users: (need.office.users.social_workers | [need.user]),
-            message: 'A Volunteer has taken a shift.' }
+            message: "A Volunteer has taken the shift #{starting_day} from #{shift_duration_in_words}." }
         elsif user.nil? && current_user.id == user_id_was
           { users: (need.office.users.social_workers | [need.user]),
-            message: 'A Volunteer has unassigned themself from a shift.' }
+            message: "A Volunteer has unassigned themself from the #{shift_duration_in_words} shift #{starting_day}." }
         elsif current_user.scheduler? && user
           { users: [user],
-            message: 'You have been assigned a shift.' }
+            message: "You have been assigned a shift #{starting_day} from #{shift_duration_in_words}." }
         elsif current_user.scheduler? && user.nil?
           { users: User.where(id: user_id_was),
-            message: 'You have been unassigned from a shift' }
+            message: "You have been unassigned from the #{shift_duration_in_words} shift #{starting_day}." }
         else
           { users: [], message: '' }
         end
