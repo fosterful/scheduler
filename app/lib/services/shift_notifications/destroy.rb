@@ -10,7 +10,7 @@ module Services
       delegate :user, to: :shift
 
       def call
-        return if user_id.blank?
+        return if user.nil?
         msg = "The shift from #{shift_duration_in_words} has been removed from a need at your local office. #{url}"
         SendTextMessageWorker.perform_async(user.phone, msg)
       end
