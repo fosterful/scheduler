@@ -12,7 +12,7 @@
   .grid-x
     .cell
       = f.label :start_at, class: 'start-at-label' do
-        = f.datetime_select :start_at, { default: 1.hour.from_now, discard_year: true, minute_step: 15, start_hour: 8, end_hour: 18 }, class: 'start-at-input', disabled: action == :edit
+        = f.datetime_select :start_at, { default: 1.hour.from_now, discard_year: true, minute_step: 15, start_hour: 8, end_hour: 18, ampm: true }, class: 'start-at-input', disabled: action == :edit
 %fieldset.fieldset
   %legend Expected Duration
   .grid-x.grid-margin-x
