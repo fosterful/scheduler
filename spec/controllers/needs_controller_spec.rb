@@ -35,7 +35,7 @@ RSpec.describe NeedsController, type: :controller do
     it 'POST create' do
       expect do
         post :create, params: { need: { number_of_children: 2,
-                                        expected_duration:  120,
+                                        expected_duration:  2,
                                         start_at:           Time.zone.now.advance(weeks: 1).to_param,
                                         office_id:          need.office_id.to_param,
                                         age_range_ids:      [AgeRange.first!.id] } }
