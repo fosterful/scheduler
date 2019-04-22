@@ -20,6 +20,7 @@ class NeedsController < ApplicationController
   end
 
   def create
+    convert_to_minutes!
     @need = current_user.needs.build(permitted_attributes(Need))
     authorize @need
     if @need.update(shifts: Services::BuildNeedShifts.call(@need))
@@ -56,5 +57,12 @@ class NeedsController < ApplicationController
     else
       redirect_back fallback_location: needs_path, flash: { error: 'Failed to delete Need' }
     end
+  end
+
+  private
+
+  def convert_to_minutes!
+    return unless params[:need] && params[:need][:expected_duration].present?
+    params[:need][:expected_duration] = (params[:need][:expected_duration].to_f * 60).to_s
   end
 end
