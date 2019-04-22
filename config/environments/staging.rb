@@ -69,19 +69,12 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-    :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
-    :domain => 'staging.officemomsanddads.com',
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :authentication => :plain
-    # Switch To Mailtrap after production goes live
-    # :user_name => ENV['MAILTRAP_USERNAME'],
-    # :password => ENV['MAILTRAP_PASSWORD'],
-    # :address => 'smtp.mailtrap.io',
-    # :domain => 'smtp.mailtrap.io',
-    # :port => '2525',
-    # :authentication => :cram_md5
+    :user_name => ENV['MAILTRAP_USERNAME'],
+    :password => ENV['MAILTRAP_PASSWORD'],
+    :address => 'smtp.mailtrap.io',
+    :domain => 'smtp.mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
