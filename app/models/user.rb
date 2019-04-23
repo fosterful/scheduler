@@ -13,8 +13,9 @@ class User < ApplicationRecord
   ADMIN         = 'admin'
 
   ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER, ADMIN].freeze
-  PUBLIC_PROFILE_ATTRS = [:first_name, :last_name, :phone].freeze
-  PROFILE_ATTRS = [*PUBLIC_PROFILE_ATTRS,
+  PROFILE_ATTRS = [:first_name,
+                   :last_name,
+                   :phone,
                    :time_zone,
                    :race_id,
                    :first_language_id,

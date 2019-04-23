@@ -21,11 +21,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    permitted_attributes | %i(email role)
+    permitted_attributes | %i(email role conviction conviction_desc)
   end
 
   def permitted_attributes_for_account_update
-    [:email, *User::PUBLIC_PROFILE_ATTRS]
+    [:email, *User::PROFILE_ATTRS]
   end
 
   def permitted_attributes
