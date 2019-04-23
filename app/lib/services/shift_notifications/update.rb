@@ -34,6 +34,7 @@ module Services
 
       def notification_hash
         if current_user == user && user
+          SendTextMessageWorker.perform_async(user.phone, "You have taken the shift #{starting_day} from #{shift_duration_in_words}. #{need_url(need)}")
           { users: (need.office.users.social_workers | [need.user]),
             message: "A Volunteer has taken the shift #{starting_day} from #{shift_duration_in_words}." }
         elsif user.nil? && current_user.id == user_id_was
