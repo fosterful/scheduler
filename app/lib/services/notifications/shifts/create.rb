@@ -8,6 +8,7 @@ module Services
 
         delegate :duration_in_words,
                  :need,
+                 :start_at,
                  :users_to_notify,
                  to: :shift
 

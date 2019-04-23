@@ -4,9 +4,9 @@ module Services
   module Notifications
     module Needs
       class Base < ::Services::Notifications::TextNotification
-        include Adamantium::Flat
         include ActionView::Helpers
         include Concord.new(:need)
+        include Procto.call
         include Rails.application.routes.url_helpers
 
         private

@@ -9,6 +9,7 @@ module Services
         delegate :duration,
                  :duration_in_words,
                  :need,
+                 :start_at,
                  :user,
                  to: :shift
 

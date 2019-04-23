@@ -6,7 +6,8 @@ module Services
       class Update < Base
         include StartAtHelper
 
-        delegate :users_to_notify,
+        delegate :start_at,
+                 :users_to_notify,
                  to: :need
 
         private
