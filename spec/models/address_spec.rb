@@ -49,4 +49,20 @@ RSpec.describe Address, type: :model do
     end
   end
 
+  describe '#skip_api_validation?' do
+    it 'returns false if not skipping geocoding' do
+      result = address.skip_api_validation?
+
+      expect(result).to be false
+    end
+
+    it 'returns true if not skipping geocoding' do
+      address.skip_api_validation = '1'
+
+      result = address.skip_api_validation?
+
+      expect(result).to be true
+    end
+  end
+
 end

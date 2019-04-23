@@ -16,7 +16,7 @@ class Address < ApplicationRecord
   end
 
   def skip_api_validation?
-    ActiveModel::Type::Boolean.new.cast(skip_api_validation)
+    ActiveModel::Type::Boolean.new.cast(skip_api_validation).present?
   end
 
   attr_accessor :skip_api_validation
