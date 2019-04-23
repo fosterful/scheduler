@@ -34,7 +34,7 @@ module Services
           elsif scheduler_with_user?
             [user]
           elsif scheduler_without_user?
-            User.where(id: user_id_was)
+            [user_was]
           else
             []
           end
@@ -45,7 +45,7 @@ module Services
         end
 
         def current_user_left_shift?
-          user.nil? && current_user.id.equal?(user_id_was)
+          user.nil? && current_user.eql?(user_was)
         end
 
         def scheduler_with_user?

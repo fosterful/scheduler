@@ -101,10 +101,10 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#users_to_notify' do
-    it 'returns [] if no shifts' do
+    it 'returns nothing if no shifts' do
       result = need.users_to_notify
 
-      expect(result).to eql([])
+      expect(result).to be_empty
     end
 
     it 'users_to_notify' do
