@@ -10,6 +10,7 @@ class AddressDashboard < Administrate::BaseDashboard
     city: Field::String,
     state: Field::String,
     postal_code: Field::String,
+    skip_api_validation: Field::Boolean,
     latitude: Field::Number.with_options(decimals: 2),
     longitude: Field::Number.with_options(decimals: 2),
     created_at: Field::DateTime,
@@ -25,5 +26,6 @@ class AddressDashboard < Administrate::BaseDashboard
     city
     state
     postal_code
+    skip_api_validation
   ).freeze
 end

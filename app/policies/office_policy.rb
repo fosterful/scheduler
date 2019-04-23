@@ -8,6 +8,7 @@ class OfficePolicy < ApplicationPolicy
                               street2
                               city
                               state
-                              postal_code) }]
+                              postal_code
+                              skip_api_validation) }]
   end
 end
