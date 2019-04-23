@@ -24,6 +24,10 @@ class UserPolicy < ApplicationPolicy
     permitted_attributes | %i(email role)
   end
 
+  def permitted_attributes_for_account_update
+    [:email, *User::PUBLIC_PROFILE_ATTRS]
+  end
+
   def permitted_attributes
     [:email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
       attrs << :role if user.admin?

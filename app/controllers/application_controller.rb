@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     policy = Pundit.policy(current_user || User.new, User)
+    devise_parameter_sanitizer.permit(:account_update, keys: policy.permitted_attributes_for_account_update)
     devise_parameter_sanitizer.permit(:invite, keys: policy.permitted_attributes_for_create)
     devise_parameter_sanitizer.permit(:accept_invitation, keys: policy.permitted_attributes)
   end
