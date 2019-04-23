@@ -118,12 +118,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.with_phone' do # scope test
-    it 'supports named scope with_phone' do
-      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
-    end
-  end
-
   describe '#has_at_least_one_age_range' do
     it 'has_at_least_one_age_range' do
       user = described_class.new
