@@ -4,9 +4,6 @@ module Services
   module Notifications
     class TextNotification
       include AbstractType
-      include ActionView::Helpers
-      include Rails.application.routes.url_helpers
-      include NotificationConcern
       include Procto.call
 
       def call

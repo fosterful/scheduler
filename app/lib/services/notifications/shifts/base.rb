@@ -5,7 +5,9 @@ module Services
     module Shifts
       class Base < ::Services::Notifications::TextNotification
         include Adamantium::Flat
+        include ActionView::Helpers
         include Concord.new(:shift, :current_user, :user_id_was)
+        include Rails.application.routes.url_helpers
 
         private
 

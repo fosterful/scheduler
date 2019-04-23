@@ -5,7 +5,9 @@ module Services
     module Needs
       class Base < ::Services::Notifications::TextNotification
         include Adamantium::Flat
+        include ActionView::Helpers
         include Concord.new(:need)
+        include Rails.application.routes.url_helpers
 
         private
 
