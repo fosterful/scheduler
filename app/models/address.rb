@@ -16,13 +16,12 @@ class Address < ApplicationRecord
   end
 
   def skip_api_validation?
-    ActiveModel::Type::Boolean.new.cast(skip_api_validation)
+    ActiveModel::Type::Boolean.new.cast(skip_api_validation).present?
   end
 
   attr_accessor :skip_api_validation
 
   private
-
 
   def validate_and_geocode?
     !skip_api_validation? && ADDRESS_FIELDS.any? { |f| changes.key?(f.to_s) }

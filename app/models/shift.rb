@@ -39,7 +39,7 @@ class Shift < ApplicationRecord
              .to_s(:short_with_time)
 
     Services::TextMessageEnqueue
-      .call(recipient.phone, "Your shift on #{time} has been canceled.")
+      .call([recipient.phone], "Your shift on #{time} has been canceled.")
   end
 
   def users_to_notify

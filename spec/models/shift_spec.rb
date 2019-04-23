@@ -50,4 +50,15 @@ RSpec.describe Shift, type: :model do
     end
   end
 
+  describe '#duration_in_words' do
+    it 'duration_in_words' do
+      starts = Time.zone.parse('2019-04-22 12:34:56 -0700')
+      allow(shift).to receive(:start_at).and_return(starts)
+
+      result = shift.duration_in_words
+
+      expect(result).to eql('12:34pm to 01:34pm')
+    end
+  end
+
 end

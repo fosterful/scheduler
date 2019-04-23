@@ -63,6 +63,7 @@ class NeedsController < ApplicationController
 
   def convert_to_minutes!
     return unless params[:need] && params[:need][:expected_duration].present?
+
     params[:need][:expected_duration] = (params[:need][:expected_duration].to_f * 60).to_s
   end
 end

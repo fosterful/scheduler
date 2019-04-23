@@ -38,7 +38,6 @@ module Services
           (users_to_notify | shifts.flat_map(&:users_to_notify)).uniq
         end
 
-
       end
     end
   end
