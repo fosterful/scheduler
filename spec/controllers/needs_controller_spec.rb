@@ -6,7 +6,7 @@ RSpec.describe NeedsController, type: :controller do
   let(:user) { need.user }
   let(:need) { create(:need_with_shifts) }
   let(:another_need) do
-    create(:need_with_shifts, user: user, office: need.office)
+    create(:need_with_shifts, start_at: 1.day.from_now, user: user, office: need.office)
   end
 
   before { sign_in user }
@@ -18,7 +18,7 @@ RSpec.describe NeedsController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:ok)
-      expect(assigns(:needs).to_a).to eql([another_need, need])
+      expect(assigns(:needs).to_a).to eql([need, another_need])
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe NeedsController, type: :controller do
     it 'POST create' do
       expect do
         post :create, params: { need: { number_of_children: 2,
-                                        expected_duration:  120,
+                                        expected_duration:  2,
                                         start_at:           Time.zone.now.advance(weeks: 1).to_param,
                                         office_id:          need.office_id.to_param,
                                         age_range_ids:      [AgeRange.first!.id] } }

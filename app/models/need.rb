@@ -25,7 +25,7 @@ class Need < ApplicationRecord
             numericality: { greater_than_or_equal_to: 60,
                             message: 'must be at least one hour' }
 
-  scope :current, -> { where('start_at > ?', Time.zone.now) }
+  scope :current, -> { where('start_at > ?', Time.zone.now.at_beginning_of_day).order(start_at: :asc) }
 
   alias_attribute :duration, :expected_duration
 

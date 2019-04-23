@@ -7,6 +7,7 @@ module Services
 
         delegate :notified_user_ids,
                  :shifts,
+                 :start_at,
                  :users_to_notify,
                  to: :need
 
@@ -27,11 +28,19 @@ module Services
         end
 
         def message
-          "A new need has opened up at your local office! #{url}"
+          "A new need starting #{starting_day} at "\
+            "#{start_at.strftime('%I:%M%P')} has opened up at your local " \
+            "office!  #{url}"
         end
 
         def shift_users
           (users_to_notify | shifts.flat_map(&:users_to_notify)).uniq
+        end
+
+        def starting_day
+          return 'Today' if start_at.today?
+
+          start_at.strftime('%a, %b %e')
         end
 
       end

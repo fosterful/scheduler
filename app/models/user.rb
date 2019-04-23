@@ -39,9 +39,9 @@ class User < ApplicationRecord
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
 
-  validates :first_name, :last_name, presence: true, if: :invitation_accepted_at?
+  validates :first_name, :last_name, :phone, presence: true, if: :invitation_accepted_at?
 
-  validates :birth_date, :phone, :resident_since, :discovered_omd_by, :race,
+  validates :birth_date, :resident_since, :discovered_omd_by, :race,
             :first_language,
             presence: true, if: :require_volunteer_profile_attributes?
 

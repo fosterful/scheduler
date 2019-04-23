@@ -15,9 +15,10 @@ module Services
         end
 
         def message
-          "A new Need has opened up at your local office! #{url}"
+          "A new need starting #{starting_day} at "\
+            "#{start_at.strftime('%I:%M%P')} has opened up at your "\
+            "local office! #{url}"
         end
-
       end
     end
   end

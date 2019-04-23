@@ -11,7 +11,8 @@ module Services
         private
 
         def message
-          "A shift has been removed from a need at your local office. #{url}"
+          "The shift from #{shift_duration_in_words} has been removed from a "\
+            "need at your local office. #{url}"
         end
 
         def phone_numbers

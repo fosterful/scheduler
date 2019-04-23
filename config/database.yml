@@ -6,10 +6,6 @@ default: &default
   port: 5432
   username: postgres
 
-development:
-  <<: *default
-  database: omd_development
-
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
@@ -17,8 +13,13 @@ test:
   <<: *default
   database: omd_test
 
-production:
+development:
+  <<: *default
+  database: omd_development
+
+staging:
   <<: *default
   database: omd
-  username: <%= ENV['APP_POSTGRES_USERNAME'] %>
-  password: <%= ENV['APP_DATABASE_PASSWORD']
+
+production:
+  <<: *default

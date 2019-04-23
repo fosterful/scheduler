@@ -5,11 +5,6 @@ module Services
     module Shifts
       class Update < Base
 
-        SHIFT_TAKEN      = 'A Volunteer has taken a shift.'
-        SHIFT_RETURNED   = 'A Volunteer has unassigned themself from a shift.'
-        SHIFT_ASSIGNED   = 'You have been assigned a shift.'
-        SHIFT_UNASSIGNED = 'You have been unassigned from a shift.'
-
         delegate :duration,
                  :need,
                  :user,
@@ -22,10 +17,10 @@ module Services
         end
 
         def message
-          return SHIFT_TAKEN if shift_user_is_current_user?
-          return SHIFT_RETURNS if current_user_left_shift?
-          return SHIFT_ASSIGNED if scheduler_with_user?
-          return SHIFT_UNASSIGNED if scheduler_without_user?
+          return shift_taken if shift_user_is_current_user?
+          return shift_returned if current_user_left_shift?
+          return shift_assigned if scheduler_with_user?
+          return shift_unassigned if scheduler_without_user?
 
           nil
         end
@@ -60,6 +55,32 @@ module Services
 
         def social_workers_and_need_user
           need.office.social_workers | [need.user]
+        end
+
+        def shift_taken
+          "A Volunteer has taken the shift #{starting_day} from #{shift_duration_in_words}."
+        end
+
+        def shift_returned
+          "A Volunteer has unassigned themself from the #{shift_duration_in_words} shift #{starting_day}."
+        end
+
+        def shift_assigned
+          "You have been assigned a shift #{starting_day} from #{shift_duration_in_words}."
+        end
+
+        def shift_unassigned
+          "You have been unassigned from the #{shift_duration_in_words} shift #{starting_day}."
+        end
+
+        def shift_duration_in_words
+          [start_at.strftime('%I:%M%P'), end_at.strftime('%I:%M%P')].join(' to ')
+        end
+
+        def starting_day
+          return 'Today' if start_at.today?
+
+          start_at.strftime('%a, %b %e')
         end
 
       end

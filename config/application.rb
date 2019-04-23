@@ -31,7 +31,5 @@ module Scheduler
     config.generators.system_tests = nil
     config.autoload_paths += [Rails.root.join('app', 'models', 'null_objects')]
     config.time_zone = 'Pacific Time (US & Canada)'
-
-    config.twilio_number = '+16309841220'.freeze
   end
 end

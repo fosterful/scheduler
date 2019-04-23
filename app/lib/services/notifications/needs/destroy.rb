@@ -5,15 +5,13 @@ module Services
     module Needs
       class Destroy < Base
 
-        MSG = 'A Need at your office has been deleted.'
-
         delegate :office,
                  to: :need
 
         private
 
         def message
-          MSG
+          "A need at #{office.name} has been deleted."
         end
 
         def phone_numbers
