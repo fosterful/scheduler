@@ -15,12 +15,12 @@ class User < ApplicationRecord
   ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER, ADMIN].freeze
   PROFILE_ATTRS = [:first_name,
                    :last_name,
+                   :phone,
                    :time_zone,
                    :race_id,
                    :first_language_id,
                    { age_range_ids: [] },
                    :birth_date,
-                   :phone,
                    :resident_since,
                    :discovered_omd_by,
                    :medical_limitations,
