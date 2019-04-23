@@ -4,14 +4,15 @@ module Services
   module Notifications
     module Shifts
       class Destroy < Base
-        delegate :need,
+        delegate :duration_in_words,
+                 :need,
                  :user_id,
                  to: :shift
 
         private
 
         def message
-          "The shift from #{shift_duration_in_words} has been removed from a "\
+          "The shift from #{duration_in_words} has been removed from a "\
             "need at your local office. #{url}"
         end
 

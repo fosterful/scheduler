@@ -4,8 +4,10 @@ module Services
   module Notifications
     module Shifts
       class Update < Base
+        include StartAtHelper
 
         delegate :duration,
+                 :duration_in_words,
                  :need,
                  :user,
                  to: :shift
@@ -58,29 +60,19 @@ module Services
         end
 
         def shift_taken
-          "A Volunteer has taken the shift #{starting_day} from #{shift_duration_in_words}."
+          "A Volunteer has taken the shift #{starting_day} from #{duration_in_words}."
         end
 
         def shift_returned
-          "A Volunteer has unassigned themself from the #{shift_duration_in_words} shift #{starting_day}."
+          "A Volunteer has unassigned themself from the #{duration_in_words} shift #{starting_day}."
         end
 
         def shift_assigned
-          "You have been assigned a shift #{starting_day} from #{shift_duration_in_words}."
+          "You have been assigned a shift #{starting_day} from #{duration_in_words}."
         end
 
         def shift_unassigned
-          "You have been unassigned from the #{shift_duration_in_words} shift #{starting_day}."
-        end
-
-        def shift_duration_in_words
-          [start_at.strftime('%I:%M%P'), end_at.strftime('%I:%M%P')].join(' to ')
-        end
-
-        def starting_day
-          return 'Today' if start_at.today?
-
-          start_at.strftime('%a, %b %e')
+          "You have been unassigned from the #{duration_in_words} shift #{starting_day}."
         end
 
       end

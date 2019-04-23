@@ -4,6 +4,7 @@ module Services
   module Notifications
     module Needs
       class Create < Base
+        include StartAtHelper
 
         delegate :notified_user_ids,
                  :shifts,
@@ -37,11 +38,6 @@ module Services
           (users_to_notify | shifts.flat_map(&:users_to_notify)).uniq
         end
 
-        def starting_day
-          return 'Today' if start_at.today?
-
-          start_at.strftime('%a, %b %e')
-        end
 
       end
     end

@@ -21,6 +21,10 @@ class Shift < ApplicationRecord
            :preferred_language,
            to: :need
 
+  def duration_in_words
+    "#{start_at.to_s(:time)} to #{end_at.to_s(:time)}"
+  end
+
   def end_at
     start_at.advance(minutes: duration)
   end

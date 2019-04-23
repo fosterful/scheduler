@@ -4,6 +4,7 @@ module Services
   module Notifications
     module Needs
       class Update < Base
+        include StartAtHelper
 
         delegate :users_to_notify,
                  to: :need
@@ -15,9 +16,8 @@ module Services
         end
 
         def message
-          "A new need starting #{starting_day} at "\
-            "#{start_at.strftime('%I:%M%P')} has opened up at your "\
-            "local office! #{url}"
+          "A new need starting #{starting_day} at #{start_time} has opened up "\
+            "at your local office! #{url}"
         end
       end
     end
