@@ -17,8 +17,9 @@ module Services
 
 
       def call
-        notification_hash[:users].each do |user|
-          SendTextMessageWorker.perform_async(user.phone, [notification_hash[:message], need_url(need)].join(' '))
+        send_confirmation if current_user == user && user
+        notification_hash[:users].each do |notified_user|
+          SendTextMessageWorker.perform_async(notified_user.phone, [notification_hash[:message], need_url(need)].join(' '))
         end
       end
 
@@ -32,9 +33,12 @@ module Services
         start_at.today? ? 'Today' : start_at.strftime('on %a, %b %e')
       end
 
+      def send_confirmation
+        SendTextMessageWorker.perform_async(user.phone, "You have taken the shift #{starting_day} from #{shift_duration_in_words}. #{need_url(need)}")
+      end
+
       def notification_hash
         if current_user == user && user
-          SendTextMessageWorker.perform_async(user.phone, "You have taken the shift #{starting_day} from #{shift_duration_in_words}. #{need_url(need)}")
           { users: (need.office.users.social_workers | [need.user]),
             message: "A Volunteer has taken the shift #{starting_day} from #{shift_duration_in_words}." }
         elsif user.nil? && current_user.id == user_id_was
