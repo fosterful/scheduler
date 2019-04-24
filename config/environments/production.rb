@@ -66,17 +66,16 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'app.officemomsanddads.com' }
   Rails.application.routes.default_url_options = { host: 'app.officemomsanddads.com' }
    # Setup the mailer config
-   config.action_mailer.delivery_method = :smtp
-   config.action_mailer.perform_deliveries = true
-   config.action_mailer.smtp_settings = {
-     :user_name => Rails.application.credentials.dig(:sendgrid, :username),
-     :password => Rails.application.credentials.dig(:sendgrid, :password),
-     :domain => 'officemomsanddads.com',
-     :address => 'smtp.sendgrid.net',
-     :port => 587,
-     :authentication => :plain,
-     :enable_starttls_auto => true
-   }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+    :port           => ENV['MAILGUN_SMTP_PORT'],
+    :address        => ENV['MAILGUN_SMTP_SERVER'],
+    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
+    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
+    :domain         => ENV['MAILGUN_DOMAIN'],
+    :authentication => :plain
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
