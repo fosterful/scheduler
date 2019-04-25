@@ -28,6 +28,12 @@
 
   .grid-x.grid-padding-x
     .cell
+      = f.label :phone do
+        Phone Number
+        = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }, required: true
+      .help-text Required
+  .grid-x.grid-padding-x
+    .cell
       = f.label :time_zone do
         Time Zone
         = f.select :time_zone, ActiveSupport::TimeZone.us_zones.map(&:name), prompt: 'Select a Timezone...', required: true
@@ -55,12 +61,6 @@
         = f.label :birth_date do
           Birth Date
           = f.date_field :birth_date, required: true
-        .help-text Required
-    .grid-x.grid-padding-x
-      .cell
-        = f.label :phone do
-          Phone Number
-          = f.telephone_field :phone, placeholder: '(___) ___-____', data: { inputmask: "'mask': '(999) 999-9999'" }, required: true
         .help-text Required
     .grid-x.grid-padding-x
       .cell
