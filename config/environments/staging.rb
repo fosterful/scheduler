@@ -63,8 +63,8 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'omd-scheduler-staging.herokuapp.com' }
-  Rails.application.routes.default_url_options = { host: 'omd-scheduler-staging.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'app-staging.officemomsanddads.com' }
+  Rails.application.routes.default_url_options = { host: 'app-staging.officemomsanddads.com' }
   # Setup the mailer config
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
