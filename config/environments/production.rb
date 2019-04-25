@@ -104,5 +104,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.twilio_number = '+13607630663'.freeze
+  config.twilio_messaging_service_sid = 'MG93a99275335e478493d7b40c25b35b4e'.freeze
 end
