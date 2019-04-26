@@ -39,7 +39,24 @@
                           required: true
     .help-text Required
 
-- if f.object.class.require_password_on_accepting && !f.object.invitation_accepted?
+- if f.object.invitation_accepted?
+  %fieldset.fieldset
+    %legend
+      Change Password
+      %i (leave blank if you don't want to change it)
+    = f.password_field :password,
+                     placeholder: 'Password',
+                     autocomplete: "new-password",
+                     minlength: @minimum_password_length,
+                     maxlength: @maximum_password_length
+
+    = f.password_field :password_confirmation,
+                     placeholder: 'Password Confirmation',
+                     autocomplete: "new-password",
+                     minlength: @minimum_password_length,
+                     maxlength: @maximum_password_length
+
+- elsif f.object.class.require_password_on_accepting
   %fieldset.fieldset
     %legend Password
     %em Password must be at least 6 characters long
@@ -59,22 +76,6 @@
                          required: true
     .help-text Required
 
-- elsif f.object.invitation_accepted?
-  %fieldset.fieldset
-    %legend
-      Change Password
-      %i (leave blank if you don't want to change it)
-    = f.password_field :password,
-                     placeholder: 'Password',
-                     autocomplete: "new-password",
-                     minlength: @minimum_password_length,
-                     maxlength: @maximum_password_length
-
-    = f.password_field :password_confirmation,
-                     placeholder: 'Password Confirmation',
-                     autocomplete: "new-password",
-                     minlength: @minimum_password_length,
-                     maxlength: @maximum_password_length
 
 .grid-x.grid-padding-x.grid-margin-y
   .cell
