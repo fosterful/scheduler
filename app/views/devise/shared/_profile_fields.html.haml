@@ -2,20 +2,27 @@
   .medium-6.xlarge-3.cell
     = f.label :first_name do
       First Name
-      = f.text_field :first_name, placeholder: 'Enter your first name', required: true
+      = f.text_field :first_name,
+                     placeholder: 'Enter your first name',
+                     required: true
     .help-text Required
 
   .medium-6.xlarge-9.cell
     = f.label :last_name do
       Last Name
-      = f.text_field :last_name, placeholder: 'Enter your last name', required: true
+      = f.text_field :last_name,
+                     placeholder: 'Enter your last name',
+                     required: true
     .help-text Required
 
 .grid-x.grid-padding-x.grid-margin-y
   .cell
     = f.label :email do
       Email
-      = f.email_field :email, autofocus: true, autocomplete: "email", required: true
+      = f.email_field :email,
+                      autofocus: true,
+                      autocomplete: 'email',
+                      required: true
     .help-text Required
 
 - if devise_mapping.confirmable? && resource.pending_reconfirmation?
@@ -27,9 +34,9 @@
     = f.label :phone do
       Phone Number
       = f.telephone_field :phone,
-                        placeholder: '(___) ___-____',
-                        data: { inputmask: "'mask': '(999) 999-9999'" },
-                        required: true
+                          placeholder: '(___) ___-____',
+                          data: { inputmask: "'mask': '(999) 999-9999'" },
+                          required: true
     .help-text Required
 
 - if f.object.class.require_password_on_accepting && !f.object.invitation_accepted?

@@ -23,7 +23,6 @@ class Address < ApplicationRecord
 
   private
 
-
   def validate_and_geocode?
     !skip_api_validation? && ADDRESS_FIELDS.any? { |f| changes.key?(f.to_s) }
   end

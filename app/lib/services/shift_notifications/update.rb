@@ -15,7 +15,6 @@ module Services
                :user,
                to: :shift
 
-
       def call
         notification_hash[:users].each do |user|
           SendTextMessageWorker.perform_async(user.phone, [notification_hash[:message], need_url(need)].join(' '))
