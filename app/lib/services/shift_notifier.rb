@@ -2,13 +2,12 @@
 
 module Services
   class ShiftNotifier
-    include Procto.call
 
-    def initialize(shift, action, user_is = nil, user_was = nil)
-      @shift    = shift
-      @action   = action
-      @user_is  = user_is
-      @user_was = user_was
+    def initialize(shift, action, current_user = nil, user_was = nil)
+      self.shift        = shift
+      self.action       = action
+      self.current_user = current_user
+      self.user_was     = user_was
     end
 
     def call
@@ -21,17 +20,17 @@ module Services
                   Services::Notifications::Shifts::Destroy
               end
 
-      klass.call(shift, user_is, user_was)
+      klass.new(shift, current_user, user_was).call
     end
 
-    attr_reader :action,
-                :shift,
-                :user_is,
-                :user_was
+    attr_accessor :action,
+                  :current_user,
+                  :shift,
+                  :user_was
 
     protected :action,
+              :current_user,
               :shift,
-              :user_is,
               :user_was
   end
 end

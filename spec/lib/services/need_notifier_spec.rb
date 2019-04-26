@@ -7,13 +7,31 @@ RSpec.describe Services::NeedNotifier do
   let(:need) { create(:need) }
 
   describe '#call' do
-    it 'sends a create notification' do
-      need_notifier = described_class.new(need, :create)
+    context 'when a need was created' do
+      it 'sends a create notification' do
+        expect_any_instance_of(Services::Notifications::Needs::Create)
+          .to receive(:call).once
 
-      expect_any_instance_of(Services::NeedNotifications::Create)
-        .to receive(:call).with(need).once
+        described_class.new(need, :create).call
+      end
+    end
 
-      need_notifier.call
+    context 'when a need is updated' do
+      it 'sends an update notification' do
+        expect_any_instance_of(Services::Notifications::Needs::Update)
+          .to receive(:call).once
+
+        described_class.new(need, :update).call
+      end
+    end
+
+    context 'when a need is destroyed' do
+      it 'sends an destroy notification' do
+        expect_any_instance_of(Services::Notifications::Needs::Destroy)
+          .to receive(:call).once
+
+        described_class.new(need, :destroy).call
+      end
     end
   end
 

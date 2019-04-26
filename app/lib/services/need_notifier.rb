@@ -3,7 +3,6 @@
 module Services
   class NeedNotifier
     include Concord.new(:need, :action)
-    include Procto.call
 
     def call
       klass = case action
@@ -15,7 +14,7 @@ module Services
                   Services::Notifications::Needs::Destroy
               end
 
-      klass.call(need)
+      klass.new(need).call
     end
   end
 end

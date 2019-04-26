@@ -13,12 +13,16 @@ module Services
                  to: :need
 
         def call
-          super
-
-          need.update(notified_user_ids: newly_notified_user_ids | notified_user_ids)
+          super do
+            need.update(notified_user_ids: notified_user_ids_after_send)
+          end
         end
 
         private
+
+        def notified_user_ids_after_send
+          newly_notified_user_ids | notified_user_ids
+        end
 
         def phone_numbers
           shift_users.map(&:phone).compact

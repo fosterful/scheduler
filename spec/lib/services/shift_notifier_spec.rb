@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe Services::ShiftNotifier do
   let(:action) { nil }
   let(:shift) { create(:shift) }
-  let(:user_is) { nil }
+  let(:current_user) { nil }
   let(:user_was) { nil }
 
-  let(:object) { described_class.new(shift, action, user_is, user_was) }
+  let(:object) { described_class.new(shift, action, current_user, user_was) }
 
   describe '#call' do
     context 'for create' do
@@ -16,7 +16,7 @@ RSpec.describe Services::ShiftNotifier do
 
       it 'makes correct call for create' do
         expect_any_instance_of(Services::Notifications::Shifts::Create)
-          .to receive(:call).with(shift, :create, nil, nil)
+          .to receive(:call).once
 
         object.call
       end
@@ -26,8 +26,8 @@ RSpec.describe Services::ShiftNotifier do
       let(:action) { :update }
 
       it 'makes correct call for update' do
-        expect_any_instance_of(Services::Notifications::Shifts::Create)
-          .to receive(:call).with(shift, :update, nil, nil)
+        expect_any_instance_of(Services::Notifications::Shifts::Update)
+          .to receive(:call).once
 
         object.call
       end
@@ -37,22 +37,11 @@ RSpec.describe Services::ShiftNotifier do
       let(:action) { :destroy }
 
       it 'makes correct call for destroy' do
-        expect_any_instance_of(Services::Notifications::Shifts::Create)
-          .to receive(:call).with(shift, :destroy, nil, nil)
+        expect_any_instance_of(Services::Notifications::Shifts::Destroy)
+          .to receive(:call).once
 
-        result = object.call
-
-        expect(result).not_to be_nil
-      end
-    end
-
-    context 'for create' do
-      it 'makes correct call for create' do
-        result = object.call
-
-        expect(result).not_to be_nil
+        object.call
       end
     end
   end
-
 end

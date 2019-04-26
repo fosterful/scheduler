@@ -57,7 +57,11 @@ module Services
         end
 
         def social_workers_and_need_user
-          need.office.social_workers | [need.user]
+          social_workers | [need.user]
+        end
+
+        def social_workers
+          need.office.users.social_workers
         end
 
         def shift_taken
