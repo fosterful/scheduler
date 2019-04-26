@@ -8,7 +8,7 @@ RSpec.describe NullLanguage, type: :model do
 
   describe '#name' do
     it 'returns a value' do
-      expect(object.name).to eq('Not specified')
+      expect(object.name).to eq('English')
     end
   end
 end

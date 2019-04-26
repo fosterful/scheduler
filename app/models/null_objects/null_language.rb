@@ -2,6 +2,6 @@
 
 class NullLanguage
   def name
-    'Not specified'
+    'English'
   end
 end
