@@ -1,0 +1,195 @@
+.grid-x.grid-padding-x.grid-margin-y
+  .medium-6.xlarge-3.cell
+    = f.label :first_name do
+      First Name
+      = f.text_field :first_name, placeholder: 'Enter your first name', required: true
+    .help-text Required
+
+  .medium-6.xlarge-9.cell
+    = f.label :last_name do
+      Last Name
+      = f.text_field :last_name, placeholder: 'Enter your last name', required: true
+    .help-text Required
+
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
+    = f.label :email do
+      Email
+      = f.email_field :email, autofocus: true, autocomplete: "email", required: true
+    .help-text Required
+
+- if devise_mapping.confirmable? && resource.pending_reconfirmation?
+  %div
+    Currently waiting confirmation for: #{resource.unconfirmed_email}
+
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
+    = f.label :phone do
+      Phone Number
+      = f.telephone_field :phone,
+                        placeholder: '(___) ___-____',
+                        data: { inputmask: "'mask': '(999) 999-9999'" },
+                        required: true
+    .help-text Required
+
+- if f.object.class.require_password_on_accepting && !f.object.invitation_accepted?
+  %fieldset.fieldset
+    %legend Password
+    %em Password must be at least 6 characters long
+    = f.label :password do
+      = f.password_field :password,
+                         placeholder: 'Password',
+                         minlength: @minimum_password_length,
+                         maxlength: @maximum_password_length,
+                         required: true
+    .help-text Required
+    %br
+    = f.label :password_confirmation do
+      = f.password_field :password_confirmation,
+                         placeholder: 'Password Confirmation',
+                         minlength: @minimum_password_length,
+                         maxlength: @maximum_password_length,
+                         required: true
+    .help-text Required
+
+- elsif f.object.invitation_accepted?
+  %fieldset.fieldset
+    %legend
+      Change Password
+      %i (leave blank if you don't want to change it)
+    = f.password_field :password,
+                     placeholder: 'Password',
+                     autocomplete: "new-password",
+                     minlength: @minimum_password_length,
+                     maxlength: @maximum_password_length
+
+    = f.password_field :password_confirmation,
+                     placeholder: 'Password Confirmation',
+                     autocomplete: "new-password",
+                     minlength: @minimum_password_length,
+                     maxlength: @maximum_password_length
+
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
+    = f.label :time_zone do
+      Time Zone
+      = f.select :time_zone,
+               ActiveSupport::TimeZone.us_zones.map(&:name),
+               prompt: 'Select a Timezone...',
+               required: true
+    .help-text Required
+
+- if profile_attributes_required?(resource)
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :race_id do
+        Race
+      = f.collection_select :race_id,
+                          Race.all,
+                          :id,
+                          :name,
+                          prompt: 'Select a race...', required: true
+      .help-text Required
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell.auto
+      = f.label :first_language_id do
+        First Language
+      = f.collection_select :first_language_id,
+                          Language.all,
+                          :id,
+                          :name,
+                          prompt: 'Select a language...',
+                          required: true
+      .help-text Required
+
+    .cell.auto
+      = f.label :second_language_id do
+        Second Language
+      = f.collection_select :second_language_id,
+                          Language.all,
+                          :id,
+                          :name,
+                          prompt: 'Select a language...',
+                          required: true
+      .help-text Optional
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :birth_date do
+        Birth Date
+        = f.date_field :birth_date,
+                       placeholder: 'YYYY-MM-DD',
+                       required: true
+      .help-text Required: YYYY-MM-DD
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :resident_since do
+        U.S. Resident Since
+        = f.date_field :resident_since,
+                       placeholder: 'YYYY-MM-DD',
+                       required: true
+      .help-text Required: YYYY-MM-DD
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :age_range_ids do
+        Select one or more age ranges that you would like to work with
+        = f.collection_select :age_range_ids,
+                            AgeRange.all,
+                            :id,
+                            :to_s,
+                            { prompt: 'Select one or more age ranges...' },
+                            { class: 'multiple', multiple: true, required: true }
+      .help-text{ style: 'margin-top: 0.25rem'} Required
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :discovered_omd_by do
+        How did you discover Office Moms & Dads?
+        = f.text_area :discovered_omd_by, required: true
+      .help-text Required
+
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell.medium-6
+      %fieldset.fieldset
+        .help-text Required
+        = f.label :medical_limitations do
+          Do you have any medical limitations?
+          = f.label :medical_limitations_true do
+            = f.radio_button :medical_limitations, true, required: true
+            Yes
+          = f.label :medical_limitations_false do
+            = f.radio_button :medical_limitations, false, required: true
+            No
+        = f.label :medical_limitations_desc do
+          If Yes, please describe below:
+          = f.text_area :medical_limitations_desc
+
+    - unless f.object.invitation_accepted?
+      .cell.medium-6
+        %fieldset.fieldset
+          .help-text Required
+          = f.label :conviction do
+            Have you ever been convicted of a felony?
+            = f.label :conviction_true do
+              = f.radio_button :conviction, true, required: true
+              Yes
+            = f.label :conviction_false do
+              = f.radio_button :conviction, false, required: true
+              No
+          = f.label :conviction_desc do
+            If Yes, please describe below:
+            = f.text_area :conviction_desc
+
+- if f.object.invitation_accepted?
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :current_password do
+        Current Password
+        = f.password_field :current_password,
+                         autocomplete: "current-password",
+                         aria: { describedby: 'currentPasswordHelpText' },
+                         required: true
+      %p.help-text#currentPasswordHelpText Required (we need your current password to confirm your changes)
