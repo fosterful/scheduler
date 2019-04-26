@@ -144,11 +144,12 @@
     .cell
       = f.label :age_range_ids do
         Select one or more age ranges that you would like to work with
+        - selected_age_range_ids = f.object.age_range_ids.presence || AgeRange.pluck(:id)
         = f.collection_select :age_range_ids,
                             AgeRange.all,
                             :id,
                             :to_s,
-                            { prompt: 'Select one or more age ranges...' },
+                            { selected: selected_age_range_ids, prompt: 'Select one or more age ranges...' },
                             { class: 'multiple', multiple: true, required: true }
       .help-text{ style: 'margin-top: 0.25rem'} Required
 
