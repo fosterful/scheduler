@@ -94,3 +94,11 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 end
+
+def shift_duration_in_words(shift)
+  [shift.start_at.strftime('%I:%M%P'), shift.end_at.strftime('%I:%M%P')].join(' to ')
+end
+
+def starting_day(shift)
+  shift.start_at.today? ? 'Today' : shift.start_at.strftime('on %a, %b %e')
+end
