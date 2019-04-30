@@ -10,7 +10,7 @@ class AddCountyToAddresses < ActiveRecord::Migration[5.2]
   end
 
   def populate_county_data
-    Addresses.find_each do |address|
+    Address.find_each do |address|
       address.send(:validate_and_geocode)
       address.save
     end
