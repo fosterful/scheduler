@@ -30,4 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        shift:
+          attributes:
+            need:
+              remove_last_shift: "must have at least one shift. Perhaps you mean to delete the Need itself?"
