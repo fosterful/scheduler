@@ -7,6 +7,7 @@ FactoryBot.define do
     city { 'Vancouver' }
     state { 'WA' }
     postal_code { '98660' }
+    county { 'Clark' }
 
     latitude { nil }
     longitude { nil }
