@@ -10,7 +10,7 @@
     .cell.small-2.small-offset-1
       %i.fas.fa-sliders-h
 - if current_user.scheduler?
-  = link_to new_need_path do
+  = link_to new_need_path, class: 'hide-for-medium' do
     .grid-x.menu-item
       .cell.small-9.text-right New Need
       .cell.small-2.small-offset-1
