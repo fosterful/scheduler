@@ -43,7 +43,7 @@ class ShiftsController < ApplicationController
       Services::ShiftNotifications::Destroy.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Destroyed'
     else
-      flash[:alert] = @shift.errors.full_messages.first
+      flash[:alert] = @shift.errors.full_messages.first.presence || 'Whoops! something went wrong.'
     end
     redirect_to need_shifts_path(@need)
   end
