@@ -45,7 +45,7 @@ class UserPolicy < ApplicationPolicy
       when 'coordinator'
         other_user.role.in? %w(volunteer social_worker)
       when 'social_worker'
-        other_user.role.in? %w(volunteer)
+        other_user.role.in? %w(volunteer social_worker)
       else
         false
     end
