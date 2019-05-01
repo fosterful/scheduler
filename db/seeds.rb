@@ -5,6 +5,7 @@ if Rails.env.development?
                                           city:        'Washington',
                                           state:       'DC',
                                           postal_code: '20001',
+                                          county: 'District of Columbia',
                                           latitude:    '38.90204',
                                           longitude:   '-77.02284')
   # Will save Address with Office below

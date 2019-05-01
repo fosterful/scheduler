@@ -5,7 +5,7 @@ class Address < ApplicationRecord
   validates :street, :city, :state, :postal_code, presence: true
   validate :validate_and_geocode, if: :validate_and_geocode?
 
-  ADDRESS_FIELDS = %i(street street2 city state postal_code).freeze
+  ADDRESS_FIELDS = %i(street street2 city county state postal_code).freeze
 
   def to_s
     [street, street2, city, state, postal_code].compact.join(' ')
@@ -33,7 +33,9 @@ class Address < ApplicationRecord
     if address.present?
       verifier = MainStreet::AddressVerifier.new(address)
       if verifier.success?
-        assign_attributes(latitude: verifier.latitude, longitude: verifier.longitude)
+        assign_attributes(latitude: verifier.latitude,
+                          longitude: verifier.longitude,
+                          county: verifier.result.data['metadata']['county_name'])
       else
         errors.add(:base, verifier.failure_message)
       end
