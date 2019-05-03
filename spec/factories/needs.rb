@@ -13,12 +13,9 @@ FactoryBot.define do
     end
 
     factory :need_with_shifts do
-      transient do
-        shifts_count { 2 }
-      end
 
-      after(:create) do |need, evaluator|
-        create_list(:shift, evaluator.shifts_count, need: need)
+      after(:create) do |need|
+        create_list(:shift, need.expected_duration / 60, need: need)
       end
     end
   end
