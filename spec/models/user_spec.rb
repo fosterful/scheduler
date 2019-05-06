@@ -123,6 +123,42 @@ RSpec.describe User, type: :model do
       expect(described_class.limit(3).with_phone).to all(be_a(described_class))
     end
   end
+  context 'reporting' do
+    let(:wa_address1) { build(:address, :wa)}
+    let(:wa_address2) { build(:address, :wa, county: 'Lewis')}
+    let(:wa_office1) { create(:office, :wa, address: wa_address1) }
+    let(:wa_office2) { create(:office, :wa, address: wa_address2) }
+    let(:or_office) { create(:office, :or) }
+    let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1])}
+    let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2])}
+    let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office])}
+    let(:wa_user1) { create(:user, offices: [wa_office1]) }
+    let(:wa_user2) { create(:user, offices: [wa_office2]) }
+    let(:or_user) { create(:user, offices: [or_office]) }
+    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 120, office: wa_office1) }
+    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2) }
+    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office) }
+
+    before do
+      or_need.shifts.first.update(user: or_user) # 3 child served
+      wa_need1.shifts.first.update(user: wa_user1) # 1 child served
+      wa_need1.shifts.last.update(user: wa_user2) # 1 child served
+      wa_need2.shifts.update_all(user_id: wa_user2.id) # 2 child served (total of 3)
+    end
+
+    describe '.total_volunteer_minutes' do
+      it 'does something' do
+        expect(described_class.total_volunteer_minutes).to eql(or_user.id => 60, wa_user1.id => 60, wa_user2.id => 300)
+      end
+    end
+
+    describe '.total_children_served' do
+      it 'does something' do
+        binding.pry
+        expect(described_class.total_children_served).to eql(or_user.id => 3, wa_user1.id => 1, wa_user2.id => 3)
+      end
+    end
+  end
 
   describe '#has_at_least_one_age_range' do
     it 'has_at_least_one_age_range' do
