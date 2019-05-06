@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Address, type: :model do
-  let(:address) { build :address }
+  let(:office) { build(:office, address: build(:address, :wa, skip_api_validation: false)) }
+  let(:address) { office.address }
 
   it 'has a valid factory' do
     expect(address.valid?).to be(true)
