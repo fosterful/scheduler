@@ -1,5 +1,5 @@
 # Office Moms and Dads Scheduler
-[![Maintainability](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage)](https://codeclimate.com/github/OfficeMomsandDads/scheduler/test_coverage) [![Join the chat at https://gitter.im/office-moms-and-dads/community](https://badges.gitter.im/office-moms-and-dads/community.svg)](https://gitter.im/office-moms-and-dads/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * [Development Environment Setup](#development-environment-setup)
 * [Helpful Docker Commands](#helpful-docker-commands)
