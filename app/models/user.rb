@@ -72,7 +72,6 @@ class User < ApplicationRecord
   scope :with_phone, -> { where.not(phone: nil) }
 
   scope :total_volunteer_minutes, -> { joins(:shifts).group('users.id').sum('shifts.duration') }
-  scope :children_served_by_user, -> { joins(shifts: :need).group('needs.id, users.id').select('needs.id, users.id, needs.number_of_children') }
 
 
   def self.available_within(start_at, end_at)

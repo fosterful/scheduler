@@ -147,15 +147,8 @@ RSpec.describe User, type: :model do
     end
 
     describe '.total_volunteer_minutes' do
-      it 'does something' do
+      it 'returns the volunteer minutes grouped by user_id' do
         expect(described_class.total_volunteer_minutes).to eql(or_user.id => 60, wa_user1.id => 60, wa_user2.id => 300)
-      end
-    end
-
-    describe '.total_children_served' do
-      it 'does something' do
-        binding.pry
-        expect(described_class.total_children_served).to eql(or_user.id => 3, wa_user1.id => 1, wa_user2.id => 3)
       end
     end
   end
