@@ -45,9 +45,9 @@ RSpec.describe Need, type: :model do
   context 'reporting' do
     let(:wa_address1) { build(:address, :wa)}
     let(:wa_address2) { build(:address, :wa, county: 'Lewis')}
-    let(:wa_office1) { create(:office, :wa, address: wa_address1) }
-    let(:wa_office2) { create(:office, :wa, address: wa_address2) }
-    let(:or_office) { create(:office, :or) }
+    let(:wa_office1) { create(:wa_office, address: wa_address1) }
+    let(:wa_office2) { create(:wa_office, address: wa_address2) }
+    let(:or_office) { create(:or_office) }
     let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1])}
     let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2])}
     let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office])}
