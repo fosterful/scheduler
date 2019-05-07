@@ -91,3 +91,8 @@ jobs:
       # Save test results for timing analysis
       - store_test_results:
           path: test_results
+notify:
+  webhooks:
+    # A list of hook hashes, containing the url field
+    # gitter hook
+    - url: https://webhooks.gitter.im/e/445809b0130cf19eb31b
