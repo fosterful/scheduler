@@ -14,7 +14,11 @@ class Need < ApplicationRecord
   validates :expected_duration, inclusion: { in: ->(_need) { (60..) }, message: 'must be at least on hour' }
 
   scope :current, -> { where('start_at > ?', Time.zone.now.at_beginning_of_day).order(start_at: :asc) }
-  scope :total_children_served, -> { joins(shifts: :user).distinct.sum(:number_of_children) }
+  scope :has_claimed_shifts, -> { where("EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id AND shifts.user_id IS NOT NULL)") }
+
+  def self.total_children_served
+    has_claimed_shifts.sum(:number_of_children)
+  end
 
   alias_attribute :duration, :expected_duration
 

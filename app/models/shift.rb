@@ -7,6 +7,8 @@ class Shift < ApplicationRecord
   before_destroy :notify_user_of_cancelation, if: -> { user.present? }
   validates :start_at, :duration, presence: true
 
+  scope :claimed, -> { where.not(user_id: nil).reorder(nil) }
+
   def end_at
     start_at.advance(minutes: duration)
   end
