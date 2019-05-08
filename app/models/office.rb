@@ -18,8 +18,9 @@ class Office < ApplicationRecord
   scope :claimed_needs_by_office, -> { with_claimed_needs.group('offices.id') }
   scope :claimed_needs_by_state, -> { with_claimed_needs.joins(:address).group('addresses.state') }
   scope :claimed_needs_by_county, ->(state) { with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county') }
-  # scope :children_by_demographic, -> { joins(needs: :preferred_language).group('offices.id, languages.name').count('languages.name') }
-  # scope :volunteers_by_demographic, -> { joins(users: :race).group('races.name').count('users.id') }
+
+  scope :with_preferred_language, -> { joins(needs: :preferred_language).group('languages.name') }
+  scope :users_by_race, -> { joins(users: :race).group('races.name') }
 
   def self.total_volunteer_minutes_by_office
     claimed_shifts_by_office.sum('shifts.duration')
@@ -43,5 +44,13 @@ class Office < ApplicationRecord
 
   def self.total_children_served_by_county(state)
     claimed_needs_by_county(state).sum('needs.number_of_children')
+  end
+
+  def self.total_children_by_demographic
+    with_preferred_language.sum('needs.number_of_children')
+  end
+
+  def self.total_volunteers_by_race
+    users_by_race.count('users.id')
   end
 end

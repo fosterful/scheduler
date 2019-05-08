@@ -9,6 +9,9 @@ RSpec.describe Office, type: :model do
     expect(office.valid?).to be(true)
   end
   context 'reporting' do
+    let(:lang1) { create(:language, name: 'Lang1') }
+    let(:lang2) { create(:language, name: 'Lang2') }
+    let(:lang3) { create(:language, name: 'Lang3') }
     let(:wa_address1) { build(:address, :wa)}
     let(:wa_address2) { build(:address, :wa, county: 'Lewis')}
     let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save!} }
@@ -21,11 +24,11 @@ RSpec.describe Office, type: :model do
     let(:wa_user2) { create(:user, offices: [wa_office2]) }
     let(:wa_user3) { create(:user, offices: [wa_office2]) }
     let(:or_user) { create(:user, offices: [or_office]) }
-    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1) }
-    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2) }
-    let(:wa_need3) { create(:need_with_shifts, user: wa_sw2, number_of_children: 7, expected_duration: 120, office: wa_office2) }
-    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2) }
-    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office) }
+    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1, preferred_language: lang1) }
+    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2, preferred_language: lang1) }
+    let(:wa_need3) { create(:need_with_shifts, user: wa_sw2, number_of_children: 7, expected_duration: 120, office: wa_office2, preferred_language: lang1) }
+    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2, preferred_language: lang3) }
+    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office, preferred_language: lang2) }
 
     before do
       or_need.shifts.first.update(user: or_user)
@@ -71,16 +74,10 @@ RSpec.describe Office, type: :model do
       end
     end
 
-    # describe '.children_by_demographic' do
-    #   it 'does something' do
-    #     expect(described_class.children_by_demographic).to eql(nil)
-    #   end
-    # end
-
-    # describe '.volunteers_by_demographic' do
-    #   it 'does something' do
-    #     expect(described_class.volunteers_by_demographic).to eql(nil)
-    #   end
-    # end
+    describe '.total_children_by_demographic' do
+      it 'returns the total children with each preferred_language' do
+        expect(described_class.total_children_by_demographic).to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
+      end
+    end
   end
 end

@@ -71,8 +71,17 @@ class User < ApplicationRecord
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
-  scope :total_volunteer_minutes, -> { joins(:shifts).group('users.id').sum('shifts.duration') }
+  scope :speaks_language, ->(language) { where(first_language: language).or(where(second_language: language)) }
+  scope :shifts_by_user, -> { joins(:shifts).group('users.id') }
+  scope :volunteerable_by_race, -> { volunteerable.joins(:race).group('races.name') }
 
+  def self.total_volunteers_by_race
+    volunteerable_by_race.count('users.id')
+  end
+
+  def self.total_volunteer_minutes_by_user
+    shifts_by_user.sum('shifts.duration')
+  end
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
@@ -83,14 +92,6 @@ class User < ApplicationRecord
 
     joins(sql)
       .where(blockouts: { id: nil })
-  end
-
-  def self.speaks_language(language)
-    where(first_language: language).or(where(second_language: language))
-  end
-
-  def foobar
-    served_needs.sum(:number_of_children)
   end
 
   def has_at_least_one_office

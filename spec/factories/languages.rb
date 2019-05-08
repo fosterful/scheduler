@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :language do
-    name { 'Spanish' }
+    name { Faker::Demographic.demonym }
   end
 end
