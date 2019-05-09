@@ -74,14 +74,14 @@ class User < ApplicationRecord
   scope :speaks_language, ->(language) { where(first_language: language).or(where(second_language: language)) }
   scope :shifts_by_user, -> { joins(:shifts).group('users.id') }
   scope :volunteerable_by_race, -> { volunteerable.joins(:race).group('races.name') }
-  scope :volunteerable_by_language, -> { volunteerable.joins(:first_language, :second_language).group('languages.name') }
+  scope :volunteerable_by_language, -> { volunteerable.joins('INNER JOIN languages ON languages.id IN (users.first_language_id, users.second_language_id)').group('languages.name') }
 
   def self.total_volunteers_by_race
     volunteerable_by_race.count('users.id')
   end
 
   def self.total_volunteers_by_spoken_language
-    volunteerable_by_language.count('users.id')
+    volunteerable_by_language.count
   end
 
   def self.total_volunteer_minutes_by_user

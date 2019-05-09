@@ -139,7 +139,7 @@ RSpec.describe User, type: :model do
     let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2])}
     let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office])}
     let(:wa_user1) { create(:user, offices: [wa_office1], race: race1, first_language: lang1, second_language: lang2) }
-    let(:wa_user2) { create(:user, offices: [wa_office2], race: race1) }
+    let(:wa_user2) { create(:user, offices: [wa_office2], race: race1, first_language: lang2) }
     let(:wa_user3) { create(:user, offices: [wa_office2], race: race2, first_language: lang3, second_language: lang2) }
     let(:or_user) { create(:user, offices: [or_office], race: race3, first_language: lang2) }
     let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1, preferred_language: lang1) }
@@ -163,8 +163,8 @@ RSpec.describe User, type: :model do
     end
 
     describe '.total_volunteers_by_spoken_language' do
-      it 'returns the number of volunteers grouped by race name' do
-        expect(described_class.total_volunteers_by_spoken_language).to eql(lang1.name => 1, lang2.name => 3, lang3.name => 1)
+      it 'returns the number of volunteers grouped by language name' do
+        expect(described_class.total_volunteers_by_spoken_language).to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
       end
     end
 
