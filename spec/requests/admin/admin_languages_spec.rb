@@ -27,7 +27,7 @@ RSpec.describe 'Admin languages spec', type: :request do
   describe 'show' do
     before { sign_in create :user, role: 'admin' }
 
-    let(:language) { create :language }
+    let(:language) { create :language, name: 'Spanish' }
 
     it 'displays the language' do
       get admin_language_path(language)

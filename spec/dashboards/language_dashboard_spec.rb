@@ -7,7 +7,7 @@ RSpec.describe LanguageDashboard do
 
   describe '#display_resource' do
 
-    let(:language) { build(:language) }
+    let(:language) { build(:language, name: 'Spanish') }
 
     it 'display_resource' do
       result = object.display_resource(language)

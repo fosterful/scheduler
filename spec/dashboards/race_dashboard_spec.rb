@@ -6,7 +6,7 @@ RSpec.describe RaceDashboard do
   let(:object) { described_class.new }
 
   describe '#display_resource' do
-    let(:race) { build(:race) }
+    let(:race) { build(:race, name: 'Hispanic') }
 
     it 'display_resource' do
       result = object.display_resource(race)
