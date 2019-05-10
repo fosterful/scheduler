@@ -10,6 +10,8 @@
       window.timeZone = '#{Time.zone.tzinfo.name}'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag asset_pack_path('images/omd-icon.png')
+    = favicon_link_tag asset_pack_path('images/omd-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
   %body
     = render partial: 'nav'
     - if content_for :page_header

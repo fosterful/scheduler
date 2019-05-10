@@ -44,13 +44,15 @@ RSpec.describe UserPolicy, type: :policy do
   context 'as a social_worker' do
     let(:user) { build(:user, role: 'social_worker') }
 
-    context 'inviting a volunteer' do
-      subject { described_class.new(user, build(:user, role: 'volunteer')) }
+    %w(social_worker volunteer).each do |role|
+      context "inviting a #{role}" do
+        subject { described_class.new(user, build(:user, role: role)) }
 
-      it { expect(subject).to permit_action(:new) }
+        it { expect(subject).to permit_action(:new) }
+      end
     end
 
-    %w(coordinator social_worker admin).each do |role|
+    %w(coordinator admin).each do |role|
       context "inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
@@ -97,6 +99,7 @@ RSpec.describe UserPolicy, type: :policy do
                                      :discovered_omd_by,
                                      :email,
                                      :first_language_id,
+                                     :second_language_id,
                                      :first_name,
                                      :last_name,
                                      :medical_limitations,
@@ -121,6 +124,7 @@ RSpec.describe UserPolicy, type: :policy do
                                      :discovered_omd_by,
                                      :email,
                                      :first_language_id,
+                                     :second_language_id,
                                      :first_name,
                                      :last_name,
                                      :medical_limitations,

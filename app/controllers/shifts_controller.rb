@@ -39,11 +39,11 @@ class ShiftsController < ApplicationController
     @need  = policy_scope(Need).find(params[:need_id])
     @shift = policy_scope(Shift).find(params[:id])
     authorize @shift
-    if @shift.destroy
+    if @shift.can_destroy? && @shift.destroy
       Services::ShiftNotifier.call(@shift, :destroy)
       flash[:notice] = 'Shift Successfully Destroyed'
     else
-      flash[:alert] = 'Whoops! something went wrong.'
+      flash[:alert] = @shift.errors.full_messages.first.presence || 'Whoops! something went wrong.'
     end
     redirect_to need_shifts_path(@need)
   end

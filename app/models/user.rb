@@ -19,6 +19,7 @@ class User < ApplicationRecord
                    :time_zone,
                    :race_id,
                    :first_language_id,
+                   :second_language_id,
                    { age_range_ids: [] },
                    :birth_date,
                    :resident_since,

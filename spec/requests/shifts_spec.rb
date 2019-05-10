@@ -103,12 +103,24 @@ RSpec.describe 'Shifts', type: :request do
     end
 
     context 'failure' do
-      it 'sets the flash to display an error message' do
-        expect_any_instance_of(Shift).to receive(:destroy).and_return(false)
+      context 'when there is more than one shift left' do
+        it 'sets the flash to display an error message' do
+          expect_any_instance_of(Shift).to receive(:destroy).and_return(false)
 
-        delete need_shift_path(need, shift)
+          delete need_shift_path(need, shift)
 
-        expect(flash[:alert]).to eql('Whoops! something went wrong.')
+          expect(flash[:alert]).to eql('Whoops! something went wrong.')
+        end
+      end
+
+      context 'when there is only one shift left'do
+        it 'sets the flash to display a specific error message' do
+          need.shifts.where.not(id: shift.id).destroy_all
+
+          delete need_shift_path(need, shift)
+
+          expect(flash[:alert]).to eql('Need must have at least one shift. Perhaps you mean to delete the Need itself?')
+        end
       end
     end
   end

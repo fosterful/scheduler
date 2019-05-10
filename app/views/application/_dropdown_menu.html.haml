@@ -10,6 +10,11 @@
     .cell.small-2.small-offset-1
       %i.fas.fa-sliders-h
 - if current_user.scheduler?
+  = link_to new_need_path, class: 'hide-for-medium' do
+    .grid-x.menu-item
+      .cell.small-9.text-right New Need
+      .cell.small-2.small-offset-1
+        %i.fas.fa-plus
   = link_to new_user_invitation_path do
     .grid-x.menu-item
       .cell.small-9.text-right Invite User

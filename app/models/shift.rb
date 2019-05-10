@@ -5,7 +5,7 @@ class Shift < ApplicationRecord
 
   default_scope { order(:start_at) }
 
-  belongs_to :need
+  belongs_to :need, inverse_of: :shifts
   has_one :office, through: :need
   has_one :preferred_language, through: :need
   belongs_to :user, optional: true
@@ -48,5 +48,10 @@ class Shift < ApplicationRecord
       .available_within(start_at, end_at)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
+  end
+
+  def can_destroy?
+    return true if need.shifts.count > 1
+    errors.add(:need, :remove_last_shift) && false
   end
 end
