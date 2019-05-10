@@ -2,6 +2,7 @@
 
 module Services
   class ShiftNotifier
+    include Procto.call
 
     def initialize(shift, action, current_user = nil, user_was = nil)
       self.shift        = shift

@@ -3,6 +3,7 @@
 module Services
   class NeedNotifier
     include Concord.new(:need, :action)
+    include Procto.call
 
     def call
       klass = case action
