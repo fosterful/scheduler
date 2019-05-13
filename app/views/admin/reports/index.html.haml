@@ -1,0 +1,17 @@
+%body
+  - content_for(:title) do
+    = 'Reports'
+  %header.main-content__header{ role: 'banner' }
+    %h1.main-content__page-title
+      = content_for(:title)
+    %div
+      = link_to t("administrate.actions.back"), :back, class: "button"
+  %section.main-content__body
+    %div= link_to('total_volunteer_minutes_by_office', admin_reports_total_volunteer_minutes_by_office_path)
+    %div= link_to('total_volunteer_minutes_by_state', admin_reports_total_volunteer_minutes_by_state_path)
+    %div= link_to('total_volunteer_minutes_by_county', admin_reports_total_volunteer_minutes_by_county_path)
+    %div= link_to('total_children_served_by_office', admin_reports_total_children_served_by_office_path)
+    %div= link_to('total_children_served_by_state', admin_reports_total_children_served_by_state_path)
+    %div= link_to('total_children_served_by_county', admin_reports_total_children_served_by_county_path)
+    %div= link_to('total_children_by_demographic', admin_reports_total_children_by_demographic_path)
+    %div= link_to('total_volunteers_by_race', admin_reports_total_volunteers_by_race_path)

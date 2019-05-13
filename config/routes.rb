@@ -7,6 +7,15 @@ Rails.application.routes.draw do
     resources :age_ranges
     resources :races
     resources :languages
+    get 'reports' => 'reports#index'
+    get 'reports/total-volunteer-minutes-by-office' => 'reports#total_volunteer_minutes_by_office'
+    get 'reports/total-volunteer-minutes-by-state' => 'reports#total_volunteer_minutes_by_state'
+    get 'reports/total-volunteer-minutes-by-county' => 'reports#total_volunteer_minutes_by_county'
+    get 'reports/total-children-served-by-office' => 'reports#total_children_served_by_office'
+    get 'reports/total-children-served-by-state' => 'reports#total_children_served_by_state'
+    get 'reports/total-children-served-by-county' => 'reports#total_children_served_by_county'
+    get 'reports/total-children-by-demographic' => 'reports#total_children_by_demographic'
+    get 'reports/total-volunteers-by-race' => 'reports#total_volunteers_by_race'
 
     root to: 'users#index'
   end
