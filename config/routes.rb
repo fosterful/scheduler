@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get 'reports/total-children-served-by-county' => 'reports#total_children_served_by_county'
     get 'reports/total-children-by-demographic' => 'reports#total_children_by_demographic'
     get 'reports/total-volunteers-by-race' => 'reports#total_volunteers_by_race'
+    get 'reports/total-volunteer-minutes-by-user' => 'reports#total_volunteer_minutes_by_user'
+    get 'reports/total-volunteers-by-spoken-language' => 'reports#total_volunteers_by_spoken_language'
 
     root to: 'users#index'
   end
