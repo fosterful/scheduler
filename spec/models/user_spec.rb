@@ -156,12 +156,6 @@ RSpec.describe User, type: :model do
       wa_need3.shifts.last.update(user: wa_user2)
     end
 
-    describe '.total_volunteers_by_race' do
-      it 'returns the number of volunteers grouped by race name' do
-        expect(described_class.total_volunteers_by_race).to eql(race1.name => 2, race2.name => 1, race3.name => 1)
-      end
-    end
-
     describe '.total_volunteers_by_spoken_language' do
       it 'returns the number of volunteers grouped by language name' do
         expect(described_class.total_volunteers_by_spoken_language).to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
