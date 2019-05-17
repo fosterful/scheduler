@@ -10,10 +10,23 @@
     %div Total Children Served: #{Need.total_children_served}
     %div= link_to('total_volunteer_minutes_by_office', admin_reports_total_volunteer_minutes_by_office_path)
     %div= link_to('total_volunteer_minutes_by_state', admin_reports_total_volunteer_minutes_by_state_path)
-    %div= link_to('total_volunteer_minutes_by_county', admin_reports_total_volunteer_minutes_by_county_path)
+
+    %div
+      = form_tag({ controller: 'admin/reports', action: 'total_volunteer_minutes_by_county' }, method: 'get') do
+        = label_tag(:state, 'total_volunteer_minutes_by_county')
+        = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+        = submit_tag 'Query'
+
     %div= link_to('total_children_served_by_office', admin_reports_total_children_served_by_office_path)
     %div= link_to('total_children_served_by_state', admin_reports_total_children_served_by_state_path)
-    %div= link_to('total_children_served_by_county', admin_reports_total_children_served_by_county_path)
+
+    %div
+      = form_tag({ controller: 'admin/reports', action: 'total_children_served_by_county' }, method: 'get') do
+        = label_tag(:state, 'total_children_served_by_county')
+        = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+        = submit_tag 'Query'
+    = link_to('total_children_served_by_county', admin_reports_total_children_served_by_county_path)
+
     %div= link_to('total_children_by_demographic', admin_reports_total_children_by_demographic_path)
     %div= link_to('total_volunteers_by_race', admin_reports_total_volunteers_by_race_path)
 
