@@ -18,7 +18,6 @@ module Services
       def call
         send_confirmation if current_user == user && user
         notification_hash[:users].each do |notified_user|
-          puts notification_hash[:message]
           SendTextMessageWorker.perform_async(notified_user.phone, [notification_hash[:message], need_url(need)].join(' '))
         end
       end
