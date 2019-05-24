@@ -9,12 +9,12 @@ class Office < ApplicationRecord
 
   accepts_nested_attributes_for :address, update_only: true
 
-  scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed).reorder(nil) }
+  scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
   scope :claimed_shifts_by_office, -> { with_claimed_shifts.group('offices.id') }
   scope :claimed_shifts_by_state, -> { with_claimed_shifts.joins(:address).group('addresses.state') }
   scope :claimed_shifts_by_county, ->(state) { with_claimed_shifts.joins(:address).where(addresses: { state: state }).group('addresses.county') }
 
-  scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts).reorder(nil) }
+  scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
   scope :claimed_needs_by_office, -> { with_claimed_needs.group('offices.id') }
   scope :claimed_needs_by_state, -> { with_claimed_needs.joins(:address).group('addresses.state') }
   scope :claimed_needs_by_county, ->(state) { with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county') }
