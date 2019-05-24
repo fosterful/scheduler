@@ -4,16 +4,16 @@ module Services
   module Notifications
     module Needs
       class Base
-        include TextNotification
         include ActionView::Helpers
         include Rails.application.routes.url_helpers
 
-        def initialize(need)
+        def initialize(need, notifier = default_notifier)
           self.need = need
+          self.notifier = notifier
         end
 
         def call
-          send_messages
+          notifier.send_messages(phone_numbers, message)
 
           yield if block_given?
         end
@@ -23,6 +23,8 @@ module Services
         attr_accessor :need
 
         private
+
+        attr_accessor :notifier
 
         def phone_numbers
           raise NotImplementedError, '#phone_numbers is not implemented'
@@ -36,6 +38,9 @@ module Services
           need_url(need)
         end
 
+        def default_notifier
+          TextNotification.instance
+        end
       end
     end
   end

@@ -4,18 +4,18 @@ module Services
   module Notifications
     module Shifts
       class Base
-        include TextNotification
         include ActionView::Helpers
         include Rails.application.routes.url_helpers
 
-        def initialize(shift, current_user = nil, user_was = nil)
+        def initialize(shift, args = {}, notifier = default_notifier)
           self.shift        = shift
-          self.current_user = current_user
-          self.user_was     = user_was
+          self.current_user = args.fetch(:current_user, nil)
+          self.user_was     = args.fetch(:user_was, nil)
+          self.notifier     = notifier
         end
 
         def call
-          send_messages
+          notifier.send_messages(phone_numbers, message)
         end
 
         protected
@@ -23,6 +23,8 @@ module Services
         attr_accessor :shift, :current_user, :user_was
 
         private
+
+        attr_accessor :notifier
 
         def phone_numbers
           raise NotImplementedError, '#phone_numbers is not implemented'
@@ -34,6 +36,10 @@ module Services
 
         def url
           need_url(need)
+        end
+
+        def default_notifier
+          Notifications::TextNotification.instance
         end
       end
     end
