@@ -10,17 +10,39 @@ class Office < ApplicationRecord
   accepts_nested_attributes_for :address, update_only: true
 
   scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
-  scope :claimed_shifts_by_office, -> { with_claimed_shifts.group('offices.id') }
-  scope :claimed_shifts_by_state, -> { with_claimed_shifts.joins(:address).group('addresses.state') }
-  scope :claimed_shifts_by_county, ->(state) { with_claimed_shifts.joins(:address).where(addresses: { state: state }).group('addresses.county') }
-
   scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
-  scope :claimed_needs_by_office, -> { with_claimed_needs.group('offices.id') }
-  scope :claimed_needs_by_state, -> { with_claimed_needs.joins(:address).group('addresses.state') }
-  scope :claimed_needs_by_county, ->(state) { with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county') }
 
-  scope :with_preferred_language, -> { joins(needs: :preferred_language).group('languages.name') }
-  scope :users_by_race, -> { joins(users: :race).group('races.name') }
+  def self.claimed_shifts_by_office
+    with_claimed_shifts.group('offices.id')
+  end
+
+  def self.claimed_shifts_by_state
+    with_claimed_shifts.joins(:address).group('addresses.state')
+  end
+
+  def self.claimed_shifts_by_county(state)
+    with_claimed_shifts.joins(:address).where(addresses: { state: state }).group('addresses.county')
+  end
+
+  def self.claimed_needs_by_office
+    with_claimed_needs.group('offices.id')
+  end
+
+  def self.claimed_needs_by_state
+    with_claimed_needs.joins(:address).group('addresses.state')
+  end
+
+  def self.claimed_needs_by_county(state)
+    with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county')
+  end
+
+  def self.with_preferred_language
+    joins(needs: :preferred_language).group('languages.name')
+  end
+
+  def self.users_by_race
+    joins(users: :race).group('races.name')
+  end
 
   def self.total_volunteer_minutes_by_office
     claimed_shifts_by_office.sum('shifts.duration')
