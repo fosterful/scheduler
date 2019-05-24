@@ -3,33 +3,47 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Needs::Create do
-  let(:object) { described_class.call(need) }
+  subject { described_class.new(need, notifier).call }
 
+  let(:notifier) { double }
   let(:need) do
-    build(:need).tap do |need|
+    create(:need, start_at: Date.parse('2019-05-23')).tap do |need|
       need.update(shifts: Services::BuildNeedShifts.call(need))
     end
   end
-
-  let(:user) { build(:user) }
+  let(:msg) do
+    'A new need starting Thu, May 23 at 12:00am has opened up at your local '\
+      "office! http://localhost:3000/needs/#{need.id}"
+  end
+  let(:volunteer) { build(:user) }
+  let(:social_worker) { build(:social_worker) }
 
   describe '#call' do
-
     it 'does not include the need user/creator' do
       expect(need.office.users).to include(need.user)
-      expect(subject).not_to include(need.user)
+      expect(notifier).to receive(:send_messages).with([], msg)
+
+      subject
     end
 
     it 'does not include non-volunteers' do
-      need.office.users << social_worker = build(:user, role: 'social_worker')
-      expect(subject).not_to include(social_worker)
+      need.office.users << social_worker
+      need.office.users << volunteer
+
+      expect(notifier).to receive(:send_messages).with([volunteer.phone], msg)
+
+      subject
     end
 
     context 'with multiple users' do
       it 'returns volunteers notified' do
         users = build_list(:user, 2, age_ranges: need.age_ranges)
         need.office.users << users
-        expect(subject).to include(*users)
+
+        expect(notifier).to receive(:send_messages)
+                              .with(users.map(&:phone), msg)
+
+        subject
       end
     end
 
@@ -39,10 +53,12 @@ RSpec.describe Services::Notifications::Needs::Create do
       end
       let(:unavailable_user) { build(:user, blockouts: [blockout]) }
 
-      before { need.office.users << [user, unavailable_user] }
-
       it 'excludes the unavailable volunteers' do
-        expect(subject).not_to include(unavailable_user)
+        need.office.users << [user, unavailable_user]
+
+        expect(notifier).to receive(:send_messages).with([user.phone], msg)
+
+        subject
       end
     end
 
@@ -51,7 +67,9 @@ RSpec.describe Services::Notifications::Needs::Create do
         need.office.users << user
         need.update(notified_user_ids: [user.id])
 
-        expect(subject).not_to include(user)
+        expect(notifier).to receive(:send_messages).with([], msg)
+
+        subject
       end
     end
 
@@ -67,7 +85,10 @@ RSpec.describe Services::Notifications::Needs::Create do
       end
 
       it 'includes only users that speak the language' do
-        expect(subject).to contain_exactly(language_speaking_user)
+        expect(notifier).to receive(:send_messages)
+                              .with([language_speaking_user.phone], msg)
+
+        subject
       end
     end
 
@@ -81,10 +102,12 @@ RSpec.describe Services::Notifications::Needs::Create do
       end
 
       it 'includes only users that include the age_range' do
-        expect(subject).to contain_exactly(user_with_age_range)
+        expect(notifier).to receive(:send_messages)
+                              .with([user_with_age_range.phone], msg)
+
+        subject
       end
     end
-
   end
 
 end

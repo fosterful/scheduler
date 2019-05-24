@@ -35,7 +35,7 @@ module Services
         def message
           "A new need starting #{starting_day} at "\
             "#{start_at.strftime('%I:%M%P')} has opened up at your local " \
-            "office!  #{url}"
+            "office! #{url}"
         end
 
         def shift_users

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Shifts::Create do
-  subject { described_class.call(shift, 'https://test.com') }
+  subject { described_class.new(shift).call }
 
   let(:shift) { create(:need_with_shifts).shifts.first }
   let(:need) { shift.need }
