@@ -1,7 +1,7 @@
 %nav.navigation{:role => "navigation"}
   = link_to 'Application', root_path, class: 'navigation__link navigation__link--inactive'
   - Administrate::Namespace.new(namespace).resources.each do |resource|
-    - next if resource.name == :reports
+    - next if resource.name === :reports
     = link_to(                                                                  |
         display_resource_name(resource),                                        |
         [namespace, resource_index_route_key(resource)],                        |
