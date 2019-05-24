@@ -16,5 +16,13 @@ RSpec.describe SendTextMessageWorker do
       expect($twilio).to receive_message_chain(:api, :account, :messages, :create)
       described_class.new.perform('123-456-7890', 'Hello World')
     end
+
+    context 'when the number is missing' do
+      it 'does not call the twilio api' do
+        allow($twilio).to receive(:api)
+        described_class.new.perform(nil, 'Hello World')
+        expect($twilio).not_to have_received(:api)
+      end
+    end
   end
 end
