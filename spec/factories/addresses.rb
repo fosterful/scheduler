@@ -25,7 +25,7 @@ FactoryBot.define do
     trait :or do
       street { Faker::Address.street_address }
       city { 'Portland' }
-      county { 'Multnoma' }
+      county { 'Multnomah' }
       state { 'OR' }
       postal_code { '97035' }
     end
