@@ -42,6 +42,8 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :phone, presence: true, if: :invitation_accepted_at?
 
+  validates :phone, telephone_number: { country: :us, types: %i(mobile) }, if: :phone?
+
   validates :birth_date, :resident_since, :discovered_omd_by, :race,
             :first_language,
             presence: true, if: :require_volunteer_profile_attributes?
