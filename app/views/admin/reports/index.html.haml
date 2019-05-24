@@ -15,8 +15,9 @@
       %li= link_to('Total Children Served', admin_reports_total_children_served_by_office_path)
     %hr
     %h2 State
-    %div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_state_path)
-    %div= link_to('Total Children Served', admin_reports_total_children_served_by_state_path)
+    %ul
+      %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_state_path)
+      %li= link_to('Total Children Served', admin_reports_total_children_served_by_state_path)
     %hr
     %h2 County
     %table
@@ -36,6 +37,7 @@
     %div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_user_path)
     %hr
     %h2 Demographic
-    %div= link_to('Total Children By Demographic', admin_reports_total_children_by_demographic_path)
-    %div= link_to('Total Volunteers Grouped By Race', admin_reports_total_volunteers_by_race_path)
-    %div= link_to('Total Volunteers Grouped By Spoken Language', admin_reports_total_volunteers_by_spoken_language_path)
+    %ul
+      %li= link_to('Total Children By Demographic', admin_reports_total_children_by_demographic_path)
+      %li= link_to('Total Volunteers Grouped By Race', admin_reports_total_volunteers_by_race_path)
+      %li= link_to('Total Volunteers Grouped By Spoken Language', admin_reports_total_volunteers_by_spoken_language_path)
