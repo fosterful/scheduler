@@ -123,6 +123,7 @@ RSpec.describe User, type: :model do
       expect(described_class.limit(3).with_phone).to all(be_a(described_class))
     end
   end
+
   context 'reporting' do
     let(:lang1) { create(:language, name: 'Lang1') }
     let(:lang2) { create(:language, name: 'Lang2') }
@@ -130,14 +131,14 @@ RSpec.describe User, type: :model do
     let(:race1) { create(:race, name: 'Race1') }
     let(:race2) { create(:race, name: 'Race2') }
     let(:race3) { create(:race, name: 'Race3') }
-    let(:wa_address1) { build(:address, :wa)}
-    let(:wa_address2) { build(:address, :wa, county: 'Lewis')}
-    let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save!} }
-    let(:wa_office2) { create(:wa_office, address: wa_address2).tap { wa_address2.save!} }
+    let(:wa_address1) { build(:address, :wa) }
+    let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
+    let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save! } }
+    let(:wa_office2) { create(:wa_office, address: wa_address2).tap { wa_address2.save! } }
     let(:or_office) { create(:or_office) }
-    let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1])}
-    let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2])}
-    let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office])}
+    let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1]) }
+    let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2]) }
+    let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office]) }
     let(:wa_user1) { create(:user, offices: [wa_office1], race: race1, first_language: lang1, second_language: lang2) }
     let(:wa_user2) { create(:user, offices: [wa_office2], race: race1, first_language: lang2) }
     let(:wa_user3) { create(:user, offices: [wa_office2], race: race2, first_language: lang3, second_language: lang2) }

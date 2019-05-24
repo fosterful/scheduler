@@ -36,7 +36,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
-  has_many :served_needs,  -> { distinct }, through: :shifts, class_name: 'Need', source: 'need'
+  has_many :served_needs, -> { distinct }, through: :shifts, class_name: 'Need', source: 'need'
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'

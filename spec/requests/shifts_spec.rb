@@ -86,7 +86,8 @@ RSpec.describe 'Shifts', type: :request do
           expect(flash[:alert]).to eql('Whoops! something went wrong.')
         end
       end
-      context 'when there is only one shift left'do
+
+      context 'when there is only one shift left' do
         it 'sets the flash to display a specific error message' do
           need.shifts.where.not(id: shift.id).destroy_all
           delete need_shift_path(need, shift)

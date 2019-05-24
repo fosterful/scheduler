@@ -15,19 +15,19 @@ FactoryBot.define do
     end
 
     trait :wa do
-      street { "1901 Main St" }
-      city { "Vancouver" }
-      county { "Clark" }
-      state { "WA" }
-      postal_code { "98660" }
+      street { '1901 Main St' }
+      city { 'Vancouver' }
+      county { 'Clark' }
+      state { 'WA' }
+      postal_code { '98660' }
     end
 
     trait :or do
       street { Faker::Address.street_address }
-      city { "Portland" }
-      county { "Multnoma" }
-      state { "OR" }
-      postal_code { "97035" }
+      city { 'Portland' }
+      county { 'Multnoma' }
+      state { 'OR' }
+      postal_code { '97035' }
     end
   end
 end
