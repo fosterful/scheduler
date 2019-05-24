@@ -22,7 +22,7 @@ class Shift < ApplicationRecord
   end
 
   def can_destroy?
-    return true if need.shifts.count > 1
+    return true if need.shifts.many?
 
     errors.add(:need, :remove_last_shift) && false
   end
