@@ -6,8 +6,9 @@ class SendTextMessageWorker
   def perform(number, message)
     # TODO: remove guard clause
     # once notification refactor
-    # is complete.
-    return if number.blank?
+    # is complete & all production
+    # phone numbers are valid.
+    return if TelephoneNumber.invalid?(number, :US, %i(mobile))
 
     if Rails.env.production?
       $twilio.api.account.messages.create(messaging_service_sid: Rails.configuration.twilio_messaging_service_sid, to: number, body: message)
