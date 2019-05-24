@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-DEFAULT_ERROR = 'Whoops! Something went wrong.'
-private_constant :DEFAULT_ERROR
-
 class ShiftsController < ApplicationController
+  DEFAULT_ERROR = 'Whoops! Something went wrong.'
+  private_constant :DEFAULT_ERROR
+
   def index
     @need   = policy_scope(Need)
                 .includes(shifts: :user)
