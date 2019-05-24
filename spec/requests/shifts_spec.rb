@@ -113,7 +113,7 @@ RSpec.describe 'Shifts', type: :request do
         end
       end
 
-      context 'when there is only one shift left'do
+      context 'when there is only one shift left' do
         it 'sets the flash to display a specific error message' do
           need.shifts.where.not(id: shift.id).destroy_all
 
