@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Need < ApplicationRecord
-  default_scope { order(:start_at) }
   belongs_to :office
   belongs_to :user
   belongs_to :race, optional: true
@@ -14,6 +13,11 @@ class Need < ApplicationRecord
   validates :expected_duration, inclusion: { in: ->(_need) { (60..) }, message: 'must be at least on hour' }
 
   scope :current, -> { where('start_at > ?', Time.zone.now.at_beginning_of_day).order(start_at: :asc) }
+  scope :has_claimed_shifts, -> { where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id AND shifts.user_id IS NOT NULL)') }
+
+  def self.total_children_served
+    has_claimed_shifts.sum(:number_of_children)
+  end
 
   alias_attribute :duration, :expected_duration
 

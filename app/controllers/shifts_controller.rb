@@ -3,7 +3,7 @@
 class ShiftsController < ApplicationController
   def index
     @need   = policy_scope(Need).includes(shifts: :user).includes(:office).find(params[:need_id])
-    @shifts = @need.shifts
+    @shifts = @need.shifts.order(:start_at)
     authorize @shifts.first
   end
 
