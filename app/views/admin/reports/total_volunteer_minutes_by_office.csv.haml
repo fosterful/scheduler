@@ -1,0 +1,3 @@
+= CSV.generate_line @headers
+- @data.each do |office_id, volunteer_minutes|
+  = CSV.generate_line [office_id, volunteer_minutes]
