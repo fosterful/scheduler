@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Need < ApplicationRecord
-  default_scope { order(:start_at) }
   belongs_to :office
   belongs_to :user
   belongs_to :race, optional: true
