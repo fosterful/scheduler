@@ -32,12 +32,12 @@
 .grid-x.grid-padding-x.grid-margin-y
   .cell
     = f.label :phone do
-      Phone Number
+      Mobile Phone Number
       = f.telephone_field :phone,
                           placeholder: '(___) ___-____',
                           data: { inputmask: "'mask': '(999) 999-9999'" },
                           required: true
-    .help-text Required
+    .help-text Required / Must be able to receive text messages
 
 - if f.object.invitation_accepted?
   %fieldset.fieldset
