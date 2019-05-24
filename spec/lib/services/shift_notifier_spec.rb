@@ -8,7 +8,11 @@ RSpec.describe Services::ShiftNotifier do
   let(:current_user) { nil }
   let(:user_was) { nil }
 
-  let(:object) { described_class.new(shift, action, current_user, user_was) }
+  let(:object) do
+    described_class.new(shift,
+                        action,
+                        current_user: current_user, user_was: user_was)
+  end
 
   describe '#call' do
     context 'for create' do
@@ -24,6 +28,8 @@ RSpec.describe Services::ShiftNotifier do
 
     context 'for update' do
       let(:action) { :update }
+      let(:current_user) { build(:social_worker) }
+      let(:user_was) { shift.user }
 
       it 'makes correct call for update' do
         expect_any_instance_of(Services::Notifications::Shifts::Update)

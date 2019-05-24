@@ -25,8 +25,8 @@ RSpec.describe 'Shifts', type: :request do
 
     context 'success' do
       it 'is redirects to the need' do
-        expect(Services::Notifications::Shifts::Create)
-          .to receive(:call).and_return(true)
+        expect_any_instance_of(Services::Notifications::Shifts::Create)
+          .to receive(:call).once.and_call_original
 
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
 
@@ -40,7 +40,7 @@ RSpec.describe 'Shifts', type: :request do
 
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
 
-        expect(flash[:alert]).to eql('Whoops! something went wrong.')
+        expect(flash[:alert]).to eql('Whoops! Something went wrong.')
       end
     end
   end
@@ -49,8 +49,8 @@ RSpec.describe 'Shifts', type: :request do
     before { sign_in volunteer }
 
     it 'redirects to the associated need' do
-      expect(Services::Notifications::Shifts::Update)
-        .to receive(:call).and_return(true)
+      expect_any_instance_of(Services::Notifications::Shifts::Update)
+        .to receive(:call).once.and_call_original
 
       put need_shift_path(need, shift),
           params: { shift: { user_id: volunteer.id } }
@@ -60,8 +60,8 @@ RSpec.describe 'Shifts', type: :request do
 
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect(Services::Notifications::Shifts::Update)
-          .to receive(:call).and_return(true)
+        expect_any_instance_of(Services::Notifications::Shifts::Update)
+          .to receive(:call).once.and_call_original
 
         put need_shift_path(need, shift),
             params: { shift: { user_id: volunteer.id } }
@@ -77,7 +77,7 @@ RSpec.describe 'Shifts', type: :request do
         put need_shift_path(need, shift),
             params: { shift: { user_id: volunteer.id } }
 
-        expect(flash[:alert]).to eql('Whoops! something went wrong.')
+        expect(flash[:alert]).to eql('Whoops! Something went wrong.')
       end
     end
   end
@@ -93,8 +93,8 @@ RSpec.describe 'Shifts', type: :request do
 
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect(Services::Notifications::Shifts::Destroy)
-          .to receive(:call).and_return(true)
+        expect_any_instance_of(Services::Notifications::Shifts::Destroy)
+          .to receive(:call).once.and_call_original
 
         delete need_shift_path(need, shift)
 
@@ -103,13 +103,13 @@ RSpec.describe 'Shifts', type: :request do
     end
 
     context 'failure' do
-      context 'when there is more than one shift left' do
+      context 'when there is only one shift left' do
         it 'sets the flash to display an error message' do
-          expect_any_instance_of(Shift).to receive(:destroy).and_return(false)
+          allow_any_instance_of(Shift).to receive(:destroy).and_return(false)
 
           delete need_shift_path(need, shift)
 
-          expect(flash[:alert]).to eql('Whoops! something went wrong.')
+          expect(flash[:alert]).to eql('Whoops! Something went wrong.')
         end
       end
 
