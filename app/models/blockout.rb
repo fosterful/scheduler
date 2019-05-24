@@ -14,7 +14,7 @@ class Blockout < ApplicationRecord
 
   validates :end_at,
             inclusion: { in: ->(blockout) { (blockout.start_at..) }, message: 'must be beyond start at' },
-            if: :end_at_changed?,
+            if: -> { end_at_changed? || start_at_changed? },
             unless: -> { start_at.nil? }
 
   validates :last_occurrence, presence: true, if: :rrule?
