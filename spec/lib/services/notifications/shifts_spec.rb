@@ -2,67 +2,47 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::ShiftNotifier do
-  let(:action) { nil }
-  let(:shift) { create(:shift) }
-  let(:current_user) { nil }
-  let(:user_was) { nil }
-
+RSpec.describe Services::Notifications::Shifts do
+  let(:user) { create(:user) }
+  let(:office) { user.offices.first! }
+  let(:need) { create(:need_with_shifts, user: user, office: office) }
   let(:object) do
     described_class.new(shift,
                         action,
                         current_user: current_user, user_was: user_was)
   end
+  let(:current_user) { nil }
+  let(:user_was) { nil }
+  let(:action) { :destroy }
+  let(:shift) { need.shifts.first! }
+  let(:phone) { '(555) 555-5555' }
+  let!(:shift_user) do
+    u          = create(:user, phone: phone)
+    shift.user = u
+    shift.save!
+    u
+  end
+  let(:args) { nil }
+  let(:destroy_msg) { 'A need at Vancouver Office has been deleted.' }
 
-  describe '#call' do
-    context 'for create' do
-      let(:action) { :create }
+  describe '#notify' do
+    it 'enqueues messages' do
+      expect(Services::TextMessageEnqueue).to receive(:send_messages)
+                                                .once
+                                                .with([phone], destroy_msg)
 
-      it 'makes correct call for create' do
-        expect_any_instance_of(Services::Notifications::Shifts::Create)
-          .to receive(:call).once
-
-        object.call
-      end
-    end
-
-    context 'for update' do
-      let(:action) { :update }
-      let(:current_user) { build(:social_worker) }
-      let(:user_was) { shift.user }
-
-      it 'makes correct call for update' do
-        expect_any_instance_of(Services::Notifications::Shifts::Update)
-          .to receive(:call).once
-
-        object.call
-      end
-    end
-
-    context 'destroy' do
-      let(:action) { :destroy }
-
-      it 'makes correct call for destroy' do
-        expect_any_instance_of(Services::Notifications::Shifts::Destroy)
-          .to receive(:call).once
-
-        object.call
-      end
+      object.notify
     end
   end
 
-  # TODO: auto-generated
   describe '#phone_numbers' do
     it 'phone_numbers' do
-      shift = double('shift')
-      action = double('action')
-      event_data = double('event_data')
-      shift_notifier = described_class.new(shift, action, event_data)
-      result = shift_notifier.phone_numbers
+      shifts = described_class.new(shift, :destroy)
 
-      expect(result).not_to be_nil
+      result = shifts.phone_numbers
+
+      expect(result).to eql([phone])
     end
   end
-
 
 end

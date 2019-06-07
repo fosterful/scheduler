@@ -2,52 +2,42 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::NeedNotifier do
+RSpec.describe Services::Notifications::Needs do
 
-  let(:need) { create(:need) }
+  let(:user) { create(:user) }
+  let(:office) { user.offices.first! }
+  let(:need) { create(:need_with_shifts, user: user, office: office) }
+  let(:object) { described_class.new(need, action, args) }
+  let(:action) { :destroy }
+  let(:shift) { need.shifts.first! }
+  let(:phone) { '(555) 555-5555' }
+  let!(:shift_user) do
+    u          = create(:user, phone: phone)
+    shift.user = u
+    shift.save!
+    u
+  end
+  let(:args) { nil }
+  let(:destroy_msg) { 'A need at Vancouver Office has been deleted.' }
 
-  describe '#call' do
-    context 'when a need was created' do
-      it 'sends a create notification' do
-        expect_any_instance_of(Services::Notifications::Needs::Create)
-          .to receive(:call).once
+  describe '#notify' do
+    it 'enqueues messages' do
+      expect(Services::TextMessageEnqueue).to receive(:send_messages)
+                                                .once
+                                                .with([phone], destroy_msg)
 
-        described_class.new(need, :create).call
-      end
-    end
-
-    context 'when a need is updated' do
-      it 'sends an update notification' do
-        expect_any_instance_of(Services::Notifications::Needs::Update)
-          .to receive(:call).once
-
-        described_class.new(need, :update).call
-      end
-    end
-
-    context 'when a need is destroyed' do
-      it 'sends an destroy notification' do
-        expect_any_instance_of(Services::Notifications::Needs::Destroy)
-          .to receive(:call).once
-
-        described_class.new(need, :destroy).call
-      end
+      object.notify
     end
   end
 
-
-  # TODO: auto-generated
   describe '#phone_numbers' do
     it 'phone_numbers' do
-      need = double('need')
-      action = double('action')
-      event_data = double('event_data')
-      need_notifier = described_class.new(need, action, event_data)
-      result = need_notifier.phone_numbers
+      needs = described_class.new(need, :destroy)
 
-      expect(result).not_to be_nil
+      result = needs.phone_numbers
+
+      expect(result).to eql([phone])
     end
   end
-
 
 end
