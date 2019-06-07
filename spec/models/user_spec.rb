@@ -144,4 +144,42 @@ RSpec.describe User, type: :model do
     end
   end
 
+
+  # TODO: auto-generated
+  describe '.with_phone' do # scope test
+    it 'supports named scope with_phone' do
+      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
+    end
+  end
+
+  describe '#notifiable?' do
+    it 'returns false if user does not have a phone' do
+      user.phone = nil
+
+      result = user.notifiable?
+
+      expect(result).to be false
+    end
+
+    it 'returns true if user has a phone' do
+      result = user.notifiable?
+
+      expect(result).to be true
+    end
+  end
+
+
+
+
+  # TODO: auto-generated
+  describe '#volunteerable?' do
+    it 'volunteerable?' do
+      user = described_class.new
+      result = user.volunteerable?
+
+      expect(result).not_to be_nil
+    end
+  end
+
+
 end

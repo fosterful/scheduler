@@ -4,6 +4,10 @@ require 'rails_helper'
 
 RSpec.describe Shift, type: :model do
   let(:shift) { build :shift }
+  let(:second_shift) do
+    shift.save! unless shift.persisted?
+    create(:shift, need: shift.need, start_at: shift.end_at, duration: 60)
+  end
 
   it 'has a valid factory' do
     expect(shift.valid?).to be(true)
@@ -58,6 +62,23 @@ RSpec.describe Shift, type: :model do
       result = shift.duration_in_words
 
       expect(result).to eql('12:34pm to 01:34pm')
+    end
+  end
+
+  # TODO: auto-generated
+  describe '#can_destroy?' do
+    it 'returns false if only one shift' do
+      result = shift.can_destroy?
+
+      expect(result).to be false
+    end
+
+    it 'returns true if more than one shift' do
+      second_shift
+
+      result = shift.can_destroy?
+
+      expect(result).to be true
     end
   end
 
