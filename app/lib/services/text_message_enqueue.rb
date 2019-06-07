@@ -2,10 +2,8 @@
 
 module Services
   class TextMessageEnqueue
-    include Concord.new(:phone_numbers, :message)
-    include Procto.call
 
-    def call
+    def self.send_messages(phone_numbers, message)
       phone_numbers.each do |phone_number|
         SendTextMessageWorker.perform_async(phone_number, message)
       end

@@ -67,14 +67,16 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> {  where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :notifiable, -> { volunteerable }
+  scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
+  scope :with_phone, -> { where.not(phone: nil) }
 
   def self.available_within(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
       ON blockouts.user_id = users.id
-      AND tsrange(start_at, end_at) && tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
+      AND tsrange(start_at, end_at) &&
+            tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
     SQL
 
     joins(sql)
@@ -86,11 +88,15 @@ class User < ApplicationRecord
   end
 
   def has_at_least_one_office
-    errors.add(:base, 'At least one office assignment is required') if offices.blank?
+    return if offices.any?
+
+    errors.add(:base, 'At least one office assignment is required')
   end
 
   def has_at_least_one_age_range
-    errors.add(:base, 'At least one age range selection is required') if age_ranges.blank?
+    return if age_ranges.any?
+
+    errors.add(:base, 'At least one age range selection is required')
   end
 
   ROLES.each do |role|
@@ -103,8 +109,16 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}".presence || email
   end
 
+  def notifiable?
+    volunteerable? && phone.present?
+  end
+
   def scheduler?
     role.in? [COORDINATOR, SOCIAL_WORKER, ADMIN]
+  end
+
+  def volunteerable?
+    role.in? [COORDINATOR, VOLUNTEER]
   end
 
   private

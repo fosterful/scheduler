@@ -50,4 +50,19 @@ RSpec.describe Services::ShiftNotifier do
       end
     end
   end
+
+  # TODO: auto-generated
+  describe '#phone_numbers' do
+    it 'phone_numbers' do
+      shift = double('shift')
+      action = double('action')
+      event_data = double('event_data')
+      shift_notifier = described_class.new(shift, action, event_data)
+      result = shift_notifier.phone_numbers
+
+      expect(result).not_to be_nil
+    end
+  end
+
+
 end

@@ -21,7 +21,7 @@ class ShiftsController < ApplicationController
     authorize @shift
 
     if @shift.save
-      Services::ShiftNotifier.call(@shift, :create)
+      Services::Notifications::Shifts.new(@shift, :create).notify
 
       flash[:notice] = 'Shift Successfully Created!'
     else
@@ -41,8 +41,9 @@ class ShiftsController < ApplicationController
     @shift.assign_attributes(permitted_attributes(@shift))
 
     if @shift.save
-      Services::ShiftNotifier
-        .call(@shift, :update, user_notification_hash(user_was))
+      Services::Notifications::Shifts
+        .new(@shift, :update, update_event_data(user_was))
+        .notify
 
       flash[:notice] = permitted_attributes(@shift).fetch('user_id').present? ? 'Shift Claimed!' : 'Shift Released!'
     else
@@ -59,7 +60,7 @@ class ShiftsController < ApplicationController
     authorize @shift
 
     if @shift.can_destroy? && @shift.destroy
-      Services::ShiftNotifier.call(@shift, :destroy)
+      Services::Notifications::Shifts.new(@shift, :destroy).notify
 
       flash[:notice] = 'Shift Successfully Destroyed'
     else
@@ -71,7 +72,7 @@ class ShiftsController < ApplicationController
 
   private
 
-  def user_notification_hash(user_was)
+  def update_event_data(user_was)
     { current_user: current_user, user_was: user_was }
   end
 end
