@@ -22,8 +22,13 @@ RSpec.describe Services::Notifications::Shifts do
     shift.save!
     u
   end
+  let(:starts) { shift.start_at.strftime(format) }
+  let(:ends) { shift.end_at.strftime(format) }
   let(:args) { nil }
-  let(:destroy_msg) { 'A need at Vancouver Office has been deleted.' }
+  let(:format) { '%I:%M%P' }
+  let(:destroy_msg) do
+    "The shift from #{starts} to #{ends} has been removed from a need at your local office. http://localhost:3000/needs"
+  end
 
   describe '#notify' do
     it 'enqueues messages' do
