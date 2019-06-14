@@ -24,9 +24,9 @@ RSpec.describe 'Shifts', type: :request do
     before { sign_in user }
 
     context 'success' do
-      it 'is redirects to the need' do
-        expect_any_instance_of(Services::Notifications::Shifts::Create)
-          .to receive(:call).once.and_call_original
+      it 'redirects to the need' do
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
 
@@ -49,8 +49,8 @@ RSpec.describe 'Shifts', type: :request do
     before { sign_in volunteer }
 
     it 'redirects to the associated need' do
-      expect_any_instance_of(Services::Notifications::Shifts::Update)
-        .to receive(:call).once.and_call_original
+      expect(Services::TextMessageEnqueue)
+        .to receive(:send_messages).once.with(Array, String)
 
       put need_shift_path(need, shift),
           params: { shift: { user_id: volunteer.id } }
@@ -60,8 +60,8 @@ RSpec.describe 'Shifts', type: :request do
 
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect_any_instance_of(Services::Notifications::Shifts::Update)
-          .to receive(:call).once.and_call_original
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         put need_shift_path(need, shift),
             params: { shift: { user_id: volunteer.id } }
@@ -93,8 +93,8 @@ RSpec.describe 'Shifts', type: :request do
 
     context 'success' do
       it 'sets the flash to display the successful change message' do
-        expect_any_instance_of(Services::Notifications::Shifts::Destroy)
-          .to receive(:call).once.and_call_original
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         delete need_shift_path(need, shift)
 
@@ -119,7 +119,9 @@ RSpec.describe 'Shifts', type: :request do
 
           delete need_shift_path(need, shift)
 
-          expect(flash[:alert]).to eql('Need must have at least one shift. Perhaps you mean to delete the Need itself?')
+          expect(flash[:alert])
+            .to eql('Need must have at least one shift. Perhaps you mean to '\
+                      'delete the Need itself?')
         end
       end
     end

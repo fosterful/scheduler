@@ -49,8 +49,8 @@ RSpec.describe 'Needs', type: :request do
 
       it 'is redirects to the need' do
         expect(Services::BuildNeedShifts).to receive(:call).and_return([]).once
-        expect_any_instance_of(Services::Notifications::Needs::Create)
-          .to receive(:call).once.and_call_original
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         post needs_path, params: params
 
@@ -82,8 +82,8 @@ RSpec.describe 'Needs', type: :request do
   describe '#update' do
     context 'success' do
       it 'redirects to the need' do
-        expect_any_instance_of(Services::Notifications::Needs::Update)
-          .to receive(:call).once.and_call_original
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         put need_path(need), params: { need: { number_of_children: 20 } }
 
@@ -105,8 +105,8 @@ RSpec.describe 'Needs', type: :request do
   describe '#destroy' do
     context 'success' do
       it 'redirects to the index view with success message' do
-        expect_any_instance_of(Services::Notifications::Needs::Destroy)
-          .to receive(:call).once.and_call_original
+        expect(Services::TextMessageEnqueue)
+          .to receive(:send_messages).once.with(Array, String)
 
         delete need_path(need)
 
