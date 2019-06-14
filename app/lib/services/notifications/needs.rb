@@ -10,7 +10,7 @@ module Services
 
       attr_accessor :message, :recipients
 
-      def initialize(need, action, event_data = {})
+      def initialize(need, action, _event_data = {})
         self.message    = Message.call(need, action)
         self.recipients = Recipients.call(need, action)
       end

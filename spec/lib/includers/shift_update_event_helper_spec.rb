@@ -6,32 +6,21 @@ RSpec.describe ShiftUpdateEventHelper do
 
   let(:shift) { create(:shift) }
   let(:need) { shift.need }
-  let(:volunteer1) do
-    u = create(:user)
-    u.offices << shift.office
-    u
-  end
-  let(:volunteer2) do
-    u = create(:user)
-    u.offices << shift.office
-    u
-  end
+  let(:volunteer1) { create(:user, offices: [shift.office]) }
+  let(:volunteer2) { create(:user, offices: [shift.office]) }
   let(:object) do
     double(Shift,
            current_user: volunteer1,
-           user_was:     nil,
-           need:         need,
-           user:         shift.user).extend(described_class)
+           user_was: nil,
+           need: need,
+           user: shift.user).extend(described_class)
   end
   let(:social_worker1) do
-    volunteer1.update!(role: User::SOCIAL_WORKER)
-    volunteer1
+    volunteer1.tap { |v| v.update!(role: User::SOCIAL_WORKER) }
   end
   let(:social_worker2) do
-    volunteer2.update!(role: User::SOCIAL_WORKER)
-    volunteer2
+    volunteer2.tap { |v| v.update!(role: User::SOCIAL_WORKER) }
   end
-
 
   describe '#shift_user_is_current_user?' do
     it 'returns false when shift does not have a user' do

@@ -138,7 +138,6 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
-
   # TODO: auto-generated
   describe '#permitted_attributes_for_account_update' do
     it 'permitted_attributes_for_account_update' do
@@ -150,6 +149,5 @@ RSpec.describe UserPolicy, type: :policy do
       expect(result).not_to be_nil
     end
   end
-
 
 end

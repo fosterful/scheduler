@@ -42,7 +42,7 @@ module Services
           end
 
           def shift_returned
-            "A Volunteer has unassigned themself from the "\
+            'A Volunteer has unassigned themself from the '\
               "#{duration_in_words} shift #{starting_day}.".freeze
           end
 

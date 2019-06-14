@@ -144,7 +144,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-
   # TODO: auto-generated
   describe '.with_phone' do # scope test
     it 'supports named scope with_phone' do
@@ -168,9 +167,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-
-
-
   # TODO: auto-generated
   describe '#volunteerable?' do
     it 'volunteerable?' do
@@ -180,6 +176,5 @@ RSpec.describe User, type: :model do
       expect(result).not_to be_nil
     end
   end
-
 
 end

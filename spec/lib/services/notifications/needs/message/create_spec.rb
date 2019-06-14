@@ -5,7 +5,6 @@ require 'rails_helper'
 RSpec.describe Services::Notifications::Needs::Message::Create do
   subject { described_class.new(need, notifier).call }
 
-
   let(:notifier) { double }
   let(:need) do
     create(:need, start_at: Date.parse('2019-05-23')).tap do |need|
