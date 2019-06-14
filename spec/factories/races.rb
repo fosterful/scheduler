@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :race do
-    name { 'Hispanic' }
+    name { Faker::Demographic.race }
   end
 end

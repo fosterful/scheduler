@@ -118,6 +118,58 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.with_phone' do # scope test
+    it 'supports named scope with_phone' do
+      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
+    end
+  end
+
+  context 'reporting' do
+    let(:lang1) { create(:language, name: 'Lang1') }
+    let(:lang2) { create(:language, name: 'Lang2') }
+    let(:lang3) { create(:language, name: 'Lang3') }
+    let(:race1) { create(:race, name: 'Race1') }
+    let(:race2) { create(:race, name: 'Race2') }
+    let(:race3) { create(:race, name: 'Race3') }
+    let(:wa_address1) { build(:address, :wa) }
+    let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
+    let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save! } }
+    let(:wa_office2) { create(:wa_office, address: wa_address2).tap { wa_address2.save! } }
+    let(:or_office) { create(:or_office) }
+    let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1]) }
+    let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2]) }
+    let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office]) }
+    let(:wa_user1) { create(:user, offices: [wa_office1], race: race1, first_language: lang1, second_language: lang2) }
+    let(:wa_user2) { create(:user, offices: [wa_office2], race: race1, first_language: lang2) }
+    let(:wa_user3) { create(:user, offices: [wa_office2], race: race2, first_language: lang3, second_language: lang2) }
+    let(:or_user) { create(:user, offices: [or_office], race: race3, first_language: lang2) }
+    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1, preferred_language: lang1) }
+    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2, preferred_language: lang1) }
+    let(:wa_need3) { create(:need_with_shifts, user: wa_sw2, number_of_children: 7, expected_duration: 120, office: wa_office2, preferred_language: lang1) }
+    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2, preferred_language: lang3) }
+    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office, preferred_language: lang2) }
+
+    before do
+      or_need.shifts.first.update(user: or_user)
+      wa_need1.shifts.first.update(user: wa_user1)
+      wa_need2.shifts.update_all(user_id: wa_user2.id)
+      wa_need3.shifts.first.update(user: wa_user3)
+      wa_need3.shifts.last.update(user: wa_user2)
+    end
+
+    describe '.total_volunteers_by_spoken_language' do
+      it 'returns the number of volunteers grouped by language name' do
+        expect(described_class.total_volunteers_by_spoken_language).to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
+      end
+    end
+
+    describe '.total_volunteer_minutes_by_user' do
+      it 'returns the volunteer minutes grouped by user_id' do
+        expect(described_class.total_volunteer_minutes_by_user).to eql(or_user.id => 60, wa_user1.id => 60, wa_user2.id => 300, wa_user3.id => 60)
+      end
+    end
+  end
+
   describe '#has_at_least_one_age_range' do
     it 'has_at_least_one_age_range' do
       user = described_class.new
@@ -134,20 +186,6 @@ RSpec.describe User, type: :model do
       result = user.scheduler?
 
       expect(result).to be false
-    end
-  end
-
-  # TODO: auto-generated
-  describe '.notifiable' do # scope test
-    it 'supports named scope notifiable' do
-      expect(described_class.limit(3).notifiable).to all(be_a(described_class))
-    end
-  end
-
-  # TODO: auto-generated
-  describe '.with_phone' do # scope test
-    it 'supports named scope with_phone' do
-      expect(described_class.limit(3).with_phone).to all(be_a(described_class))
     end
   end
 

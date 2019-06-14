@@ -3,8 +3,6 @@
 class Shift < ApplicationRecord
   include NotificationConcern
 
-  default_scope { order(:start_at) }
-
   belongs_to :need, inverse_of: :shifts
   has_one :office, through: :need
   has_one :preferred_language, through: :need
@@ -24,6 +22,8 @@ class Shift < ApplicationRecord
   def duration_in_words
     "#{start_at.to_s(:time)} to #{end_at.to_s(:time)}"
   end
+
+  scope :claimed, -> { where.not(user_id: nil) }
 
   def end_at
     start_at.advance(minutes: duration)
@@ -52,7 +52,7 @@ class Shift < ApplicationRecord
   end
 
   def can_destroy?
-    return true if need.shifts.count > 1
+    return true if need.shifts.many?
 
     errors.add(:need, :remove_last_shift) && false
   end

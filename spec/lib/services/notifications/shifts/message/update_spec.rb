@@ -6,7 +6,7 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
   let(:object) { described_class.call(shift, event_data) }
   let(:event_data) { {} }
-  let(:volunteer) { create(:user) }
+  let(:volunteer) { create(:user, first_name: 'Barney', last_name: 'Rubble') }
   let(:scheduler) do
     u = create(:user, role: User::SOCIAL_WORKER)
     u.offices << shift.office
@@ -23,8 +23,8 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         it 'returns expected message' do
           shift.user = volunteer
 
-          expect(object).to eql('A Volunteer has taken the shift Thu, May 23 '\
-                                  'from 11:15am to 01:15pm.')
+          expect(object).to eql('Barney Rubble has taken the shift Thu, '\
+                                  'May 23 from 11:15am to 01:15pm.')
         end
       end
 
@@ -32,8 +32,8 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
         it 'returns expected message' do
-          expect(object).to eql('A Volunteer has unassigned themself from the '\
-                                  '11:15am to 01:15pm shift Thu, May 23.')
+          expect(object).to eql('Barney Rubble has unassigned themself from '\
+                                  'the 11:15am to 01:15pm shift Thu, May 23.')
         end
       end
     end

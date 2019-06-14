@@ -37,12 +37,12 @@ module Services
           end
 
           def shift_taken
-            "A Volunteer has taken the shift #{starting_day} from "\
+            "#{current_user} has taken the shift #{starting_day} from "\
               "#{duration_in_words}.".freeze
           end
 
           def shift_returned
-            'A Volunteer has unassigned themself from the '\
+            '#{current_user} has unassigned themself from the '\
               "#{duration_in_words} shift #{starting_day}.".freeze
           end
 

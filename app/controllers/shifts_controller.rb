@@ -9,7 +9,7 @@ class ShiftsController < ApplicationController
                 .includes(shifts: :user)
                 .includes(:office)
                 .find(params[:need_id])
-    @shifts = @need.shifts
+    @shifts = @need.shifts.order(:start_at)
 
     authorize @shifts.first
   end

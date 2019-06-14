@@ -3,12 +3,12 @@
 class NeedsController < ApplicationController
   def index
     authorize Need
-    @needs = policy_scope(Need).includes(:shifts).current
+    @needs = policy_scope(Need).includes(:shifts).current.order(:start_at)
   end
 
   def show
     @need = policy_scope(Need).includes(:shifts).find(params[:id])
-    @shifts = @need.shifts
+    @shifts = @need.shifts.order(:start_at)
 
     authorize @need
   rescue ActiveRecord::RecordNotFound

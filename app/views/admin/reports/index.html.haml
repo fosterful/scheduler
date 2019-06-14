@@ -1,0 +1,43 @@
+%body
+  - content_for(:title) do
+    = 'Reports'
+  %header.main-content__header{ role: 'banner' }
+    %h1.main-content__page-title
+      = content_for(:title)
+    %div
+      = link_to t('administrate.actions.back'), :back, class: 'button'
+  %section.main-content__body
+    %h1 Total Children Served: #{Need.total_children_served}
+    %hr
+    %h2 Office
+    %ul
+      %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_office_path(:csv), target: '_blank')
+      %li= link_to('Total Children Served', admin_reports_total_children_served_by_office_path(:csv), target: '_blank')
+    %hr
+    %h2 State
+    %ul
+      %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_state_path(:csv), target: '_blank')
+      %li= link_to('Total Children Served', admin_reports_total_children_served_by_state_path(:csv), target: '_blank')
+    %hr
+    %h2 County
+    %table
+      %tbody
+        %tr
+          = form_tag(admin_reports_total_volunteer_minutes_by_county_path(:csv), method: 'get') do
+            %td= label_tag(:state, 'Total Volunteer Minutes')
+            %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
+            %td= submit_tag 'Query', data: { disable_with: false }
+        %tr
+          = form_tag(admin_reports_total_children_served_by_county_path(:csv), method: 'get') do
+            %td= label_tag(:state, 'Total Children Served')
+            %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
+            %td= submit_tag 'Query', data: { disable_with: false }
+    %hr
+    %h2 User
+    %div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_user_path(:csv))
+    %hr
+    %h2 Demographic
+    %ul
+      %li= link_to('Total Children By Demographic', admin_reports_total_children_by_demographic_path(:csv))
+      %li= link_to('Total Volunteers Grouped By Race', admin_reports_total_volunteers_by_race_path(:csv))
+      %li= link_to('Total Volunteers Grouped By Spoken Language', admin_reports_total_volunteers_by_spoken_language_path(:csv))

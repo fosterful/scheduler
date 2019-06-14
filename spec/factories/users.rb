@@ -17,7 +17,7 @@ FactoryBot.define do
     invitation_accepted_at { Time.zone.now }
 
     birth_date { 35.years.ago }
-    phone { '0123456789' }
+    phone { '3606107089' }
     resident_since { 1.year.ago }
     discovered_omd_by { 'The interwebs' }
     medical_limitations { false }
@@ -29,7 +29,7 @@ FactoryBot.define do
     age_range_ids { [1] }
 
     after :build do |user|
-      user.offices << build(:office) unless user.offices.any?
+      user.offices << build(:wa_office) unless user.offices.any?
     end
 
     factory :social_worker do

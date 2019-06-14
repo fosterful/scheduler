@@ -36,11 +36,14 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
+  has_many :served_needs, -> { distinct }, through: :shifts, class_name: 'Need', source: 'need'
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
 
   validates :first_name, :last_name, :phone, presence: true, if: :invitation_accepted_at?
+
+  validates :phone, telephone_number: { country: :us, types: %i(mobile) }, if: :phone?
 
   validates :birth_date, :resident_since, :discovered_omd_by, :race,
             :first_language,
@@ -71,6 +74,24 @@ class User < ApplicationRecord
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
+  scope :speaks_language, ->(language) { where(first_language: language).or(where(second_language: language)) }
+
+  def self.shifts_by_user
+    joins(:shifts).group('users.id')
+  end
+
+  def self.volunteerable_by_language
+    volunteerable.joins('INNER JOIN languages ON languages.id IN (users.first_language_id, users.second_language_id)').group('languages.name')
+  end
+
+  def self.total_volunteers_by_spoken_language
+    volunteerable_by_language.count
+  end
+
+  def self.total_volunteer_minutes_by_user
+    shifts_by_user.sum('shifts.duration')
+  end
+
   def self.available_within(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
@@ -81,10 +102,6 @@ class User < ApplicationRecord
 
     joins(sql)
       .where(blockouts: { id: nil })
-  end
-
-  def self.speaks_language(language)
-    where(first_language: language).or(where(second_language: language))
   end
 
   def has_at_least_one_office
@@ -108,6 +125,7 @@ class User < ApplicationRecord
   def name
     "#{first_name} #{last_name}".presence || email
   end
+  alias to_s name
 
   def notifiable?
     volunteerable? && phone.present?
