@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Needs::Recipients::Update do
-  subject { described_class.call(need, 'https://test.com') }
+  subject { described_class.call(need) }
 
   let(:need) do
     build(:need).tap do |need|

@@ -8,66 +8,53 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Update do
   let(:event_data) { {} }
   let(:need) { create(:need_with_shifts) }
   let(:shift) { need.shifts.first! }
-  let(:volunteer) { create(:user, offices: [need.office]) }
-  let(:social_worker) { create(:social_worker, offices: [need.office]) }
+  let(:volunteer) { shift.user }
+  let(:scheduler) { create(:social_worker, offices: [need.office]) }
 
   describe '#recipients' do
     context 'when a volunteer' do
       context 'assigns themself to a shift' do
-        it 'notifies the volunteer' do
-          allow(SendTextMessageWorker).to receive(:perform_async)
-          shift.assign_attributes(user_id: volunteer.id)
-          expect(SendTextMessageWorker).to receive(:perform_async).with(volunteer.phone, "You have taken the shift #{starting_day(shift)} from #{shift_duration_in_words(shift)}. #{Rails.application.routes.url_helpers.need_url(need)}")
-          object.recipients
-        end
+        let(:event_data) { { user_was: nil, current_user: volunteer } }
 
-        it 'notifies the social workers' do
-          shift.assign_attributes(user_id: volunteer.id)
+        it 'returns social workers and need user' do
+          scheduler
+          shift.user = volunteer
 
-          expect(object.recipients).to include(social_worker)
-        end
-
-        it 'notifies the need creator' do
-          shift.assign_attributes(user_id: volunteer.id)
-
-          expect(object.recipients).to include(coordinator)
+          expect(object.recipients).to match_array([scheduler, need.user])
         end
       end
 
       context 'unassigns themself from a shift' do
+        let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
-        before { shift.update(user: volunteer) }
+        it 'returns social workers and need user' do
+          scheduler
 
-        it 'notifies the social workers' do
-          shift.assign_attributes(user_id: nil)
-
-          expect(object.recipients).to include(social_worker)
-        end
-
-        it 'notifies the need creator' do
-          shift.assign_attributes(user_id: nil)
-
-          expect(object.recipients).to include(coordinator)
+          expect(object.recipients).to match_array([scheduler, need.user])
         end
       end
     end
 
     context 'when a scheduler' do
       context 'assigns a volunteer' do
-        it 'notifies the user being assigned' do
-          shift.assign_attributes(user_id: volunteer.id)
+        let(:event_data) { { current_user: scheduler, user_was: nil } }
 
-          expect(object.recipients).to include(volunteer)
+        it 'returns the assigned user' do
+          shift.user = volunteer
+
+          expect(object.recipients).to eql([shift.user])
         end
       end
 
       context 'unassigns a volunteer' do
-        before { shift.update(user: volunteer) }
+        let(:user_was) { volunteer }
+        let(:event_data) { { current_user: scheduler, user_was: user_was } }
 
-        it 'notifies the user being unassigned' do
-          shift.assign_attributes(user_id: nil)
+        it 'returns user shift was assigned to' do
+          user_was
+          shift.user = nil
 
-          expect(object.recipients).to include(volunteer)
+          expect(object.recipients).to eql([user_was])
         end
       end
     end

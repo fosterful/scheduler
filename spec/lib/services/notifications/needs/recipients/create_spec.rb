@@ -32,7 +32,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
 
     context 'with multiple users' do
       it 'returns volunteers to notify' do
-        users = build_list(:user, 2)
+        users = build_list(:user, 2, age_ranges: need.age_ranges)
         need.office.users << users
 
         expect(subject).to include(*users)
@@ -68,7 +68,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
     context 'preferred language was specified' do
       let(:language) { build(:language, name: 'gibberish') }
       let(:language_speaking_user) do
-        build(:user, first_language: language)
+        build(:user, first_language: language, age_ranges: need.age_ranges)
       end
 
       before do
@@ -79,7 +79,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       it 'includes only users that speak the language' do
         result = subject
 
-        expect(result).to eql([language_speaking_user.phone])
+        expect(result).to eql([language_speaking_user])
       end
     end
 
@@ -88,6 +88,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       let(:user_with_age_range) { build(:user, age_ranges: [age_range]) }
 
       before do
+        volunteer
         need.age_ranges = [age_range]
         need.office.users << [volunteer, user_with_age_range]
       end
@@ -95,7 +96,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       it 'includes only users that include the age_range' do
         result = subject
 
-        expect(result).to eql([user_with_age_range.phone])
+        expect(result).to match_array([user_with_age_range])
       end
     end
   end
