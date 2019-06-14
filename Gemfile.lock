@@ -8,7 +8,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    abstract_type (0.0.7)
     actioncable (5.2.2)
       actionpack (= 5.2.2)
       nio4r (~> 2.0)
@@ -399,7 +398,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  abstract_type
   adamantium
   administrate
   awesome_print
