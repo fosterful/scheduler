@@ -6,11 +6,11 @@ RSpec.describe Services::Notifications::Shifts::Message::Create do
 
   let(:object) { described_class.call(shift, event_data) }
   let(:event_data) { {} }
-  let(:shift) { create(:shift, start_at: starts) }
+  let(:shift) { create(:shift, start_at: starts, duration: 120) }
   let(:need) { shift.need }
-  let(:starts) { Time.zone.parse('2019-05-23 00:10:15 -07:00') }
+  let(:starts) { Time.zone.parse('2019-05-23 11:15:00 -07:00') }
   let(:create_message) do
-    "A new shift from 12:10am to 01:10pm Thu, May 23 has been added to a need "\
+    "A new shift from 11:15am to 01:15pm Thu, May 23 has been added to a need "\
       "at your local office! http://localhost:3000/needs/#{need.id}"
   end
 

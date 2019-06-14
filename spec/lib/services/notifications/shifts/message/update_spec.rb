@@ -4,73 +4,58 @@ require 'rails_helper'
 
 RSpec.describe Services::Notifications::Shifts::Message::Update do
 
-
-  let(:object) { described_class.call(shift) }
-  let(:shift) { create(:shift) }
+  let(:object) { described_class.call(shift, event_data) }
+  let(:event_data) { {} }
+  let(:volunteer) { create(:user) }
+  let(:scheduler) do
+    u = create(:user, role: User::SOCIAL_WORKER)
+    u.offices << shift.office
+    u
+  end
+  let(:shift) { create(:shift, start_at: starts, duration: 120) }
+  let(:starts) { Time.zone.parse('2019-05-23 11:15:00 -07:00') }
 
   describe '#call' do
     context 'when a volunteer' do
       context 'assigns themself to a shift' do
-        it 'notifies the volunteer' do
-          allow(SendTextMessageWorker).to receive(:perform_async)
-          shift.assign_attributes(user_id: volunteer.id)
-          expect(SendTextMessageWorker).to receive(:perform_async).with(volunteer.phone, "You have taken the shift #{starting_day(shift)} from #{shift_duration_in_words(shift)}. #{Rails.application.routes.url_helpers.need_url(need)}")
-          described_class.call(shift, volunteer, nil)
-        end
+        let(:event_data) { { user_was: nil, current_user: volunteer } }
 
-        it 'notifies the social workers' do
-          shift.assign_attributes(user_id: volunteer.id)
+        it 'returns expected message' do
+          shift.user = volunteer
 
-          expect(described_class.call(shift, volunteer, nil))
-            .to include(social_worker)
-        end
-
-        it 'notifies the need creator' do
-          shift.assign_attributes(user_id: volunteer.id)
-
-          expect(described_class.call(shift, volunteer, nil))
-            .to include(coordinator)
+          expect(object).to eql('A Volunteer has taken the shift Thu, May 23 '\
+                                  'from 11:15am to 01:15pm.')
         end
       end
 
       context 'unassigns themself from a shift' do
+        let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
-        before { shift.update(user: volunteer) }
-
-        it 'notifies the social workers' do
-          shift.assign_attributes(user_id: nil)
-
-          expect(described_class.call(shift, volunteer, volunteer.id))
-            .to include(social_worker)
-        end
-
-        it 'notifies the need creator' do
-          shift.assign_attributes(user_id: nil)
-
-          expect(described_class.call(shift, volunteer, volunteer.id))
-            .to include(coordinator)
+        it 'returns expected message' do
+          expect(object).to eql('A Volunteer has unassigned themself from the '\
+                                  '11:15am to 01:15pm shift Thu, May 23.')
         end
       end
     end
 
     context 'when a scheduler' do
       context 'assigns a volunteer' do
-        it 'notifies the user being assigned' do
-          shift.assign_attributes(user_id: volunteer.id)
+        let(:event_data) { { current_user: scheduler, user_was: nil } }
 
-          expect(described_class.call(shift, social_worker, nil))
-            .to include(volunteer)
+        it 'returns expected message' do
+          shift.user = volunteer
+
+          expect(object).to eql('You have been assigned a shift Thu, May 23 '\
+                                  'from 11:15am to 01:15pm.')
         end
       end
 
       context 'unassigns a volunteer' do
-        before { shift.update(user: volunteer) }
+        let(:event_data) { { current_user: scheduler, user_was: volunteer } }
 
-        it 'notifies the user being unassigned' do
-          shift.assign_attributes(user_id: nil)
-
-          expect(described_class.call(shift, social_worker, volunteer.id))
-            .to include(volunteer)
+        it 'returns expected message' do
+          expect(object).to eql('You have been unassigned from the 11:15am to '\
+                                  '01:15pm shift Thu, May 23.')
         end
       end
     end
