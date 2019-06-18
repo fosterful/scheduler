@@ -102,6 +102,8 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
+  gem 'mutant'
+  gem 'mutant-rspec'
   gem 'selenium-webdriver'
 end
 
