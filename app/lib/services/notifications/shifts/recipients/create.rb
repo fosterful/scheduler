@@ -12,9 +12,8 @@ module Services
           delegate :users_to_notify,
                    to: :shift
 
-          def recipients
-            users_to_notify
-          end
+          alias recipients users_to_notify
+
         end
       end
     end

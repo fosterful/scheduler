@@ -23,8 +23,11 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         it 'returns expected message' do
           shift.user = volunteer
 
-          expect(object).to eql('Barney Rubble has taken the shift Thu, '\
+          result = object
+
+          expect(result).to eql('Barney Rubble has taken the shift Thu, '\
                                   'May 23 from 11:15am to 01:15pm.')
+          expect(result).to be_frozen
         end
       end
 
@@ -32,8 +35,11 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
         it 'returns expected message' do
-          expect(object).to eql('Barney Rubble has unassigned themself from '\
+          result = object
+
+          expect(result).to eql('Barney Rubble has unassigned themself from '\
                                   'the 11:15am to 01:15pm shift Thu, May 23.')
+          expect(result).to be_frozen
         end
       end
     end
@@ -45,8 +51,11 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         it 'returns expected message' do
           shift.user = volunteer
 
-          expect(object).to eql('You have been assigned a shift Thu, May 23 '\
+          result = object
+
+          expect(result).to eql('You have been assigned a shift Thu, May 23 '\
                                   'from 11:15am to 01:15pm.')
+          expect(result).to be_frozen
         end
       end
 
@@ -54,8 +63,11 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
         let(:event_data) { { current_user: scheduler, user_was: volunteer } }
 
         it 'returns expected message' do
-          expect(object).to eql('You have been unassigned from the 11:15am to '\
+          result = object
+
+          expect(result).to eql('You have been unassigned from the 11:15am to '\
                                   '01:15pm shift Thu, May 23.')
+          expect(result).to be_frozen
         end
       end
     end

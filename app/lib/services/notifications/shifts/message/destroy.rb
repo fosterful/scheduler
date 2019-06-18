@@ -15,7 +15,7 @@ module Services
 
           def call
             "The shift from #{duration_in_words} has been removed from a need "\
-              "at your local office. #{needs_url}".freeze
+              "at your local office. #{needs_url}"
           end
 
         end

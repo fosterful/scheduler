@@ -38,22 +38,22 @@ module Services
 
           def shift_taken
             "#{current_user} has taken the shift #{starting_day} from "\
-              "#{duration_in_words}.".freeze
+              "#{duration_in_words}."
           end
 
           def shift_returned
-            '#{current_user} has unassigned themself from the '\
-              "#{duration_in_words} shift #{starting_day}.".freeze
+            "#{current_user} has unassigned themself from the "\
+              "#{duration_in_words} shift #{starting_day}."
           end
 
           def shift_assigned
             "You have been assigned a shift #{starting_day} from "\
-              "#{duration_in_words}.".freeze
+              "#{duration_in_words}."
           end
 
           def shift_unassigned
             "You have been unassigned from the #{duration_in_words} shift "\
-              "#{starting_day}.".freeze
+              "#{starting_day}."
           end
         end
       end

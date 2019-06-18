@@ -11,9 +11,12 @@ RSpec.describe Services::Notifications::Shifts::Message::Destroy do
 
   describe '#call' do
     it 'returns expected string' do
-      expect(object).to eql('The shift from 11:15am to 01:15pm has been '\
+      result = object
+
+      expect(result).to eql('The shift from 11:15am to 01:15pm has been '\
                               'removed from a need at your local office. '\
                               'http://localhost:3000/needs')
+      expect(result).to be_frozen
     end
   end
 end

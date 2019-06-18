@@ -15,7 +15,7 @@ RSpec.describe Services::Notifications::Shifts do
   let(:user_was) { nil }
   let(:action) { :destroy }
   let(:shift) { need.shifts.first! }
-  let(:phone) { '(555) 555-5555' }
+  let(:phone) { '(360) 555-0110' }
   let!(:shift_user) do
     u          = create(:user, phone: phone)
     shift.user = u

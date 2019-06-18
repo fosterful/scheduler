@@ -18,7 +18,7 @@ module Services
 
           def call
             "A new shift from #{duration_in_words} #{starting_day} has been "\
-              "added to a need at your local office! #{url}".freeze
+              "added to a need at your local office! #{url}"
           end
 
           private
