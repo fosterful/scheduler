@@ -7,11 +7,13 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Update do
   let(:object) { described_class.new(shift, event_data) }
   let(:event_data) { {} }
   let(:need) { create(:need_with_shifts) }
+  let(:office) { need.office }
   let(:shift) { need.shifts.first! }
-  let(:volunteer) { shift.user }
-  let(:scheduler) { create(:social_worker, offices: [need.office]) }
-  let(:coordinator) { create(:coordinator, offices: [need.office]) }
-  let(:social_workers) { [scheduler, coordinator] }
+  let(:volunteer) { create(:user, offices: [office]) }
+  let(:other_volunteer) { create(:user, offices: [office]) }
+  let(:social_workers) { office.users.social_workers }
+  let(:coordinator) { create(:coordinator, offices: [office]) }
+  let!(:office_staff) { [*social_workers, coordinator] }
 
   describe '#recipients' do
     context 'when a volunteer' do
@@ -19,10 +21,12 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Update do
         let(:event_data) { { current_user: volunteer } }
 
         it 'returns social workers and need user' do
-          social_workers
           shift.user = volunteer
+          need.update!(user: other_volunteer)
 
-          expect(object.recipients).to match_array([*social_workers, need.user])
+          result = object.recipients
+
+          expect(result).to match_array([*social_workers, other_volunteer])
         end
       end
 
@@ -30,14 +34,19 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Update do
         let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
         it 'returns social workers and need user' do
-          social_workers
+          need.user = volunteer # force a user that isn't office staff
+          need.save!
 
-          expect(object.recipients).to match_array([*social_workers, need.user])
+          result = object.recipients
+
+          expect(result).to match_array([*social_workers, volunteer])
         end
       end
     end
 
     context 'when a scheduler' do
+      let(:scheduler) { social_workers.first }
+
       context 'assigns a volunteer' do
         let(:event_data) { { current_user: scheduler } }
 

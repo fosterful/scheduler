@@ -21,7 +21,7 @@ module Services
           klass
             .new(shift, event_data)
             .recipients
-            .select(&:notifiable?)
+            .select(&:phone?)
         end
       end
     end
