@@ -149,4 +149,12 @@ RSpec.describe Need, type: :model do
     end
   end
 
+  describe '.has_claimed_shifts' do # scope test
+    it 'supports named scope has_claimed_shifts' do
+      result = described_class.has_claimed_shifts
+
+      expect(result).to all(be_an_instance_of(described_class))
+    end
+  end
+
 end

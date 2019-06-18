@@ -215,4 +215,41 @@ RSpec.describe User, type: :model do
     end
   end
 
+
+  # TODO: auto-generated
+  describe '.notifiable' do # scope test
+    it 'supports named scope notifiable' do
+      expect(described_class.limit(3).notifiable).to all(be_a(described_class))
+    end
+  end
+
+  # TODO: auto-generated
+  describe '.shifts_by_user' do
+    it 'shifts_by_user' do
+      result = described_class.shifts_by_user
+
+      expect(result).not_to be_nil
+    end
+  end
+
+  # TODO: auto-generated
+  describe '.volunteerable_by_language' do
+    it 'volunteerable_by_language' do
+      result = described_class.volunteerable_by_language
+
+      expect(result).not_to be_nil
+    end
+  end
+
+  # TODO: auto-generated
+  describe '#to_s' do
+    it 'to_s' do
+      user = described_class.new
+      result = user.to_s
+
+      expect(result).not_to be_nil
+    end
+  end
+
+
 end

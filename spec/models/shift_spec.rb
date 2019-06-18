@@ -65,7 +65,6 @@ RSpec.describe Shift, type: :model do
     end
   end
 
-  # TODO: auto-generated
   describe '#can_destroy?' do
     it 'returns false if only one shift' do
       result = shift.can_destroy?
@@ -79,6 +78,23 @@ RSpec.describe Shift, type: :model do
       result = shift.can_destroy?
 
       expect(result).to be true
+    end
+  end
+
+  describe '.claimed' do # scope test
+    it 'supports named scope claimed' do
+      result = described_class.limit(3).claimed
+
+      expect(result).to be_empty
+    end
+
+    it 'supports named scope claimed' do
+      shift = create(:shift)
+      shift.update!(user: create(:user))
+
+      result = described_class.limit(3).claimed
+
+      expect(result).to match_array([shift])
     end
   end
 
