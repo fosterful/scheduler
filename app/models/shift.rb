@@ -16,6 +16,7 @@ class Shift < ApplicationRecord
 
   delegate :age_range_ids,
            :age_ranges,
+           :notification_candidates,
            :preferred_language,
            to: :need
 
@@ -44,8 +45,8 @@ class Shift < ApplicationRecord
   end
 
   def users_to_notify
-    need
-      .notification_candidates
+    # this differs from Need#users_to_notify because start_at and end_at differ
+    notification_candidates
       .available_within(start_at, end_at)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
