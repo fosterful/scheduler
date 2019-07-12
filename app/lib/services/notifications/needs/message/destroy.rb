@@ -12,7 +12,7 @@ module Services
                    to: :need
 
           def message
-            "A need at #{office.name} has been deleted.".freeze
+            "A need at #{office} has been deleted.".freeze
           end
         end
       end
