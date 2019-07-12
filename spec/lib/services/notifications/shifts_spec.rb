@@ -35,8 +35,15 @@ RSpec.describe Services::Notifications::Shifts do
       expect(Services::TextMessageEnqueue).to receive(:send_messages)
                                                 .once
                                                 .with([phone], destroy_msg)
+                                                .and_call_original
 
       object.notify
+    end
+
+    it 'yields if block supplied' do
+      expect do
+        object.notify { puts 'hello' }
+      end.to output("hello\n").to_stdout
     end
   end
 
