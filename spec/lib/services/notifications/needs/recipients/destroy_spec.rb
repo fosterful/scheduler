@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Needs::Recipients::Destroy do
-  subject { described_class.call(need) }
+  subject { described_class.new(need).recipients }
 
   let(:office) { create(:office) }
   let(:scheduler) { create(:user, role: 'social_worker', offices: [office]) }

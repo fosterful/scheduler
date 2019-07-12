@@ -12,7 +12,7 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Create do
 
   let(:user) { create(:user) }
 
-  describe '#call' do
+  describe '#recipients' do
     it 'does not include the need user/creator' do
       expect(shift.need.office.users).to include(shift.need.user)
       expect(object.recipients).not_to include(shift.need.user)

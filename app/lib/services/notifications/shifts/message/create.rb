@@ -7,7 +7,6 @@ module Services
         class Create
           include Adamantium::Flat
           include Concord.new(:shift, :_event_data)
-          include Procto.call
           include Rails.application.routes.url_helpers
           include StartAtHelper
 
@@ -16,7 +15,7 @@ module Services
                    :start_at,
                    to: :shift
 
-          def call
+          def message
             "A new shift from #{duration_in_words} #{starting_day} has been "\
               "added to a need at your local office! #{url}"
           end

@@ -6,9 +6,8 @@ module Services
       class Recipients
         include Adamantium::Flat
         include Concord.new(:need, :action)
-        include Procto.call
 
-        def call
+        def recipients
           klass = case action
                     when :create
                       Create
@@ -18,7 +17,7 @@ module Services
                       Destroy
                   end
 
-          klass.call(need).select(&:notifiable?)
+          klass.new(need).recipients.select(&:notifiable?)
         end
       end
     end

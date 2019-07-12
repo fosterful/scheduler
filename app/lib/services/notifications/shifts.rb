@@ -9,8 +9,8 @@ module Services
                     :recipients
 
       def initialize(shift, action, event_data = {})
-        self.message    = Message.call(shift, action, event_data)
-        self.recipients = Recipients.call(shift, action, event_data)
+        self.message    = Message.new(shift, action, event_data).message
+        self.recipients = Recipients.new(shift, action, event_data).recipients
       end
 
       def notify

@@ -6,9 +6,8 @@ module Services
       class Recipients
         include Adamantium::Flat
         include Concord.new(:shift, :action, :event_data)
-        include Procto.call
 
-        def call
+        def recipients
           klass = case action
                     when :create
                       Create

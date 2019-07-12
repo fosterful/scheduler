@@ -6,9 +6,8 @@ module Services
       class Message
         include Adamantium::Flat
         include Concord.new(:shift, :action, :event_data)
-        include Procto.call
 
-        def call
+        def message
           klass = case action
                     when :create
                       Create
@@ -18,7 +17,7 @@ module Services
                       Destroy
                   end
 
-          klass.call(shift, event_data)
+          klass.new(shift, event_data).message
         end
 
       end

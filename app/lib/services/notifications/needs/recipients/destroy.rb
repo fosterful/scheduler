@@ -12,7 +12,7 @@ module Services
           delegate :office,
                    to: :need
 
-          def call
+          def recipients
             office.users.schedulers | need.users
           end
         end

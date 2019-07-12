@@ -11,8 +11,8 @@ module Services
       attr_accessor :message, :recipients
 
       def initialize(need, action, _event_data = {})
-        self.message    = Message.call(need, action)
-        self.recipients = Recipients.call(need, action)
+        self.message    = Message.new(need, action).message
+        self.recipients = Recipients.new(need, action).recipients
       end
 
       def notify

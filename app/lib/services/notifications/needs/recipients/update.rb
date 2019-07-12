@@ -11,7 +11,7 @@ module Services
           delegate :users_to_notify,
                    to: :need
 
-          def call
+          def recipients
             users_to_notify
           end
         end

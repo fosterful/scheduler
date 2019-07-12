@@ -13,7 +13,7 @@ module Services
                    :users_to_notify,
                    to: :need
 
-          def call
+          def recipients
             (users_to_notify | shifts.flat_map(&:users_to_notify)).uniq
           end
         end

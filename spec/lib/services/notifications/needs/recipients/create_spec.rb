@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Services::Notifications::Needs::Recipients::Create do
 
-  subject { described_class.new(need).call }
+  subject { described_class.new(need).recipients }
 
   let(:need) do
     create(:need, start_at: Time.zone.now.advance(weeks: 1)).tap do |need|

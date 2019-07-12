@@ -20,7 +20,7 @@ RSpec.describe Services::Notifications::Shifts::Recipients do
         coordinator.update(age_range_ids: shift.need.age_range_ids)
         shift.need.update!(user: scheduler)
 
-        result = object.call
+        result = object.recipients
 
         expect(result).to eql([coordinator])
       end
@@ -34,7 +34,7 @@ RSpec.describe Services::Notifications::Shifts::Recipients do
         shift.need.update!(user: volunteer)
         shift.user = volunteer
 
-        result = object.call
+        result = object.recipients
 
         expect(result).to eql([scheduler, volunteer])
       end
@@ -46,13 +46,13 @@ RSpec.describe Services::Notifications::Shifts::Recipients do
       it 'returns shift user if present' do
         shift.update!(user: volunteer)
 
-        result = object.call
+        result = object.recipients
 
         expect(result).to eql([volunteer])
       end
 
       it 'returns empty collection if no shift user' do
-        result = object.call
+        result = object.recipients
 
         expect(result).to eql([])
       end

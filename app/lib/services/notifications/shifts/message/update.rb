@@ -6,7 +6,6 @@ module Services
       class Message
         class Update
           include Concord.new(:shift, :event_data)
-          include Procto.call
           include Rails.application.routes.url_helpers
           include ShiftUpdateEventHelper
           include StartAtHelper
@@ -18,7 +17,7 @@ module Services
                    :user,
                    to: :shift
 
-          def call
+          def message
             return shift_taken if shift_user_is_current_user?
             return shift_returned if current_user_left_shift?
             return shift_assigned if scheduler_with_user?

@@ -7,12 +7,11 @@ module Services
         class Destroy
           include Adamantium::Flat
           include Concord.new(:need)
-          include Procto.call
 
           delegate :office,
                    to: :need
 
-          def call
+          def message
             "A need at #{office.name} has been deleted.".freeze
           end
         end

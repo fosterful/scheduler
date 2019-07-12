@@ -7,7 +7,6 @@ module Services
         class Create
           include Adamantium::Flat
           include Concord.new(:shift, :_event_data)
-          include Procto.call
 
           delegate :users_to_notify,
                    to: :shift
