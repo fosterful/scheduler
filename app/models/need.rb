@@ -8,7 +8,7 @@ class Need < ApplicationRecord
   belongs_to :race, optional: true
   belongs_to :preferred_language,
              class_name: 'Language',
-             optional: true
+             optional:   true
   has_and_belongs_to_many :age_ranges
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
@@ -21,7 +21,7 @@ class Need < ApplicationRecord
             presence: true
   validates :expected_duration,
             numericality: { greater_than_or_equal_to: 60,
-                            message: 'must be at least one hour' }
+                            message:                  'must be at least one hour' }
 
   scope :current, -> { where('start_at > ?', Time.zone.now.at_beginning_of_day).order(start_at: :asc) }
   scope :has_claimed_shifts, -> { where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id AND shifts.user_id IS NOT NULL)') }

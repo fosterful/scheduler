@@ -10,12 +10,12 @@ class Blockout < ApplicationRecord
             presence: true
   validates :start_at,
             inclusion: { in: ->(_blockout) { (Time.zone.now.beginning_of_day..) }, message: 'must be in the future' },
-            if: :start_at_changed?
+            if:        :start_at_changed?
 
   validates :end_at,
             inclusion: { in: ->(blockout) { (blockout.start_at..) }, message: 'must be beyond start at' },
-            if: -> { end_at_changed? || start_at_changed? },
-            unless: -> { start_at.nil? }
+            if:        -> { end_at_changed? || start_at_changed? },
+            unless:    -> { start_at.nil? }
 
   validates :last_occurrence, presence: true, if: :rrule?
 

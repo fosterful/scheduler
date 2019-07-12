@@ -71,7 +71,7 @@ class NeedsController < ApplicationController
       redirect_to needs_path, flash: { success: 'Need successfully deleted' }
     else
       redirect_back fallback_location: needs_path,
-                    flash: { error: 'Failed to delete Need' }
+                    flash:             { error: 'Failed to delete Need' }
     end
   end
 

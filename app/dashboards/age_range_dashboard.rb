@@ -10,9 +10,9 @@ class AgeRangeDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    min: Field::Number,
-    max: Field::Number,
+    id:         Field::Number,
+    min:        Field::Number,
+    max:        Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

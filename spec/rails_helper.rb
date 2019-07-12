@@ -26,13 +26,13 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.ignore_request do |request|
     whitelisted_hosts = ['localhost', 'selenium', Capybara.server_host]
-    whitelisted_hosts.any? { |host| URI(request.uri).host.match?(host)  }
+    whitelisted_hosts.any? { |host| URI(request.uri).host.match?(host) }
   end
 end
 
 # Globally stub smartystreets
 stub_request(:any, /smartystreets.com/).to_return(
-  body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
+  body:   File.read('spec/fixtures/webmock_responses/smartystreets.json'),
   status: 200
 )
 

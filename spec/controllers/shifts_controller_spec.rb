@@ -22,10 +22,10 @@ RSpec.describe ShiftsController, type: :controller do
     it 'POST create' do
       expect do
         post :create, params: { need_id: need.id,
-                                shift: { need_id: need.id.to_param,
-                                         duration: 120.to_param,
-                                         user_id: user.id.to_param,
-                                         start_at: Time.zone.now.advance(weeks: 1).to_param } }
+                                shift:   { need_id:  need.id.to_param,
+                                           duration: 120.to_param,
+                                           user_id:  user.id.to_param,
+                                           start_at: Time.zone.now.advance(weeks: 1).to_param } }
       end.to change(Shift, :count).by(1)
 
       expect(response).to have_http_status(:found)
@@ -35,8 +35,8 @@ RSpec.describe ShiftsController, type: :controller do
   describe '#update' do
     it 'PATCH update' do
       patch :update, params: { need_id: need.id,
-                               id: shift.id,
-                               shift: { user_id: other_user.id.to_param } }
+                               id:      shift.id,
+                               shift:   { user_id: other_user.id.to_param } }
 
       expect(response).to have_http_status(:found)
       expect(shift.reload.user_id).to equal(other_user.id)

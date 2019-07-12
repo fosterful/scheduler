@@ -215,7 +215,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-
   # TODO: auto-generated
   describe '.notifiable' do # scope test
     it 'supports named scope notifiable' do
@@ -250,6 +249,5 @@ RSpec.describe User, type: :model do
       expect(result).not_to be_nil
     end
   end
-
 
 end

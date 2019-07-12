@@ -10,10 +10,10 @@ class OfficeDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    address: AddressField,
-    id: Field::Number,
-    name: Field::String,
-    region: Field::Number,
+    address:    AddressField,
+    id:         Field::Number,
+    name:       Field::String,
+    region:     Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

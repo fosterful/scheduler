@@ -51,15 +51,15 @@ class User < ApplicationRecord
 
   validates :medical_limitations, :conviction,
             inclusion: { in: [true, false], message: "can't be blank" },
-            if: :require_volunteer_profile_attributes?
+            if:        :require_volunteer_profile_attributes?
 
   validates :medical_limitations_desc,
             presence: true,
-            if: -> { require_volunteer_profile_attributes? && medical_limitations? }
+            if:       -> { require_volunteer_profile_attributes? && medical_limitations? }
 
   validates :conviction_desc,
             presence: true,
-            if: -> { require_volunteer_profile_attributes? && conviction? }
+            if:       -> { require_volunteer_profile_attributes? && conviction? }
 
   validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
