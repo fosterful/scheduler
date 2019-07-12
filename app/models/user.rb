@@ -7,12 +7,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable, :lockable, validate_on_invite: true
 
+  ADMIN         = 'admin'
   COORDINATOR   = 'coordinator'
   SOCIAL_WORKER = 'social_worker'
   VOLUNTEER     = 'volunteer'
-  ADMIN         = 'admin'
 
-  ROLES = [COORDINATOR, SOCIAL_WORKER, VOLUNTEER, ADMIN].freeze
+  ROLES         = [ADMIN, COORDINATOR, SOCIAL_WORKER, VOLUNTEER].freeze
   PROFILE_ATTRS = [:first_name,
                    :last_name,
                    :phone,
@@ -36,20 +36,34 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
-  has_many :served_needs, -> { distinct }, through: :shifts, class_name: 'Need', source: 'need'
+  has_many :served_needs, -> { distinct },
+           through:    :shifts,
+           class_name: 'Need',
+           source:     'need'
 
   belongs_to :first_language, optional: true, class_name: 'Language'
   belongs_to :second_language, optional: true, class_name: 'Language'
 
-  validates :first_name, :last_name, :phone, presence: true, if: :invitation_accepted_at?
+  validates :first_name,
+            :last_name,
+            :phone,
+            presence: true,
+            if:       :invitation_accepted_at?
 
-  validates :phone, telephone_number: { country: :us, types: %i(mobile) }, if: :phone?
+  validates :phone,
+            telephone_number: { country: :us, types: %i(mobile) },
+            if:               :phone?
 
-  validates :birth_date, :resident_since, :discovered_omd_by, :race,
+  validates :birth_date,
+            :discovered_omd_by,
             :first_language,
-            presence: true, if: :require_volunteer_profile_attributes?
+            :race,
+            :resident_since,
+            presence: true,
+            if:       :require_volunteer_profile_attributes?
 
-  validates :medical_limitations, :conviction,
+  validates :conviction,
+            :medical_limitations,
             inclusion: { in: [true, false], message: "can't be blank" },
             if:        :require_volunteer_profile_attributes?
 
@@ -61,26 +75,32 @@ class User < ApplicationRecord
             presence: true,
             if:       -> { require_volunteer_profile_attributes? && conviction? }
 
-  validates :role, inclusion: { in: ROLES, message: '%{value} is not a valid role' }
+  validates :role,
+            inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :has_at_least_one_office
-  validate :has_at_least_one_age_range, if: :require_volunteer_profile_attributes?
+  validate :has_at_least_one_age_range,
+           if: :require_volunteer_profile_attributes?
 
   scope :coordinators, -> { where(role: COORDINATOR) }
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
-  scope :volunteers, -> {  where(role: VOLUNTEER) }
+  scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
-  scope :speaks_language, ->(language) { where(first_language: language).or(where(second_language: language)) }
+  scope :speaks_language, lambda { |language|
+    where(first_language: language).or(where(second_language: language))
+  }
 
   def self.shifts_by_user
     joins(:shifts).group('users.id')
   end
 
   def self.volunteerable_by_language
-    volunteerable.joins('INNER JOIN languages ON languages.id IN (users.first_language_id, users.second_language_id)').group('languages.name')
+    volunteerable
+      .joins('INNER JOIN languages ON languages.id IN (users.first_language_id, users.second_language_id)')
+      .group('languages.name')
   end
 
   def self.total_volunteers_by_spoken_language
@@ -117,8 +137,13 @@ class User < ApplicationRecord
   end
 
   def name
-    name = "#{first_name} #{last_name}"
-    name.presence || email
+    "#{first_name} #{last_name}".presence || email
+  end
+
+  alias to_s name
+
+  def notifiable?
+    volunteerable? && phone.present?
   end
 
   def scheduler?
