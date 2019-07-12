@@ -12,7 +12,7 @@ RSpec.describe Services::Notifications::Needs::Recipients do
     let(:klass) { Services::Notifications::Needs::Recipients::Create }
 
     it 'correctly routes create event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.recipients
     end
@@ -23,7 +23,7 @@ RSpec.describe Services::Notifications::Needs::Recipients do
     let(:klass) { Services::Notifications::Needs::Recipients::Update }
 
     it 'correctly routes update event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.recipients
     end
@@ -34,7 +34,7 @@ RSpec.describe Services::Notifications::Needs::Recipients do
     let(:klass) { Services::Notifications::Needs::Recipients::Destroy }
 
     it 'correctly routes destroy event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.recipients
     end

@@ -14,7 +14,7 @@ RSpec.describe Services::Notifications::Shifts::Message do
     let(:klass) { Services::Notifications::Shifts::Message::Create }
 
     it 'correctly routes create event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.message
     end
@@ -25,7 +25,7 @@ RSpec.describe Services::Notifications::Shifts::Message do
     let(:klass) { Services::Notifications::Shifts::Message::Update }
 
     it 'correctly routes update event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.message
     end
@@ -36,7 +36,7 @@ RSpec.describe Services::Notifications::Shifts::Message do
     let(:klass) { Services::Notifications::Shifts::Message::Destroy }
 
     it 'correctly routes destroy event' do
-      expect(klass).to receive(:new).and_return(spy(klass))
+      expect(klass).to receive(:new).and_call_original
 
       object.message
     end
