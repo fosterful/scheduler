@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Shifts::Recipients do
-  describe '#call' do
+  describe '#recipients' do
     let(:object) { described_class.new(shift, action, event_data) }
     let(:shift) { create(:shift) }
     let(:office) { shift.need.office }

@@ -11,7 +11,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Destroy do
   let(:volunteer) { create(:user, offices: [office]) }
   let!(:other_volunteer) { create(:user, offices: [office]) }
 
-  describe '#call' do
+  describe '#recipients' do
     it 'includes the office schedulers and users signed up for shifts' do
       need.shifts.last.update(user: volunteer)
 

@@ -13,7 +13,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
 
   let(:user) { build(:user) }
 
-  describe '#call' do
+  describe '#recipients' do
     it 'does not include the need user/creator' do
       expect(need.office.users).to include(need.user)
       expect(subject).not_to include(need.user)
