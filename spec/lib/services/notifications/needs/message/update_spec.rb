@@ -9,7 +9,7 @@ RSpec.describe Services::Notifications::Needs::Message::Update do
     let(:starts) { Time.zone.now.tomorrow.change(hour: 12, minute: 0) }
     let(:day_str) { starts.to_s(:month_day) }
     let(:time_str) { starts.strftime('%I:%M%P') }
-    let(:url) {  "http://localhost:3000/needs/#{need.id}" }
+    let(:url) { "http://localhost:3000/needs/#{need.id}" }
 
     it 'returns expected message for update event' do
       result = object.message

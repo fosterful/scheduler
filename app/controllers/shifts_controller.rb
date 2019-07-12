@@ -45,7 +45,11 @@ class ShiftsController < ApplicationController
         .new(@shift, :update, update_event_data(user_was))
         .notify
 
-      flash[:notice] = permitted_attributes(@shift).fetch('user_id').present? ? 'Shift Claimed!' : 'Shift Released!'
+      flash[:notice] = if permitted_attributes(@shift).fetch('user_id').present?
+                         'Shift Claimed!'
+                       else
+                         'Shift Released!'
+                       end
     else
       flash[:alert] = DEFAULT_ERROR
     end

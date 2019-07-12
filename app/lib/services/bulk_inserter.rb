@@ -26,14 +26,20 @@ module Services
       def column_names
         names = records.map { |r| present_attributes_for(r).keys }
         names.inject do |a, b|
-          a != b ? raise(BulkInserter::Error, 'All records must have the same attributes present') : b
+          unless a.eql?(b)
+            raise(BulkInserter::Error, 'All records must have the same attributes present')
+          end
+
+          b
         end
       end
 
       def table_name
         names = records.map { |r| r.class.table_name }
         names.inject do |a, b|
-          a != b ? raise(BulkInserter::Error, 'All records must have the same table name') : b
+          raise(BulkInserter::Error, 'All records must have the same table name') unless a.eql?(b)
+
+          b
         end
       end
 
@@ -49,12 +55,12 @@ module Services
         row.map { |_, v| prepare_value(v) }.join(',')
       end
 
-      def prepare_value(v)
-        quote(v.respond_to?(:utc) ? v.utc : v)
+      def prepare_value(val)
+        quote(val.respond_to?(:utc) ? val.utc : val)
       end
 
-      def quote(s)
-        "'#{s}'"
+      def quote(str)
+        "'#{str}'"
       end
 
       def insert_sql

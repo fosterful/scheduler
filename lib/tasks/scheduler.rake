@@ -9,6 +9,9 @@ namespace :scheduler do
     end
 
     # Clean up a day after the last occurrence
-    Blockout.joins(:parent).where('parents_blockouts.last_occurrence < ?', Time.zone.now.beginning_of_day).delete_all
+    Blockout
+      .joins(:parent)
+      .where('parents_blockouts.last_occurrence < ?', Time.zone.now.beginning_of_day)
+      .delete_all
   end
 end

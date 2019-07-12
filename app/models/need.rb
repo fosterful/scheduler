@@ -24,10 +24,12 @@ class Need < ApplicationRecord
                             message:                  'must be at least one hour' }
 
   scope :current, lambda {
-    where('start_at > ?', Time.zone.now.at_beginning_of_day).order(start_at: :asc)
+    where('start_at > ?', Time.zone.now.at_beginning_of_day)
+      .order(start_at: :asc)
   }
   scope :has_claimed_shifts, lambda {
-    where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id AND shifts.user_id IS NOT NULL)')
+    where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id '\
+            'AND shifts.user_id IS NOT NULL)')
   }
 
   def self.total_children_served

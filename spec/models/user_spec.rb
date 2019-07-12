@@ -15,7 +15,8 @@ RSpec.describe User, type: :model do
     let!(:social_worker) { create :user, role: 'social_worker' }
 
     it 'returns a list of users that are volunteers or coordinators' do
-      expect(described_class.volunteerable).to contain_exactly(volunteer, coordinator)
+      expect(described_class.volunteerable)
+        .to contain_exactly(volunteer, coordinator)
       expect(described_class.volunteerable).not_to include(social_worker)
     end
   end
@@ -26,11 +27,12 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#has_at_least_one_office' do
+  describe '#at_least_one_office' do
     it 'adds an error if no office is associated' do
       user.offices.clear
       expect(user.valid?).to be(false)
-      expect(user.errors.full_messages.first).to eq('At least one office assignment is required')
+      expect(user.errors.full_messages.first)
+        .to eq('At least one office assignment is required')
     end
   end
 
@@ -73,7 +75,12 @@ RSpec.describe User, type: :model do
 
     context 'user has blockouts with no overlap' do
       let(:user) { build :user }
-      let!(:blockout) { create :blockout, user: user, start_at: 1.hour.from_now, end_at: 2.hours.from_now }
+      let!(:blockout) do
+        create(:blockout,
+               user:     user,
+               start_at: 1.hour.from_now,
+               end_at:   2.hours.from_now)
+      end
 
       it 'includes the user' do
         expect(subject).to include(user)
@@ -87,7 +94,7 @@ RSpec.describe User, type: :model do
     let(:language) { create :language }
 
     it 'includes primary and secondary speakers' do
-      primary_speaker = create :user, first_language: language
+      primary_speaker   = create :user, first_language: language
       secondary_speaker = create :user, second_language: language
       expect(subject).to include(primary_speaker, secondary_speaker)
     end
@@ -95,7 +102,7 @@ RSpec.describe User, type: :model do
 
   describe '.coordinators' do # scope test
     it 'supports named scope coordinators' do
-      expect(described_class.limit(3).coordinators).to all(be_a(described_class))
+      expect(described_class.coordinators).to all(be_a(described_class))
     end
   end
 
@@ -108,13 +115,13 @@ RSpec.describe User, type: :model do
 
   describe '.volunteers' do # scope test
     it 'supports named scope volunteers' do
-      expect(described_class.limit(3).volunteers).to all(be_a(described_class))
+      expect(described_class.volunteers).to all(be_a(described_class))
     end
   end
 
   describe '.schedulers' do # scope test
     it 'supports named scope schedulers' do
-      expect(described_class.limit(3).schedulers).to all(be_a(described_class))
+      expect(described_class.schedulers).to all(be_a(described_class))
     end
   end
 
@@ -133,21 +140,76 @@ RSpec.describe User, type: :model do
     let(:race3) { create(:race, name: 'Race3') }
     let(:wa_address1) { build(:address, :wa) }
     let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
-    let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save! } }
-    let(:wa_office2) { create(:wa_office, address: wa_address2).tap { wa_address2.save! } }
+    let(:wa_office1) do
+      create(:wa_office, address: wa_address1).tap { wa_address1.save! }
+    end
+    let(:wa_office2) do
+      create(:wa_office, address: wa_address2).tap { wa_address2.save! }
+    end
     let(:or_office) { create(:or_office) }
     let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1]) }
     let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2]) }
     let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office]) }
-    let(:wa_user1) { create(:user, offices: [wa_office1], race: race1, first_language: lang1, second_language: lang2) }
-    let(:wa_user2) { create(:user, offices: [wa_office2], race: race1, first_language: lang2) }
-    let(:wa_user3) { create(:user, offices: [wa_office2], race: race2, first_language: lang3, second_language: lang2) }
-    let(:or_user) { create(:user, offices: [or_office], race: race3, first_language: lang2) }
-    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1, preferred_language: lang1) }
-    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2, preferred_language: lang1) }
-    let(:wa_need3) { create(:need_with_shifts, user: wa_sw2, number_of_children: 7, expected_duration: 120, office: wa_office2, preferred_language: lang1) }
-    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2, preferred_language: lang3) }
-    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office, preferred_language: lang2) }
+    let(:wa_user1) do
+      create(:user,
+             offices:         [wa_office1],
+             race:            race1,
+             first_language:  lang1,
+             second_language: lang2)
+    end
+    let(:wa_user2) do
+      create(:user, offices: [wa_office2], race: race1, first_language: lang2)
+    end
+    let(:wa_user3) do
+      create(:user,
+             offices:         [wa_office2],
+             race:            race2,
+             first_language:  lang3,
+             second_language: lang2)
+    end
+    let(:or_user) do
+      create(:user, offices: [or_office], race: race3, first_language: lang2)
+    end
+    let(:wa_need1) do
+      create(:need_with_shifts,
+             user:               wa_sw1,
+             number_of_children: 1,
+             expected_duration:  60,
+             office:             wa_office1,
+             preferred_language: lang1)
+    end
+    let(:wa_need2) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  240,
+             office:             wa_office2,
+             preferred_language: lang1)
+    end
+    let(:wa_need3) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 7,
+             expected_duration:  120,
+             office:             wa_office2,
+             preferred_language: lang1)
+    end
+    let!(:unmet_wa_need) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  120,
+             office:             wa_office2,
+             preferred_language: lang3)
+    end
+    let(:or_need) do
+      create(:need_with_shifts,
+             user:               or_sw,
+             number_of_children: 3,
+             expected_duration:  120,
+             office:             or_office,
+             preferred_language: lang2)
+    end
 
     before do
       or_need.shifts.first.update(user: or_user)
@@ -159,22 +221,27 @@ RSpec.describe User, type: :model do
 
     describe '.total_volunteers_by_spoken_language' do
       it 'returns the number of volunteers grouped by language name' do
-        expect(described_class.total_volunteers_by_spoken_language).to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
+        expect(described_class.total_volunteers_by_spoken_language)
+          .to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
       end
     end
 
     describe '.total_volunteer_minutes_by_user' do
       it 'returns the volunteer minutes grouped by user_id' do
-        expect(described_class.total_volunteer_minutes_by_user).to eql(or_user.id => 60, wa_user1.id => 60, wa_user2.id => 300, wa_user3.id => 60)
+        expect(described_class.total_volunteer_minutes_by_user)
+          .to eql(or_user.id  => 60,
+                  wa_user1.id => 60,
+                  wa_user2.id => 300,
+                  wa_user3.id => 60)
       end
     end
   end
 
-  describe '#has_at_least_one_age_range' do
-    it 'has_at_least_one_age_range' do
+  describe '#at_least_one_age_range' do
+    it 'at_least_one_age_range' do
       user = described_class.new
 
-      user.has_at_least_one_age_range
+      user.at_least_one_age_range
 
       expect(user.errors[:base])
         .to include('At least one age range selection is required')
@@ -208,7 +275,7 @@ RSpec.describe User, type: :model do
   # TODO: auto-generated
   describe '#volunteerable?' do
     it 'volunteerable?' do
-      user = described_class.new
+      user   = described_class.new
       result = user.volunteerable?
 
       expect(result).not_to be_nil
@@ -243,7 +310,7 @@ RSpec.describe User, type: :model do
   # TODO: auto-generated
   describe '#to_s' do
     it 'to_s' do
-      user = described_class.new
+      user   = described_class.new
       result = user.to_s
 
       expect(result).not_to be_nil

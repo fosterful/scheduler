@@ -39,7 +39,7 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#create' do
-    context 'success' do
+    context 'when success' do
       let(:params) do
         {
           need: attributes_for(:need).merge(office_id:     need.office_id,
@@ -58,7 +58,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'renders the new view' do
         expect_any_instance_of(Need).to receive(:update).and_return(false)
 
@@ -80,7 +80,7 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#update' do
-    context 'success' do
+    context 'when success' do
       it 'redirects to the need' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
@@ -91,7 +91,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'renders the edit view' do
         expect_any_instance_of(Need).to receive(:save).and_return(false)
 
@@ -103,7 +103,7 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#destroy' do
-    context 'success' do
+    context 'when success' do
       it 'redirects to the index view with success message' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
@@ -115,7 +115,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'redirects to the index view' do
         expect_any_instance_of(Need).to receive(:destroy).and_return(false)
 

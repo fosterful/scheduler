@@ -8,11 +8,11 @@ RSpec.describe UserPolicy, type: :policy do
   let(:other_user) { build(:user) }
 
   describe '#new?' do
-    context 'as an admin' do
+    context 'when an admin' do
       let(:user) { build(:user, role: 'admin') }
 
       User::ROLES.each do |role|
-        context "inviting a #{role}" do
+        context "when inviting a #{role}" do
           subject { described_class.new(user, build(:user, role: role)) }
 
           it { expect(subject).to permit_action(:new) }
@@ -21,11 +21,11 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
-  context 'as a coordinator' do
+  context 'when a coordinator' do
     let(:user) { build(:user, role: 'coordinator') }
 
     %w(volunteer social_worker).each do |role|
-      context "inviting a #{role}" do
+      context "when inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
         it { expect(subject).to permit_action(:new) }
@@ -33,7 +33,7 @@ RSpec.describe UserPolicy, type: :policy do
     end
 
     %w(admin coordinator).each do |role|
-      context "inviting a #{role}" do
+      context "when inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
         it { expect(subject).to forbid_action(:new) }
@@ -41,11 +41,11 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
-  context 'as a social_worker' do
+  context 'when a social_worker' do
     let(:user) { build(:user, role: 'social_worker') }
 
     %w(social_worker volunteer).each do |role|
-      context "inviting a #{role}" do
+      context "when inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
         it { expect(subject).to permit_action(:new) }
@@ -53,7 +53,7 @@ RSpec.describe UserPolicy, type: :policy do
     end
 
     %w(coordinator admin).each do |role|
-      context "inviting a #{role}" do
+      context "when inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
         it { expect(subject).to forbid_action(:new) }
@@ -61,11 +61,11 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
-  context 'as a volunteer' do
+  context 'when a volunteer' do
     let(:user) { build(:user, role: 'volunteer') }
 
     User::ROLES.each do |role|
-      context "inviting a #{role}" do
+      context "when inviting a #{role}" do
         subject { described_class.new(user, build(:user, role: role)) }
 
         it { expect(subject).to forbid_action(:new) }
@@ -141,10 +141,10 @@ RSpec.describe UserPolicy, type: :policy do
   # TODO: auto-generated
   describe '#permitted_attributes_for_account_update' do
     it 'permitted_attributes_for_account_update' do
-      user = double('user')
-      other_user = double('other_user')
+      user        = double('user')
+      other_user  = double('other_user')
       user_policy = described_class.new(user, other_user)
-      result = user_policy.permitted_attributes_for_account_update
+      result      = user_policy.permitted_attributes_for_account_update
 
       expect(result).not_to be_nil
     end

@@ -41,8 +41,15 @@ class User < ApplicationRecord
            class_name: 'Need',
            source:     'need'
 
-  belongs_to :first_language, optional: true, class_name: 'Language'
-  belongs_to :second_language, optional: true, class_name: 'Language'
+  belongs_to :first_language,
+             optional:   true,
+             class_name: 'Language',
+             inverse_of: :primary_speakers
+
+  belongs_to :second_language,
+             optional:   true,
+             class_name: 'Language',
+             inverse_of: :secondary_speakers
 
   validates :first_name,
             :last_name,
@@ -78,8 +85,8 @@ class User < ApplicationRecord
   validates :role,
             inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
-  validate :has_at_least_one_office
-  validate :has_at_least_one_age_range,
+  validate :at_least_one_office
+  validate :at_least_one_age_range,
            if: :require_volunteer_profile_attributes?
 
   scope :coordinators, -> { where(role: COORDINATOR) }
@@ -100,7 +107,8 @@ class User < ApplicationRecord
 
   def self.volunteerable_by_language
     volunteerable
-      .joins('INNER JOIN languages ON languages.id IN (users.first_language_id, users.second_language_id)')
+      .joins('INNER JOIN languages ON languages.id IN '\
+               '(users.first_language_id, users.second_language_id)')
       .group('languages.name')
   end
 
@@ -124,13 +132,13 @@ class User < ApplicationRecord
       .where(blockouts: { id: nil })
   end
 
-  def has_at_least_one_office
+  def at_least_one_office
     return if offices.any?
 
     errors.add(:base, 'At least one office assignment is required')
   end
 
-  def has_at_least_one_age_range
+  def at_least_one_age_range
     return if age_ranges.any?
 
     errors.add(:base, 'At least one age range selection is required')

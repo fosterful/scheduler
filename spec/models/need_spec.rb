@@ -44,7 +44,7 @@ RSpec.describe Need, type: :model do
     end
   end
 
-  context 'reporting' do
+  context 'when reporting' do
     let(:wa_address1) { build(:address, :wa) }
     let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
     let(:wa_office1) { create(:wa_office, address: wa_address1) }
@@ -56,10 +56,34 @@ RSpec.describe Need, type: :model do
     let(:wa_user1) { create(:user, offices: [wa_office1]) }
     let(:wa_user2) { create(:user, offices: [wa_office2]) }
     let(:or_user) { create(:user, offices: [or_office]) }
-    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 120, office: wa_office1) }
-    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2) }
-    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2) }
-    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office) }
+    let(:wa_need1) do
+      create(:need_with_shifts,
+             user:               wa_sw1,
+             number_of_children: 1,
+             expected_duration:  120,
+             office:             wa_office1)
+    end
+    let(:wa_need2) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  240,
+             office:             wa_office2)
+    end
+    let!(:unmet_wa_need) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  120,
+             office:             wa_office2)
+    end
+    let(:or_need) do
+      create(:need_with_shifts,
+             user:               or_sw,
+             number_of_children: 3,
+             expected_duration:  120,
+             office:             or_office)
+    end
 
     before do
       or_need.shifts.first.update(user: or_user) # 3 child served
@@ -70,7 +94,10 @@ RSpec.describe Need, type: :model do
 
     describe '.total_children_served' do
       it 'returns the total number of children served' do
-        expect(described_class.total_children_served).to eql(wa_need1.number_of_children + wa_need2.number_of_children + or_need.number_of_children)
+        expect(described_class.total_children_served)
+          .to eql(wa_need1.number_of_children +
+                    wa_need2.number_of_children +
+                    or_need.number_of_children)
       end
     end
   end
