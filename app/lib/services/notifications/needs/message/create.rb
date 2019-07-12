@@ -14,9 +14,8 @@ module Services
                    to: :need
 
           def message
-            "A new need starting #{starting_day} at "\
-                "#{start_at.strftime('%I:%M%P')} has opened up at your local " \
-                "office! #{url}".freeze
+            "A new need starting #{starting_day} at #{start_time} has opened "\
+              "up at your local office! #{url}".freeze
           end
 
           private

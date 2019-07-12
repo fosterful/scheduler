@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# require 'app/lib/services/notifications/needs/message/create'
-# require 'app/lib/services/notifications/needs/message/update'
-# require 'app/lib/services/notifications/needs/message/destroy'
-
 module Services
   module Notifications
     class Needs
