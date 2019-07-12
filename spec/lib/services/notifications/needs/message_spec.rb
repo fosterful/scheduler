@@ -7,41 +7,37 @@ RSpec.describe Services::Notifications::Needs::Message do
     let(:object) { described_class.new(need, action) }
     let(:need) { create(:need, start_at: starts) }
     let(:starts) { Time.zone.now.tomorrow.change(hour: 12, minute: 0) }
-    let(:day_str) { starts.to_s(:month_day) }
-    let(:time_str) { starts.strftime('%I:%M%P') }
-    let(:url) { "http://localhost:3000/needs/#{need.id}" }
 
     context 'on create' do
       let(:action) { :create }
+      let(:klass) { Services::Notifications::Needs::Message::Create }
 
-      it 'returns expected message for create event' do
-        result = object.message
+      it 'correctly routes create event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        expect(result)
-          .to eql("A new need starting #{day_str} at #{time_str} has opened "\
-                  "up at your local office! #{url}")
+        object.message
       end
     end
 
     context 'on update' do
       let(:action) { :update }
+      let(:klass) { Services::Notifications::Needs::Message::Update }
 
-      it 'returns expected message for update event' do
-        result = object.message
+      it 'correctly routes update event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        expect(result)
-          .to eql("A new need starting #{day_str} at #{time_str} has opened "\
-                  "up at your local office! #{url}")
+        object.message
       end
     end
 
     context 'on destroy' do
       let(:action) { :destroy }
+      let(:klass) { Services::Notifications::Needs::Message::Destroy }
 
-      it 'returns expected message for destroy event' do
-        result = object.message
+      it 'correctly routes destroy event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        expect(result).to eql("A need at #{need.office} has been deleted.")
+        object.message
       end
     end
   end

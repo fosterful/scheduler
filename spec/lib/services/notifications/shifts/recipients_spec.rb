@@ -9,52 +9,37 @@ RSpec.describe Services::Notifications::Shifts::Recipients do
     let(:office) { shift.need.office }
     let(:volunteer) { create(:user, offices: [office]) }
     let(:event_data) { { current_user: volunteer } }
-    let(:scheduler) { office.users.social_workers.first }
-    let(:coordinator) { create(:coordinator, offices: [office]) }
-    let!(:office_staff) { [scheduler, coordinator] }
 
-    context 'when create' do
+    context 'on create' do
       let(:action) { :create }
+      let(:klass) { Services::Notifications::Shifts::Recipients::Create }
 
-      it 'returns expected users' do
-        coordinator.update(age_range_ids: shift.need.age_range_ids)
-        shift.need.update!(user: scheduler)
+      it 'correctly routes create event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        result = object.recipients
-
-        expect(result).to eql([coordinator])
+        object.recipients
       end
     end
 
-    context 'when update' do
+    context 'on update' do
       let(:action) { :update }
-      let(:event_data) { { current_user: volunteer } }
+      let(:klass) { Services::Notifications::Shifts::Recipients::Update }
 
-      it 'returns expected users' do
-        shift.need.update!(user: volunteer)
-        shift.user = volunteer
+      it 'correctly routes update event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        result = object.recipients
-
-        expect(result).to eql([scheduler, volunteer])
+        object.recipients
       end
     end
 
-    context 'when destroy' do
+    context 'on destroy' do
       let(:action) { :destroy }
+      let(:klass) { Services::Notifications::Shifts::Recipients::Destroy }
 
-      it 'returns shift user if present' do
-        shift.update!(user: volunteer)
+      it 'correctly routes destroy event' do
+        expect(klass).to receive(:new).and_return(spy(klass))
 
-        result = object.recipients
-
-        expect(result).to eql([volunteer])
-      end
-
-      it 'returns empty collection if no shift user' do
-        result = object.recipients
-
-        expect(result).to eql([])
+        object.recipients
       end
     end
   end
