@@ -9,7 +9,7 @@ RSpec.describe ShiftPolicy do
   let(:creator) { build :user, role: 'social_worker' }
   let(:record) { build :shift, user: creator }
 
-  context 'for volunteers' do
+  context 'when for volunteers' do
     let(:user) { build :user, role: 'volunteer' }
 
     context 'of the office' do
@@ -20,7 +20,7 @@ RSpec.describe ShiftPolicy do
       it { is_expected.to forbid_action(:update) }
       it { is_expected.to forbid_action(:destroy) }
 
-      context 'assigned as the shift user' do
+      context 'when assigned as the shift user' do
         let(:record) { build :shift, user: user }
 
         it { is_expected.to permit_action(:update) }
@@ -33,12 +33,12 @@ RSpec.describe ShiftPolicy do
       end
     end
 
-    context 'not of the office' do
+    context 'when not of the office' do
       it { is_expected.to forbid_action(:update) }
     end
   end
 
-  context 'for social workers' do
+  context 'when for social workers' do
     let(:user) { build :user, role: 'social_worker' }
 
     before { record.need.office.users << user }
@@ -50,17 +50,18 @@ RSpec.describe ShiftPolicy do
   end
 
   describe '.scope' do
-    context 'for admins' do
+    context 'when for admins' do
       let!(:admin) { create(:user, role: 'admin') }
 
       before { create_list(:need_with_shifts, 2) }
 
       it 'contains all' do
-        expect(described_class::Scope.new(admin, Shift).resolve).to contain_exactly(*Shift.all)
+        expect(described_class::Scope.new(admin, Shift).resolve)
+          .to contain_exactly(*Shift.all)
       end
     end
 
-    context 'for non-admins' do
+    context 'when for non-admins' do
       let(:office1) { create(:office) }
       let(:office2) { create(:office) }
       let(:user) { create(:user) }
@@ -72,7 +73,10 @@ RSpec.describe ShiftPolicy do
       end
 
       it "contains only needs for the user's office" do
-        expect(described_class::Scope.new(user, Shift).resolve).to contain_exactly(*Shift.joins(:need).where(needs: { office_id: office1.id }))
+        expect(described_class::Scope.new(user, Shift).resolve)
+          .to contain_exactly(*Shift
+                                 .joins(:need)
+                                 .where(needs: { office_id: office1.id }))
       end
     end
   end

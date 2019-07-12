@@ -3,6 +3,9 @@
 class SendTextMessageWorker
   include Sidekiq::Worker
 
+  TWILIO_SID    = Rails.configuration.try(:twilio_messaging_service_id)
+  TWILIO_NUMBER = Rails.configuration.try(:twilio_number)
+
   def perform(number, message)
     # TODO: remove guard clause
     # once notification refactor
@@ -10,10 +13,12 @@ class SendTextMessageWorker
     # phone numbers are valid.
     return if TelephoneNumber.invalid?(number, :US, %i(mobile))
 
-    if Rails.env.production?
-      $twilio.api.account.messages.create(messaging_service_sid: Rails.configuration.twilio_messaging_service_sid, to: number, body: message)
-    else
-      $twilio.api.account.messages.create(from: Rails.configuration.twilio_number, to: number, body: message)
-    end
+    params = if Rails.env.production?
+               { messaging_service_sid: TWILIO_SID }
+             else
+               { from: TWILIO_NUMBER }
+             end.merge(to: number, body: message)
+
+    $twilio.api.account.messages.create(params)
   end
 end

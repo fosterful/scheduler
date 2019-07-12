@@ -14,8 +14,12 @@ RSpec.describe Office, type: :model do
     let(:lang3) { create(:language, name: 'Lang3') }
     let(:wa_address1) { build(:address, :wa) }
     let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
-    let(:wa_office1) { create(:wa_office, address: wa_address1).tap { wa_address1.save! } }
-    let(:wa_office2) { create(:wa_office, address: wa_address2).tap { wa_address2.save! } }
+    let(:wa_office1) do
+      create(:wa_office, address: wa_address1).tap { wa_address1.save! }
+    end
+    let(:wa_office2) do
+      create(:wa_office, address: wa_address2).tap { wa_address2.save! }
+    end
     let(:or_office) { create(:or_office) }
     let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1]) }
     let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2]) }
