@@ -21,7 +21,10 @@ class Office < ApplicationRecord
   end
 
   def self.claimed_shifts_by_county(state)
-    with_claimed_shifts.joins(:address).where(addresses: { state: state }).group('addresses.county')
+    with_claimed_shifts
+      .joins(:address)
+      .where(addresses: { state: state })
+      .group('addresses.county')
   end
 
   def self.claimed_needs_by_office
@@ -33,7 +36,10 @@ class Office < ApplicationRecord
   end
 
   def self.claimed_needs_by_county(state)
-    with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county')
+    with_claimed_needs
+      .joins(:address)
+      .where(addresses: { state: state })
+      .group('addresses.county')
   end
 
   def self.with_preferred_language

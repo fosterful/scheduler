@@ -25,11 +25,46 @@ RSpec.describe Office, type: :model do
     let(:wa_user2) { create(:user, offices: [wa_office2]) }
     let(:wa_user3) { create(:user, offices: [wa_office2]) }
     let(:or_user) { create(:user, offices: [or_office]) }
-    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 60, office: wa_office1, preferred_language: lang1) }
-    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2, preferred_language: lang1) }
-    let(:wa_need3) { create(:need_with_shifts, user: wa_sw2, number_of_children: 7, expected_duration: 120, office: wa_office2, preferred_language: lang1) }
-    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2, preferred_language: lang3) }
-    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office, preferred_language: lang2) }
+    let(:wa_need1) do
+      create(:need_with_shifts,
+             user:               wa_sw1,
+             number_of_children: 1,
+             expected_duration:  60,
+             office:             wa_office1,
+             preferred_language: lang1)
+    end
+    let(:wa_need2) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  240,
+             office:             wa_office2,
+             preferred_language: lang1)
+    end
+    let(:wa_need3) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 7,
+             expected_duration:  120,
+             office:             wa_office2,
+             preferred_language: lang1)
+    end
+    let!(:unmet_wa_need) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  120,
+             office:             wa_office2,
+             preferred_language: lang3)
+    end
+    let(:or_need) do
+      create(:need_with_shifts,
+             user:               or_sw,
+             number_of_children: 3,
+             expected_duration:  120,
+             office:             or_office,
+             preferred_language: lang2)
+    end
 
     before do
       or_need.shifts.first.update(user: or_user)
@@ -41,43 +76,50 @@ RSpec.describe Office, type: :model do
 
     describe '.total_volunteer_minutes_by_office' do
       it 'returns the total volunteer minutes grouped by office' do
-        expect(described_class.total_volunteer_minutes_by_office).to eql(or_office.id => 60, wa_office1.id => 60, wa_office2.id => 360)
+        expect(described_class.total_volunteer_minutes_by_office)
+          .to eql(or_office.id => 60, wa_office1.id => 60, wa_office2.id => 360)
       end
     end
 
     describe '.total_volunteer_minutes_by_state' do
       it 'returns the total volunteer minutes groupe by state' do
-        expect(described_class.total_volunteer_minutes_by_state).to eql('OR' => 60, 'WA' => 420)
+        expect(described_class.total_volunteer_minutes_by_state)
+          .to eql('OR' => 60, 'WA' => 420)
       end
     end
 
     describe '.total_volunteer_minutes_by_county' do
       it 'returns the total volunteer minutes groupe by county' do
-        expect(described_class.total_volunteer_minutes_by_county('WA')).to eql('Lewis' => 360, 'Clark' => 60)
+        expect(described_class.total_volunteer_minutes_by_county('WA'))
+          .to eql('Lewis' => 360, 'Clark' => 60)
       end
     end
 
     describe '.total_children_served_by_office' do
       it 'returns the total children served grouped by office' do
-        expect(described_class.total_children_served_by_office).to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
+        expect(described_class.total_children_served_by_office)
+          .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
       end
     end
 
     describe '.total_children_served_by_state' do
       it 'returns the total children served group by state' do
-        expect(described_class.total_children_served_by_state).to eql('OR' => 3, 'WA' => 10)
+        expect(described_class.total_children_served_by_state)
+          .to eql('OR' => 3, 'WA' => 10)
       end
     end
 
     describe '.total_children_served_by_county' do
-      it 'returns the total children served in a given state grouped by county' do
-        expect(described_class.total_children_served_by_county('WA')).to eql('Lewis' => 9, 'Clark' => 1)
+      it 'returns the total children served in given state grouped by county' do
+        expect(described_class.total_children_served_by_county('WA'))
+          .to eql('Lewis' => 9, 'Clark' => 1)
       end
     end
 
     describe '.total_children_by_demographic' do
       it 'returns the total children with each preferred_language' do
-        expect(described_class.total_children_by_demographic).to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
+        expect(described_class.total_children_by_demographic)
+          .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
       end
     end
   end
@@ -131,7 +173,7 @@ RSpec.describe Office, type: :model do
   # TODO: auto-generated
   describe '.claimed_shifts_by_county' do
     it 'claimed_shifts_by_county' do
-      state = double('state')
+      state  = double('state')
       result = described_class.claimed_shifts_by_county(state)
 
       expect(result).not_to be_nil
@@ -159,7 +201,7 @@ RSpec.describe Office, type: :model do
   # TODO: auto-generated
   describe '.claimed_needs_by_county' do
     it 'claimed_needs_by_county' do
-      state = double('state')
+      state  = double('state')
       result = described_class.claimed_needs_by_county(state)
 
       expect(result).not_to be_nil
