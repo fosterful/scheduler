@@ -156,86 +156,75 @@ RSpec.describe Office, type: :model do
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_shifts_by_office' do
     it 'claimed_shifts_by_office' do
       result = described_class.claimed_shifts_by_office
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_shifts_by_state' do
     it 'claimed_shifts_by_state' do
       result = described_class.claimed_shifts_by_state
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_shifts_by_county' do
     it 'claimed_shifts_by_county' do
-      state  = double('state')
-      result = described_class.claimed_shifts_by_county(state)
+      result = described_class.claimed_shifts_by_county('WA')
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_needs_by_office' do
     it 'claimed_needs_by_office' do
       result = described_class.claimed_needs_by_office
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_needs_by_state' do
     it 'claimed_needs_by_state' do
       result = described_class.claimed_needs_by_state
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.claimed_needs_by_county' do
     it 'claimed_needs_by_county' do
-      state  = double('state')
-      result = described_class.claimed_needs_by_county(state)
+      result = described_class.claimed_needs_by_county('WA')
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.with_preferred_language' do
     it 'with_preferred_language' do
       result = described_class.with_preferred_language
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.users_by_race' do
     it 'users_by_race' do
       result = described_class.users_by_race
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.total_volunteers_by_race' do
     it 'total_volunteers_by_race' do
       result = described_class.total_volunteers_by_race
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 

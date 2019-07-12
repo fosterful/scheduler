@@ -272,48 +272,48 @@ RSpec.describe User, type: :model do
     end
   end
 
-  # TODO: auto-generated
   describe '#volunteerable?' do
     it 'volunteerable?' do
       user   = described_class.new
       result = user.volunteerable?
 
-      expect(result).not_to be_nil
+      expect(result).to be false
     end
   end
 
-  # TODO: auto-generated
   describe '.notifiable' do # scope test
     it 'supports named scope notifiable' do
-      expect(described_class.limit(3).notifiable).to all(be_a(described_class))
+      result = described_class.notifiable
+
+      expect(result).to all(be_a(described_class))
     end
   end
 
-  # TODO: auto-generated
   describe '.shifts_by_user' do
     it 'shifts_by_user' do
       result = described_class.shifts_by_user
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '.volunteerable_by_language' do
     it 'volunteerable_by_language' do
       result = described_class.volunteerable_by_language
 
-      expect(result).not_to be_nil
+      expect(result).to be_empty
     end
   end
 
-  # TODO: auto-generated
   describe '#to_s' do
+    before do
+      user.first_name = 'Santa'
+      user.last_name  = 'Claus'
+    end
     it 'to_s' do
-      user   = described_class.new
       result = user.to_s
 
-      expect(result).not_to be_nil
+      expect(result).to eql('Santa Claus')
     end
   end
 
