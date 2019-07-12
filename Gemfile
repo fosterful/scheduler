@@ -97,13 +97,13 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'hint-rubocop_style'
+  gem 'hint-rubocop_style', '~> 0.3.2'
 end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'mutant'
-  gem 'mutant-rspec'
+  gem 'mutant',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
+  gem 'mutant-rspec',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
   gem 'selenium-webdriver'
 end
 
