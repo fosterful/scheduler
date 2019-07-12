@@ -8,7 +8,8 @@ class BlockoutsController < ApplicationController
       if Services::ExpandRecurringBlockout.call(@blockout)
         render json: @blockout
       else
-        render json: { error: @blockout.errors.full_messages.to_sentence }, status: :unprocessable_entity
+        render json:   { error: @blockout.errors.full_messages.to_sentence },
+               status: :unprocessable_entity
       end
     end
   end
@@ -21,7 +22,8 @@ class BlockoutsController < ApplicationController
       if Services::ExpandRecurringBlockout.call(@blockout)
         render json: @blockout
       else
-        render json: { error: @blockout.errors.full_messages.to_sentence }, status: :unprocessable_entity
+        render json:   { error: @blockout.errors.full_messages.to_sentence },
+               status: :unprocessable_entity
       end
     end
   end

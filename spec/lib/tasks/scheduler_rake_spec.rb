@@ -12,8 +12,8 @@ describe 'scheduler:update_blockouts' do
 
       blockout = create :blockout_with_occurrences,
                         start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'),
-                        end_at: Time.zone.parse('2019-01-09 10:00:00 -0800'),
-                        rrule: "FREQ=DAILY;UNTIL=#{Time.zone.parse('2019-01-29')}"
+                        end_at:   Time.zone.parse('2019-01-09 10:00:00 -0800'),
+                        rrule:    "FREQ=DAILY;UNTIL=#{Time.zone.parse('2019-01-29')}"
 
       expect(blockout.occurrences.count).to eq(16)
 
@@ -40,8 +40,8 @@ describe 'scheduler:update_blockouts' do
 
       blockout = create :blockout_with_occurrences,
                         start_at: Time.zone.parse('2019-01-14 09:00:00 -0800'),
-                        end_at: Time.zone.parse('2019-01-14 10:00:00 -0800'),
-                        rrule: 'FREQ=DAILY'
+                        end_at:   Time.zone.parse('2019-01-14 10:00:00 -0800'),
+                        rrule:    'FREQ=DAILY'
 
       expect(blockout.occurrences.count).to eq(11)
 
