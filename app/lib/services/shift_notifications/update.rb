@@ -38,16 +38,16 @@ module Services
 
       def notification_hash
         if current_user == user && user
-          { users: (need.office.users.social_workers | [need.user]),
+          { users:   (need.office.users.social_workers | [need.user]),
             message: "#{user.first_name} #{user.last_name} has taken the shift #{starting_day} from #{shift_duration_in_words}." }
         elsif user.nil? && current_user.id == user_id_was
-          { users: (need.office.users.social_workers | [need.user]),
+          { users:   (need.office.users.social_workers | [need.user]),
             message: "#{current_user.first_name} #{current_user.last_name} has unassigned themself from the #{shift_duration_in_words} shift #{starting_day}." }
         elsif current_user.scheduler? && user
-          { users: [user],
+          { users:   [user],
             message: "You have been assigned a shift #{starting_day} from #{shift_duration_in_words}." }
         elsif current_user.scheduler? && user.nil?
-          { users: User.where(id: user_id_was),
+          { users:   User.where(id: user_id_was),
             message: "You have been unassigned from the #{shift_duration_in_words} shift #{starting_day}." }
         else
           { users: [], message: '' }

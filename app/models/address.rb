@@ -33,9 +33,9 @@ class Address < ApplicationRecord
     if address.present?
       verifier = MainStreet::AddressVerifier.new(address)
       if verifier.success?
-        assign_attributes(latitude: verifier.latitude,
+        assign_attributes(latitude:  verifier.latitude,
                           longitude: verifier.longitude,
-                          county: verifier.result.data['metadata']['county_name'])
+                          county:    verifier.result.data['metadata']['county_name'])
       else
         errors.add(:base, verifier.failure_message)
       end

@@ -30,16 +30,16 @@ module Services
     def rrule
       OmdRrule.new(blockout.rrule,
                    dtstart: blockout.start_at,
-                   exdate: blockout.exdate,
-                   tzid: blockout.user.time_zone)
+                   exdate:  blockout.exdate,
+                   tzid:    blockout.user.time_zone)
     end
 
     def occurrences
       rrule.current_occurrence_times.map do |rt|
         Blockout.new shared_attributes.merge(
           parent_id: blockout.id,
-          start_at: rt,
-          end_at: rt.advance(seconds: blockout.duration_in_seconds)
+          start_at:  rt,
+          end_at:    rt.advance(seconds: blockout.duration_in_seconds)
         )
       end
     end
