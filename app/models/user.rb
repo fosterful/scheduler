@@ -144,7 +144,7 @@ class User < ApplicationRecord
 
   ROLES.each do |role|
     define_method "#{role}?" do
-      self.role === role
+      self.role.eql?(role)
     end
   end
 

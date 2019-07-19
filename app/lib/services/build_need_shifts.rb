@@ -23,8 +23,10 @@ module Services
 
     def calculate_shift_lengths
       shift_count = duration / SHIFT_LENGTH
-      shift_count.times.map.with_index do |_n, index|
-        index == (shift_count - 1) ? (SHIFT_LENGTH + (duration % SHIFT_LENGTH)) : SHIFT_LENGTH
+      Array.new(shift_count) do |i|
+        next SHIFT_LENGTH unless i.equal?(shift_count - 1)
+
+        SHIFT_LENGTH + (duration % SHIFT_LENGTH)
       end
     end
   end

@@ -2,7 +2,11 @@
 
 class Address < ApplicationRecord
   belongs_to :addressable, polymorphic: true
-  validates :street, :city, :state, :postal_code, presence: true
+  validates :street,
+            :city,
+            :state,
+            :postal_code,
+            presence: true
   validate :validate_and_geocode, if: :validate_and_geocode?
 
   ADDRESS_FIELDS = %i(street street2 city county state postal_code).freeze

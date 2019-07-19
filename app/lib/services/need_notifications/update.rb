@@ -19,7 +19,11 @@ module Services
 
       def call
         users_to_notify.each do |user|
-          SendTextMessageWorker.perform_async(user.phone, "A new need starting #{starting_day} at #{start_at.strftime('%I:%M%P')} has opened up at your local office! #{url}")
+          SendTextMessageWorker
+            .perform_async(user.phone,
+                           "A new need starting #{starting_day} at "\
+                             "#{start_at.strftime('%I:%M%P')} has opened up "\
+                             "at your local office! #{url}")
         end
       end
 

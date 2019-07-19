@@ -43,6 +43,7 @@ module Services
         )
       end
     end
+
     memoize(:occurrences)
 
     def shared_attributes

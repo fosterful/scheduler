@@ -6,9 +6,9 @@ module Admin
       resource = invite_resource
       if resource.errors.empty?
         return redirect_to(
-                 [namespace, resource],
-                 notice: translate_with_resource('create.success')
-               )
+          [namespace, resource],
+          notice: translate_with_resource('create.success')
+        )
       end
 
       render :new,

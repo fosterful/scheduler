@@ -20,7 +20,8 @@ module Services
                to: :need
 
       def call
-        msg = "A new shift from #{shift_duration_in_words} #{starting_day} has been added to a need at your local office! #{url}"
+        msg = "A new shift from #{shift_duration_in_words} #{starting_day} "\
+                "has been added to a need at your local office! #{url}"
         users_to_notify.each do |user|
           SendTextMessageWorker.perform_async(user.phone, msg)
         end

@@ -11,7 +11,9 @@ module Services
 
       def call
         (office.users.schedulers | need.users).each do |user|
-          SendTextMessageWorker.perform_async(user.phone, "A need at #{office.name} has been deleted.")
+          SendTextMessageWorker
+            .perform_async(user.phone,
+                           "A need at #{office.name} has been deleted.")
         end
       end
     end
