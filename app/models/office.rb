@@ -9,6 +9,8 @@ class Office < ApplicationRecord
 
   accepts_nested_attributes_for :address, update_only: true
 
+  alias_attribute :to_s, :name
+
   scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
   scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
 
