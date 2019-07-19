@@ -20,7 +20,7 @@ module ApplicationHelper
 
   def offices_for_select(scope)
     scope.offices.map do |o|
-      ["#{o.name} | #{o.address.state} | Region: #{o.region}", o.id]
+      ["#{o} | #{o.address.state} | Region: #{o.region}", o.id]
     end
   end
 

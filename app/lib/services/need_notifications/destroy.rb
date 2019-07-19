@@ -13,7 +13,7 @@ module Services
         (office.users.schedulers | need.users).each do |user|
           SendTextMessageWorker
             .perform_async(user.phone,
-                           "A need at #{office.name} has been deleted.")
+                           "A need at #{office} has been deleted.")
         end
       end
     end
