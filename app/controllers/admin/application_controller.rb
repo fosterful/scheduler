@@ -13,7 +13,7 @@ module Admin
     before_action :authenticate_admin
 
     def authenticate_admin
-      return if current_user&.role == 'admin'
+      return if current_user&.role.eql?('admin')
 
       redirect_to root_path, flash: { error: 'Not authorized.' }
     end

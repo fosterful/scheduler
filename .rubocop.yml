@@ -22,4 +22,3 @@ Metrics/BlockLength:
 
 Metrics/ClassLength:
   Max: 150
-    - 'spec/**/*'

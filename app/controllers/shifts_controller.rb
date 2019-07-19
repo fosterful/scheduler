@@ -15,7 +15,7 @@ class ShiftsController < ApplicationController
       Services::ShiftNotifications::Create.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Created!'
     else
-      flash[:alert] = 'Whoops! something went wrong.'
+      flash[:alert] = DEFAULT_ERROR
     end
     redirect_to need_shifts_path(@need)
   end
@@ -30,7 +30,7 @@ class ShiftsController < ApplicationController
       Services::ShiftNotifications::Update.call(@shift, current_user, user_id_was)
       flash[:notice] = permitted_attributes(@shift).fetch('user_id').present? ? 'Shift Claimed!' : 'Shift Released!'
     else
-      flash[:alert] = 'Whoops! something went wrong.'
+      flash[:alert] = DEFAULT_ERROR
     end
     redirect_to params[:redirect_to] || @need
   end
@@ -43,7 +43,7 @@ class ShiftsController < ApplicationController
       Services::ShiftNotifications::Destroy.call(@shift, need_url(@need))
       flash[:notice] = 'Shift Successfully Destroyed'
     else
-      flash[:alert] = @shift.errors.full_messages.first.presence || 'Whoops! something went wrong.'
+      flash[:alert] = @shift.errors.full_messages.first.presence || DEFAULT_ERROR
     end
     redirect_to need_shifts_path(@need)
   end
