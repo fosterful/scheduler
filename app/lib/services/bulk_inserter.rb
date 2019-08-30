@@ -9,7 +9,7 @@ module Services
       include Adamantium::Flat
 
       def insert
-        raise(BulkInserter::Error, 'Some records were invalid!') if records.any? { |r| !r.valid? }
+        raise(BulkInserter::Error, 'Some records were invalid!') if records.any?(&:invalid?)
 
         ActiveRecord::Base.connection.execute(insert_sql)
       end
@@ -27,7 +27,8 @@ module Services
         names = records.map { |r| present_attributes_for(r).keys }
         names.inject do |a, b|
           unless a.eql?(b)
-            raise(BulkInserter::Error, 'All records must have the same attributes present')
+            raise(BulkInserter::Error,
+                  'All records must have the same attributes present')
           end
 
           b
@@ -37,7 +38,10 @@ module Services
       def table_name
         names = records.map { |r| r.class.table_name }
         names.inject do |a, b|
-          raise(BulkInserter::Error, 'All records must have the same table name') unless a.eql?(b)
+          unless a.eql?(b)
+            raise(BulkInserter::Error,
+                  'All records must have the same table name')
+          end
 
           b
         end
@@ -64,7 +68,8 @@ module Services
       end
 
       def insert_sql
-        "INSERT INTO #{table_name} (#{column_names.join(', ')}) VALUES #{values_sql}"
+        "INSERT INTO #{table_name} (#{column_names.join(', ')}) "\
+          "VALUES #{values_sql}"
       end
     end
   end

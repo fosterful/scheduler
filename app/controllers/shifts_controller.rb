@@ -68,7 +68,11 @@ class ShiftsController < ApplicationController
 
       flash[:notice] = 'Shift Successfully Destroyed'
     else
-      flash[:alert] = @shift.errors.full_messages.first.presence || DEFAULT_ERROR
+      flash[:alert] = @shift
+                        .errors
+                        .full_messages
+                        .first
+                        .presence || DEFAULT_ERROR
     end
 
     redirect_to need_shifts_path(@need)

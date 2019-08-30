@@ -40,11 +40,11 @@ class UserPolicy < ApplicationPolicy
     return true if user.scheduler? && other_user == User
 
     case user.role
-      when 'admin'
+      when User::ADMIN
         true
-      when 'coordinator'
+      when User::COORDINATOR
         other_user.role.in? %w(volunteer social_worker)
-      when 'social_worker'
+      when User::SOCIAL_WORKER
         other_user.role.in? %w(volunteer social_worker)
       else
         false

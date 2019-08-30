@@ -39,7 +39,10 @@ RSpec.describe 'Shifts', type: :request do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
 
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         expect(flash[:alert]).to eql('Whoops! Something went wrong.')
       end
     end

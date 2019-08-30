@@ -12,5 +12,6 @@ class Language < ApplicationRecord
            dependent:   :restrict_with_error,
            inverse_of:  :second_langauge
   has_many :needs, dependent: :restrict_with_error
+
   validates :name, presence: true
 end
