@@ -68,7 +68,7 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
 
 RUN mkdir -p "$GEM_HOME" && chown -R $USER:$USER "$GEM_HOME"
 
-RUN mkdir -p /app && RUN chown -R $USER:$USER /app
+RUN mkdir -p /app && chown -R $USER:$USER /app
 
 WORKDIR /app
 
