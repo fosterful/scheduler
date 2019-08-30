@@ -66,13 +66,14 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
   apt-get install -y postgresql-client \
 ;fi
 
-RUN mkdir -p "$GEM_HOME" && chown -R $USER:$USER "$GEM_HOME"
-
-RUN mkdir -p /app && chown -R $USER:$USER /app
+RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
+RUN mkdir -p /app && chown $USER:$USER /app
 
 WORKDIR /app
 
-RUN mkdir -p node_modules && chown -R $USER:$USER node_modules
+RUN mkdir -p node_modules && chown $USER:$USER node_modules
+RUN mkdir -p public/packs && chown $USER:$USER public/packs
+RUN mkdir -p tmp/cache && chown $USER:$USER tmp/cache
 
 USER $USER
 
