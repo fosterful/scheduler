@@ -11,6 +11,14 @@ AllCops:
     - 'config/**/*'
     - 'db/**/*'
     - 'Gemfile*'
+    - 'node_modules/**/*'
     - 'script/**/*'
-    - 'test/**/*'
+    - 'spec/**/*'
     - 'vendor/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'lib/tasks/**/*'
+
+Metrics/ClassLength:
+  Max: 150

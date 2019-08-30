@@ -33,7 +33,7 @@ RSpec.describe 'Shifts', type: :request do
       it 'renders the new view' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
         post need_shifts_path(need), params: { shift: attributes_for(:shift) }
-        expect(flash[:alert]).to eql('Whoops! something went wrong.')
+        expect(flash[:alert]).to eql('Whoops! Something went wrong.')
       end
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe 'Shifts', type: :request do
       it 'sets the flash to display an error message' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
         put need_shift_path(need, shift), params: { shift: { user_id: volunteer.id } }
-        expect(flash[:alert]).to eql('Whoops! something went wrong.')
+        expect(flash[:alert]).to eql('Whoops! Something went wrong.')
       end
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe 'Shifts', type: :request do
         it 'sets the flash to display an error message' do
           expect_any_instance_of(Shift).to receive(:destroy).and_return(false)
           delete need_shift_path(need, shift)
-          expect(flash[:alert]).to eql('Whoops! something went wrong.')
+          expect(flash[:alert]).to eql('Whoops! Something went wrong.')
         end
       end
 

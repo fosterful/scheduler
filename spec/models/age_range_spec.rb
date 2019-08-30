@@ -10,13 +10,13 @@ RSpec.describe AgeRange, type: :model do
   end
 
   describe 'validation' do
-    context 'min is equal to max' do
+    context 'when min is equal to max' do
       it 'record is valid' do
         expect(age_range.valid?).to be(true)
       end
     end
 
-    context 'min is less than max' do
+    context 'when min is less than max' do
       let(:age_range) { build :age_range, min: 1, max: 2 }
 
       it 'record is valid' do
@@ -24,7 +24,7 @@ RSpec.describe AgeRange, type: :model do
       end
     end
 
-    context 'min is greater than max' do
+    context 'when min is greater than max' do
       let(:age_range) { build :age_range, min: 2, max: 1 }
 
       it 'record is not valid' do

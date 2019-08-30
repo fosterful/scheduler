@@ -35,10 +35,10 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#create' do
-    context 'success' do
+    context 'when success' do
       let(:params) do
         {
-          need: attributes_for(:need).merge(office_id: need.office_id,
+          need: attributes_for(:need).merge(office_id:     need.office_id,
                                             age_range_ids: [AgeRange.first.id])
         }
       end
@@ -51,7 +51,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'renders the new view' do
         expect_any_instance_of(Need).to receive(:update).and_return(false)
         post needs_path, params: { need: attributes_for(:need).merge(office_id: need.office_id) }
@@ -68,7 +68,7 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#update' do
-    context 'success' do
+    context 'when success' do
       it 'redirects to the need' do
         expect(Services::NeedNotifications::Update).to receive(:call).and_return(true).once
         put need_path(need), params: { need: { number_of_children: 20 } }
@@ -76,7 +76,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'renders the edit view' do
         expect_any_instance_of(Need).to receive(:save).and_return(false)
         put need_path(need), params: { need: { number_of_children: 20 } }
@@ -86,7 +86,7 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#destroy' do
-    context 'success' do
+    context 'when success' do
       it 'redirects to the index view with success message' do
         expect(Services::NeedNotifications::Destroy).to receive(:call).and_return(true).once
         delete need_path(need)
@@ -95,7 +95,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'redirects to the index view' do
         expect_any_instance_of(Need).to receive(:destroy).and_return(false)
         delete need_path(need)

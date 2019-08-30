@@ -7,6 +7,7 @@ RSpec.describe 'Admin age_ranges spec', type: :request do
 
   it 'does not allow unauthorized access' do
     get admin_age_ranges_path
+
     expect(response).to redirect_to(:root)
   end
 
@@ -15,11 +16,13 @@ RSpec.describe 'Admin age_ranges spec', type: :request do
 
     it 'redirects to show view after creating the office' do
       post admin_age_ranges_path, params: { age_range: { min: 1, max: 1 } }
+
       expect(response).to redirect_to(admin_age_range_path(AgeRange.last))
     end
 
     it 'renders errors if present' do
       post admin_age_ranges_path, params: { age_range: { min: 1 } }
+
       expect(response.body).to include('error')
     end
   end
@@ -31,6 +34,7 @@ RSpec.describe 'Admin age_ranges spec', type: :request do
 
     it 'displays the age_range' do
       get admin_age_range_path(age_range)
+
       expect(response.body).to include('1 to 1')
     end
   end

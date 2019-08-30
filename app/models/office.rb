@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class Office < ApplicationRecord
-  has_one :address, as: :addressable
+  has_one :address, as: :addressable, dependent: :destroy
   has_and_belongs_to_many :users
   has_many :needs, dependent: :destroy
   validates :name, :address, presence: true
   validates :region, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :address, update_only: true
+
+  alias_attribute :to_s, :name
 
   scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
   scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
@@ -21,7 +23,10 @@ class Office < ApplicationRecord
   end
 
   def self.claimed_shifts_by_county(state)
-    with_claimed_shifts.joins(:address).where(addresses: { state: state }).group('addresses.county')
+    with_claimed_shifts
+      .joins(:address)
+      .where(addresses: { state: state })
+      .group('addresses.county')
   end
 
   def self.claimed_needs_by_office
@@ -33,7 +38,10 @@ class Office < ApplicationRecord
   end
 
   def self.claimed_needs_by_county(state)
-    with_claimed_needs.joins(:address).where(addresses: { state: state }).group('addresses.county')
+    with_claimed_needs
+      .joins(:address)
+      .where(addresses: { state: state })
+      .group('addresses.county')
   end
 
   def self.with_preferred_language

@@ -10,8 +10,8 @@ class RaceDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    name: Field::String,
+    id:         Field::Number,
+    name:       Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

@@ -2,7 +2,11 @@
 
 class Address < ApplicationRecord
   belongs_to :addressable, polymorphic: true
-  validates :street, :city, :state, :postal_code, presence: true
+  validates :street,
+            :city,
+            :state,
+            :postal_code,
+            presence: true
   validate :validate_and_geocode, if: :validate_and_geocode?
 
   ADDRESS_FIELDS = %i(street street2 city county state postal_code).freeze
@@ -16,7 +20,7 @@ class Address < ApplicationRecord
   end
 
   def skip_api_validation?
-    ActiveModel::Type::Boolean.new.cast(skip_api_validation)
+    ActiveModel::Type::Boolean.new.cast(skip_api_validation).present?
   end
 
   attr_accessor :skip_api_validation
@@ -29,16 +33,15 @@ class Address < ApplicationRecord
 
   def validate_and_geocode
     address = ADDRESS_FIELDS.map { |v| send(v).presence }.compact.join(', ')
+    return if address.blank?
 
-    if address.present?
-      verifier = MainStreet::AddressVerifier.new(address)
-      if verifier.success?
-        assign_attributes(latitude: verifier.latitude,
-                          longitude: verifier.longitude,
-                          county: verifier.result.data['metadata']['county_name'])
-      else
-        errors.add(:base, verifier.failure_message)
-      end
+    verifier = MainStreet::AddressVerifier.new(address)
+    if verifier.success?
+      assign_attributes(latitude:  verifier.latitude,
+                        longitude: verifier.longitude,
+                        county:    verifier.result.data['metadata']['county_name'])
+    else
+      errors.add(:base, verifier.failure_message)
     end
   end
 end

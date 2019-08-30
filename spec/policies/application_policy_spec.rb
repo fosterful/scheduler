@@ -16,7 +16,7 @@ RSpec.describe ApplicationPolicy, type: :policy do
   it { is_expected.to forbid_action(:update) }
   it { is_expected.to forbid_action(:destroy) }
 
-  context 'for an admin user' do
+  context 'when for an admin user' do
     let(:user) { build(:user, role: 'admin') }
 
     it { is_expected.to permit_action(:index) }
