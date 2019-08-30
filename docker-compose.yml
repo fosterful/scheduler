@@ -3,7 +3,7 @@ version: '3.7'
 x-ruby: &ruby-base
   build:
     context: ./docker/ruby
-    arg:
+    args:
       - RUBY_VERSION=2.6.4
       - NODE_VERSION=12
       - INSTALL_PG_CLIENT=true

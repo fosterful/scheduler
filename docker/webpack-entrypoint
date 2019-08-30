@@ -2,7 +2,7 @@
 
 set -e
 
-until nc -vz app 3000; do
+until nc -vz rails 3000; do
   echo "App has not started, sleeping..."
   sleep 1
 done
