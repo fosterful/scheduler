@@ -2,7 +2,7 @@ ARG RUBY_VERSION=2.6
 
 FROM ruby:$RUBY_VERSION
 
-ARG NODE_VERSION=12
+ARG NODE_VERSION=11
 
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 
@@ -66,12 +66,15 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
   apt-get install -y postgresql-client \
 ;fi
 
-RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
+RUN mkdir -p "$GEM_HOME" && chown -R $USER:$USER "$GEM_HOME"
 
 RUN mkdir -p /app
+
+RUN chown -R $USER:$USER /app
+
 WORKDIR /app
 
-RUN mkdir -p node_modules && chown $USER:$USER node_modules
+RUN mkdir -p node_modules && chown -R $USER:$USER node_modules
 
 USER $USER
 
