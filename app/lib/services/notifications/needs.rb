@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# require 'app/lib/services/notifications/needs/message.rb'
-# require 'app/lib/services/notifications/needs/recipients.rb'
-
 module Services
   module Notifications
     class Needs
