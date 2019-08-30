@@ -17,7 +17,7 @@ module Services
                       Destroy
                   end
 
-          klass.new(need).recipients.select(&:notifiable?)
+          klass.new(need).recipients
         end
       end
     end

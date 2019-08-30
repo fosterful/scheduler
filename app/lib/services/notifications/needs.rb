@@ -6,8 +6,6 @@
 module Services
   module Notifications
     class Needs
-      # include Adamantium::Flat
-
       attr_accessor :message, :recipients
 
       def initialize(need, action, _event_data = {})

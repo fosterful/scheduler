@@ -13,7 +13,7 @@ module Services
                    to: :need
 
           def recipients
-            office.users.schedulers | need.users
+            (office.users.schedulers | need.users).select(&:phone?)
           end
         end
       end
