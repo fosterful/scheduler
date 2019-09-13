@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::NeedNotifications::Create do
-  subject { described_class.call(need, 'https://test.com') }
+RSpec.describe Services::Notifications::Needs::Recipients::Update do
+  subject { described_class.new(need).recipients }
 
   let(:need) do
     build(:need).tap do |need|
@@ -13,15 +13,15 @@ RSpec.describe Services::NeedNotifications::Create do
 
   let(:user) { build(:user) }
 
-  describe '#call' do
-
+  describe '#recipients' do
     it 'does not include the need user/creator' do
       expect(need.office.users).to include(need.user)
       expect(subject).not_to include(need.user)
     end
 
     it 'does not include non-volunteers' do
-      need.office.users << social_worker = build(:user, role: 'social_worker')
+      need.office.users << (social_worker = build(:user, role: 'social_worker'))
+
       expect(subject).not_to include(social_worker)
     end
 
@@ -29,12 +29,15 @@ RSpec.describe Services::NeedNotifications::Create do
       it 'returns volunteers notified' do
         users = build_list(:user, 2, age_ranges: need.age_ranges)
         need.office.users << users
+
         expect(subject).to include(*users)
       end
     end
 
     context 'with volunteers that are not available' do
-      let(:blockout) { build(:blockout, start_at: need.start_at, end_at: need.end_at) }
+      let(:blockout) do
+        build(:blockout, start_at: need.start_at, end_at: need.end_at)
+      end
       let(:unavailable_user) { build(:user, blockouts: [blockout]) }
 
       before { need.office.users << [user, unavailable_user] }
@@ -48,6 +51,7 @@ RSpec.describe Services::NeedNotifications::Create do
       it 'does not notify users again' do
         need.office.users << user
         need.update(notified_user_ids: [user.id])
+
         expect(subject).not_to include(user)
       end
     end
@@ -81,7 +85,6 @@ RSpec.describe Services::NeedNotifications::Create do
         expect(subject).to contain_exactly(user_with_age_range)
       end
     end
-
   end
 
 end

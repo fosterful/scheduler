@@ -93,6 +93,7 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
+  scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
 
@@ -123,7 +124,8 @@ class User < ApplicationRecord
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
       ON blockouts.user_id = users.id
-      AND tsrange(start_at, end_at) && tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
+      AND tsrange(start_at, end_at) &&
+            tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
     SQL
 
     joins(sql)
@@ -160,6 +162,10 @@ class User < ApplicationRecord
 
   def scheduler?
     role.in? [COORDINATOR, SOCIAL_WORKER, ADMIN]
+  end
+
+  def volunteerable?
+    role.in? [COORDINATOR, VOLUNTEER]
   end
 
   private

@@ -14,6 +14,8 @@ class Office < ApplicationRecord
   scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
   scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
 
+  alias_attribute :to_s, :name
+
   def self.claimed_shifts_by_office
     with_claimed_shifts.group('offices.id')
   end
@@ -83,4 +85,9 @@ class Office < ApplicationRecord
   def self.total_volunteers_by_race
     users_by_race.count('users.id')
   end
+
+  def notifiable_users
+    users.notifiable
+  end
+
 end

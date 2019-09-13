@@ -256,4 +256,65 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#notifiable?' do
+    it 'returns false if user does not have a phone' do
+      user.phone = nil
+
+      result = user.notifiable?
+
+      expect(result).to be false
+    end
+
+    it 'returns true if user has a phone' do
+      result = user.notifiable?
+
+      expect(result).to be true
+    end
+  end
+
+  describe '#volunteerable?' do
+    it 'volunteerable?' do
+      user   = described_class.new
+      result = user.volunteerable?
+
+      expect(result).to be false
+    end
+  end
+
+  describe '.notifiable' do # scope test
+    it 'supports named scope notifiable' do
+      result = described_class.notifiable
+
+      expect(result).to all(be_a(described_class))
+    end
+  end
+
+  describe '.shifts_by_user' do
+    it 'shifts_by_user' do
+      result = described_class.shifts_by_user
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.volunteerable_by_language' do
+    it 'volunteerable_by_language' do
+      result = described_class.volunteerable_by_language
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '#to_s' do
+    before do
+      user.first_name = 'Santa'
+      user.last_name  = 'Claus'
+    end
+    it 'to_s' do
+      result = user.to_s
+
+      expect(result).to eql('Santa Claus')
+    end
+  end
+
 end

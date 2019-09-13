@@ -2,41 +2,47 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::ShiftNotifications::Create do
-  subject { described_class.call(shift, 'https://test.com') }
+RSpec.describe Services::Notifications::Shifts::Recipients::Create do
 
-  let(:shift) { create(:need_with_shifts).shifts.first }
-  let(:need) { shift.need }
+  let(:object) { described_class.new(shift, event_data) }
+  let(:event_data) { {} }
+  let(:shift) { need.shifts.first! }
+  let(:need) { create(:need_with_shifts) }
+  let(:social_worker) { create(:user, role: 'social_worker') }
 
   let(:user) { create(:user) }
 
-  describe '#call' do
+  describe '#recipients' do
     it 'does not include the need user/creator' do
       expect(shift.need.office.users).to include(shift.need.user)
-      expect(subject).not_to include(shift.need.user)
+      expect(object.recipients).not_to include(shift.need.user)
     end
 
     it 'does not include non-volunteers' do
-      shift.need.office.users << social_worker = create(:user, role: 'social_worker')
-      expect(subject).not_to include(social_worker)
+      shift.need.office.users << social_worker
+
+      expect(object.recipients).not_to include(social_worker)
     end
 
     context 'with multiple users' do
       it 'returns volunteers notified' do
         users = build_list(:user, 2, age_ranges: need.age_ranges)
         need.office.users << users
-        expect(subject).to include(*users)
+
+        expect(object.recipients).to include(*users)
       end
     end
 
     context 'with volunteers that are not available' do
-      let(:blockout) { create(:blockout, start_at: shift.start_at, end_at: shift.end_at) }
+      let(:blockout) do
+        create(:blockout, start_at: shift.start_at, end_at: shift.end_at)
+      end
       let(:unavailable_user) { create(:user, blockouts: [blockout]) }
 
       before { shift.need.office.users << [user, unavailable_user] }
 
       it 'excludes the unavailable volunteers' do
-        expect(subject).not_to include(unavailable_user)
+        expect(object.recipients).not_to include(unavailable_user)
       end
     end
 
@@ -44,7 +50,8 @@ RSpec.describe Services::ShiftNotifications::Create do
       it 'does not notify users again' do
         shift.need.office.users << user
         shift.need.update(notified_user_ids: [user.id])
-        expect(subject).not_to include(user)
+
+        expect(object.recipients).not_to include(user)
       end
     end
 
@@ -60,7 +67,7 @@ RSpec.describe Services::ShiftNotifications::Create do
       end
 
       it 'includes only users that speak the language' do
-        expect(subject).to contain_exactly(language_speaking_user)
+        expect(object.recipients).to contain_exactly(language_speaking_user)
       end
     end
 
@@ -74,7 +81,7 @@ RSpec.describe Services::ShiftNotifications::Create do
       end
 
       it 'includes only users that include the age_range' do
-        expect(subject).to contain_exactly(user_with_age_range)
+        expect(object.recipients).to contain_exactly(user_with_age_range)
       end
     end
 

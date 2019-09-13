@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Need < ApplicationRecord
+  include NotificationConcern
+
   belongs_to :office
   belongs_to :user
   belongs_to :race, optional: true
@@ -15,6 +17,7 @@ class Need < ApplicationRecord
             :start_at,
             :expected_duration,
             :number_of_children,
+            :office,
             presence: true
   validates :expected_duration,
             numericality: { greater_than_or_equal_to: 60,
@@ -49,5 +52,18 @@ class Need < ApplicationRecord
 
   def effective_start_at
     [start_at, *shifts.pluck(:start_at)].min
+  end
+
+  def notification_candidates
+    office
+      .notifiable_users
+      .where.not(id: notified_user_ids | [user_id])
+  end
+
+  def users_to_notify
+    notification_candidates
+      .available_within(start_at, end_at)
+      .then { |users| scope_users_by_language(users) }
+      .then { |users| scope_users_by_age_ranges(users) }
   end
 end

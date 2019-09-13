@@ -31,5 +31,17 @@ FactoryBot.define do
     after :build do |user|
       user.offices << build(:wa_office) unless user.offices.any?
     end
+
+    factory :social_worker do
+      role { 'social_worker' }
+    end
+
+    factory :coordinator do
+      role { 'coordinator' }
+    end
+
+    factory :admin do
+      role { 'admin' }
+    end
   end
 end

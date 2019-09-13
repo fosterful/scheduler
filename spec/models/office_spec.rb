@@ -8,6 +8,7 @@ RSpec.describe Office, type: :model do
   it 'has a valid factory' do
     expect(office.valid?).to be(true)
   end
+
   context 'reporting' do
     let(:lang1) { create(:language, name: 'Lang1') }
     let(:lang2) { create(:language, name: 'Lang2') }
@@ -126,4 +127,105 @@ RSpec.describe Office, type: :model do
       end
     end
   end
+
+  describe '#notifiable_users' do
+    it 'notifiable_users' do
+      office = create(:office)
+
+      result = office.notifiable_users
+
+      expect(result).to match_array([])
+    end
+  end
+
+  describe '.with_claimed_shifts' do # scope test
+    it 'supports named scope with_claimed_shifts' do
+      result = described_class.with_claimed_shifts
+
+      expect(result).to all(be_a(described_class))
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.with_claimed_needs' do # scope test
+    it 'supports named scope with_claimed_needs' do
+      result = described_class.with_claimed_needs
+
+      expect(result).to all(be_a(described_class))
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_shifts_by_office' do
+    it 'claimed_shifts_by_office' do
+      result = described_class.claimed_shifts_by_office
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_shifts_by_state' do
+    it 'claimed_shifts_by_state' do
+      result = described_class.claimed_shifts_by_state
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_shifts_by_county' do
+    it 'claimed_shifts_by_county' do
+      result = described_class.claimed_shifts_by_county('WA')
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_needs_by_office' do
+    it 'claimed_needs_by_office' do
+      result = described_class.claimed_needs_by_office
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_needs_by_state' do
+    it 'claimed_needs_by_state' do
+      result = described_class.claimed_needs_by_state
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.claimed_needs_by_county' do
+    it 'claimed_needs_by_county' do
+      result = described_class.claimed_needs_by_county('WA')
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.with_preferred_language' do
+    it 'with_preferred_language' do
+      result = described_class.with_preferred_language
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.users_by_race' do
+    it 'users_by_race' do
+      result = described_class.users_by_race
+
+      expect(result).to be_empty
+    end
+  end
+
+  describe '.total_volunteers_by_race' do
+    it 'total_volunteers_by_race' do
+      result = described_class.total_volunteers_by_race
+
+      expect(result).to be_empty
+    end
+  end
+
 end

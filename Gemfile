@@ -69,6 +69,7 @@ gem 'telephone_number'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'awesome_print'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
   gem 'faker'
@@ -101,6 +102,8 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
+  gem 'mutant',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
+  gem 'mutant-rspec',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
   gem 'selenium-webdriver'
 end
 

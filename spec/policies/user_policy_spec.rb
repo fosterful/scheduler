@@ -138,4 +138,16 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
+  # TODO: auto-generated
+  describe '#permitted_attributes_for_account_update' do
+    it 'permitted_attributes_for_account_update' do
+      user        = double('user')
+      other_user  = double('other_user')
+      user_policy = described_class.new(user, other_user)
+      result      = user_policy.permitted_attributes_for_account_update
+
+      expect(result).not_to be_nil
+    end
+  end
+
 end

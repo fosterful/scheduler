@@ -29,7 +29,8 @@ class NeedsController < ApplicationController
     authorize @need
 
     if @need.update(shifts: Services::BuildNeedShifts.call(@need))
-      Services::NeedNotifications::Create.call(@need, need_url(@need))
+      Services::Notifications::Needs.new(@need, :create).notify
+
       redirect_to(@need)
     else
       render(:new)
@@ -49,7 +50,8 @@ class NeedsController < ApplicationController
     authorize @need
 
     if @need.save
-      Services::NeedNotifications::Update.call(@need, need_url(@need))
+      notify_users_of_update
+
       redirect_to(@need)
     else
       render(:edit)
@@ -62,7 +64,8 @@ class NeedsController < ApplicationController
     authorize @need
 
     if @need.destroy
-      Services::NeedNotifications::Destroy.call(@need)
+      Services::Notifications::Needs.new(@need, :destroy).notify
+
       redirect_to needs_path, flash: { success: 'Need successfully deleted' }
     else
       redirect_back fallback_location: needs_path,
@@ -77,4 +80,12 @@ class NeedsController < ApplicationController
 
     params[:need][:expected_duration] = (params[:need][:expected_duration].to_f * 60).to_s
   end
+
+  def notify_users_of_update
+    Services::Notifications::Needs.new(@need, :update).notify do |notifier|
+      @need.notified_user_ids |= notifier.recipients.map(&:id)
+      @need.save!
+    end
+  end
+
 end

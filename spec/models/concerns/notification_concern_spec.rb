@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Services::NotificationConcern do
+RSpec.describe NotificationConcern do
 
   let(:need) { create(:need).extend(described_class) }
   let(:users) { User.all }
