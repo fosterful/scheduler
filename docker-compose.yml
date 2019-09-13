@@ -1,47 +1,60 @@
-version: '3'
+version: '3.7'
+
+x-ruby: &ruby-base
+  build:
+    context: ./docker/ruby
+    args:
+      - RUBY_VERSION=2.6.4
+      - NODE_VERSION=11
+      - INSTALL_PG_CLIENT=true
+      - UID=1000
+      - GID=1000
+  volumes:
+    - .:/app
+    - gems:/gems
+    - node_modules:/app/node_modules
+    - packs:/app/public/packs
+    - rails_cache:/app/tmp/cache
+  tmpfs:
+    - /tmp
+  user: ruby
+  tty: true
+  stdin_open: true
+  depends_on:
+    - postgres
+    - redis
+
 services:
-  app:
-    build:
-      context: ./docker/ruby
-      args:
-        - INSTALL_PG_CLIENT=true
-    command: rails server -p 3000 -b '0.0.0.0'
-    volumes:
-      - .:/app
-      - gems:/gems
-      - node_modules:/app/node_modules
+  rails:
+    <<: *ruby-base
+    command: bundle exec rails server -p 3000 -b '0.0.0.0'
     ports:
       - "3000:3000"
       - "1080:1080"
       - "43447:43447"
-    depends_on:
-      - postgres
-      - redis
-    entrypoint: /app/dev-entrypoint
-    tty: true
-    stdin_open: true
+    entrypoint: /app/docker/rails-entrypoint
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
       - SELENIUM_REMOTE_HOST=selenium
-  selenium:
-    image: selenium/standalone-chrome
+      - BOOTSNAP_CACHE_DIR=/gems/bootsnap
   webpacker:
-    build:
-      context: ./docker/ruby
-      args:
-        - INSTALL_PG_CLIENT=false
+    <<: *ruby-base
     command: ./bin/webpack-dev-server
-    volumes:
-      - .:/app
-      - gems:/gems
-      - node_modules:/app/node_modules
     ports:
       - "3035:3035"
     entrypoint: /app/docker/webpack-entrypoint
+  sidekiq:
+    <<: *ruby-base
+    command: bundle exec sidekiq
+    entrypoint: /app/docker/sidekiq-entrypoint
+    environment:
+      - BOOTSNAP_CACHE_DIR=/gems/bootsnap
+  selenium:
+    image: selenium/standalone-chrome
   postgres:
-    image: postgres:9.6
+    image: postgres:11.4
     volumes:
       - postgres-data:/var/lib/postgresql/data
   redis:
@@ -51,23 +64,11 @@ services:
         - REDIS_VERSION=3.2
     volumes:
       - redis:/data
-  sidekiq:
-    build:
-      context: ./docker/ruby
-      args:
-        - INSTALL_PG_CLIENT=true
-    command: bundle exec sidekiq
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - .:/app
-      - gems:/gems
-      - node_modules:/app/node_modules
-    entrypoint: /app/dev-entrypoint
 
 volumes:
   postgres-data:
   gems:
   redis:
   node_modules:
+  packs:
+  rails_cache:
