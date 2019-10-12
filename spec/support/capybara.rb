@@ -21,6 +21,8 @@ RSpec.configure do |config|
       desired_capabilities: :chrome
     }
 
+    Capybara.server = :puma, { Silent: true }
+
     # Find Docker IP address
     Capybara.server_host = if headless
                              `/sbin/ip route|awk '/scope/ { print $9 }'`.strip
