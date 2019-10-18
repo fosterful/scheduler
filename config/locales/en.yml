@@ -37,3 +37,9 @@ en:
           attributes:
             need:
               remove_last_shift: "must have at least one shift. Perhaps you mean to delete the Need itself?"
+  user:
+    roles:
+      admin: 'Admin'
+      coordinator: 'Volunteer Coordinator'
+      social_worker: 'Child Welfare Worker'
+      volunteer: 'Volunteer'

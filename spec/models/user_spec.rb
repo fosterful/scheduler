@@ -317,4 +317,22 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#role_display' do
+    it 'returns a string' do
+      expect(user.role_display).to be_a_kind_of(String)
+    end
+
+    it 'return the correct string' do
+      user.role = 'social_worker'
+      expect(user.role_display).to eq('Child Welfare Worker')
+    end
+
+    context 'when the translation is not found' do
+      it 'return the titleize titleized' do
+        user.role = 'this_role_does_not_exist'
+        expect(user.role_display).to eq('This Role Does Not Exist')
+      end
+    end
+  end
+
 end
