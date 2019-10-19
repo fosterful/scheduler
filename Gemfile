@@ -45,7 +45,7 @@ gem 'pundit'
 
 # Address Verification & Geocoding
 gem 'mainstreet'
-gem 'geocoder', github: 'ankane/geocoder', branch: 'smarty_streets_international'
+gem 'geocoder'
 
 gem 'haml-rails'
 

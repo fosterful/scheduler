@@ -168,6 +168,10 @@ class User < ApplicationRecord
     role.in? [COORDINATOR, VOLUNTEER]
   end
 
+  def role_display
+    I18n.t("user.roles.#{role}", default: -> (*args) { role.titleize })
+  end
+
   private
 
   def require_volunteer_profile_attributes?

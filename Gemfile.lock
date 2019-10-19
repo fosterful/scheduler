@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/ankane/geocoder.git
-  revision: 755c6c5b45d7ae4a68d94701bf11893240f5978b
-  branch: smarty_streets_international
-  specs:
-    geocoder (1.5.0)
-
-GIT
   remote: https://github.com/mbj/mutant.git
   revision: 90d103dc323eded68a7e80439def069f18b5e990
   ref: 90d103dc323eded68a7e80439def069f18b5e990
@@ -157,6 +150,7 @@ GEM
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     ffi (1.10.0)
+    geocoder (1.5.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haml (5.0.4)
@@ -453,7 +447,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  geocoder!
+  geocoder
   haml-rails
   hint-rubocop_style (~> 0.3.2)
   honeybadger (~> 4.0)

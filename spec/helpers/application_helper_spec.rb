@@ -13,7 +13,8 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'returns a string' do
       without_partial_double_verification do
         user = build(:user)
-        allow(helper).to receive(:policy).and_return(Pundit.policy(user, user))
+        admin = build(:admin)
+        allow(helper).to receive(:policy).and_return(Pundit.policy(admin, user))
         expect(helper.invite_options_for_select).to be_a(Array)
       end
     end

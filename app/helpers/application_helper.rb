@@ -8,13 +8,9 @@ module ApplicationHelper
   end
 
   def invite_options_for_select
-    title_map = {
-      'coordinator' => 'Volunteer Coordinator'
-    }
-
     User::ROLES.map do |role|
       u = User.new(role: role)
-      [title_map[role] || role.titleize, role] if policy(u).new?
+      [u.role_display, role] if policy(u).new?
     end.compact
   end
 
