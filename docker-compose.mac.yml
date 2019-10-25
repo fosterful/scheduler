@@ -5,7 +5,7 @@ services:
       - .:/app:cached
   webpacker:
     volumes:
-      - .:/rails:cached
+      - .:/app:cached
   sidekiq:
     volumes:
       - .:/rails:cached
