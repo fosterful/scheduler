@@ -8,4 +8,4 @@ services:
       - .:/app:cached
   sidekiq:
     volumes:
-      - .:/rails:cached
+      - .:/app:cached
