@@ -1,11 +1,11 @@
 version: '3.7'
 services:
-  app:
+  rails:
     volumes:
-      - .:/app:cached
+      - .:/rails:cached
   webpacker:
     volumes:
-      - .:/app:cached
+      - .:/rails:cached
   sidekiq:
     volumes:
-      - .:/app:cached
+      - .:/rails:cached
