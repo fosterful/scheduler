@@ -2,7 +2,7 @@ version: '3.7'
 services:
   rails:
     volumes:
-      - .:/rails:cached
+      - .:/app:cached
   webpacker:
     volumes:
       - .:/rails:cached
