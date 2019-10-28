@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 x-ruby: &ruby-base
   build:
@@ -7,8 +7,8 @@ x-ruby: &ruby-base
       - RUBY_VERSION=2.6.4
       - NODE_VERSION=11
       - INSTALL_PG_CLIENT=true
-      - UID=1000
-      - GID=1000
+      - UID=${UID}
+      - GID=${GID}
   volumes:
     - .:/app
     - gems:/gems
