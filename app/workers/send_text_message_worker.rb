@@ -3,7 +3,7 @@
 class SendTextMessageWorker
   include Sidekiq::Worker
 
-  TWILIO_SID    = Rails.configuration.try(:twilio_messaging_service_id)
+  TWILIO_SID    = Rails.configuration.try(:twilio_messaging_service_sid)
   TWILIO_NUMBER = Rails.configuration.try(:twilio_number)
 
   def perform(number, message)
