@@ -38,7 +38,8 @@ RSpec.describe NeedsController, type: :controller do
                                         expected_duration:  2,
                                         start_at:           Time.zone.now.advance(weeks: 1).to_param,
                                         office_id:          need.office_id.to_param,
-                                        age_range_ids:      [AgeRange.first!.id] } }
+                                        age_range_ids:      [AgeRange.first!.id],
+                                        preferred_language_id: 1 } }
       end.to change(Need, :count).by(1)
 
       expect(response).to have_http_status(:found)

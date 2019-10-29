@@ -106,7 +106,7 @@ RSpec.describe Need, type: :model do
     it 'preferred_language' do
       result = need.preferred_language
 
-      expect(result).to be_an_instance_of(NullLanguage)
+      expect(result).to be_an_instance_of(Language)
     end
 
     it 'preferred_language' do
