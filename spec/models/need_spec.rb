@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Need, type: :model do
   let(:need) { create(:need) }
   let(:shift) { create(:shift, need: need) }
-  let(:spanish) { Language.find_by!(name: 'Spanish') }
+  let(:english) { Language.find_by!(name: 'English') }
   let(:new_user) { create(:user) }
 
   it 'has a valid factory' do
@@ -110,11 +110,11 @@ RSpec.describe Need, type: :model do
     end
 
     it 'preferred_language' do
-      need.preferred_language = spanish
+      need.preferred_language = english
 
       result = need.preferred_language
 
-      expect(result).to eql(spanish)
+      expect(result).to eql(english)
     end
   end
 
