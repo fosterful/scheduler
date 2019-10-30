@@ -36,15 +36,14 @@ module Admin
     def create
       resource = invite_resource
       if resource.errors.empty?
-        redirect_to(
+        return redirect_to(
           [namespace, resource],
           notice: translate_with_resource('create.success')
         )
-      else
-        render :new, locals: {
-          page: Administrate::Page::Form.new(dashboard, resource)
-        }
       end
+
+      render :new,
+             locals: { page: Administrate::Page::Form.new(dashboard, resource) }
     end
 
     private

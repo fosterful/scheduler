@@ -2,8 +2,8 @@
 
 set -e
 
-until nc -vz app 3000; do
-  echo "App has not started, sleeping..."
+echo "Rails has not started, sleeping..."
+until nc -vz rails 3000 &>/dev/null; do
   sleep 1
 done
 echo "Starting Webpacker"

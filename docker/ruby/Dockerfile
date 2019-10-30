@@ -1,7 +1,10 @@
+ARG RUBY_VERSION=2.6
 
-FROM ruby:2.6.1
+FROM ruby:$RUBY_VERSION
 
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+ARG NODE_VERSION=11
+
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -13,7 +16,21 @@ RUN apt-get update && apt-get install -y \
   locales \
   vim \
   git \
-  netcat
+  netcat \
+  sudo
+
+ARG UID=1000
+ENV UID $UID
+ARG GID=1000
+ENV GID $GID
+ARG USER=ruby
+ENV USER $USER
+
+RUN groupadd -g $GID $USER && \
+    useradd -u $UID -g $USER -m $USER && \
+    usermod -p "*" $USER && \
+    usermod -aG sudo $USER && \
+    echo "$USER ALL=NOPASSWD: ALL" >> /etc/sudoers.d/50-$USER
 
 ENV LANG C.UTF-8
 
@@ -49,8 +66,16 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
   apt-get install -y postgresql-client \
 ;fi
 
-RUN mkdir -p /app
+RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
+RUN mkdir -p /app && chown $USER:$USER /app
+
 WORKDIR /app
+
+RUN mkdir -p node_modules && chown $USER:$USER node_modules
+RUN mkdir -p public/packs && chown $USER:$USER public/packs
+RUN mkdir -p tmp/cache && chown $USER:$USER tmp/cache
+
+USER $USER
 
 RUN gem install bundler && \
   gem install mailcatcher

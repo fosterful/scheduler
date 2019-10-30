@@ -1,10 +1,28 @@
 # frozen_string_literal: true
 
 class Shift < ApplicationRecord
+  include NotificationConcern
+
   belongs_to :need, inverse_of: :shifts
+  has_one :office, through: :need
+  has_one :preferred_language, through: :need
   belongs_to :user, optional: true
-  before_destroy :notify_user_of_cancelation, if: -> { user.present? }
-  validates :start_at, :duration, presence: true
+  before_destroy :notify_user_of_cancelation,
+                 if: -> { user&.phone.present? }
+
+  validates :duration,
+            :start_at,
+            presence: true
+
+  delegate :age_range_ids,
+           :age_ranges,
+           :notification_candidates,
+           :preferred_language,
+           to: :need
+
+  def duration_in_words
+    "#{start_at.to_s(:time)} to #{end_at.to_s(:time)}"
+  end
 
   scope :claimed, -> { where.not(user_id: nil) }
 
@@ -16,9 +34,22 @@ class Shift < ApplicationRecord
     end_at <= Time.zone.now
   end
 
-  def notify_user_of_cancelation(user_to_notify = user)
-    time = start_at.in_time_zone(user_to_notify.time_zone).to_s(:short_with_time)
-    SendTextMessageWorker.perform_async(user_to_notify.phone, "Your shift on #{time} has been canceled.")
+  def notify_user_of_cancelation(recipient = user)
+    time = start_at
+             .in_time_zone(recipient.time_zone)
+             .to_s(:short_with_time)
+
+    Services::TextMessageEnqueue
+      .send_messages([recipient.phone],
+                     "Your shift on #{time} has been canceled.")
+  end
+
+  def users_to_notify
+    # this differs from Need#users_to_notify because start_at and end_at differ
+    notification_candidates
+      .available_within(start_at, end_at)
+      .then { |users| scope_users_by_language(users) }
+      .then { |users| scope_users_by_age_ranges(users) }
   end
 
   def can_destroy?

@@ -3,8 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Need, type: :model do
-  let(:need) { build :need }
-  let(:spanish) { Language.find_by!(name: 'Spanish') }
+  let(:need) { create(:need) }
+  let(:shift) { create(:shift, need: need) }
+  let(:english) { Language.find_by!(name: 'English') }
+  let(:new_user) { create(:user) }
 
   it 'has a valid factory' do
     expect(need.valid?).to be(true)
@@ -22,7 +24,7 @@ RSpec.describe Need, type: :model do
 
       result = need.effective_start_at
 
-      expect(result).to eql(need.start_at)
+      expect(result.to_s(:db)).to eql(need.start_at.to_s(:db))
     end
 
     it 'returns earliest shift start at if earlier than need start at' do
@@ -32,7 +34,7 @@ RSpec.describe Need, type: :model do
 
       result = need.effective_start_at
 
-      expect(result).to eql(starts)
+      expect(result.to_s(:db)).to eql(starts.to_s(:db))
     end
   end
 
@@ -42,7 +44,7 @@ RSpec.describe Need, type: :model do
     end
   end
 
-  context 'reporting' do
+  context 'when reporting' do
     let(:wa_address1) { build(:address, :wa) }
     let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
     let(:wa_office1) { create(:wa_office, address: wa_address1) }
@@ -54,10 +56,34 @@ RSpec.describe Need, type: :model do
     let(:wa_user1) { create(:user, offices: [wa_office1]) }
     let(:wa_user2) { create(:user, offices: [wa_office2]) }
     let(:or_user) { create(:user, offices: [or_office]) }
-    let(:wa_need1) { create(:need_with_shifts, user: wa_sw1, number_of_children: 1, expected_duration: 120, office: wa_office1) }
-    let(:wa_need2) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 240, office: wa_office2) }
-    let!(:unmet_wa_need) { create(:need_with_shifts, user: wa_sw2, number_of_children: 2, expected_duration: 120, office: wa_office2) }
-    let(:or_need) { create(:need_with_shifts, user: or_sw, number_of_children: 3, expected_duration: 120, office: or_office) }
+    let(:wa_need1) do
+      create(:need_with_shifts,
+             user:               wa_sw1,
+             number_of_children: 1,
+             expected_duration:  120,
+             office:             wa_office1)
+    end
+    let(:wa_need2) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  240,
+             office:             wa_office2)
+    end
+    let!(:unmet_wa_need) do
+      create(:need_with_shifts,
+             user:               wa_sw2,
+             number_of_children: 2,
+             expected_duration:  120,
+             office:             wa_office2)
+    end
+    let(:or_need) do
+      create(:need_with_shifts,
+             user:               or_sw,
+             number_of_children: 3,
+             expected_duration:  120,
+             office:             or_office)
+    end
 
     before do
       or_need.shifts.first.update(user: or_user) # 3 child served
@@ -68,7 +94,10 @@ RSpec.describe Need, type: :model do
 
     describe '.total_children_served' do
       it 'returns the total number of children served' do
-        expect(described_class.total_children_served).to eql(wa_need1.number_of_children + wa_need2.number_of_children + or_need.number_of_children)
+        expect(described_class.total_children_served)
+          .to eql(wa_need1.number_of_children +
+                    wa_need2.number_of_children +
+                    or_need.number_of_children)
       end
     end
   end
@@ -77,15 +106,15 @@ RSpec.describe Need, type: :model do
     it 'preferred_language' do
       result = need.preferred_language
 
-      expect(result).to be_an_instance_of(NullLanguage)
+      expect(result).to be_an_instance_of(Language)
     end
 
     it 'preferred_language' do
-      need.preferred_language = spanish
+      need.preferred_language = english
 
       result = need.preferred_language
 
-      expect(result).to eql(spanish)
+      expect(result).to eql(english)
     end
   end
 
@@ -110,6 +139,48 @@ RSpec.describe Need, type: :model do
       result = need.expired?
 
       expect(result).to be true
+    end
+  end
+
+  describe '#notification_candidates' do
+    it 'returns empty array if no office users with phone' do
+      result = need.notification_candidates
+
+      expect(result).to match_array([])
+    end
+
+    it 'returns office users with phone that have not been notified' do
+      need.office.users << new_user
+
+      result = need.notification_candidates
+
+      expect(result.to_a).to eql([new_user])
+    end
+  end
+
+  describe '#users_to_notify' do
+    it 'returns nothing if no shifts' do
+      result = need.users_to_notify
+
+      expect(result).to be_empty
+    end
+
+    it 'users_to_notify' do
+      need.office.users << new_user
+      need.shifts << shift
+      new_user.age_ranges << shift.age_ranges
+
+      result = need.users_to_notify
+
+      expect(result.to_a).to eql([new_user])
+    end
+  end
+
+  describe '.has_claimed_shifts' do # scope test
+    it 'supports named scope has_claimed_shifts' do
+      result = described_class.has_claimed_shifts
+
+      expect(result).to all(be_an_instance_of(described_class))
     end
   end
 

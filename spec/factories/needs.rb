@@ -7,6 +7,7 @@ FactoryBot.define do
     start_at { Time.zone.now }
     expected_duration { 120 }
     number_of_children { 1 }
+    preferred_language_id { 1 }
 
     after(:build) do |need|
       need.age_ranges << build(:age_range)

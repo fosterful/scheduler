@@ -2,6 +2,9 @@
 
 class ApplicationController < ActionController::Base
   include Pundit
+
+  DEFAULT_ERROR = 'Whoops! Something went wrong.'
+
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :set_time_zone, if: :user_signed_in?
@@ -12,15 +15,20 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     policy = Pundit.policy(current_user || User.new, User)
-    devise_parameter_sanitizer.permit(:account_update, keys: policy.permitted_attributes_for_account_update)
-    devise_parameter_sanitizer.permit(:invite, keys: policy.permitted_attributes_for_create)
-    devise_parameter_sanitizer.permit(:accept_invitation, keys: policy.permitted_attributes)
+    devise_parameter_sanitizer
+      .permit(:account_update,
+              keys: policy.permitted_attributes_for_account_update)
+    devise_parameter_sanitizer
+      .permit(:invite, keys: policy.permitted_attributes_for_create)
+    devise_parameter_sanitizer
+      .permit(:accept_invitation, keys: policy.permitted_attributes)
   end
 
   def user_not_authorized
     respond_to do |format|
       format.html do
         flash[:alert] = 'You are not authorized to perform this action.'
+
         redirect_to(request.referer || root_path)
       end
       format.json do

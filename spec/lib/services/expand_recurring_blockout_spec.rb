@@ -10,8 +10,8 @@ RSpec.describe Services::ExpandRecurringBlockout do
       let(:blockout) do
         build :blockout,
               start_at: 1.day.from_now,
-              end_at: 2.days.from_now,
-              rrule: 'FREQ=DAILY;COUNT=3;INTERVAL=1;WKST=MO'
+              end_at:   2.days.from_now,
+              rrule:    'FREQ=DAILY;COUNT=3;INTERVAL=1;WKST=MO'
       end
 
       it 'saves the blockout' do

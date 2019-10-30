@@ -15,7 +15,10 @@ RSpec.describe 'Admin users spec', type: :request do
 
     it 'redirects to show view after creating the user' do
       office = create :office
-      post admin_users_path, params: { user: { email: 'foo@example.com', role: 'volunteer', office_ids: [office.id] } }
+      post admin_users_path, params: { user: { email:      'foo@example.com',
+                                               role:       'volunteer',
+                                               office_ids: [office.id] } }
+
       expect(response).to redirect_to(admin_user_path(User.last))
     end
 

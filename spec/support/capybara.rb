@@ -16,10 +16,12 @@ RSpec.configure do |config|
           end
 
     driven_by :selenium, using: :chrome, options: {
-      browser: :remote,
-      url: url,
+      browser:              :remote,
+      url:                  url,
       desired_capabilities: :chrome
     }
+
+    Capybara.server = :puma, { Silent: true }
 
     # Find Docker IP address
     Capybara.server_host = if headless

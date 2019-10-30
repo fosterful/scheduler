@@ -2,7 +2,10 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_group 'Policies', '/app/policies'
+  add_group 'Admin', ['/app/dashboards', 'app/fields']
+end
 
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -17,17 +20,22 @@ require 'pundit/matchers'
 require 'sidekiq/testing'
 
 include WebMock::API
+WebMock.enable!
 
 VCR.configure do |config|
-  config.allow_http_connections_when_no_cassette = true
+  config.allow_http_connections_when_no_cassette = false
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   config.hook_into :webmock
   config.configure_rspec_metadata!
+  config.ignore_request do |request|
+    whitelisted_hosts = ['localhost', 'selenium', Capybara.server_host]
+    whitelisted_hosts.any? { |host| URI(request.uri).host.match?(host) }
+  end
 end
 
 # Globally stub smartystreets
 stub_request(:any, /smartystreets.com/).to_return(
-  body: File.read('spec/fixtures/webmock_responses/smartystreets.json'),
+  body:   File.read('spec/fixtures/webmock_responses/smartystreets.json'),
   status: 200
 )
 

@@ -9,10 +9,10 @@ RSpec.describe NeedPolicy do
   let(:record) { create :need, user: creator }
   let(:user)   { build(:user) }
 
-  context 'for volunteers' do
+  context 'when for volunteers' do
     let(:user) { create :user, role: 'volunteer' }
 
-    context 'of the office' do
+    context 'when of the office' do
       before { record.office.users << user }
 
       it { is_expected.to permit_action(:index) }
@@ -31,7 +31,7 @@ RSpec.describe NeedPolicy do
       end
     end
 
-    context 'not of the office' do
+    context 'when not of the office' do
       it { is_expected.to permit_action(:index) }
       it { is_expected.to forbid_action(:show) }
 
@@ -44,7 +44,7 @@ RSpec.describe NeedPolicy do
     end
   end
 
-  context 'for social workers' do
+  context 'when for social workers' do
     let(:user) { create :user, role: 'social_worker' }
 
     before { record.office.users << user }
@@ -65,7 +65,7 @@ RSpec.describe NeedPolicy do
     end
   end
 
-  context 'for admins' do
+  context 'when for admins' do
     let(:user) { create(:user, role: 'admin') }
 
     it { is_expected.to permit_action(:index) }
