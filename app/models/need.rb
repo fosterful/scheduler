@@ -7,8 +7,7 @@ class Need < ApplicationRecord
   belongs_to :user
   belongs_to :race, optional: true
   belongs_to :preferred_language,
-             class_name: 'Language',
-             optional: true
+             class_name: 'Language'
   has_and_belongs_to_many :age_ranges
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
@@ -37,10 +36,6 @@ class Need < ApplicationRecord
   end
 
   alias_attribute :duration, :expected_duration
-
-  def preferred_language
-    super || NullLanguage.new
-  end
 
   def end_at
     start_at.advance(minutes: expected_duration)
