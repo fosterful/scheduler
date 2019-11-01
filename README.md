@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app/javascript/images/omd-logo.png" alt="Moms and Dads Logo">
+  <img src="https://default.salsalabs.org/api/organization/e2390606-bfe8-4802-974b-cb2bb603a4fb/logo/data" alt="Moms and Dads Logo" background>
 </p>
 
 <p align="center">
