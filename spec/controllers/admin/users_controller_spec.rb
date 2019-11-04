@@ -12,4 +12,16 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
+  describe '#index' do
+    it 'GET index' do
+      get :index
+
+      expect(response).to have_http_status(:found)
+    end
+
+    it 'orders by name' do
+    #  needs content 
+    end
+  end
+
 end
