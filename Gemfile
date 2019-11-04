@@ -75,7 +75,7 @@ group :development, :test do
   gem 'faker'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 4.0.0.beta3'
   gem 'rspec-collection_matchers'
   gem 'shoulda-matchers'
   gem 'pundit-matchers'
