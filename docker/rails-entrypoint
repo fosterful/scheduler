@@ -44,9 +44,9 @@ then
 
   yarn install
   # 9: Setup the database if it doesn't
-  if ! rake db:version
+  if ! bundle exec rake db:version
   then
-    rake db:setup
+    bundle exec rake db:setup
   fi
   # Start mailcatcher
   mailcatcher --http-ip 0.0.0.0
