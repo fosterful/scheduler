@@ -119,13 +119,16 @@ changes and pr
 
 #### Commit message guidelines
 
-Please make the first line short and descriptive.  
+Please make the first line short and descriptive.
+
 --more description afterward if necessary  
 test coverage when making pr's
 
 ### Reporting Issues
 
 ### Contacting the maintainers
+
+For all other questions and concerns related to this project, you can directly message @nvick or @benjaminwood.
 
 ---
 
