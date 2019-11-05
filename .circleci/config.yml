@@ -8,6 +8,7 @@ jobs:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
+          BUNDLER_VERSION: 2.0.2
           PGHOST: 127.0.0.1
           PGUSER: circleci-user
           RAILS_ENV: test
