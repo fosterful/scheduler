@@ -109,22 +109,36 @@ If you are running in non-headless mode, you'll need to be sure you have the Chr
 
 ## Contributing to the Effort
 
-First, we would like to thank you for having an interest in helping with this project! There are several ways you can contribute, and they don't all require a deep understanding of programming.
+First, we would like to thank you for having an interest in helping with this project! There are several ways you can contribute:
+
+- Fix a bug
+- Close open issues or contribute by reproducing issues
+- Refactor code
 
 ### Ways to Contribute to the Project
 
-fork repo  
-make branch  
-changes and pr
+Fork this repo, clone your forked repo, and then [setup your environment](#development-environment-setup). Then make a branch, with a descriptive name, for the specific issue that you want to tackle.
+
+- Make changes to fix the relevant issue, making your commit messages conform to our [commit message guidelines](#commit-message-guidelines) listed below.
+
+- Please write tests and make sure that you have full coverage for all lines for your code.
+
+  - After running rspec, the coverage will be updated and can be viewed.
+
+  - To check the coverage of your tests, open coverage/index.html in a browser. You may need to drag the file from your editor to a new browser tab.
+
+- After you have made changes and have passing specs with full coverage, please submit a pull request to merge your created branch with master.
 
 #### Commit message guidelines
 
-Please make the first line short and descriptive.
+1. Please make the first line short and descriptive.
 
---more description afterward if necessary  
-test coverage when making pr's
+2. More description afterward if necessary  
+   test coverage when making pr's
 
 ### Reporting Issues
+
+If you encounter a bug or odd behavior that looks unintentional, please create an issue ticket and clearly describe the problem, reproducing it exactly if possible.
 
 ### Contacting the maintainers
 
@@ -151,4 +165,6 @@ If after reading about us, you still have questions, you can directly [contact u
 
 ## License
 
-This software is licensed under the MIT license
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
+
+This software is licensed under the [MIT license](LICENSE.md).
