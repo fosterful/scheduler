@@ -33,13 +33,13 @@ It is a Ruby/Rails based app that allows the coordination of scheduling between 
 
 - [Overview](#overview)
   - [Who are we](#who-are-we?)
-  - [What does if do](#what-does-it-do)
+  - [What does the scheduler do](#what-does-it-do)
 - [Development Environment Setup](#development-environment-setup)
   - [Helpful Docker Commands](#helpful-docker-commands)
   - [Rails Commands in a Docker World](#rails-commands-in-a-docker-world)
   - [System Tests](#system-tests)
 - [Contributing to the Effort](#contributing-to-the-effort)
-  - [Ways to Contribute to the Project](#ways-to-contribute-to-the-project)
+  - [Guide for Contributing to the Project](#ways-to-contribute-to-the-project)
   - [Reporting Issues](#reporting-issues)
   - [Contacting Us](#contacting-us)
 - [Technologies Used](#technologies-used)
@@ -109,13 +109,15 @@ If you are running in non-headless mode, you'll need to be sure you have the Chr
 
 ## Contributing to the Effort
 
-First, we would like to thank you for having an interest in helping with this project! There are several ways you can contribute:
+First, we would like to thank you for having an interest in helping with this project! There are several things you can do:
 
-- Fix a bug
-- Close open issues or contribute by reproducing issues
+- Fix a bug and submit a pull request
+- Help with issues
+  - Close open issues by fixing them and making a pull request
+  - Reproduce an issue for you or others to fix
 - Refactor code
 
-### Ways to Contribute to the Project
+### Guide for Contributing to the Project
 
 Fork this repo, clone your forked repo, and then [setup your environment](#development-environment-setup). Then make a branch, with a descriptive name, for the specific issue that you want to tackle.
 
@@ -133,8 +135,7 @@ Fork this repo, clone your forked repo, and then [setup your environment](#devel
 
 1. Please make the first line short and descriptive.
 
-2. More description afterward if necessary  
-   test coverage when making pr's
+2. If necessary, any extra information can be added after a blank line.
 
 ### Reporting Issues
 
