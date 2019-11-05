@@ -53,7 +53,7 @@ class UserDashboard < Administrate::BaseDashboard
     medical_limitations_desc: Field::Text,
     conviction:               Field::Boolean,
     conviction_desc:          Field::Text,
-    name:                     Field::MethodField,
+    name:                     MethodField,
     time_zone:                Field::Select
                                 .with_options(collection: ActiveSupport::TimeZone
                                                             .us_zones
