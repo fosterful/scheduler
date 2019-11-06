@@ -8,7 +8,7 @@
     "@babel/polyfill": "^7.2.5",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@rails/webpacker": "3.5",
+    "@rails/webpacker": "4.0.7",
     "babel-core": "^6.26.3",
     "babel-plugin-module-resolver": "^3.1.2",
     "babel-preset-react": "^6.24.1",
