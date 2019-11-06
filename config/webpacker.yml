@@ -6,6 +6,8 @@ default: &default
   public_output_path: packs
   cache_path: tmp/cache/webpacker
 
+  extract_css: true
+
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
   resolved_paths: []
