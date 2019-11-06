@@ -10,7 +10,7 @@ module Admin
       resources = Administrate::Search.new(scoped_resource,
                                            dashboard_class,
                                            search_term).run
-      resources = apply_resource_includes(resources)
+      resources = apply_collection_includes(resources)
 
       # This is the unique part
       resources = begin
