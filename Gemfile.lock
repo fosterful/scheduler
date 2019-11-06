@@ -220,8 +220,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mainstreet (0.2.0)
-      geocoder
+    mainstreet (0.2.1)
+      geocoder (>= 1.5.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     memoizable (0.4.2)
