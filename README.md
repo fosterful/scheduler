@@ -57,7 +57,7 @@ It is a Ruby/Rails based app that allows the coordination of scheduling between 
    > Note: On Mac, make sure to append `:docker-compose.mac.yml` to `COMPOSE_FILE` to take advantage of cached volumes
 
 3. Run `docker-compose up`
-4. Open a browser to localhost:3000 verify the app is up.
+4. Open a browser to localhost:3000 to verify that the app is up.
 
 ### Helpful Docker Commands
 
@@ -111,15 +111,15 @@ If you are running in non-headless mode, you'll need to be sure you have the Chr
 
 First, we would like to thank you for having an interest in helping with this project! There are several things you can do:
 
-- Fix a bug and submit a pull request
 - Help with issues
   - Close open issues by fixing them and making a pull request
   - Reproduce an issue for you or others to fix
 - Refactor code
+  - Before you put in the work, please open a new issue so we can discuss it.
 
 ### Guide for Contributing to the Project
 
-Fork this repo, clone your forked repo, and then [setup your environment](#development-environment-setup). Then make a branch, with a descriptive name, for the specific issue that you want to tackle.
+Fork this repository, clone your forked repo, and then [setup your environment](#development-environment-setup). Then make a branch, with a descriptive name, for the specific issue that you want to tackle.
 
 - Make changes to fix the relevant issue, making your commit messages conform to our [commit message guidelines](#commit-message-guidelines) listed below.
 
@@ -139,11 +139,11 @@ Fork this repo, clone your forked repo, and then [setup your environment](#devel
 
 ### Reporting Issues
 
-If you encounter a bug or odd behavior that looks unintentional, please create an issue ticket and clearly describe the problem, reproducing it exactly if possible.
+If you encounter a bug or odd behavior that appears unintentional, please create an issue ticket and clearly describe the problem, reproducing it exactly if possible.
 
 ### Contacting the maintainers
 
-For all other questions and concerns related to this project, you can directly message @nvick or @benjaminwood.
+For all other questions and concerns related to this project, please create an issue with a short but clear description. Responses will be as quick as possible, so Thank You in advance for your patience.
 
 ---
 
@@ -156,7 +156,7 @@ For all other questions and concerns related to this project, you can directly m
 
 ---
 
-## Support and contact details
+## Support and Contact details
 
 Interested in finding out more about what we do, or how you can support our mission? Please visit our [website](https://officemomsanddads.com).
 
