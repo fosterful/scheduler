@@ -30,7 +30,7 @@ module.exports = function(api) {
         {
           forceAllTransforms: true,
           useBuiltIns: 'entry',
-          corejs: 3,
+          corejs: 2,
           modules: false,
           exclude: ['transform-typeof-symbol']
         }
@@ -79,7 +79,21 @@ module.exports = function(api) {
         {
           removeImport: true
         }
+      ],
+      [
+        require('babel-plugin-module-resolver'),
+        {
+          root: ['./app/javascript/components']
+        }
       ]
-    ].filter(Boolean)
+    ].filter(Boolean),
+    env: {
+      test: {
+        presets: [
+          ['@babel/preset-env'],
+          '@babel/preset-react'
+        ]
+      }
+    }
   }
 }
