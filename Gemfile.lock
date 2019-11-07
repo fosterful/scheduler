@@ -460,7 +460,7 @@ DEPENDENCIES
   hint-rubocop_style
   honeybadger
   jbuilder
-  listen (>= 3.0.5, < 3.3)
+  listen
   mainstreet
   mutant!
   mutant-rspec!
@@ -468,7 +468,7 @@ DEPENDENCIES
   procto
   pry-byebug
   pry-rails
-  puma (< 4.4)
+  puma
   pundit
   pundit-matchers
   rails (~> 6.0.0)
