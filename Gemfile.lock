@@ -448,9 +448,9 @@ DEPENDENCIES
   adamantium
   administrate
   awesome_print
-  bootsnap (>= 1.1.0)
+  bootsnap
   byebug
-  capybara (>= 2.15)
+  capybara
   concord
   devise
   devise_invitable
@@ -459,18 +459,18 @@ DEPENDENCIES
   faker
   geocoder
   haml-rails
-  hint-rubocop_style (~> 0.3.2)
-  honeybadger (~> 4.0)
-  jbuilder (~> 2.5)
+  hint-rubocop_style
+  honeybadger
+  jbuilder
   listen (>= 3.0.5, < 3.2)
   mainstreet
   mutant!
   mutant-rspec!
-  pg (>= 0.18, < 2.0)
+  pg
   procto
   pry-byebug
   pry-rails
-  puma
+  puma (< 4.3)
   pundit
   pundit-matchers
   rails (~> 6.0.0)
@@ -489,13 +489,13 @@ DEPENDENCIES
   simplecov
   spring
   spring-commands-rspec
-  spring-watcher-listen (~> 2.0.0)
+  spring-watcher-listen
   telephone_number
-  turbolinks (~> 5)
+  turbolinks
   twilio-ruby
   tzinfo-data
   vcr
-  web-console (>= 3.3.0)
+  web-console
   webmock
   webpacker
 
