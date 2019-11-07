@@ -20,7 +20,7 @@ jobs:
           POSTGRES_USER: circleci-user
           POSTGRES_DB: test_db
           POSTGRES_PASSWORD: ""
-      - image: circleci/redis:3.2-alpine
+      - image: circleci/redis:5.0-alpine
       - image: selenium/standalone-chrome
     steps:
       - checkout

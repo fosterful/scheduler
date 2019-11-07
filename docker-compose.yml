@@ -61,7 +61,7 @@ services:
     build:
       context: ./docker/redis
       args:
-        - REDIS_VERSION=3.2
+        - REDIS_VERSION=5.0
     volumes:
       - redis:/data
 
