@@ -854,7 +854,7 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.12"
 
-"@rails/webpacker@4.0.7":
+"@rails/webpacker@^4.0.7":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-4.0.7.tgz#268571bf974e78ce57eca9fa478f5bd97fd5182c"
   integrity sha512-nx3inMv7euO0UsD0voJ+n3/z1u56PuprW322b67TLuDmOHRpT7yUjBJULMisVKA6PVJw4DwiG9Kbf8ZGu53+tw==
@@ -9796,7 +9796,7 @@ webpack-dev-middleware@^3.7.2:
     range-parser "^1.2.1"
     webpack-log "^2.0.0"
 
-webpack-dev-server@3.9.0:
+webpack-dev-server@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.9.0.tgz#27c3b5d0f6b6677c4304465ac817623c8b27b89c"
   integrity sha512-E6uQ4kRrTX9URN9s/lIbqTAztwEPdvzVrcmHE8EQ9YnuT9J8Es5Wrd8n9BKg1a0oZ5EgEke/EQFgUsp18dSTBw==
