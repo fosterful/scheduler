@@ -43,11 +43,8 @@ then
   bundle check || bundle install
 
   yarn install
-  # 9: Setup the database if it doesn't
-  if ! bundle exec rake db:version
-  then
-    bundle exec rake db:setup
-  fi
+  # 9: Set up the database if it doesn't exist or migrate
+  bundle exec rails db:prepare
   # Start mailcatcher
   mailcatcher --http-ip 0.0.0.0
 
