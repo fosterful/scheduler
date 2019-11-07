@@ -111,9 +111,11 @@ If you are running in non-headless mode, you'll need to be sure you have the Chr
 
 First, we would like to thank you for having an interest in helping with this project! There are several things you can do:
 
-- Help with issues
+- Help with issues, which you can easily navigate on our [roadmap](https://github.com/OfficeMomsandDads/scheduler/projects/2)
+
   - Close open issues by fixing them and making a pull request
   - Reproduce an issue for you or others to fix
+
 - Refactor code
   - Before you put in the work, please open a new issue so we can discuss it.
 
