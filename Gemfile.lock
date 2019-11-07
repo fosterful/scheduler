@@ -493,7 +493,6 @@ DEPENDENCIES
   telephone_number
   turbolinks (~> 5)
   twilio-ruby
-  tzinfo-data
   vcr
   web-console (>= 3.3.0)
   webmock
