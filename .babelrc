@@ -6,8 +6,8 @@
         "modules": false,
         "targets": {
           "browsers": "> 1%",
-          "uglify": true
         },
+        "forceAllTransforms": true,
         "useBuiltIns": "entry"
       }
     ],
