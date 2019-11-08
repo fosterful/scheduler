@@ -79,12 +79,6 @@ module.exports = function(api) {
         {
           removeImport: true
         }
-      ],
-      [
-        require('babel-plugin-module-resolver'),
-        {
-          root: ['./app/javascript/components']
-        }
       ]
     ].filter(Boolean),
     env: {
