@@ -13,7 +13,7 @@
     "babel-plugin-module-resolver": "^3.1.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "core-js": "3",
-    "foundation-sites": "6.5.0",
+    "foundation-sites": "^6.5.3",
     "inputmask": "^4.0.6",
     "jquery": "^3.4.0",
     "lodash": "^4.17.4",
