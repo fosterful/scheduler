@@ -111,11 +111,9 @@ If you are running in non-headless mode, you'll need to be sure you have the Chr
 
 First, we would like to thank you for having an interest in helping with this project! There are several things you can do:
 
-- Help with issues, which you can easily navigate on our [roadmap](https://github.com/OfficeMomsandDads/scheduler/projects/2)
-
+- Help with issues
   - Close open issues by fixing them and making a pull request
   - Reproduce an issue for you or others to fix
-
 - Refactor code
   - Before you put in the work, please open a new issue so we can discuss it.
 
@@ -123,7 +121,7 @@ First, we would like to thank you for having an interest in helping with this pr
 
 Fork this repository, clone your forked repo, and then [setup your environment](#development-environment-setup). Then make a branch, with a descriptive name, for the specific issue that you want to tackle.
 
-- Make changes to fix the relevant issue, making your commit messages conform to our [commit message guidelines](#commit-message-guidelines) listed below.
+- Make changes to fix the relevant issue, making your commit messages conform to our [commit message guidelines](#commit-message-guidelines) listed below. If you need step by step help please see [how to contribute step by step](#how-to-contribute-step-by-step)
 
 - Please write tests and make sure that you have full coverage for all lines for your code.
 
@@ -139,9 +137,65 @@ Fork this repository, clone your forked repo, and then [setup your environment](
 
 2. Please insert a blank line between the subject and any additional message content.
 
+### How to Contribute Step by Step
+
+Create a Branch
+
+- Create a branch in the repository directory by running:
+
+```
+  git checkout -b <add-your-new-branch-name>
+```
+
+Make Necessary Changes
+
+- Edit the file(s). To see your changes after a save type:
+
+```
+git status
+```
+
+- It will show red files stating there are files modified not staged for commit.
+
+- If you would like to see the changes made to the files type:
+
+```
+git diff
+```
+
+Add Your Files to Git
+
+- To add a file and stage the changes for commit type:
+
+```
+`git add <new-or-modified-file-name>`
+```
+
+Commit Changes to Git
+
+- Commit your changes to git by writing a thoughtful commit message. Commit messages are written in present tense (ie: "add contact page..." not "added contact page...").
+
+```
+git commit <"Well thought out commit message, specifying exactly what changes were made.">
+```
+
+Push Changes to GitHub
+
+- Push your changes to GitHub by using:
+
+```
+git push origin <branch-name>
+```
+
+- Make sure you push it to the branch created and do not push it to master.
+
+Submit Changes for Review
+
+- In the project's repository on GitHub, click on the "Compare & pull request" button. Enter information on the changes made inside of the form provided.
+
 ### Reporting Issues
 
-If you encounter a bug or odd behavior that appears unintentional, please Openq an issue ticket and clearly describe the problem, reproducing it exactly if possible.
+If you encounter a bug or odd behavior that appears unintentional, please open an issue ticket and clearly describe the problem, reproducing it exactly if possible.
 
 ### Contacting the maintainers
 
