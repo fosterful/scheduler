@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.4.2",
+    "babel-jest": "^24.9.0",
     "eslint": "^6.6.0",
     "eslint-config-hint": "^0.0.4",
     "jest": "^23.6.0",
