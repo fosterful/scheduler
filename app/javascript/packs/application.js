@@ -1,4 +1,5 @@
-import '@babel/polyfill'
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import Foundation from '../src/foundation_loader'
 import '../src/application.scss'
 import Rails from 'rails-ujs'
