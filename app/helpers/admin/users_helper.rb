@@ -3,7 +3,7 @@
 module Admin
   module UsersHelper
     def filtered_attributes(page)
-      return page.attributes if action_name.eql?('edit')
+      return page.attributes if action_name.in?(['edit', 'update'])
 
       page.attributes.select do |attr|
         attr.attribute.in? %i(email role offices)
