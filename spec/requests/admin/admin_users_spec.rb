@@ -43,4 +43,16 @@ RSpec.describe 'Admin users spec', type: :request do
       expect(response.body).to include(user.email)
     end
   end
+
+  describe 'edit' do
+    let(:user) { create :user, role: 'admin' }
+
+    before { sign_in user }
+    
+    it 'shows an email field after showing an error for empty phone field' do
+      patch admin_user_path(user), params: { user: { phone: ''} }
+      
+      expect(response.body).to include('label for="user_phone"')
+    end
+  end
 end
