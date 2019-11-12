@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :needs do
     resources :shifts, except: %i[new]
   end
+  resources :optouts, only: %i[create]
 
   root to: 'needs#index'
 end
