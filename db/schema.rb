@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_221747) do
+ActiveRecord::Schema.define(version: 2019_11_12_224353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,15 @@ ActiveRecord::Schema.define(version: 2019_10_28_221747) do
     t.bigint "user_id", null: false
   end
 
+  create_table "optouts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "need_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["need_id"], name: "index_optouts_on_need_id"
+    t.index ["user_id"], name: "index_optouts_on_user_id"
+  end
+
   create_table "races", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -173,6 +182,8 @@ ActiveRecord::Schema.define(version: 2019_10_28_221747) do
   add_foreign_key "needs", "languages", column: "preferred_language_id"
   add_foreign_key "needs", "offices"
   add_foreign_key "needs", "users"
+  add_foreign_key "optouts", "needs"
+  add_foreign_key "optouts", "users"
   add_foreign_key "shifts", "needs"
   add_foreign_key "shifts", "users"
 end
