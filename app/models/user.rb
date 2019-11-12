@@ -40,6 +40,7 @@ class User < ApplicationRecord
            through:    :shifts,
            class_name: 'Need',
            source:     'need'
+  has_many :optouts
 
   belongs_to :first_language,
              optional:   true,

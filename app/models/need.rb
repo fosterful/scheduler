@@ -11,6 +11,7 @@ class Need < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
+  has_many :optouts
 
   validates :age_ranges,
             :start_at,
