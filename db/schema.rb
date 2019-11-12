@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 2019_11_12_224353) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["need_id"], name: "index_optouts_on_need_id"
+    t.index ["user_id", "need_id"], name: "index_optouts_on_user_id_and_need_id", unique: true
     t.index ["user_id"], name: "index_optouts_on_user_id"
   end
 

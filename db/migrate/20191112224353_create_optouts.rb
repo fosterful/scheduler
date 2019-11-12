@@ -6,5 +6,6 @@ class CreateOptouts < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :optouts, [:user_id, :need_id], unique: true
   end
 end
