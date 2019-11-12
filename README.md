@@ -139,12 +139,25 @@ Fork this repository, clone your forked repo, and then [setup your environment](
 
 ### How to Contribute Step by Step
 
+Fork the Repository
+
+- On the top right of the Office Moms and Dads repository, click fork.
+- Click on the green "Clone or Download" button. Copy the provided link to your clipboard.
+
+Clone Project to Local Machine
+
+- Navigate to your desired directory with terminal and type in:
+
+```
+git clone <pasted-in-link-from-your-clipboard>
+```
+
 Create a Branch
 
 - Create a branch in the repository directory by running:
 
 ```
-  git checkout -b <add-your-new-branch-name>
+git checkout -b <add-your-new-branch-name>
 ```
 
 Make Necessary Changes
