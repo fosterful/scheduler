@@ -85,3 +85,7 @@
     %ul
       - @need.optouts.each do |optout|
         %li= optout.user.name
+    %p= "#{pluralize @need.users_pending_response.size, 'volunteer'} have not yet responded"
+    %ul
+      - @need.users_pending_response.each do |user|
+        %li= user.name
