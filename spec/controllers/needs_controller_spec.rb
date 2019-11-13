@@ -28,6 +28,7 @@ RSpec.describe NeedsController, type: :controller do
 
       expect(response).to have_http_status(:ok)
       expect(flash[:alert]).to be nil
+      expect(assigns(:optout)).to be_a_new(Optout)
     end
   end
 
