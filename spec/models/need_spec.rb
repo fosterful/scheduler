@@ -184,4 +184,22 @@ RSpec.describe Need, type: :model do
     end
   end
 
+  describe '#users_pending_response' do
+    let(:optout_user) { create(:user) }
+    let(:accepted_user) { create(:user, shifts: [shift]) }
+    let(:pending_user) { create(:user) }
+
+    before {
+      create(:optout, need: need, user: optout_user)
+      need.update(
+        notified_user_ids: [optout_user.id, accepted_user.id, pending_user.id]
+      )
+    }
+
+    it "returns users who haven't responded yet" do
+      result = need.users_pending_response
+      expect(result).to eq([pending_user])
+    end
+  end
+
 end

@@ -63,4 +63,9 @@ class Need < ApplicationRecord
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
   end
+
+  def users_pending_response
+    User.where(id: notified_user_ids).exclude_optouts(self).
+      where.not(id: user_ids)
+  end
 end
