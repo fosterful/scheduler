@@ -46,10 +46,12 @@
     %hr
     .grid-x.grid-margin-y.grid-margin-x.align-spaced.align-middle
       .cell.small-12.medium-9.large-10.shift{ class: shift.user_id ? 'secondary claimed' : 'success unclaimed' }
-      
         .grid-x.grid-padding-x.grid-padding-y
           .cell.text-center
-            %strong= [shift.start_at.strftime('%I:%M%p'), shift.user&.to_s].compact.join(' - ')
+            - if policy(@need).edit?
+              %strong= [shift.start_at.strftime('%I:%M%p'), shift.user&.to_s].compact.join(' - ')
+            - else
+              %strong= [shift.start_at.strftime('%I:%M%p').to_s].compact.join(' - ')
       .cell.small-12.medium-3.large-2
         - if !shift.expired? && shift.user_id == current_user.id
           = link_to need_shift_path(@need, shift, shift: { user_id: nil }), method: :put, class: 'button alert expanded' do
@@ -73,3 +75,4 @@
               .cell
                 %i.fas.fa-calendar-plus
                 Claim Shift
+      
