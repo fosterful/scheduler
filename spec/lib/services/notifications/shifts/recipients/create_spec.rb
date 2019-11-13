@@ -37,7 +37,9 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Create do
       let(:blockout) do
         create(:blockout, start_at: shift.start_at, end_at: shift.end_at)
       end
-      let(:unavailable_user) { create(:user, blockouts: [blockout]) }
+      let(:unavailable_user) {
+        create(:user, age_ranges: need.age_ranges, blockouts: [blockout])
+      }
 
       before { shift.need.office.users << [user, unavailable_user] }
 
