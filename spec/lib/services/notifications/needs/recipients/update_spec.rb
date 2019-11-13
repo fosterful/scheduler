@@ -34,7 +34,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
       end
     end
 
-    context 'with volunteers that are not available' do
+    context 'with volunteers that have blockouts' do
       let(:blockout) do
         build(:blockout, start_at: need.start_at, end_at: need.end_at)
       end
@@ -42,7 +42,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
 
       before { need.office.users << [user, unavailable_user] }
 
-      it 'excludes the unavailable volunteers' do
+      it 'excludes the blocked out volunteers' do
         expect(subject).not_to include(unavailable_user)
       end
     end
@@ -53,6 +53,19 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
         need.update(notified_user_ids: [user.id])
 
         expect(subject).not_to include(user)
+      end
+    end
+
+    context 'with volunteers that have an optout' do
+      let(:optout) { build(:optout, need: need) }
+      let(:unavailable_user) {
+        build(:user, age_ranges: need.age_ranges, optouts: [optout])
+      }
+
+      before { need.office.users << [user, unavailable_user] }
+
+      it 'excludes the opted out volunteers' do
+        expect(subject).not_to include(unavailable_user)
       end
     end
 

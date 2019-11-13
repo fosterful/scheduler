@@ -39,7 +39,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       end
     end
 
-    context 'with volunteers that are not available' do
+    context 'with volunteers that have blockouts' do
       let(:blockout) do
         build(:blockout, start_at: need.start_at, end_at: need.end_at)
       end
@@ -62,6 +62,21 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
         result = subject
 
         expect(result).to be_empty
+      end
+    end
+
+    context 'with volunteers that have an optout' do
+      let(:optout) { build(:optout, need: need) }
+      let(:unavailable_user) {
+        build(:user, age_ranges: need.age_ranges, optouts: [optout])
+      }
+
+      it 'excludes the unavailable volunteers' do
+        need.office.users << [volunteer, unavailable_user]
+
+        result = subject
+
+        expect(result).to eql([volunteer])
       end
     end
 
