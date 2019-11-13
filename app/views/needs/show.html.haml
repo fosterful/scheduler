@@ -41,6 +41,12 @@
       .cell.small-7.text-center
         %strong= @need.preferred_language.name
 %h2 Shifts
+.optout-container
+  - if @optout.new_record?
+    = form_for [@need, @optout] do |f|
+      = f.submit 'Opt out of this need'
+  - else
+    %p You have opted out of this need
 .shifts-container
   - @shifts.each do |shift|
     %hr
