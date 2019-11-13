@@ -34,8 +34,8 @@ Rails.application.routes.draw do
   resources :blockouts, except: %i[index new edit show]
   resources :needs do
     resources :shifts, except: %i[new]
+    resources :optouts, only: %i[create]
   end
-  resources :optouts, only: %i[create]
 
   root to: 'needs#index'
 end
