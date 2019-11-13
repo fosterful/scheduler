@@ -55,6 +55,26 @@ RSpec.describe NeedsController, type: :controller do
         end
       end
     end
+
+    describe 'users pending response list' do
+      let!(:user1) { create(:user, role: 'volunteer') }
+      before { need.update notified_user_ids: [user1] }
+
+      context 'when user is a volunteer' do
+        let(:user) { create(:user, role: 'volunteer') }
+        it 'does not show the list of pending_users' do
+          subject
+          expect(assigns(:pending_users)).to be_nil
+        end
+      end
+
+      context 'when user is an admin' do
+        it 'views the list of pending_users' do
+          subject
+          expect(assigns(:pending_users)).to be_a(ActiveRecord::Relation)
+        end
+      end
+    end
   end
 
   describe '#create' do
