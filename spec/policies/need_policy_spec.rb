@@ -140,6 +140,18 @@ RSpec.describe NeedPolicy do
     end
   end
 
+  describe '#view_optouts?' do
+    context 'when a volunteer' do
+      let(:user) { create(:user, role: 'volunteer') }
+      it { is_expected.to forbid_action(:view_optouts) }
+    end
+
+    context 'when a volunteer coordinator' do
+      let(:user) { create(:user, role: 'coordinator') }
+      it { is_expected.to permit_action(:view_optouts) }
+    end
+  end
+
   describe '#permitted_attributes_for_create' do
     it 'permitted_attributes_for_create' do
       result = subject.permitted_attributes_for_create

@@ -11,6 +11,9 @@ class NeedsController < ApplicationController
     @need   = policy_scope(Need).includes(:shifts).find(params[:id])
     @shifts = @need.shifts.order(:start_at)
     @optout = current_user.optouts.find_or_initialize_by(need: @need)
+    if policy(@need).view_optouts?
+      @optouts = @need.optouts
+    end
 
     authorize @need
   rescue ActiveRecord::RecordNotFound

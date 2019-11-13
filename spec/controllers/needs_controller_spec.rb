@@ -23,12 +23,37 @@ RSpec.describe NeedsController, type: :controller do
   end
 
   describe '#show' do
+    subject { get :show, params: { id: need.id } }
+
     it 'GET show' do
-      get :show, params: { id: need.id }
+      subject
 
       expect(response).to have_http_status(:ok)
       expect(flash[:alert]).to be nil
       expect(assigns(:optout)).to be_a_new(Optout)
+    end
+
+    describe 'optout list' do
+      let!(:user1) { create(:user, role: 'volunteer')}
+      let!(:user2) { create(:user, role: 'volunteer')}
+      let!(:optout1) { create(:optout, user: user1, need: need) }
+      let!(:optout2) { create(:optout, user: user2, need: need) }
+
+      context 'when user is a volunteer' do
+        let(:user) { create(:user, role: 'volunteer') }
+        it 'does not show the list of optouts' do
+          subject
+          expect(assigns(:optouts)).to be_nil
+        end
+      end
+
+      context 'when user is an admin' do
+        it 'views the list of optouts' do
+          subject
+          expect(assigns(:optouts)).
+            to be_a(ActiveRecord::Associations::CollectionProxy)
+        end
+      end
     end
   end
 

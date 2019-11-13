@@ -29,6 +29,10 @@ class NeedPolicy < ApplicationPolicy
     create?
   end
 
+  def view_optouts?
+    user.scheduler?
+  end
+
   def permitted_attributes_for_create
     permitted_attributes | %i(office_id start_at expected_duration)
   end
