@@ -29,7 +29,7 @@ class NeedPolicy < ApplicationPolicy
     create?
   end
 
-  def view_optouts?
+  def view_responses?
     user.scheduler?
   end
 

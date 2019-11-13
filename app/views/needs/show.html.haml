@@ -79,9 +79,9 @@
       = f.submit 'I am not available for this request.'
   - else
     %p You have marked yourself as unavailable for this need.
-- if @optouts.present?
+- if policy(@need).view_responses?
   .responses-container
-    %p= "#{pluralize @optouts.size, 'volunteer'} cannot fill this request"
+    %p= "#{pluralize @need.optouts.size, 'volunteer'} cannot fill this request"
     %ul
-      - @optouts.each do |optout|
+      - @need.optouts.each do |optout|
         %li= optout.user.name

@@ -140,15 +140,15 @@ RSpec.describe NeedPolicy do
     end
   end
 
-  describe '#view_optouts?' do
+  describe '#view_responses?' do
     context 'when a volunteer' do
       let(:user) { create(:user, role: 'volunteer') }
-      it { is_expected.to forbid_action(:view_optouts) }
+      it { is_expected.to forbid_action(:view_responses) }
     end
 
     context 'when a volunteer coordinator' do
       let(:user) { create(:user, role: 'coordinator') }
-      it { is_expected.to permit_action(:view_optouts) }
+      it { is_expected.to permit_action(:view_responses) }
     end
   end
 
