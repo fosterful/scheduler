@@ -41,12 +41,6 @@
       .cell.small-7.text-center
         %strong= @need.preferred_language.name
 %h2 Shifts
-.optout-container
-  - if @optout.new_record?
-    = form_for [@need, @optout] do |f|
-      = f.submit 'Opt out of this need'
-  - else
-    %p You have opted out of this need
 .shifts-container
   - @shifts.each do |shift|
     %hr
@@ -78,3 +72,15 @@
               .cell
                 %i.fas.fa-calendar-plus
                 Claim Shift
+%h2 Opt-outs
+.optout-container
+  - if @optout.new_record?
+    = form_for [@need, @optout] do |f|
+      = f.submit 'Opt out of this need'
+  - else
+    %p You have opted out of this need
+- if @optouts.present?
+  .optouts-container
+    %ul
+      - @optouts.each do |optout|
+        %li= optout.user.name
