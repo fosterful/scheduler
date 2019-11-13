@@ -40,6 +40,11 @@
         %div Preferred Language
       .cell.small-7.text-center
         %strong= @need.preferred_language.name
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Notes
+      .cell.small-7.text-center
+        %strong= @need.notes
 %h2 Shifts
 .shifts-container
   - @shifts.each do |shift|
