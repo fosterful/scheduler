@@ -72,15 +72,16 @@
               .cell
                 %i.fas.fa-calendar-plus
                 Claim Shift
-%h2 Opt-outs
+%h2 Response
 .optout-container
   - if @optout.new_record?
     = form_for [@need, @optout] do |f|
-      = f.submit 'Opt out of this need'
+      = f.submit 'I am not available for this request.'
   - else
-    %p You have opted out of this need
+    %p You have marked yourself as unavailable for this need.
 - if @optouts.present?
-  .optouts-container
+  .responses-container
+    %p= "#{pluralize @optouts.size, 'volunteer'} cannot fill this request"
     %ul
       - @optouts.each do |optout|
         %li= optout.user.name
