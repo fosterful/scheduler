@@ -48,6 +48,7 @@ class Shift < ApplicationRecord
     # this differs from Need#users_to_notify because start_at and end_at differ
     notification_candidates
       .exclude_blockouts(start_at, end_at)
+      .exclude_optouts(need)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
   end

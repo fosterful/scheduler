@@ -88,6 +88,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.exclude_optouts' do
+    subject { User.exclude_optouts(need) }
+    let(:need) { create(:need) }
+    let(:user) { create(:user) }
+
+    context 'when user has no optouts' do
+      it { is_expected.to include(user) }
+    end
+
+    context 'when user has an optout' do
+      before { create(:optout, user: user, need: need) }
+      it { is_expected.not_to include(user) }
+    end
+  end
+
   describe '.speaks_language' do
     subject { User.speaks_language(language) }
 

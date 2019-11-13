@@ -133,6 +133,10 @@ class User < ApplicationRecord
       .where(blockouts: { id: nil })
   end
 
+  def self.exclude_optouts(need)
+    left_outer_joins(:optouts).where(optouts: { need_id: nil })
+  end
+
   def at_least_one_office
     return if offices.any?
 
