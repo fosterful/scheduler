@@ -51,8 +51,8 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.available_within' do
-    subject { User.available_within(*time.values) }
+  describe '.exclude_blockouts' do
+    subject { User.exclude_blockouts(*time.values) }
 
     let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
 

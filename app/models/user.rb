@@ -121,7 +121,7 @@ class User < ApplicationRecord
     shifts_by_user.sum('shifts.duration')
   end
 
-  def self.available_within(start_at, end_at)
+  def self.exclude_blockouts(start_at, end_at)
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
       ON blockouts.user_id = users.id
