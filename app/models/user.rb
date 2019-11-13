@@ -102,6 +102,10 @@ class User < ApplicationRecord
     where(first_language: language).or(where(second_language: language))
   }
 
+  scope :exclude_optouts, lambda { |need|
+    left_outer_joins(:optouts).where(optouts: { need_id: nil })
+  }
+
   def self.shifts_by_user
     joins(:shifts).group('users.id')
   end
@@ -131,10 +135,6 @@ class User < ApplicationRecord
 
     joins(sql)
       .where(blockouts: { id: nil })
-  end
-
-  def self.exclude_optouts(need)
-    left_outer_joins(:optouts).where(optouts: { need_id: nil })
   end
 
   def at_least_one_office
