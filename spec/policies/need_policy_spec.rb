@@ -151,6 +151,7 @@ RSpec.describe NeedPolicy do
                          :preferred_language_id,
                          :race_id,
                          :start_at,
+                         :notes,
                          age_range_ids: []])
     end
   end
@@ -162,6 +163,7 @@ RSpec.describe NeedPolicy do
       expect(result).to match_array([:number_of_children,
                                      :preferred_language_id,
                                      :race_id,
+                                     :notes,
                                      age_range_ids: []])
     end
   end

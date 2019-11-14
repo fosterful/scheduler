@@ -50,3 +50,8 @@
     = f.label :preferred_language_id do
       Preferred Language
       = f.select :preferred_language_id, language_options_for_select, { include_blank: false }, class: 'single'
+.grid-x
+  .cell
+    = f.label :notes do
+      Notes
+      = f.text_area :notes, :rows => 6, :placeholder => 'Enter notes here'
