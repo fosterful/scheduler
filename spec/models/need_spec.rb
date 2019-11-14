@@ -38,6 +38,30 @@ RSpec.describe Need, type: :model do
     end
   end
 
+    describe '#effective_end_at' do
+    it 'returns need end at if no shifts' do
+      result = need.effective_end_at
+
+      expect(result).to eql(need.end_at)
+    end
+
+    it 'returns need end at if no shifts are later' do
+      need.shifts << build(:shift, start_at: need.start_at)
+
+      result = need.effective_end_at
+
+      expect(result.to_s(:db)).to eql(need.end_at.to_s(:db))
+    end
+
+    it 'returns latest shift end at if later than need end at' do
+      shift = create(:shift, need: need, start_at: 2.hours.from_now)
+
+      result = need.effective_end_at
+
+      expect(result.to_s(:db)).to eql(shift.end_at.to_s(:db))
+    end
+  end
+
   describe '.current' do # scope test
     it 'supports named scope current' do
       expect(described_class.limit(3).current).to all(be_a(described_class))

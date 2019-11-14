@@ -105,7 +105,7 @@ class User < ApplicationRecord
   scope :exclude_optouts, -> (need) {
     left_outer_joins(:optouts).where(
       "optouts.need_id IS NULL OR optouts.start_at > ? OR optouts.end_at < ?",
-      need.start_at, need.end_at
+      need.effective_start_at, need.effective_end_at
     )
   }
 

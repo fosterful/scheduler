@@ -100,6 +100,11 @@ RSpec.describe User, type: :model do
     context 'when user has an optout' do
       before { create(:optout, user: user, need: need) }
       it { is_expected.not_to include(user) }
+
+      context 'when optout is out of range' do
+        before { create(:shift, need: need, start_at: 2.hours.from_now) }
+        it { is_expected.to include(user) }
+      end
     end
   end
 

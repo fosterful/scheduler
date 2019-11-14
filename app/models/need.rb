@@ -50,6 +50,15 @@ class Need < ApplicationRecord
     [start_at, *shifts.pluck(:start_at)].min
   end
 
+  def effective_end_at
+    last_shift = shifts.order(:start_at).last
+    if last_shift.nil?
+      end_at
+    else
+      [end_at, last_shift.end_at].max
+    end
+  end
+
   def notification_candidates
     office
       .notifiable_users
