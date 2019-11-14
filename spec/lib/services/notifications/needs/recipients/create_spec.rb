@@ -43,7 +43,9 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       let(:blockout) do
         build(:blockout, start_at: need.start_at, end_at: need.end_at)
       end
-      let(:unavailable_user) { build(:user, blockouts: [blockout]) }
+      let(:unavailable_user) {
+        build(:user, age_ranges: need.age_ranges, blockouts: [blockout])
+      }
 
       it 'excludes the unavailable volunteers' do
         need.office.users << [volunteer, unavailable_user]
