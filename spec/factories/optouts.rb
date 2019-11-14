@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :optout do
-    user { nil }
-    need { nil }
+    association :user, strategy: :build
+    association :need, strategy: :build
   end
 end

@@ -11,16 +11,16 @@ class Optout < ApplicationRecord
   private
 
   def init_start_and_end_at
-    self.start_at = need.start_at
-    self.end_at = need.end_at
+    self.start_at = need.effective_start_at
+    self.end_at = need.effective_end_at
   end
 
   def update_start_and_end_at
-    self.start_at = [start_at, need.start_at].min
-    self.end_at = [end_at, need.end_at].max
+    self.start_at = [start_at, need.effective_start_at].min
+    self.end_at = [end_at, need.effective_end_at].max
   end
 
   def increment_occurrences
-    self.occurrences.increment!
+    increment! :occurrences
   end
 end
