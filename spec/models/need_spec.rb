@@ -226,4 +226,20 @@ RSpec.describe Need, type: :model do
     end
   end
 
+  describe '#active_optouts' do
+    it 'returns only optouts before the latest shift end_at' do
+      optout = create(:optout, need: need)
+      expect(need.active_optouts).to include(optout)
+      create(:shift, need: need, start_at: need.start_at + 2.hours)
+      expect(need.active_optouts).not_to include(optout)
+    end
+
+    it 'returns only optouts before the latest shift start_at' do
+      optout = create(:optout, need: need)
+      expect(need.active_optouts).to include(optout)
+      create(:shift, need: need, start_at: need.start_at - 2.hours)
+      expect(need.active_optouts).not_to include(optout)
+    end
+  end
+
 end

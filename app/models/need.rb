@@ -77,4 +77,9 @@ class Need < ApplicationRecord
     User.where(id: notified_user_ids).exclude_optouts(self).
       where.not(id: user_ids)
   end
+
+  def active_optouts
+    optouts.where("start_at <= ?", effective_start_at).
+    where("end_at >= ?", effective_end_at)
+  end
 end

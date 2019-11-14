@@ -74,19 +74,19 @@
                 Claim Shift
 %h2 Response
 .optout-container
-  - if @optout.active?
-    %p
-      = form_for [@need, @optout] do |f|
-        = f.submit 'I am not available for this request.', class: 'button alert'
+  - if !@optout.active?
+    = form_for [@need, @optout] do |f|
+      = f.submit 'I am not available for this request.', class: 'button alert'
+    %br
   - else
     %p You have marked yourself as unavailable for this need.
 - if policy(@need).view_responses?
   .responses-container
     %p
-      = link_to pluralize(@need.optouts.size, 'volunteer'), '#', id: 'toggle-optouts-list'
+      = link_to pluralize(@need.active_optouts.size, 'volunteer'), '#', id: 'toggle-optouts-list'
       cannot fill this request
     %ul#optouts-list.hide
-      - @need.optouts.each do |optout|
+      - @need.active_optouts.each do |optout|
         %li= optout.user.name
     %p
       = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list'

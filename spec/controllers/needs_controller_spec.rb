@@ -23,14 +23,38 @@ RSpec.describe NeedsController, type: :controller do
   end
 
   describe '#show' do
-    subject { get :show, params: { id: need.id } }
+    render_views
 
-    it 'GET show' do
-      subject
+    it 'returns ok and sets expected variables' do
+      get :show, params: { id: need.id }
 
       expect(response).to have_http_status(:ok)
       expect(flash[:alert]).to be nil
       expect(assigns(:optout)).to be_a_new(Optout)
+      assert_select ".new_optout input[type=submit]" +
+        "[value='I am not available for this request.']"
+    end
+
+    context 'when optout already exists' do
+      let!(:optout) { create(:optout, need: need, user: user) }
+
+      context 'when optout is active' do
+        it 'shows user is unavailable' do
+          get :show, params: { id: need.id }
+          assert_select '.optout-container p',
+            'You have marked yourself as unavailable for this need.'
+        end
+      end
+
+      context 'when optout is not active' do
+        before { create(:shift, need: need, start_at: need.start_at + 2.hours) }
+
+        it 'allows them to opt out again' do
+          get :show, params: { id: need.id }
+          assert_select ".edit_optout input[type=submit]" +
+            "[value='I am not available for this request.']"
+        end
+      end
     end
   end
 
