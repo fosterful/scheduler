@@ -74,7 +74,7 @@
                 Claim Shift
 %h2 Response
 .optout-container
-  - if @optout.new_record?
+  - if @optout.active?
     %p
       = form_for [@need, @optout] do |f|
         = f.submit 'I am not available for this request.', class: 'button alert'

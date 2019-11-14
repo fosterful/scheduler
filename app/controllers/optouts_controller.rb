@@ -15,7 +15,7 @@ class OptoutsController < ApplicationController
 
     authorize @optout
 
-    @optout.save
+    @optout.update_shift_times
     redirect_to @need
   end
 end

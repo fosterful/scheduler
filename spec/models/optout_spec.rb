@@ -11,25 +11,38 @@ RSpec.describe Optout, type: :model do
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it 'should update start_at and end_at' do
-    shift = create(:shift, need: need, start_at: need.start_at + 2.hours)
-    optout.save
-    shift.reload # avoid mysterious nanosecond incongruity
-    expect(optout.end_at).to eq(shift.end_at)
-  end
+  describe '#update_shift_times' do
+    let!(:shift) {
+      create(:shift, need: need, start_at: need.start_at + 2.hours)
+    }
 
-  it 'should increment occurrences on update' do
-    expect(optout.occurrences).to eq(1)
-    optout.save
-    expect(optout.occurrences).to eq(2)
+    it 'should update end_at' do
+      expect(optout.end_at).not_to eq(shift.end_at)
+      optout.update_shift_times
+      shift.reload # avoid mysterious nanosecond incongruity
+      expect(optout.end_at).to eq(shift.end_at)
+    end
+
+    it 'should increment occurrences' do
+      expect(optout.occurrences).to eq(1)
+      optout.update_shift_times
+      expect(optout.occurrences).to eq(2)
+    end
   end
 
   describe '#active?' do
+    it 'returns false if optout is a new record' do
+      optout = build(:optout)
+      expect(optout.active?).to be false
+      optout.save
+      expect(optout.active?).to be true
+    end
+
     it 'returns whether the optout is still within the range' do
       expect(optout.active?).to eq(true)
       shift = create(:shift, need: need, start_at: need.start_at + 2.hours)
       expect(optout.active?).to eq(false)
-      optout.save
+      optout.update_shift_times
       expect(optout.active?).to eq(true)
     end
   end
