@@ -102,8 +102,11 @@ class User < ApplicationRecord
     where(first_language: language).or(where(second_language: language))
   }
 
-  scope :exclude_optouts, lambda { |need|
-    left_outer_joins(:optouts).where(optouts: { need_id: nil })
+  scope :exclude_optouts, -> (need) {
+    left_outer_joins(:optouts).where(
+      "optouts.need_id IS NULL OR optouts.start_at > ? OR optouts.end_at < ?",
+      need.start_at, need.end_at
+    )
   }
 
   def self.shifts_by_user
@@ -129,7 +132,7 @@ class User < ApplicationRecord
     sql = <<~SQL
       LEFT OUTER JOIN blockouts
       ON blockouts.user_id = users.id
-      AND tsrange(start_at, end_at) &&
+      AND tsrange(blockouts.start_at, blockouts.end_at) &&
             tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
     SQL
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_224353) do
+ActiveRecord::Schema.define(version: 2019_11_14_164533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,9 @@ ActiveRecord::Schema.define(version: 2019_11_12_224353) do
     t.bigint "need_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer "occurrences", default: 1
     t.index ["need_id"], name: "index_optouts_on_need_id"
     t.index ["user_id", "need_id"], name: "index_optouts_on_user_id_and_need_id", unique: true
     t.index ["user_id"], name: "index_optouts_on_user_id"
