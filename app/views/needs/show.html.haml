@@ -75,8 +75,9 @@
 %h2 Response
 .optout-container
   - if @optout.new_record?
-    = form_for [@need, @optout] do |f|
-      = f.submit 'I am not available for this request.'
+    %p
+      = form_for [@need, @optout] do |f|
+        = f.submit 'I am not available for this request.', class: 'button alert'
   - else
     %p You have marked yourself as unavailable for this need.
 - if policy(@need).view_responses?
