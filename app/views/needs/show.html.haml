@@ -44,7 +44,7 @@
       .cell.small-5
         %div Notes
       .cell.small-7.text-center
-        %strong= @need.notes
+        %strong= simple_format("#{@need.notes}")
 %h2 Shifts
 .shifts-container
   - @shifts.each do |shift|
