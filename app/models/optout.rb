@@ -8,6 +8,10 @@ class Optout < ApplicationRecord
   before_update :update_start_and_end_at
   before_update :increment_occurrences
 
+  def active?
+    start_at <= need.effective_start_at && end_at >= need.effective_end_at
+  end
+
   private
 
   def init_start_and_end_at
