@@ -50,7 +50,9 @@ class Need < ApplicationRecord
   end
 
   def notification_candidates
-    office.notifiable_users
+    office
+      .notifiable_users
+      .where.not(id: unavailable_user_ids | [user_id])
   end
 
   def users_to_notify
@@ -58,5 +60,13 @@ class Need < ApplicationRecord
       .exclude_blockouts(start_at, end_at)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
+  end
+
+  def unavailable_users
+    User.find(unavailable_user_ids)
+  end
+
+  def users_pending_response
+    User.find(notified_user_ids - unavailable_user_ids - shifts.map(&:user_id))
   end
 end
