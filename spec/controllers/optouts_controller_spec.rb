@@ -12,4 +12,10 @@ RSpec.describe OptoutsController, type: :controller do
 
     it { is_expected.to redirect_to(need) }
   end
+
+  describe 'PATCH update' do
+    let(:optout) { create(:optout, user: user, need: need) }
+    subject { patch :update, params: { need_id: need, id: optout } }
+    it { is_expected.to redirect_to(need) }
+  end
 end

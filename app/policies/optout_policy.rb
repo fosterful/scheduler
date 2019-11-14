@@ -5,6 +5,10 @@ class OptoutPolicy < ApplicationPolicy
     user.admin? || user_in_office?
   end
 
+  def update?
+    create?
+  end
+
   private
 
   def user_in_office?

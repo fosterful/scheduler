@@ -13,6 +13,7 @@ RSpec.describe OptoutPolicy do
     let(:user) { create(:user, role: 'admin') }
 
     it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:update) }
   end
 
   context 'when user is a volunteer' do
@@ -22,10 +23,12 @@ RSpec.describe OptoutPolicy do
       before { record.need.office.users << user }
 
       it { is_expected.to permit_action(:create) }
+      it { is_expected.to permit_action(:update) }
     end
 
     context 'when not in the office' do
       it { is_expected.to forbid_action(:create) }
+      it { is_expected.to forbid_action(:update) }
     end
   end
 end

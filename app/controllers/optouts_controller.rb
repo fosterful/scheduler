@@ -8,4 +8,14 @@ class OptoutsController < ApplicationController
     @optout.save
     redirect_to @need
   end
+
+  def update
+    @need = Need.find(params[:need_id])
+    @optout = Optout.find(params[:id])
+
+    authorize @optout
+
+    @optout.save
+    redirect_to @need
+  end
 end
