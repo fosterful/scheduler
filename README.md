@@ -219,15 +219,15 @@ For all other questions and concerns related to this project, please open an iss
 ## Technologies Used
 
 - Docker
-- Ruby-On-Rails
+- PostgreSQL
 - React
-- Twilio
+- Ruby-On-Rails
 
 ---
 
 ## Support and Contact details
 
-Interested in finding out more about what we do, or how you can support our mission? Please visit our [website](https://officemomsanddads.com).
+Interested in finding out more about what we do, or how you can support our mission? Please visit [https://officemomsanddads.com](https://officemomsanddads.com).
 
 If after reading about us, you still have questions, you can directly [contact us](https://officemomsanddads.com/contact-us/) through our website.
 
