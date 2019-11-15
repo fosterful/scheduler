@@ -11,6 +11,12 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  def authenticate_admin
+    return if current_user.admin?
+
+    redirect_to root_path, flash: { error: 'Not authorized.' }
+  end
+
   private
 
   def configure_permitted_parameters

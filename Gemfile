@@ -33,8 +33,8 @@ gem 'redis'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# Lib for building admin
-gem 'administrate'
+# Admin framework
+gem 'activeadmin'
 
 # User registration & authorization
 gem 'devise'
@@ -62,7 +62,7 @@ gem 'sidekiq'
 gem 'twilio-ruby'
 
 # Exception monitoring
-gem 'honeybadger'
+# gem 'honeybadger'
 
 # For phone number validation/formatting
 gem 'telephone_number'
