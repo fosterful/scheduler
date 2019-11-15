@@ -15,7 +15,8 @@ module Services
 
       def notify
         Services::TextMessageEnqueue.send_messages(phone_numbers, message)
-        shift.need.update! notified_user_ids: recipients.map(&:id)
+        shift.need.notified_user_ids |= recipients.map(&:id)
+        shift.need.save!
 
         yield(self) if block_given?
       end
