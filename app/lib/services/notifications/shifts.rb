@@ -5,16 +5,18 @@ module Services
     class Shifts
       include Adamantium::Flat
 
-      attr_accessor :message,
-                    :recipients
+      attr_accessor :message, :recipients, :shift
 
       def initialize(shift, action, event_data = {})
         self.message    = Message.new(shift, action, event_data).message
         self.recipients = Recipients.new(shift, action, event_data).recipients
+        self.shift = shift
       end
 
       def notify
         Services::TextMessageEnqueue.send_messages(phone_numbers, message)
+        shift.need.notified_user_ids |= recipients.map(&:id)
+        shift.need.save!
 
         yield(self) if block_given?
       end

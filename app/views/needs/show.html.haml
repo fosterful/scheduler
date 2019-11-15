@@ -54,6 +54,8 @@
         .grid-x.grid-padding-x.grid-padding-y
           .cell.text-center
             %strong= shift.start_at.strftime('%I:%M%p')
+            - if policy(@need).edit? 
+              = " - #{shift.user&.to_s}"
       .cell.small-12.medium-3.large-2
         - if !shift.expired? && shift.user_id == current_user.id
           = link_to need_shift_path(@need, shift, shift: { user_id: nil }), method: :put, class: 'button alert expanded' do
@@ -77,3 +79,4 @@
               .cell
                 %i.fas.fa-calendar-plus
                 Claim Shift
+      

@@ -10,8 +10,11 @@ class Language < ApplicationRecord
            class_name:  'User',
            foreign_key: :second_language_id,
            dependent:   :restrict_with_error,
-           inverse_of:  :second_langauge
-  has_many :needs, dependent: :restrict_with_error
+           inverse_of:  :second_language
+  has_many :needs, 
+            dependent: :restrict_with_error,
+            foreign_key: :preferred_language_id,
+            inverse_of: :preferred_language
 
   validates :name, presence: true
 end

@@ -17,7 +17,7 @@ RSpec.describe Services::Notifications::Shifts do
   let(:shift) { need.shifts.first! }
   let(:phone) { '(360) 555-0110' }
   let!(:shift_user) do
-    u          = create(:user, phone: phone)
+    u          = create(:user, phone: phone, age_ranges: need.age_ranges)
     shift.user = u
     shift.save!
     u
@@ -44,6 +44,23 @@ RSpec.describe Services::Notifications::Shifts do
       expect do
         object.notify { puts 'hello' }
       end.to output("hello\n").to_stdout
+    end
+
+    describe 'notified_user_ids' do
+      it 'adds to notified_user_ids' do
+        expect(need.notified_user_ids).to be_empty
+        need.office.users << shift_user
+        expect(need.users_to_notify).to eq([shift_user])
+        object.notify
+        expect(need.notified_user_ids).to eq([shift_user.id])
+      end
+
+      it 'does not remove from notified_user_ids' do
+        need.update notified_user_ids: [shift_user.id]
+        expect(need.users_to_notify).to be_empty
+        object.notify
+        expect(need.notified_user_ids).to eq([shift_user.id])
+      end
     end
   end
 

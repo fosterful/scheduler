@@ -57,13 +57,13 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
     end
 
     context 'with users already notified' do
-      it 'does not notify users again' do
+      it 'notifies users again' do
         need.office.users << volunteer
         need.update(notified_user_ids: [volunteer.id])
 
         result = subject
 
-        expect(result).to be_empty
+        expect(result).to include(volunteer)
       end
     end
 
