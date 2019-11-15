@@ -50,8 +50,7 @@ class NeedsController < ApplicationController
     authorize @need
 
     if @need.save
-      notify_users_of_update
-
+      Services::Notifications::Needs.new(@need, :update).notify
       redirect_to(@need)
     else
       render(:edit)
@@ -80,12 +79,4 @@ class NeedsController < ApplicationController
 
     params[:need][:expected_duration] = (params[:need][:expected_duration].to_f * 60).to_s
   end
-
-  def notify_users_of_update
-    Services::Notifications::Needs.new(@need, :update).notify do |notifier|
-      @need.notified_user_ids |= notifier.recipients.map(&:id)
-      @need.save!
-    end
-  end
-
 end

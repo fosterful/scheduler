@@ -50,11 +50,13 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
     end
 
     context 'with users already notified' do
-      it 'does not notify users again' do
+      let(:user) { create(:user, age_ranges: need.age_ranges) }
+
+      it 'notifies users again' do
         need.office.users << user
         need.update(notified_user_ids: [user.id])
 
-        expect(subject).not_to include(user)
+        expect(subject).to include(user)
       end
     end
 

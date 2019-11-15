@@ -49,11 +49,13 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Create do
     end
 
     context 'with users already notified' do
-      it 'does not notify users again' do
+      let(:user) { create(:user, age_ranges: need.age_ranges) }
+
+      it 'notifies users again' do
         shift.need.office.users << user
         shift.need.update(notified_user_ids: [user.id])
 
-        expect(object.recipients).not_to include(user)
+        expect(object.recipients).to include(user)
       end
     end
 
