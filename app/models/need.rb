@@ -50,9 +50,7 @@ class Need < ApplicationRecord
   end
 
   def notification_candidates
-    office
-      .notifiable_users
-      .where.not(id: notified_user_ids | [user_id])
+    office.notifiable_users
   end
 
   def users_to_notify
