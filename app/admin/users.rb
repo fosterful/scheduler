@@ -6,10 +6,10 @@ ActiveAdmin.register User do
   filter :offices
 
   index do
+    id_column
     column :name
     column :email
     column :offices
-    id_column
     actions
   end
   # See permitted parameters documentation:
