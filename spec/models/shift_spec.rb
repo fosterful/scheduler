@@ -101,4 +101,16 @@ RSpec.describe Shift, type: :model do
     end
   end
 
+  describe 'after_create :clear_unavailable_users' do
+    let(:user) { create(:user) }
+    let(:need) { shift.need }
+    before { need.update(unavailable_user_ids: [user.id]) }
+
+    it "clears the need's unavailable_user_ids on create" do
+      expect(need.unavailable_user_ids).to eq([user.id])
+      second_shift
+      expect(need.unavailable_user_ids).to be_empty
+    end
+  end
+
 end
