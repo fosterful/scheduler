@@ -30,7 +30,7 @@ ActiveAdmin.setup do |config|
   # will namespace routes to /hello_world/*
   #
   # To set no namespace by default, use:
-  #   config.default_namespace = false
+    # config.default_namespace = false
   #
   # Default:
   # config.default_namespace = :admin
@@ -325,4 +325,10 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+end
+
+ActiveSupport::Notifications.subscribe ActiveAdmin::Resource::RegisterEvent do |_event, resource|
+  resource.dsl.send :permit_params do
+    Pundit.policy!(current_user, resource_class).permitted_attributes
+  end
 end
