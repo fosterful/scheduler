@@ -1,5 +1,7 @@
 ActiveAdmin.register Office do
 
+  config.sort_order = 'id_asc'
+
   filter :name
   filter :region
   filter :address

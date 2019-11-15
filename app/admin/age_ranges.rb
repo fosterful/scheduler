@@ -1,5 +1,7 @@
 ActiveAdmin.register AgeRange do
 
+  config.sort_order = 'id_asc'
+
   filter :min
   filter :max
 

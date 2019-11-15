@@ -1,5 +1,7 @@
 ActiveAdmin.register Race do
 
+  config.sort_order = 'id_asc'
+
   filter :id
   filter :name
 

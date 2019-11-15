@@ -1,5 +1,7 @@
 ActiveAdmin.register User do
 
+  config.sort_order = 'last_name_asc'
+
   filter :first_name
   filter :last_name
   filter :email
