@@ -23,42 +23,10 @@ RSpec.describe NeedsController, type: :controller do
   end
 
   describe '#show' do
-    subject { get :show, params: { id: need.id } }
-
-    render_views
-
     it 'returns ok and sets expected variables' do
-      subject
+      get :show, params: { id: need.id }
       expect(response).to have_http_status(:ok)
       expect(flash[:alert]).to be nil
-    end
-
-    context 'when user has not been notified' do
-      it 'does not show unavailability button' do
-        subject
-        assert_select ".unavailable-container input[type=submit]" +
-          "[value='I am not available for this request.']", 0
-      end
-    end
-
-    context 'when user has been notified' do
-      before { need.update(notified_user_ids: [user.id]) }
-
-      it 'shows unavailability button' do
-        subject
-        assert_select ".unavailable-container input[type=submit]" +
-          "[value='I am not available for this request.']"
-      end
-
-      context 'when user has marked themselves unavailable' do
-        before { need.update(unavailable_user_ids: [user.id]) }
-
-        it 'shows user is unavailable' do
-          subject
-          assert_select '.unavailable-container p',
-            'You have marked yourself as unavailable for this need.'
-        end
-      end
     end
   end
 

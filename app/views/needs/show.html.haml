@@ -79,26 +79,27 @@
               .cell
                 %i.fas.fa-calendar-plus
                 Claim Shift
-%h2 Response
-.unavailable-container
-  - if @need.notified_user_ids.include?(current_user.id)
-    - if @need.unavailable_user_ids.include?(current_user.id)
-      %p You have marked yourself as unavailable for this need.
-    - else
-      = form_tag mark_unavailable_need_path(@need), method: :patch do
-        = submit_tag 'I am not available for this request.', class: 'button alert'
-      %br
-- if policy(@need).view_responses?
-  .responses-container
-    %p
-      = link_to pluralize(@need.unavailable_users.size, 'volunteer'), '#', id: 'toggle-unavailable-list'
-      cannot fill this request
-    %ul#unavailable-list.hide
-      - @need.unavailable_users.each do |user|
-        %li= user.name
-    %p
-      = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list'
-      have not yet responded
-    %ul#pending-list.hide
-      - @need.users_pending_response.each do |user|
-        %li= user.name
+- if @need.notified_user_ids.present?
+  %h2 Response
+  .unavailable-container
+    - if @need.notified_user_ids.include?(current_user.id)
+      - if @need.unavailable_user_ids.include?(current_user.id)
+        %p You have marked yourself as unavailable for this need.
+      - else
+        = form_tag mark_unavailable_need_path(@need), method: :patch do
+          = submit_tag 'I am not available for this request.', class: 'button alert'
+        %br
+  - if policy(@need).view_responses?
+    .responses-container
+      %p
+        = link_to pluralize(@need.unavailable_users.size, 'volunteer'), '#', id: 'toggle-unavailable-list'
+        cannot fill this request
+      %ul#unavailable-list.hide
+        - @need.unavailable_users.each do |user|
+          %li= user.name
+      %p
+        = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list'
+        have not yet responded
+      %ul#pending-list.hide
+        - @need.users_pending_response.each do |user|
+          %li= user.name
