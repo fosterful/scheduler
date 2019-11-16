@@ -1,0 +1,13 @@
+= semantic_form_for ['admin', resource]do |f|
+  = f.semantic_errors 
+  = f.inputs do
+    = f.input :name
+    = f.input :region
+    = f.inputs :for => :address do |a, i|
+      = a.semantic_errors
+      = a.input :street
+      = a.input :city
+      = a.input :state
+      = a.input :postal_code
+    = f.actions        
+  

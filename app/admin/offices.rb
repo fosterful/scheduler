@@ -6,6 +6,8 @@ ActiveAdmin.register Office do
   filter :region
   filter :address
 
+  form partial: 'form'
+
   index do
     id_column
     column :name
@@ -14,7 +16,15 @@ ActiveAdmin.register Office do
     actions
   end
 
-   menu priority: 2
+  menu priority: 2
+
+  controller do
+    def new
+      super do
+        resource.build_address if resource.address.blank?
+      end
+    end
+  end
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
