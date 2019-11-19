@@ -3,11 +3,12 @@
   = f.inputs do
     = f.input :name
     = f.input :region
-    = f.inputs :for => :address do |a, i|
+    = f.inputs for: :address do |a, i|
       = a.semantic_errors
       = a.input :street
       = a.input :city
       = a.input :state
       = a.input :postal_code
+      = a.input :skip_api_validation, as: :boolean
     = f.actions        
   
