@@ -10,14 +10,14 @@
     = f.input :first_language
     = f.input :second_language
     = f.input :time_zone
-    = f.input :offices
-    = f.input :age_ranges
+    = f.input :offices, as: :check_boxes
+    = f.input :age_ranges, as: :check_boxes
     = f.input :birth_date
     = f.input :phone
     = f.input :resident_since
-    = f.input :discovered_omd_by
+    = f.input :discovered_omd_by, :input_html => { :rows => 1, :maxlength => 100 }
     = f.input :medical_limitations
-    = f.input :medical_limitations_desc
+    = f.input :medical_limitations_desc, :input_html => { :rows => 5, :maxlength => 250, :placeholder => 'Please explain'}
     = f.input :conviction
-    = f.input :conviction_desc
+    = f.input :conviction_desc, :input_html => { :rows => 5, :maxlength => 250, :placeholder => 'Please give a brief explanation' }
     = f.actions 
