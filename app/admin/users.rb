@@ -21,9 +21,13 @@ ActiveAdmin.register User do
   show do
     attributes_table do
       rows :first_name, :last_name, :email, :role, :time_zone, :race, :first_language, :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by, :medical_limitations
-      row :medical_limitations_desc
+      row :medical_limitations_desc do
+        simple_format user.medical_limitations_desc
+      end
       row :conviction
-      row :conviction_desc
+      row :conviction_desc do
+        simple_format user.conviction_desc
+      end
       row :offices do
         table_for user.offices do
           column :name
