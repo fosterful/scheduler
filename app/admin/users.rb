@@ -33,10 +33,18 @@ ActiveAdmin.register User do
       row :resident_since
       row :discovered_omd_by
       row :medical_limitations
-      row :medical_limitations_desc
+      row :medical_limitations_desc, as: :block do |user|
+        simple_format user.medical_limitations_desc
+      end
       row :conviction
       row :conviction_desc
-      row :offices
+      row :offices do
+        table_for user.offices do
+          column :name
+          column :region
+          column :address
+        end
+      end
       row :age_ranges
       row :invited_by
       row :unconfirmed_email
