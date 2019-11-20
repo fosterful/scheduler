@@ -1,0 +1,23 @@
+= semantic_form_for ['admin', resource]do |f|
+  = f.semantic_errors 
+  = f.object.errors.inspect
+  = f.inputs do
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :email
+    = f.input :role, as: :select,     :collection => User::ROLES
+    = f.input :race
+    = f.input :first_language
+    = f.input :second_language
+    = f.input :time_zone
+    = f.input :offices
+    = f.input :age_ranges
+    = f.input :birth_date
+    = f.input :phone
+    = f.input :resident_since
+    = f.input :discovered_omd_by
+    = f.input :medical_limitations
+    = f.input :medical_limitations_desc
+    = f.input :conviction
+    = f.input :conviction_desc
+    = f.actions 

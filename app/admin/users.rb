@@ -8,6 +8,7 @@ ActiveAdmin.register User do
   filter :offices
 
   form partial: 'form'
+  form partial: 'edit'
 
   index do
     id_column
