@@ -18,6 +18,33 @@ ActiveAdmin.register User do
     actions
   end
 
+  show do
+    attributes_table do
+      row :first_name
+      row :last_name
+      row :email
+      row :role
+      row :time_zone
+      row :race
+      row :first_language
+      row :second_language
+      row :birth_date
+      row :phone
+      row :resident_since
+      row :discovered_omd_by
+      row :medical_limitations
+      row :medical_limitations_desc
+      row :conviction
+      row :conviction_desc
+      row :offices
+      row :age_ranges
+      row :invited_by
+      row :unconfirmed_email
+      row :sign_in_count
+      row :current_sign_in_at
+    end
+  end
+
   menu priority: 1
 
   controller do
