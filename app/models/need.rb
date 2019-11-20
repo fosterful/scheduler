@@ -67,6 +67,6 @@ class Need < ApplicationRecord
   end
 
   def users_pending_response
-    User.find(notified_user_ids - unavailable_user_ids - shifts.map(&:user_id))
+    User.find(notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
   end
 end

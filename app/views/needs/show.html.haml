@@ -80,11 +80,13 @@
                 %i.fas.fa-calendar-plus
                 Claim Shift
 - if @need.notified_user_ids.present?
-  %h2 Response
-  .unavailable-container
-    - if @need.notified_user_ids.include?(current_user.id)
-      - if @need.unavailable_user_ids.include?(current_user.id)
-        %p You have marked yourself as unavailable for this need.
+  - if @need.notified_user_ids.include?(current_user.id)
+    %br
+    .unavailable-container
+      - if @need.shifts.where(user_id: current_user.id).present?
+        %p You have claimed a shift.
+      - elsif @need.unavailable_user_ids.include?(current_user.id)
+        %p You have marked yourself as unavailable for this request.
       - else
         = form_tag mark_unavailable_need_path(@need), method: :patch do
           = submit_tag 'I am not available for this request.', class: 'button alert'

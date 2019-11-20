@@ -17,9 +17,9 @@ RSpec.describe "needs/show", type: :view do
   }
 
   context 'when no users have been notified' do
-    it 'does not show Response section' do
+    it 'does not show unavailability section' do
       render
-      expect(rendered).not_to match /Response/
+      expect(rendered).not_to match /unavailable-container/
     end
   end
 
@@ -27,16 +27,9 @@ RSpec.describe "needs/show", type: :view do
     let(:user2) { create(:user) }
     before { need.update(notified_user_ids: [user2.id]) }
 
-    it 'does show Response section' do
+    it 'does not show unavailability section' do
       render
-      expect(rendered).to match /Response/
-    end
-
-    context 'when current user has not been notified' do
-      it 'does not show unavailability button' do
-        render
-        expect(rendered).not_to match /I am not available for this request./
-      end
+      expect(rendered).not_to match /unavailable-container/
     end
 
     context 'when current user has been notified' do
@@ -47,13 +40,22 @@ RSpec.describe "needs/show", type: :view do
         expect(rendered).to match /I am not available for this request./
       end
 
+      context 'when current user has accepted a shift' do
+        before { need.shifts.first.update(user: user) }
+
+        it 'does not show unavailability button' do
+          render
+          expect(rendered).to match /You have claimed a shift./
+        end
+      end
+
       context 'when current user has marked themselves unavailable' do
         before { need.update(unavailable_user_ids: [user.id]) }
 
         it 'shows user is unavailable' do
           render
           expect(rendered).to match(
-            /You have marked yourself as unavailable for this need./
+            /You have marked yourself as unavailable for this request./
           )
         end
       end

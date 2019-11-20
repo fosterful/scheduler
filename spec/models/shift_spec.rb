@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Shift, type: :model do
-  let(:shift) { build :shift }
+  let(:shift) { create :shift }
   let(:second_shift) do
     shift.save! unless shift.persisted?
     create(:shift, need: shift.need, start_at: shift.end_at, duration: 60)
@@ -103,13 +103,27 @@ RSpec.describe Shift, type: :model do
 
   describe 'after_create :clear_unavailable_users' do
     let(:user) { create(:user) }
+    let(:user2) { create(:user) }
     let(:need) { shift.need }
-    before { need.update(unavailable_user_ids: [user.id]) }
+    before { need.update(unavailable_user_ids: [user.id, user2.id]) }
 
     it "clears the need's unavailable_user_ids on create" do
-      expect(need.unavailable_user_ids).to eq([user.id])
+      expect(need.unavailable_user_ids).to eq([user.id, user2.id])
       second_shift
       expect(need.unavailable_user_ids).to be_empty
+    end
+  end
+
+  describe 'after_update :make_user_available' do
+    let(:user) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:need) { shift.need }
+    before { need.update(unavailable_user_ids: [user.id, user2.id]) }
+
+    it "removes the assigned user from the list of unavailable users" do
+      expect(need.unavailable_user_ids).to eq([user.id, user2.id])
+      shift.update!(user: user)
+      expect(need.unavailable_user_ids).to eq([user2.id])
     end
   end
 

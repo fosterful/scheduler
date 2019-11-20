@@ -10,6 +10,7 @@ class Shift < ApplicationRecord
   before_destroy :notify_user_of_cancelation,
                  if: -> { user&.phone.present? }
   after_create :clear_unavailable_users
+  after_update :make_user_available
 
   validates :duration,
             :start_at,
@@ -62,6 +63,13 @@ class Shift < ApplicationRecord
   private
 
   def clear_unavailable_users
-    need.update unavailable_user_ids: []
+    need.update! unavailable_user_ids: []
+  end
+
+  def make_user_available
+    if need.unavailable_user_ids.include?(user_id)
+      need.unavailable_user_ids -= [user_id]
+      need.save!
+    end
   end
 end
