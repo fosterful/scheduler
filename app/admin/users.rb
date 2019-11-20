@@ -20,22 +20,8 @@ ActiveAdmin.register User do
 
   show do
     attributes_table do
-      row :first_name
-      row :last_name
-      row :email
-      row :role
-      row :time_zone
-      row :race
-      row :first_language
-      row :second_language
-      row :birth_date
-      row :phone
-      row :resident_since
-      row :discovered_omd_by
-      row :medical_limitations
-      row :medical_limitations_desc, as: :block do |user|
-        simple_format user.medical_limitations_desc
-      end
+      rows :first_name, :last_name, :email, :role, :time_zone, :race, :first_language, :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by, :medical_limitations
+      row :medical_limitations_desc
       row :conviction
       row :conviction_desc
       row :offices do
@@ -45,11 +31,7 @@ ActiveAdmin.register User do
           column :address
         end
       end
-      row :age_ranges
-      row :invited_by
-      row :unconfirmed_email
-      row :sign_in_count
-      row :current_sign_in_at
+      rows :age_ranges, :invited_by, :unconfirmed_email, :sign_in_count, :current_sign_in_at
     end
   end
 
