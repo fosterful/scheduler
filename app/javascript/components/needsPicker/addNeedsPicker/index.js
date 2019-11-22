@@ -12,8 +12,7 @@ class AddNeedsPicker extends React.Component {
 
   state = {
     calendarMonth: moment().startOf("month"),
-    setCalendarMonth: this.setCalendarMonth,
-    makeRequest: makeRequestFn(this.props.authenticity_token)
+    setCalendarMonth: this.setCalendarMonth
   };
 
   render() {
