@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import NeedsPickerContext from "needsPicker/contexts/picker";
-import Calendar from "needsPicker/Calendar";
+import Calendar from "needsPicker/calendar";
 import "react-day-picker/lib/style.css";
 
 class AddNeedsPicker extends React.Component {
