@@ -35,6 +35,7 @@ gem 'bootsnap', require: false
 
 # Admin framework
 gem 'activeadmin'
+gem 'selectize-rails'
 
 # User registration & authorization
 gem 'devise'
