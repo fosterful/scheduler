@@ -1,7 +1,26 @@
-= semantic_form_for ['admin', resource]do |f|
+= semantic_form_for ['admin', resource] do |f|
   = f.semantic_errors 
   = f.inputs do
+    - if resource.persisted?
+      = f.input :first_name
+      = f.input :last_name
+
     = f.input :email
     = f.input :offices
-    = f.input :role, as: :radio,     :collection => User::ROLES
+    = f.input :role, as: :select,     :collection => User::ROLES
+
+    - if resource.persisted?
+      = f.input :race
+      = f.input :first_language
+      = f.input :second_language
+      = f.input :time_zone
+      = f.input :age_ranges, as: :check_boxes
+      = f.input :birth_date, as: :date_select, :start_year => Date.current.year, :end_year => 1920
+      = f.input :phone
+      = f.input :resident_since, as: :date_select, :start_year => Date.current.year, :end_year => 1920
+      = f.input :discovered_omd_by, :input_html => { :rows => 1, :maxlength => 100 }
+      = f.input :medical_limitations
+      = f.input :medical_limitations_desc, :input_html => { :rows => 5, :placeholder => 'Please explain'}
+      = f.input :conviction
+      = f.input :conviction_desc, :input_html => { :rows => 5, :placeholder => 'Please give a brief explanation' }
     = f.actions 
