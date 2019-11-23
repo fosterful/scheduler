@@ -11,7 +11,7 @@ ActiveAdmin.register User do
 
   index do
     id_column
-    column :name
+    column :name, :sortable => 'last_name'
     column :email
     column :offices
     actions
