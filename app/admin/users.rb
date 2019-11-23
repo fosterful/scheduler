@@ -8,7 +8,6 @@ ActiveAdmin.register User do
   filter :offices
 
   form partial: 'form'
-  form partial: 'edit'
 
   index do
     id_column
@@ -35,7 +34,10 @@ ActiveAdmin.register User do
           column :address
         end
       end
-      rows :age_ranges, :invited_by, :unconfirmed_email, :sign_in_count, :current_sign_in_at
+      rows :age_ranges, :invited_by, :unconfirmed_email, :sign_in_count
+      row :current_sign_in_at do
+        user.current_sign_in_at || 'Never signed in'
+      end
     end
   end
 
