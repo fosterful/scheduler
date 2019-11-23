@@ -6,7 +6,7 @@
       = f.input :last_name
 
     = f.input :email
-    = f.input :offices, :input_html => {class: 'multiple'}
+    = f.input :offices, :input_html => {:class => 'multiple'}
     = f.input :role, as: :select,     :collection => User::ROLES
 
     - if resource.persisted?
@@ -18,7 +18,7 @@
       = f.input :birth_date, as: :date_select, :start_year => Date.current.year, :end_year => 1920
       = f.input :phone
       = f.input :resident_since, as: :date_select, :start_year => Date.current.year, :end_year => 1920
-      = f.input :discovered_omd_by, :input_html => { :rows => 1, :maxlength => 100 }
+      = f.input :discovered_omd_by, :input_html => { :rows => 1 }
       = f.input :medical_limitations
       = f.input :medical_limitations_desc, :input_html => { :rows => 5, :placeholder => 'Please explain'}
       = f.input :conviction
