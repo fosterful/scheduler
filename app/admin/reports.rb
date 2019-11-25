@@ -116,4 +116,16 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
+  page_action :total_volunteers_by_race, method: :get do
+    @headers = ['Race', 'Number of Volunteers']
+    @data    = Office.total_volunteers_by_race
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(VOLUNTEERS_BY_RACE)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
+  end
+  
 end
