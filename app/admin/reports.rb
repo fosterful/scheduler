@@ -127,5 +127,18 @@ ActiveAdmin.register_page 'Reports' do
       format.json { render json: @data.to_json }
     end
   end
+
+
+  page_action :total_volunteers_by_spoken_language, method: :get do
+    @headers = ['Language', 'Total Volunteer Minutes']
+    @data    = User.total_volunteers_by_spoken_language
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(VOLUNTEERS_BY_LANGUAGE)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
+  end
   
 end
