@@ -34,14 +34,26 @@ ActiveAdmin.register_page 'Reports' do
 
   page_action :total_children_served_by_office, method: :get do
     @headers = ['Office ID', 'Children Served']
-      @data    = Office.total_children_served_by_office
-      respond_to do |format|
-        format.csv do
-          headers['Content-Disposition'] = content_disposition(CHILDREN_BY_OFFICE)
-          headers['Content-Type']        = 'text/csv'
-        end
-        format.json { render json: @data.to_json }
+    @data    = Office.total_children_served_by_office
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(CHILDREN_BY_OFFICE)
+        headers['Content-Type']        = 'text/csv'
       end
+      format.json { render json: @data.to_json }
+    end
+  end
+
+  page_action :total_volunteer_minutes_by_state, method: :get do
+    @headers = ['State', 'Volunteer Minutes']
+    @data    = Office.total_volunteer_minutes_by_state
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(MINUTES_BY_STATE)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
   end
 
 
