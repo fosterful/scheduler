@@ -1,12 +1,13 @@
-@import 'stylesheets/settings';
-@import '~foundation-sites/scss/foundation';
+@import "stylesheets/settings";
+@import "~foundation-sites/scss/foundation";
 @include foundation-everything(true, $prototype: true);
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/solid';
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
 
-@import 'selectize/dist/css/selectize.default.css';
+@import "selectize/dist/css/selectize.default.css";
+@import "react-datetime/css/react-datetime.css";
 
 * {
   box-sizing: border-box;
@@ -22,7 +23,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .button.secondary,
 .button.success,
 .button.alert,
-.button.warning  {
+.button.warning {
   color: white;
   &:hover {
     color: white;
@@ -44,9 +45,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .is-invalid-input;
 }
 
-@import 'stylesheets/nav';
-@import 'stylesheets/needs';
-@import 'stylesheets/shifts';
-@import 'stylesheets/invites';
-@import '../components/blockouts/Scheduler';
-@import 'stylesheets/responsive_card_table';
+@import "stylesheets/nav";
+@import "stylesheets/needs";
+@import "stylesheets/shifts";
+@import "stylesheets/invites";
+@import "../components/blockouts/Scheduler";
+@import "stylesheets/responsive_card_table";
