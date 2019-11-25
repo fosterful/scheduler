@@ -92,4 +92,16 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
+  page_action :total_volunteer_minutes_by_user, method: :get do
+    @headers = ['User ID', 'Total Volunteer Minutes']
+    @data    = User.total_volunteer_minutes_by_user
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(MINUTES_BY_USER)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
+  end
+
 end

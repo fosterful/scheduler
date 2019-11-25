@@ -24,10 +24,10 @@
         %td= label_tag(:state, 'Total Children Served')
         %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
         %td= submit_tag 'Query', data: { disable_with: false }
--# %hr
--# %h2 User
--# %div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_user_path(:csv))
--# %hr
+%hr
+%h2 User
+%div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_user_path(:csv))
+%hr
 -# %h2 Demographic
 -# %ul
 -#   %li= link_to('Total Children By Demographic', admin_reports_total_children_by_demographic_path(:csv))
