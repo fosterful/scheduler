@@ -104,4 +104,16 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
+  page_action :total_children_by_demographic, method: :get do
+    @headers = ['Preferred Language', 'Number of Children']
+    @data    = Office.total_children_by_demographic
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(CHILDREN_BY_DEMO)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
+  end
+
 end
