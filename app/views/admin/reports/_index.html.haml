@@ -10,16 +10,16 @@
 %ul
   %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_state_path(:csv), target: '_blank')
   %li= link_to('Total Children Served', admin_reports_total_children_served_by_state_path(:csv), target: '_blank')
--# %hr
--# %h2 County
--# %table
--#   %tbody
--#     %tr
--#       = form_tag(admin_reports_total_volunteer_minutes_by_county_path(:csv), method: 'get') do
--#         %td= label_tag(:state, 'Total Volunteer Minutes')
--#         %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
--#         %td= submit_tag 'Query', data: { disable_with: false }
--#     %tr
+%hr
+%h2 County
+%table
+  %tbody
+    %tr
+      = form_tag(admin_reports_total_volunteer_minutes_by_county_path(:csv), method: 'get') do
+        %td= label_tag(:state, 'Total Volunteer Minutes')
+        %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
+        %td= submit_tag 'Query', data: { disable_with: false }
+    %tr
 -#       = form_tag(admin_reports_total_children_served_by_county_path(:csv), method: 'get') do
 -#         %td= label_tag(:state, 'Total Children Served')
 -#         %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))

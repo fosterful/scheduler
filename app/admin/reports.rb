@@ -68,5 +68,16 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
+  page_action :total_volunteer_minutes_by_county, method: :get do
+    @headers = ['County', 'Volunteer Minutes']
+    @data    = Office.total_volunteer_minutes_by_county(params['state'])
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = content_disposition(MINUTES_BY_COUNTY)
+        headers['Content-Type']        = 'text/csv'
+      end
+      format.json { render json: @data.to_json }
+    end
+  end
 
 end
