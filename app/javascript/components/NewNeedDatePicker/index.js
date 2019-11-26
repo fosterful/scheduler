@@ -7,7 +7,6 @@ class AddNeedsPicker extends React.Component {
     const {
       props: { startAt }
     } = this
-    console.log(startAt)
     return (
       <DateTime
         defaultValue={(startAt && new Date(startAt)) || undefined}
