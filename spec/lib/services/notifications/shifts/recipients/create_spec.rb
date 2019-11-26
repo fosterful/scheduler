@@ -33,18 +33,27 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Create do
       end
     end
 
-    context 'with volunteers that are not available' do
+    context 'with volunteers that are blocked out' do
       let(:blockout) do
         create(:blockout, start_at: shift.start_at, end_at: shift.end_at)
       end
-      let(:unavailable_user) {
+      let(:blockout_user) {
         create(:user, age_ranges: need.age_ranges, blockouts: [blockout])
       }
 
-      before { shift.need.office.users << [user, unavailable_user] }
+      before { shift.need.office.users << [user, blockout_user] }
 
+      it 'excludes the blocked out volunteers' do
+        expect(object.recipients).not_to include(blockout_user)
+      end
+    end
+
+    context 'with volunteers that have marked themselves unavailable' do
       it 'excludes the unavailable volunteers' do
-        expect(object.recipients).not_to include(unavailable_user)
+        need.office.users << [user]
+        need.update(unavailable_user_ids: [user.id])
+
+        expect(object.recipients).to be_empty
       end
     end
 
