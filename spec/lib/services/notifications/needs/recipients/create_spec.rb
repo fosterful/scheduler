@@ -39,20 +39,31 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
       end
     end
 
-    context 'with volunteers that are not available' do
+    context 'with volunteers that are blocked out' do
       let(:blockout) do
         build(:blockout, start_at: need.start_at, end_at: need.end_at)
       end
-      let(:unavailable_user) {
+      let(:blockout_user) {
         build(:user, age_ranges: need.age_ranges, blockouts: [blockout])
       }
 
-      it 'excludes the unavailable volunteers' do
-        need.office.users << [volunteer, unavailable_user]
+      it 'excludes the blocked out volunteers' do
+        need.office.users << [volunteer, blockout_user]
 
         result = subject
 
         expect(result).to eql([volunteer])
+      end
+    end
+
+    context 'with volunteers that have marked themselves unavailable' do
+      it 'excludes the unavailable volunteers' do
+        need.office.users << [volunteer]
+        need.update(unavailable_user_ids: [volunteer.id])
+
+        result = subject
+
+        expect(result).to be_empty
       end
     end
 

@@ -9,6 +9,8 @@ class Shift < ApplicationRecord
   belongs_to :user, optional: true
   before_destroy :notify_user_of_cancelation,
                  if: -> { user&.phone.present? }
+  after_create :clear_unavailable_users
+  after_update :make_user_available
 
   validates :duration,
             :start_at,
@@ -47,7 +49,7 @@ class Shift < ApplicationRecord
   def users_to_notify
     # this differs from Need#users_to_notify because start_at and end_at differ
     notification_candidates
-      .available_within(start_at, end_at)
+      .exclude_blockouts(start_at, end_at)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
   end
@@ -56,5 +58,18 @@ class Shift < ApplicationRecord
     return true if need.shifts.many?
 
     errors.add(:need, :remove_last_shift) && false
+  end
+
+  private
+
+  def clear_unavailable_users
+    need.update! unavailable_user_ids: []
+  end
+
+  def make_user_available
+    if need.unavailable_user_ids.include?(user_id)
+      need.unavailable_user_ids -= [user_id]
+      need.save!
+    end
   end
 end

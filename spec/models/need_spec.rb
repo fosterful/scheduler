@@ -143,18 +143,28 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#notification_candidates' do
-    it 'returns empty array if no office users with phone' do
-      result = need.notification_candidates
+    subject { need.notification_candidates}
 
-      expect(result).to match_array([])
+    context 'when user is not in office' do
+      it { is_expected.to be_empty }
     end
 
-    it 'returns office users with phone that have not been notified' do
-      need.office.users << new_user
+    context 'when user is in office' do
+      before { need.office.users << new_user }
 
-      result = need.notification_candidates
+      it { is_expected.to eq([new_user]) }
 
-      expect(result.to_a).to eql([new_user])
+      context 'when user has already been notified' do
+        before { need.update notified_user_ids: [new_user.id] }
+
+        it { is_expected.to eq([new_user]) }
+      end
+
+      context 'when user has marked themselves unavailable' do
+        before { need.update unavailable_user_ids: [new_user.id] }
+
+        it { is_expected.to be_empty }
+      end
     end
   end
 
@@ -182,6 +192,29 @@ RSpec.describe Need, type: :model do
 
       expect(result).to all(be_an_instance_of(described_class))
     end
+  end
+
+  describe "#unavailable_users" do
+    subject { need.unavailable_users }
+    before { need.update(unavailable_user_ids: [new_user.id]) }
+    it { is_expected.to eq([new_user]) }
+  end
+
+  describe '#users_pending_response' do
+    subject { need.users_pending_response }
+    let(:unavailable_user) { create(:user) }
+    let(:accepted_user) { create(:user, shifts: [shift]) }
+    let(:pending_user) { create(:user) }
+
+    before {
+      need.update(
+        unavailable_user_ids: [unavailable_user.id],
+        notified_user_ids:
+          [unavailable_user.id, accepted_user.id, pending_user.id]
+      )
+    }
+
+    it { is_expected.to eq([pending_user]) }
   end
 
 end
