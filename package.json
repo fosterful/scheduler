@@ -23,6 +23,7 @@
     "rails-ujs": "^5.1.4",
     "ramda": "^0.26.1",
     "react": "^16.11.0",
+    "react-datetime": "^2.16.3",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.11.0",
     "react-modal": "^3.8.1",
