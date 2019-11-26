@@ -25,10 +25,26 @@ RSpec.describe 'Admin offices spec', type: :request do
       expect(response).to redirect_to(admin_office_path(Office.last))
     end
 
-    it 'renders errors if present (missing address)' do
-      post admin_offices_path, params: { office: { name: 'foo' } }
+    it 'renders errors if present (missing address attributes)' do
+      post admin_offices_path, params: { office: { name: 'foo', address_attributes: {street: ''} } }
 
       expect(response.body).to include('error')
+    end
+  end
+
+  describe '#new' do
+    before { sign_in create :user, role: 'admin' }
+
+    it 'is successful' do
+      get new_admin_office_path
+
+      expect(response).to be_successful
+    end
+
+    it 'has address fields' do
+      get new_admin_office_path
+
+      expect(response.body).to include('Street')
     end
   end
 end
