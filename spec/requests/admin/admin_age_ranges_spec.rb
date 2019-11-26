@@ -35,7 +35,7 @@ RSpec.describe 'Admin age_ranges spec', type: :request do
     it 'displays the age_range' do
       get admin_age_range_path(age_range)
 
-      expect(response.body).to include('1 to 1')
+      expect(response.body).to include('1-1')
     end
   end
 end
