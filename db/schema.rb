@@ -10,24 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_000341) do
+ActiveRecord::Schema.define(version: 2019_11_14_232842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string "namespace"
-    t.text "body"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.string "author_type"
-    t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
-  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "street"
@@ -95,6 +81,7 @@ ActiveRecord::Schema.define(version: 2019_11_15_000341) do
     t.datetime "updated_at", null: false
     t.bigint "race_id"
     t.text "notes"
+    t.bigint "unavailable_user_ids", default: [], array: true
     t.index ["office_id"], name: "index_needs_on_office_id"
     t.index ["preferred_language_id"], name: "index_needs_on_preferred_language_id"
     t.index ["race_id"], name: "index_needs_on_race_id"
