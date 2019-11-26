@@ -8,6 +8,7 @@ ActiveAdmin.register Office do
 
   form partial: 'form'
 
+  #:nocov:
   index do
     id_column
     column :name
@@ -15,6 +16,7 @@ ActiveAdmin.register Office do
     column :address
     actions
   end
+  #:nocov:
 
   menu priority: 2
 
@@ -25,20 +27,4 @@ ActiveAdmin.register Office do
       end
     end
   end
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :name, :region
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name, :region]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
 end
