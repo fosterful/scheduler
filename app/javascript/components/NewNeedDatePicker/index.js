@@ -4,8 +4,13 @@ import DateTime from 'react-datetime'
 
 class AddNeedsPicker extends React.Component {
   render() {
+    const {
+      props: { startAt }
+    } = this
+    console.log(startAt)
     return (
       <DateTime
+        defaultValue={(startAt && new Date(startAt)) || undefined}
         dateFormat='DD-MM-YYYY'
         inputProps={{ name: 'need[start_at]' }}
         timeConstraints={{ minutes: { step: 15 } }}
@@ -14,5 +19,7 @@ class AddNeedsPicker extends React.Component {
   }
 }
 
-AddNeedsPicker.propTypes = {}
+AddNeedsPicker.propTypes = {
+  startAt: PropTypes.string
+}
 export default AddNeedsPicker

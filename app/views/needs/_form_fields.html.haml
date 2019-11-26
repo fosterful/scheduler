@@ -11,7 +11,7 @@
   %legend Start Date/Time
   .grid-x
     .cell
-      = react_component("NewNeedDatePicker/index")
+      = react_component("NewNeedDatePicker/index", { startAt: f.object.start_at })
 %fieldset.fieldset
   %legend Expected Duration
   .grid-x.grid-margin-x
