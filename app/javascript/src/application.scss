@@ -5,16 +5,16 @@
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/solid';
-
-@import 'selectize/dist/css/selectize.default.css';
-@import "react-datetime/css/react-datetime.css";
+@import 'select2/dist/css/select2.css';
+@import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css';
+@import 'react-datetime/css/react-datetime.css';
 
 * {
   box-sizing: border-box;
 }
 
 .group:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -23,7 +23,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .button.secondary,
 .button.success,
 .button.alert,
-.button.warning  {
+.button.warning {
   color: white;
   &:hover {
     color: white;
