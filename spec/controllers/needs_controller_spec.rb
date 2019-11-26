@@ -23,9 +23,8 @@ RSpec.describe NeedsController, type: :controller do
   end
 
   describe '#show' do
-    it 'GET show' do
+    it 'returns ok and sets expected variables' do
       get :show, params: { id: need.id }
-
       expect(response).to have_http_status(:ok)
       expect(flash[:alert]).to be nil
     end
@@ -72,4 +71,8 @@ RSpec.describe NeedsController, type: :controller do
     end
   end
 
+  describe '#mark_unavailable' do
+    subject { patch :mark_unavailable, params: { id: need.id } }
+    it { is_expected.to redirect_to(need) }
+  end
 end

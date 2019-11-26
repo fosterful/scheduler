@@ -72,6 +72,14 @@ class NeedsController < ApplicationController
     end
   end
 
+  def mark_unavailable
+    @need = policy_scope(Need).find(params[:id])
+    authorize @need
+    @need.unavailable_user_ids << current_user.id
+    @need.save
+    redirect_to @need
+  end
+
   private
 
   def convert_to_minutes!

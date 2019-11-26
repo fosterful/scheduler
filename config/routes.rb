@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   resources :blockouts, except: %i[index new edit show]
   resources :needs do
     resources :shifts, except: %i[new]
+    patch 'mark_unavailable', on: :member
   end
 
   root to: 'needs#index'
