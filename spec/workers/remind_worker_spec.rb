@@ -32,4 +32,25 @@ RSpec.describe RemindWorker do
       end
     end
   end
+
+  describe '.next_queue_time' do
+    subject {
+      Timecop.freeze(time) { described_class.next_queue_time }
+    }
+
+    context 'when current time is before 9am' do
+      let(:time) { Time.current.beginning_of_day + 7.hours }
+      it { is_expected.to eq(Date.current.beginning_of_day + 9.hours) }
+    end
+
+    context 'when current time is after 8pm' do
+      let(:time) { Time.current.beginning_of_day + 21.hours }
+      it { is_expected.to eq(Date.current.tomorrow.beginning_of_day + 9.hours) }
+    end
+
+    context 'when current time is between 9am and 8pm' do
+      let(:time) { Time.current.beginning_of_day + 14.hours }
+      it { is_expected.to eq(time + 1.hour) }
+    end
+  end
 end
