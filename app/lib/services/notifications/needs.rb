@@ -18,6 +18,8 @@ module Services
           need.save!
         end
 
+        RemindWorker.perform_async(RemindWorker.next_queue_time, need.id)
+
         yield(self) if block_given?
       end
 

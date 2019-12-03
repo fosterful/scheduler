@@ -69,4 +69,8 @@ class Need < ApplicationRecord
   def users_pending_response
     User.find(notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
   end
+
+  def has_available_shifts?
+    shifts.where(user: nil).where("start_at > ?", Time.now).present?
+  end
 end
