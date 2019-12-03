@@ -26,7 +26,6 @@ RSpec.describe Services::Notifications::Needs do
                                                 .once
                                                 .with([phone], destroy_msg)
                                                 .and_call_original
-      expect(RemindWorker).to receive(:perform_async)
       object.notify
     end
 
