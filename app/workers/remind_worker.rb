@@ -17,7 +17,3 @@ class RemindWorker
     end
   end
 end
-
-Sidekiq::Cron::Job.create(
-  name: 'Reminders', cron: '0 9-20 * * *', class: 'RemindWorker'
-)

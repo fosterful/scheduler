@@ -26,6 +26,7 @@ RSpec.describe Services::Notifications::Needs do
                                                 .once
                                                 .with([phone], destroy_msg)
                                                 .and_call_original
+
       object.notify
     end
 
