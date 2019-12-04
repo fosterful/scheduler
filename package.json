@@ -32,6 +32,7 @@
     "rrule": "^2.6.0",
     "selectize": "^0.12.6",
     "snakecase-keys": "^3.1.0",
+    "stimulus": "^1.1.1",
     "turbolinks": "^5.0.3",
     "webpack": "^4.41.2",
     "what-input": "^5.2.6"
