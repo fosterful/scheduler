@@ -26,8 +26,9 @@
       .cell.small-7.text-center
         - if @need.social_worker.present?
           %strong= @need.social_worker.name
-          %br
-          = "Phone: " + @need.social_worker.phone
+          - if @need.social_worker.phone.present?
+            %br
+            = "Phone: " + @need.social_worker.phone
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
         %div Requested By
