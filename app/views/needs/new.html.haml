@@ -1,6 +1,6 @@
 - content_for :page_header do
   .header-text Create a Need
-= form_for(@need, url: {action: 'create'}, html: { method: :post }) do |f|
+= form_for(@need, url: {action: 'create'}, html: { method: :post, data: { controller: 'new-need-form' } }) do |f|
   = render partial: 'form_fields', locals: { f: f, action: :new }
   .grid-x
     .cell
