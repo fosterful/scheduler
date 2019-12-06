@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :needs do
     resources :shifts, except: %i[new]
     patch 'mark_unavailable', on: :member
+    post 'office_social_workers', on: :collection
   end
 
   root to: 'needs#index'

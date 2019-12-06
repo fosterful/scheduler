@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_14_232842) do
+ActiveRecord::Schema.define(version: 2019_12_04_210516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,9 +82,11 @@ ActiveRecord::Schema.define(version: 2019_11_14_232842) do
     t.bigint "race_id"
     t.text "notes"
     t.bigint "unavailable_user_ids", default: [], array: true
+    t.bigint "social_worker_id"
     t.index ["office_id"], name: "index_needs_on_office_id"
     t.index ["preferred_language_id"], name: "index_needs_on_preferred_language_id"
     t.index ["race_id"], name: "index_needs_on_race_id"
+    t.index ["social_worker_id"], name: "index_needs_on_social_worker_id"
     t.index ["user_id"], name: "index_needs_on_user_id"
   end
 
