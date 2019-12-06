@@ -105,4 +105,5 @@ group :test do
   gem 'mutant-rspec',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
+  gem 'timecop'
 end
