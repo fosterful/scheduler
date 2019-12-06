@@ -80,6 +80,11 @@ class NeedsController < ApplicationController
     redirect_to @need
   end
 
+  def office_social_workers
+    office = policy_scope(Office).where(id: params[:office_id]).first
+    render layout: false, locals: { office: office }
+  end
+
   private
 
   def convert_to_minutes!
