@@ -99,6 +99,7 @@ class User < ApplicationRecord
   scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
+  scope :verified, -> { where(verified: true) }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))
