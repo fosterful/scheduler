@@ -63,7 +63,7 @@ gem 'sidekiq'
 gem 'twilio-ruby'
 
 # Exception monitoring
-# gem 'honeybadger'
+gem 'honeybadger'
 
 # For phone number validation/formatting
 gem 'telephone_number'

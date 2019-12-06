@@ -185,6 +185,7 @@ GEM
       rubocop-performance (>= 1.3.0)
       rubocop-rails (>= 2.0.0)
       rubocop-rspec (>= 1.33.0)
+    honeybadger (4.5.2)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -477,6 +478,7 @@ DEPENDENCIES
   geocoder
   haml-rails
   hint-rubocop_style
+  honeybadger
   jbuilder
   listen
   mainstreet
