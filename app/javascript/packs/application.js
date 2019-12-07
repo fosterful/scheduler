@@ -1,9 +1,9 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import Foundation from '../src/foundation_loader'
 import '../src/application.scss'
 import Rails from 'rails-ujs'
-import Selectize from 'selectize'
+import select2 from 'select2'
 import Turbolinks from 'turbolinks'
 import Inputmask from 'inputmask'
 import Favicon from 'images/omd-icon.png'
@@ -20,9 +20,9 @@ Rails.start()
 Turbolinks.start()
 
 $(document).on('turbolinks:load', function() {
-  $('select.single').selectize()
-  $('select.multiple').selectize({
-    maxItems: null
+  $('select.single').select2()
+  $('select.multiple').select2({
+    maximumSelectionLength: 0
   })
   Inputmask().mask(document.querySelectorAll('input'))
 })
