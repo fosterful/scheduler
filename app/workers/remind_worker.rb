@@ -13,12 +13,16 @@ class RemindWorker
         need.effective_start_at > 12.hours.from_now
         next unless Time.current.hour == 12
       end
-      recipients = need.users_pending_response
-      if recipients.any?
-        phone_numbers = recipients.map(&:phone)
-        message = "A need still has available shifts #{need_url(need)}"
-        Services::TextMessageEnqueue.send_messages(phone_numbers, message)
-      end
+      send_message(need)
+    end
+  end
+
+  def send_message(need)
+    recipients = need.users_pending_response
+    if recipients.any?
+      phone_numbers = recipients.map(&:phone)
+      message = "A need still has available shifts #{need_url(need)}"
+      Services::TextMessageEnqueue.send_messages(phone_numbers, message)
     end
   end
 end
