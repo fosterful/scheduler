@@ -7,6 +7,8 @@ class RemindWorker
     send_hourly_messages
   end
 
+  private
+
   def send_daily_messages
     if Time.current.hour == 12 # only send at noon
       needs = Need.joins(:shifts).
