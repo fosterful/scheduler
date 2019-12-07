@@ -44,16 +44,16 @@ RSpec.describe RemindWorker do
     context 'when a need starts on a future day' do
       let(:ct) { Time.current }
       let(:time) {
-        Time.new(ct.year, ct.month, ct.day, hour, 0, 0, ct.formatted_offset)
+        Time.zone.local(ct.year, ct.month, ct.day, hour)
       }
       before {
-        Timecop.freeze(time)
+        travel_to(time)
         need = create(:need, start_at: 1.day.from_now, created_at: 1.day.ago)
         create(:shift, need: need, start_at: 1.day.from_now,
           created_at: 1.day.ago)
         need.update!(notified_user_ids: [volunteer.id])
       }
-      after { Timecop.return }
+      after { travel_back }
 
       context 'when it is noon' do
         let(:hour) { 12 }
