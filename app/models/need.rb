@@ -8,8 +8,10 @@ class Need < ApplicationRecord
   belongs_to :race, optional: true
   belongs_to :preferred_language,
              class_name: 'Language'
-  belongs_to :social_worker, class_name: 'User', optional: true
   has_and_belongs_to_many :age_ranges
+  has_and_belongs_to_many :social_workers, class_name: 'User',
+    join_table: 'needs_social_workers',
+    association_foreign_key: 'social_worker_id'
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
 

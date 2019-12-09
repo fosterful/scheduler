@@ -16,6 +16,11 @@
   display: inline-block;
 }
 
+ul.social_workers {
+  list-style-type: none;
+  margin: 0;
+}
+
 .shifts-container {
   hr {
     @include first-child   {

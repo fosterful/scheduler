@@ -40,6 +40,9 @@ class User < ApplicationRecord
            through:    :shifts,
            class_name: 'Need',
            source:     'need'
+  has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
+    join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
+    association_foreign_key: 'need_id'
 
   belongs_to :first_language,
              optional:   true,
