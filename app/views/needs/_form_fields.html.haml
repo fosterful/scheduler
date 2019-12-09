@@ -31,8 +31,8 @@
       = f.select :office_id, options_for_select(policy_scope(Office).map { |o| [o.name, o.id]}), { include_blank: false }, disabled: action == :edit, data: { action: 'change->new-need-form#handleOfficeChange' }
 .grid-x
   .cell
-    = f.label :social_worker_id do
-      Social worker
+    = f.label :social_worker_ids do
+      Child welfare workers
       %div{ data: { target: 'new-need-form.socialWorkerSelectContainer' } }
         = render template: 'needs/office_social_workers', locals: { office: @need.office || policy_scope(Office).first }
 .grid-x

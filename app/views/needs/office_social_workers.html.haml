@@ -1,5 +1,5 @@
 - if office.present? && office.users.social_workers.any?
-  - selected = @need&.social_worker.present? ? @need.social_worker.id : nil
-  = select_tag "need[social_worker_id]", options_from_collection_for_select(office.users.social_workers, :id, :name, selected), { include_blank: false }
+  - selected = @need.present? ? @need.social_worker_ids : nil
+  = select_tag "need[social_worker_ids]", options_from_collection_for_select(office.users.social_workers, :id, :name, selected), { include_blank: false, multiple: true }
 - else
-  = select_tag "need[social_worker_id]", [], disabled: true
+  = select_tag "need[social_worker_ids]", [], disabled: true

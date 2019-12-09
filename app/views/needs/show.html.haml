@@ -22,13 +22,14 @@
         %strong= @need.office
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
-        %div Social worker
+        %div Child welfare workers
       .cell.small-7.text-center
-        - if @need.social_worker.present?
-          %strong= @need.social_worker.name
-          - if @need.social_worker.phone.present?
-            %br
-            = "Phone: " + @need.social_worker.phone
+        %ul.social_workers
+          - @need.social_workers.each do |social_worker|
+            %li
+              %strong= social_worker.name
+              - if social_worker.phone.present?
+                = "(Phone: #{social_worker.phone})"
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
         %div Requested By
