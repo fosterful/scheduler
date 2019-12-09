@@ -60,6 +60,7 @@ gem 'concord'
 gem 'redis-namespace'
 gem 'sidekiq'
 gem 'twilio-ruby'
+gem 'sidekiq-cron'
 
 # Exception monitoring
 gem 'honeybadger'
