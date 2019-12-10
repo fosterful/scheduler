@@ -185,7 +185,7 @@ class User < ApplicationRecord
   end
 
   def check_phone_verification
-    if phone_changed?
+    if phone_changed? && phone_was.present?
       self.verified = false
     end
   end

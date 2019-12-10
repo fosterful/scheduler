@@ -336,8 +336,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'before_save :check_phone_verification' do
-    let(:user) { create(:user) }
-    before { user.update!(verified: true) }
+    let(:user) { create(:user, verified: true) }
 
     it 'unverifies a user when their phone number changes' do
       expect(user.verified?).to be true
