@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2019_12_09_174202) do
     t.bigint "race_id"
     t.bigint "first_language_id"
     t.bigint "second_language_id"
+    t.boolean "verified", default: false, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

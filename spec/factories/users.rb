@@ -17,7 +17,7 @@ FactoryBot.define do
     invitation_accepted_at { Time.zone.now }
 
     birth_date { 35.years.ago }
-    phone { '3606107089' }
+    phone { '(360) 610-7089' }
     resident_since { 1.year.ago }
     discovered_omd_by { 'The interwebs' }
     medical_limitations { false }

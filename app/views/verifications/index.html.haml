@@ -1,0 +1,22 @@
+- content_for :page_header do
+  .header-text Phone verification
+
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
+    .actions
+      %p
+        = "Your phone number: #{current_user.phone}"
+        %br
+        = link_to "Change my phone number", edit_user_registration_path
+      %p
+        Your verification status:
+        %strong= current_user.verified? ? 'Verified' : 'Unverified'
+      = form_tag(send_code_path) do
+        %p
+          = submit_tag "Send verification code"
+
+      = form_tag(check_code_path) do
+        %p
+          = label_tag :code
+          = text_field_tag :code
+          = submit_tag "Check verification code"

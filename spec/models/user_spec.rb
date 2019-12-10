@@ -335,4 +335,23 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'before_save :check_phone_verification' do
+    let(:user) { create(:user, verified: true) }
+
+    it 'unverifies a user when their phone number changes' do
+      expect(user.verified?).to be true
+      user.save!
+      expect(user.verified?).to be true
+      user.phone = '4155551212'
+      user.save!
+      expect(user.verified?).to be false
+    end
+  end
+
+  describe '#e164_phone' do
+    it 'returns phone number in E.164 format' do
+      expect(user.phone).to eq('(360) 610-7089')
+      expect(user.e164_phone).to eq('+13606107089')
+    end
+  end
 end

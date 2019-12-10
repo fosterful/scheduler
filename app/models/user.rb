@@ -99,10 +99,13 @@ class User < ApplicationRecord
   scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
+  scope :verified, -> { where(verified: true) }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))
   }
+
+  before_save :check_phone_verification
 
   def self.shifts_by_user
     joins(:shifts).group('users.id')
@@ -175,9 +178,19 @@ class User < ApplicationRecord
     I18n.t("user.roles.#{role}", default: -> (*args) { role.titleize })
   end
 
+  def e164_phone # standard E.164 format used by Twilio
+    '+1' + phone.gsub(/\D/, '')
+  end
+
   private
 
   def require_volunteer_profile_attributes?
     (volunteer? || coordinator?) && invitation_accepted_at?
+  end
+
+  def check_phone_verification
+    if phone_changed? && phone_was.present?
+      self.verified = false
+    end
   end
 end
