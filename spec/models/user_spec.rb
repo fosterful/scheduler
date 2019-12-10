@@ -347,4 +347,11 @@ RSpec.describe User, type: :model do
       expect(user.verified?).to be false
     end
   end
+
+  describe '#e164_phone' do
+    it 'returns phone number in E.164 format' do
+      expect(user.phone).to eq('(360) 610-7089')
+      expect(user.e164_phone).to eq('+13606107089')
+    end
+  end
 end

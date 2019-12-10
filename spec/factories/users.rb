@@ -17,7 +17,7 @@ FactoryBot.define do
     invitation_accepted_at { Time.zone.now }
 
     birth_date { 35.years.ago }
-    phone { '3606107089' }
+    phone { '(360) 610-7089' }
     resident_since { 1.year.ago }
     discovered_omd_by { 'The interwebs' }
     medical_limitations { false }
@@ -27,8 +27,6 @@ FactoryBot.define do
     race_id { 1 }
     first_language_id { 1 }
     age_range_ids { [1] }
-
-    verified { false }
 
     after :build do |user|
       user.offices << build(:wa_office) unless user.offices.any?

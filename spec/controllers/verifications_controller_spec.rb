@@ -44,7 +44,7 @@ RSpec.describe VerificationsController, type: :controller do
     end
 
     context 'when code is not approved' do
-      let(:status) { 'failed' }
+      let(:status) { 'pending' }
 
       it 'does not verify user' do
         subject

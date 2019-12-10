@@ -178,6 +178,10 @@ class User < ApplicationRecord
     I18n.t("user.roles.#{role}", default: -> (*args) { role.titleize })
   end
 
+  def e164_phone # standard E.164 format used by Twilio
+    '+1' + phone.gsub(/\D/, '')
+  end
+
   private
 
   def require_volunteer_profile_attributes?

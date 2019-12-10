@@ -42,6 +42,5 @@ Rails.application.routes.draw do
   post 'send_code' => 'verifications#send_code', as: :send_code
   post 'check_code' => 'verifications#check_code', as: :check_code
 
-
   root to: 'needs#index'
 end
