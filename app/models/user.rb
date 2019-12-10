@@ -105,6 +105,8 @@ class User < ApplicationRecord
     where(first_language: language).or(where(second_language: language))
   }
 
+  before_save :check_phone_verification
+
   def self.shifts_by_user
     joins(:shifts).group('users.id')
   end
@@ -180,5 +182,11 @@ class User < ApplicationRecord
 
   def require_volunteer_profile_attributes?
     (volunteer? || coordinator?) && invitation_accepted_at?
+  end
+
+  def check_phone_verification
+    if phone_changed?
+      self.verified = false
+    end
   end
 end
