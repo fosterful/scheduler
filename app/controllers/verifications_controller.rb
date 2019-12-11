@@ -9,7 +9,7 @@ class VerificationsController < ApplicationController
   def send_code
     $twilio.verify.services(VERIFY_SID).verifications.
       create(to: current_user.e164_phone, channel: 'sms')
-    redirect_to verify_path, flash: { notice: 'Verification code has been sent' }
+    redirect_to verify_path(verification_sent: true)
   end
 
   def check_code
