@@ -28,6 +28,8 @@ FactoryBot.define do
     first_language_id { 1 }
     age_range_ids { [1] }
 
+    verified { true }
+
     after :build do |user|
       user.offices << build(:wa_office) unless user.offices.any?
     end

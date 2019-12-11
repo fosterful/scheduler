@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe VerificationsController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, verified: false) }
   before { sign_in user }
 
   describe '#index' do
     it 'returns ok' do
       get :index
-
       expect(response).to have_http_status(:ok)
     end
   end
@@ -39,7 +38,7 @@ RSpec.describe VerificationsController, type: :controller do
         user.reload
         expect(user.verified?).to be true
         expect(flash[:notice]).to eq 'Phone number has been verified!'
-        expect(response).to redirect_to(verify_path)
+        expect(response).to redirect_to(root_path)
       end
     end
 

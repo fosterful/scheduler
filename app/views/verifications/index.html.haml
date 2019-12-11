@@ -5,6 +5,10 @@
   .cell
     .actions
       %p
+        For security, we need to verify that your phone number can receive
+        text messages. Please send yourself a verification code and then check
+        that it is correct upon receiving it.
+      %p
         = "Your phone number: #{current_user.phone}"
         %br
         = link_to "Change my phone number", edit_user_registration_path

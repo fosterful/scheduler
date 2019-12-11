@@ -1,5 +1,6 @@
 class VerificationsController < ApplicationController
   VERIFY_SID = Rails.application.credentials.twilio[:verify_sid]
+  skip_before_action :enforce_verification
 
   def index
   end
@@ -17,9 +18,10 @@ class VerificationsController < ApplicationController
     if check.status == 'approved'
       current_user.update(verified: true)
       flash[:notice] = 'Phone number has been verified!'
+      redirect_to root_path
     else
       flash[:notice] = 'Verification failed'
+      redirect_to verify_path
     end
-    redirect_to verify_path
   end
 end
