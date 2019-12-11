@@ -17,7 +17,6 @@ RSpec.describe VerificationsController, type: :controller do
         :verify, :services, :verifications, :create
       )
       post :send_code
-      expect(flash[:notice]).to eq 'Verification code has been sent'
       expect(response).to redirect_to(verify_path)
     end
   end
