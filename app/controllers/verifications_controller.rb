@@ -1,6 +1,7 @@
 class VerificationsController < ApplicationController
-  VERIFY_SID = Rails.application.credentials.twilio[:verify_sid]
   skip_before_action :enforce_verification
+
+  VERIFY_SID = Rails.application.credentials.dig(:twilio, :verify_sid)
 
   def index
   end
