@@ -17,7 +17,7 @@ RSpec.describe VerificationsController, type: :controller do
         :verify, :services, :verifications, :create
       )
       post :send_code
-      expect(response).to redirect_to(verify_path)
+      expect(response).to redirect_to(verify_path(verification_sent: true))
     end
   end
 
