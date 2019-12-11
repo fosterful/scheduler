@@ -1,5 +1,6 @@
 class PreVerifyEligibleUsers < ActiveRecord::Migration[6.0]
   def up
+    return unless Rails.env.production?
     User.where.not(phone: nil).find_each do |user|
       begin
         messages = $twilio.messages.list(to: user.phone, limit: 100)
