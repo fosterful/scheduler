@@ -46,8 +46,8 @@ class ApplicationController < ActionController::Base
   end
 
   def enforce_verification
-    if !current_user.verified? && !devise_controller?
-      redirect_to verify_path
-    end
+    return if current_user.verified? || devise_controller?
+
+    redirect_to verify_path
   end
 end
