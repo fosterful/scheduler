@@ -6,11 +6,11 @@ class NeedsController < ApplicationController
 
     @needs = policy_scope(Need).includes(:shifts).order(:start_at)
 
-    if params[:start_date]
-      @start_date = Date.parse(params[:start_date])
-      @needs = @needs.on_date(@start_date)
+    if params[:date]
+      @date = Date.parse(params[:date])
+      @needs = @needs.on_date(@date)
     else
-      @start_date = nil
+      @date = nil
       @needs = @needs.current
     end
   end

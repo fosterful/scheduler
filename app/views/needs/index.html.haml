@@ -3,11 +3,8 @@
 
 .grid-x
   .cell.medium-7.large-9.small-order-1.medium-order-2
-    %fieldset.fieldset
-      %legend Start Date/Time
-      .grid-x
-        .cell
-          = react_component("NeedsIndexDatePicker/index", { startDate: @start_date })
+    .float-right
+      = react_component("NeedsIndexDatePicker/index", { date: @date })
     %h5.separator-left Needs
     %table.responsive-card-table.hover.unstriped
       %thead
