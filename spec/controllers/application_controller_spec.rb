@@ -18,12 +18,11 @@ RSpec.describe ApplicationController, type: :controller do
       it { is_expected.to redirect_to(verify_path) }
 
       context 'when in a Devise controller' do
-        before {
-          # It needs to return false the first two times or will error out
-          expect(controller).to receive(:devise_controller?).exactly(:twice).
-            and_call_original
-          expect(controller).to receive(:devise_controller?) { true }
-        }
+        before do
+          allow(controller).to receive(:devise_controller?).and_return(true)
+          allow(controller).to receive(:configure_permitted_parameters)
+        end
+
         it { is_expected.not_to redirect_to(verify_path) }
       end
     end
