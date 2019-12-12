@@ -49,6 +49,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   z-index: 3;
 }
 
+// Prevent date picker from going off the right side of the screen
+.float-right .react-datepicker-popper {
+  left: -20px !important;
+}
+
 @import 'stylesheets/nav';
 @import 'stylesheets/needs';
 @import 'stylesheets/shifts';
