@@ -3,8 +3,9 @@
 
 .grid-x
   .cell.medium-7.large-9.small-order-1.medium-order-2
-    .float-right
-      = react_component("NeedsIndexDatePicker/index", { date: @date })
+    - if current_user.role == 'admin'
+      .float-right
+        = react_component("NeedsIndexDatePicker/index", { date: @date })
     %h5.separator-left Needs
     %table.responsive-card-table.hover.unstriped
       %thead

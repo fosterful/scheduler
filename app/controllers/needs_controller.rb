@@ -6,7 +6,7 @@ class NeedsController < ApplicationController
 
     @needs = policy_scope(Need).includes(:shifts).order(:start_at)
 
-    if params[:date]
+    if current_user.role == 'admin' && params[:date]
       @date = Date.parse(params[:date])
       @needs = @needs.on_date(@date)
     else
