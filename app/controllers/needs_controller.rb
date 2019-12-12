@@ -4,7 +4,15 @@ class NeedsController < ApplicationController
   def index
     authorize Need
 
-    @needs = policy_scope(Need).includes(:shifts).current.order(:start_at)
+    @needs = policy_scope(Need).includes(:shifts).order(:start_at)
+
+    if params[:start_date]
+      @start_date = Date.parse(params[:start_date])
+      @needs = @needs.on_date(@start_date)
+    else
+      @start_date = nil
+      @needs = @needs.current
+    end
   end
 
   def show
