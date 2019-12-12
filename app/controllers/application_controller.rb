@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :enforce_verification, if: :user_signed_in?
   around_action :set_time_zone, if: :user_signed_in?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -42,5 +43,11 @@ class ApplicationController < ActionController::Base
     yield
   ensure
     Time.zone = Scheduler::Application.config.time_zone
+  end
+
+  def enforce_verification
+    return if current_user.verified? || devise_controller?
+
+    redirect_to verify_path
   end
 end

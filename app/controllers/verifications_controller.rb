@@ -1,5 +1,7 @@
 class VerificationsController < ApplicationController
-  VERIFY_SID = Rails.application.credentials.twilio[:verify_sid]
+  skip_before_action :enforce_verification
+
+  VERIFY_SID = Rails.application.credentials.dig(:twilio, :verify_sid)
 
   def index
   end
@@ -7,7 +9,7 @@ class VerificationsController < ApplicationController
   def send_code
     $twilio.verify.services(VERIFY_SID).verifications.
       create(to: current_user.e164_phone, channel: 'sms')
-    redirect_to verify_path, flash: { notice: 'Verification code has been sent' }
+    redirect_to verify_path(verification_sent: true)
   end
 
   def check_code
@@ -17,9 +19,10 @@ class VerificationsController < ApplicationController
     if check.status == 'approved'
       current_user.update(verified: true)
       flash[:notice] = 'Phone number has been verified!'
+      redirect_to root_path
     else
       flash[:notice] = 'Verification failed'
+      redirect_to verify_path
     end
-    redirect_to verify_path
   end
 end

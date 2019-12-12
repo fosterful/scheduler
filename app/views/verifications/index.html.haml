@@ -1,22 +1,40 @@
-- content_for :page_header do
-  .header-text Phone verification
+.grid-x.grid-margin-x.align-middle.margin-top-3
+  .cell.auto
+  .cell.small-12.medium-9.large-6
+    .card
+      .card-divider
+        Phone verification
+      .card-section
+        - if current_user.verified?
+          %p
+            = "Your phone number (#{current_user.phone}) has already been verified."
+            %br
+            = link_to "Change my phone number", edit_user_registration_path 
+        - else
+          - if params[:verification_sent]
+            .callout.primary
+              %p Please submit the verification code you received via text message at #{current_user.phone}.
+            = form_tag(check_code_path) do
+              .grid-container
+                .grid-x.grid-padding-x
+                  .medium-4.cell
+                    = text_field_tag :code, nil, placeholder: 'Verification code'
+                  .cell.auto
+                    = submit_tag "Submit", class: 'primary button'
+              %small
+                Didn't receive a verification code?
+                = link_to 'Click here to try again.', verify_path
+          - else
+            .callout.warning
+              %p Please verify your phone number. Get started by clicking the 'Send verification code' button below. When you receive the verification code at #{current_user.phone}, submit it on the next screen.
+            %p
+              = "Your phone number: #{current_user.phone}"
+              %br
+              = link_to "Change my phone number", edit_user_registration_path
+            = link_to 'Send verification code', send_code_path, class: 'primary button', method: :post
+            .margin-top-1
+              %small
+                Already have a verification code?
+                = link_to 'Click here to enter it now.', verify_path(verification_sent: true)
 
-.grid-x.grid-padding-x.grid-margin-y
-  .cell
-    .actions
-      %p
-        = "Your phone number: #{current_user.phone}"
-        %br
-        = link_to "Change my phone number", edit_user_registration_path
-      %p
-        Your verification status:
-        %strong= current_user.verified? ? 'Verified' : 'Unverified'
-      = form_tag(send_code_path) do
-        %p
-          = submit_tag "Send verification code"
-
-      = form_tag(check_code_path) do
-        %p
-          = label_tag :code
-          = text_field_tag :code
-          = submit_tag "Check verification code"
+  .cell.auto
