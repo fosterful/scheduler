@@ -31,6 +31,7 @@ class Need < ApplicationRecord
   }
   scope :on_date, lambda { |date|
     where('start_at between ? and ?', date.beginning_of_day, date.end_of_day)
+      .order(start_at: :asc)
   }
   scope :has_claimed_shifts, lambda {
     where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id '\

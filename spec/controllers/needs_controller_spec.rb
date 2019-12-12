@@ -9,8 +9,8 @@ RSpec.describe NeedsController, type: :controller do
   before { sign_in user }
 
   describe '#index' do
-    let!(:tomorrow_need) { create(:need_with_shifts, start_at: 1.day.from_now) }
-    let!(:yesterday_need) { create(:need_with_shifts, start_at: 1.day.ago) }
+    let!(:tomorrow_need) { create(:need, start_at: 1.day.from_now, user: user, office: need.office) }
+    let!(:yesterday_need) { create(:need, start_at: 1.day.ago) }
 
     it 'returns ok' do
       get :index
