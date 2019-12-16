@@ -1,7 +1,7 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 
-class AddNeedsPicker extends React.Component {
+class AddNewNeedsPicker extends React.Component {
   state = {
     startDate: this.props.startAt ? new Date(this.props.startAt) : new Date()
   }
@@ -26,4 +26,4 @@ class AddNeedsPicker extends React.Component {
   }
 }
 
-export default AddNeedsPicker
+export default AddNewNeedsPicker
