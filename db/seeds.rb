@@ -20,7 +20,11 @@ if Rails.env.development?
   User.find_or_create_by(first_name: 'Postal',
                          last_name:  'Worker',
                          email:      email,
-                         role:       'admin') do |user|
+                         role:       'admin',
+                         verified:   true,
+                         invitation_accepted_at: Time.zone.now,
+                         time_zone:  'Pacific Time (US & Canada)',
+                         phone:      '(360) 610-7089') do |user|
     user.password              = password
     user.password_confirmation = password
     user.confirmed_at          = Time.zone.now
