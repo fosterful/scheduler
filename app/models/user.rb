@@ -27,7 +27,8 @@ class User < ApplicationRecord
                    :medical_limitations,
                    :medical_limitations_desc,
                    :conviction,
-                   :conviction_desc].freeze
+                   :conviction_desc,
+                   { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
   has_many :blockouts, dependent: :destroy
@@ -181,6 +182,18 @@ class User < ApplicationRecord
 
   def e164_phone # standard E.164 format used by Twilio
     '+1' + phone.gsub(/\D/, '')
+  end
+
+  def office_notification_ids
+    office_users.notifiable.pluck(:id)
+  end
+
+
+  def office_notification_ids=(ids)
+    ids = ids.map(&:to_i)
+    office_users.each do |ou|
+      ou.update!(send_notifications: ou.office_id.in?(ids))
+    end
   end
 
   private

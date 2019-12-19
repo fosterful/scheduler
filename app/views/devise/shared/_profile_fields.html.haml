@@ -87,6 +87,15 @@
                required: true
     .help-text Required
 
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
+    = f.label :office_notification_ids do
+      I want to receive notifications for any requests sent for
+    = f.select :office_notification_ids,
+              f.object.offices.map { |o| [o.name, o.id] },
+              {},
+              { multiple: true, class: 'multiple' }
+
 - if profile_attributes_required?(resource)
   .grid-x.grid-padding-x.grid-margin-y
     .cell
