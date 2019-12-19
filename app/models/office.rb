@@ -3,7 +3,7 @@
 class Office < ApplicationRecord
   has_one :address, as: :addressable, dependent: :destroy
   has_many :needs, dependent: :destroy
-  has_many :office_users
+  has_many :office_users, dependent: :destroy
   has_many :users, through: :office_users
   validates :name, :address, presence: true
   validates :region, numericality: { only_integer: true }

@@ -40,7 +40,7 @@ class User < ApplicationRecord
            through:    :shifts,
            class_name: 'Need',
            source:     'need'
-  has_many :office_users
+  has_many :office_users, dependent: :destroy
   has_many :offices, through: :office_users
   has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
     join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
