@@ -30,7 +30,6 @@ class User < ApplicationRecord
                    :conviction_desc].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
-  has_and_belongs_to_many :offices
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
@@ -40,6 +39,8 @@ class User < ApplicationRecord
            through:    :shifts,
            class_name: 'Need',
            source:     'need'
+  has_many :office_users
+  has_many :offices, through: :office_users
   has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
     join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
     association_foreign_key: 'need_id'
