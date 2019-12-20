@@ -9,11 +9,13 @@ RSpec.describe ShiftUpdateEventHelper do
   let(:volunteer1) { create(:user, offices: [shift.office]) }
   let(:volunteer2) { create(:user, offices: [shift.office]) }
   let(:object) do
-    double(Shift,
-           current_user: volunteer1,
-           user_was:     nil,
-           need:         need,
-           user:         shift.user).extend(described_class)
+    instance_double(
+      Services::Notifications::Shifts::Recipients::Update,
+      current_user: volunteer1,
+      user_was:     nil,
+      need:         need,
+      user:         shift.user
+    ).extend(described_class)
   end
   let(:social_worker1) do
     volunteer1.tap { |v| v.update!(role: User::SOCIAL_WORKER) }
