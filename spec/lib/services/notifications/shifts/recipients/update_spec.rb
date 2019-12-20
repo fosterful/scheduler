@@ -9,61 +9,69 @@ RSpec.describe Services::Notifications::Shifts::Recipients::Update do
   let(:need) { create(:need_with_shifts) }
   let(:office) { need.office }
   let(:shift) { need.shifts.first! }
-  let(:volunteer) { create(:user, offices: [office]) }
-  let(:other_volunteer) { create(:user, offices: [office]) }
-  let(:social_workers) { office.users.social_workers }
-  let(:coordinator) { create(:coordinator, offices: [office]) }
-  let!(:office_staff) { [*social_workers, coordinator] }
+  let(:volunteer)       { create(:user, offices: [shift.office], role: User::VOLUNTEER) }
+  let(:social_worker)   { create(:user, offices: [shift.office], role: User::SOCIAL_WORKER) }
+  let(:coordinator)     { create(:user, offices: [shift.office], role: User::COORDINATOR) }
+  let(:admin)           { create(:user, offices: [shift.office], role: User::ADMIN) }
+  let(:non_notifiable)  { create(:user, offices: [shift.office], role: User::SOCIAL_WORKER) }
+
+  before do
+    [volunteer, social_worker, coordinator, admin].each do |user|
+      office_user = OfficeUser.where(user: user, office: shift.office).first
+      office_user.update!(send_notifications: true)
+    end
+  end
 
   describe '#recipients' do
     context 'when a volunteer' do
-      context 'assigns themself to a shift' do
+      context 'when assigns themself to a shift' do
         let(:event_data) { { current_user: volunteer } }
 
-        it 'returns social workers and need user' do
+        it 'returns notifiable office users and need user' do
           shift.user = volunteer
-          need.update!(user: other_volunteer)
+          need.update!(user: non_notifiable)
 
           result = object.recipients
 
-          expect(result).to match_array([*social_workers, other_volunteer])
+          expect(result).to match_array([social_worker, coordinator, admin, need.user])
         end
       end
 
-      context 'unassigns themself from a shift' do
+      context 'when unassigns themself from a shift' do
         let(:event_data) { { user_was: volunteer, current_user: volunteer } }
 
-        it 'returns social workers and need user' do
-          need.user = volunteer # force a user that isn't office staff
-          need.save!
+        it 'returns notifiable office users and need user' do
+          need.update!(user: volunteer) # force a user that isn't office staff
 
           result = object.recipients
 
-          expect(result).to match_array([*social_workers, volunteer])
+          expect(result).to match_array([social_worker, coordinator, admin, need.user])
         end
       end
     end
 
     context 'when a scheduler' do
-      let(:scheduler) { social_workers.first }
+      context 'when assigns a volunteer' do
+        let(:event_data) { { current_user: coordinator } }
 
-      context 'assigns a volunteer' do
-        let(:event_data) { { current_user: scheduler } }
-
-        it 'returns the assigned user' do
+        it 'returns notifiable office users, need user, and the assigned user' do
           shift.user = volunteer
 
-          expect(object.recipients).to eql([shift.user])
+          expect(object.recipients).to eql(
+            [social_worker, coordinator, admin, need.user, shift.user]
+          )
         end
       end
 
-      context 'unassigns a volunteer' do
-        let(:event_data) { { current_user: scheduler, user_was: volunteer } }
+      context 'when unassigns a volunteer' do
+        let(:event_data) { { current_user: coordinator, user_was: volunteer } }
 
-        it 'returns user shift was assigned to' do
+        it 'returns notifiable office users, need user, and the user shift was assigned to' do
           shift.user = nil
 
-          expect(object.recipients).to eql([volunteer])
+          expect(object.recipients).to eql(
+            [social_worker, coordinator, admin, need.user, volunteer]
+          )
         end
       end
     end

@@ -14,10 +14,10 @@ module Services
 
           def recipients
             if shift_user_is_current_user? || current_user_left_shift?
-              return social_workers_and_need_user
+              return notifiable_office_users | [need.user]
             end
-            return [user] if scheduler_with_user?
-            return [user_was] if scheduler_without_user?
+            return notifiable_office_users | [need.user, user] if scheduler_with_user?
+            return notifiable_office_users | [need.user, user_was] if scheduler_without_user?
 
             []
           end
