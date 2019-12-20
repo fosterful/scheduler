@@ -37,13 +37,13 @@ RSpec.describe User, type: :model do
   end
 
   describe '#name' do
-    context 'first & last name are present' do
+    context 'when first & last name are present' do
       it 'returns first & last name' do
         expect(user.name).to eq('Test User')
       end
     end
 
-    context 'first & last name are nil' do
+    context 'when first & last name are nil' do
       it 'returns email address' do
         user.assign_attributes(first_name: nil, last_name: nil)
         expect(user.name).to eq(user.email)
@@ -52,11 +52,11 @@ RSpec.describe User, type: :model do
   end
 
   describe '.exclude_blockouts' do
-    subject { User.exclude_blockouts(*time.values) }
+    subject { described_class.exclude_blockouts(*time.values) }
 
     let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
 
-    context 'user has no blockouts' do
+    context 'when user has no blockouts' do
       let!(:user) { create :user }
 
       it 'includes the user' do
@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'user has blockouts with overlap' do
+    context 'when user has blockouts with overlap' do
       let(:user) { build :user }
       let!(:blockout) { create :blockout, user: user, **time }
 
@@ -73,7 +73,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'user has blockouts with no overlap' do
+    context 'when user has blockouts with no overlap' do
       let(:user) { build :user }
       let!(:blockout) do
         create(:blockout,
@@ -89,7 +89,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '.speaks_language' do
-    subject { User.speaks_language(language) }
+    subject { described_class.speaks_language(language) }
 
     let(:language) { create :language }
 
@@ -131,7 +131,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'reporting' do
+  context 'when reporting' do
     let(:lang1) { create(:language, name: 'Lang1') }
     let(:lang2) { create(:language, name: 'Lang2') }
     let(:lang3) { create(:language, name: 'Lang3') }
@@ -214,7 +214,7 @@ RSpec.describe User, type: :model do
     before do
       or_need.shifts.first.update(user: or_user)
       wa_need1.shifts.first.update(user: wa_user1)
-      wa_need2.shifts.update_all(user_id: wa_user2.id)
+      wa_need2.shifts.find_each { |s| s.update!(user_id: wa_user2.id) }
       wa_need3.shifts.first.update(user: wa_user3)
       wa_need3.shifts.last.update(user: wa_user2)
     end
@@ -310,6 +310,7 @@ RSpec.describe User, type: :model do
       user.first_name = 'Santa'
       user.last_name  = 'Claus'
     end
+
     it 'to_s' do
       result = user.to_s
 
