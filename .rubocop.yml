@@ -19,6 +19,7 @@ AllCops:
 Metrics/BlockLength:
   Exclude:
     - 'lib/tasks/**/*'
+    - 'spec/**/*'
 
 Metrics/ClassLength:
   Max: 150
