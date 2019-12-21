@@ -7,17 +7,7 @@ RSpec.describe UserPolicy, type: :policy do
   let(:user) { build(:user) }
   let(:other_user) { build(:user) }
 
-  let(:attributes) do
-    [
-      :birth_date, :conviction, :conviction_desc, :discovered_omd_by,
-      :email, :first_language_id, :second_language_id, :first_name,
-      :last_name, :medical_limitations, :medical_limitations_desc,
-      :phone, :race_id, :resident_since, :time_zone,
-      { age_range_ids: [] },
-      { office_ids: [] },
-      { office_notification_ids: [] }
-    ]
-  end
+  let(:attributes) { User::PROFILE_ATTRS | [:email, { office_ids: [] }] }
 
   describe '#new?' do
     context 'when an admin' do
