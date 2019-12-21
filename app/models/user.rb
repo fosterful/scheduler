@@ -185,7 +185,7 @@ class User < ApplicationRecord
   end
 
   def office_notification_ids
-    office_users.notifiable.pluck(:id)
+    office_users.notifiable.pluck(:office_id)
   end
 
 

@@ -355,4 +355,31 @@ RSpec.describe User, type: :model do
       expect(user.e164_phone).to eq('+13606107089')
     end
   end
+
+  describe '#office_notification_ids' do
+    let!(:office2) { create(:office) }
+    let!(:office_user2) do
+      create(:office_user, user: user, office: office2, send_notifications: true)
+    end
+
+    it 'returns office ids where office_user has send_notifications set to true' do
+      expect(user.office_notification_ids).to eq([office2.id])
+    end
+  end
+
+  describe '#office_notification_ids=' do
+    let!(:office2) { create(:office) }
+    let(:office_user) { user.office_users.first }
+    let!(:office_user2) do
+      create(:office_user, user: user, office: office2, send_notifications: false)
+    end
+
+    it 'sends send_notifications to true for office_users with passed office ids' do
+      expect(office_user.send_notifications?).to be false
+      expect(office_user2.send_notifications?).to be false
+      user.office_notification_ids = [office2.id.to_s]
+      expect(office_user.reload.send_notifications?).to be false
+      expect(office_user2.reload.send_notifications?).to be true
+    end
+  end
 end
