@@ -177,7 +177,7 @@ class User < ApplicationRecord
   end
 
   def role_display
-    I18n.t("user.roles.#{role}", default: ->(_args) { role.titleize })
+    I18n.t("user.roles.#{role}", default: ->(*_args) { role.titleize })
   end
 
   # standard E.164 format used by Twilio
