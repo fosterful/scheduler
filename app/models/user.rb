@@ -190,7 +190,7 @@ class User < ApplicationRecord
   end
 
   def office_notification_ids=(ids)
-    ids = ids.map(&:to_i)
+    ids = ids.reject(&:blank?).map(&:to_i)
     office_users.each do |ou|
       ou.update!(send_notifications: ou.office_id.in?(ids))
     end

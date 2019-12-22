@@ -368,17 +368,15 @@ RSpec.describe User, type: :model do
   end
 
   describe '#office_notification_ids=' do
-    let!(:office2) { create(:office) }
-    let(:office_user) { user.office_users.first }
-    let!(:office_user2) do
-      create(:office_user, user: user, office: office2, send_notifications: false)
-    end
+    let(:office2) { create(:office) }
+    let(:office_user1) { user.office_users.first }
+    let!(:office_user2) { create(:office_user, user: user, office: office2) }
 
-    it 'sends send_notifications to true for office_users with passed office ids' do
-      expect(office_user.send_notifications?).to be false
+    it 'sets send_notifications to true for office_users with passed office ids' do
+      expect(office_user1.send_notifications?).to be false
       expect(office_user2.send_notifications?).to be false
       user.office_notification_ids = [office2.id.to_s]
-      expect(office_user.reload.send_notifications?).to be false
+      expect(office_user1.reload.send_notifications?).to be false
       expect(office_user2.reload.send_notifications?).to be true
     end
   end
