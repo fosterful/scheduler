@@ -15,6 +15,7 @@ AllCops:
     - 'script/**/*'
     - 'spec/**/*'
     - 'vendor/**/*'
+    - '**/*.haml'
 
 Metrics/BlockLength:
   Exclude:
