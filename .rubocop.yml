@@ -23,4 +23,7 @@ Metrics/BlockLength:
     - 'spec/**/*'
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 200
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
