@@ -50,14 +50,11 @@ module Admin
     alias current_inviter current_user
 
     def alter_name_ordering(resources)
-      begin
-        if order.ordered_by?('name')
-          resources.order("first_name || ' ' || last_name #{order.direction}")
-        else
-          order.apply(resources)
-        end
+      if order.ordered_by?('name')
+        resources.order("first_name || ' ' || last_name #{order.direction}")
+      else
+        order.apply(resources)
       end
-      resources
     end
   end
 end
