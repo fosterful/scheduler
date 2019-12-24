@@ -12,7 +12,7 @@ class RemindWorker
   private
 
   def send_daily_messages
-    return unless current_hour == 12 # only send at noon
+    return unless Time.current.hour == 12 # only send at noon
 
     needs = Need.joins(:shifts)
       .where('shifts.start_at > ?', 12.hours.from_now)
