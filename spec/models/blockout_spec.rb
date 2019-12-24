@@ -64,7 +64,7 @@ RSpec.describe Blockout, type: :model do
                      end_at:          1.week.ago.advance(hours: 1),
                      last_occurrence: 1.day.ago).save(validate: false)
 
-      result = Blockout.current
+      result = described_class.current
 
       expect(result).to include(b1)
       expect(result).not_to include(b2, b3)
@@ -76,7 +76,7 @@ RSpec.describe Blockout, type: :model do
       b1     = create :blockout_with_occurrences
       b2     = create :blockout
 
-      result = Blockout.recurring
+      result = described_class.recurring
 
       expect(result).to include(b1)
       expect(result).not_to include(b2)
@@ -95,7 +95,7 @@ RSpec.describe Blockout, type: :model do
                       end_at:          1.day.from_now.advance(hours: 1),
                       last_occurrence: 1.week.from_now)
 
-      result = Blockout.recurring
+      result = described_class.recurring
 
       expect(result).to include(b1)
       expect(result).not_to include(b2, b3)

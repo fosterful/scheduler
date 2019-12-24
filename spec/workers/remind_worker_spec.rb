@@ -16,7 +16,8 @@ RSpec.describe RemindWorker do
 
     context 'when there are available shifts' do
       let(:user_with_shift) { create(:user) }
-      before {
+
+      before do
         create(:shift, need: need, start_at: 1.hour.from_now,
           created_at: 2.hours.ago)
         create(:shift, need: need2, start_at: 1.hour.from_now,
@@ -24,18 +25,18 @@ RSpec.describe RemindWorker do
         create(:shift, need: need3, start_at: 1.hour.from_now,
           created_at: 2.hours.ago, user: user_with_shift)
         create(:shift, need: need4, start_at: 1.hour.from_now,
-          created_at: Time.now)
-      }
+          created_at: Time.zone.now)
+      end
 
       it { is_expected.not_to change(SendTextMessageWorker.jobs, :size) }
 
       context 'when there are users pending response' do
-        before {
+        before do
           need.update!(notified_user_ids: [volunteer.id])
           need2.update!(notified_user_ids: [volunteer.id])
           need3.update!(notified_user_ids: [volunteer.id])
           need4.update!(notified_user_ids: [volunteer.id])
-        }
+        end
 
         it { is_expected.to change(SendTextMessageWorker.jobs, :size).by(2) }
       end
@@ -43,16 +44,16 @@ RSpec.describe RemindWorker do
 
     context 'when a need starts on a future day' do
       let(:ct) { Time.current }
-      let(:time) {
-        Time.zone.local(ct.year, ct.month, ct.day, hour)
-      }
-      before {
+      let(:time) { Time.zone.local(ct.year, ct.month, ct.day, hour) }
+
+      before do
         travel_to(time)
         need = create(:need, start_at: 1.day.from_now, created_at: 1.day.ago)
         create(:shift, need: need, start_at: 1.day.from_now,
           created_at: 1.day.ago)
         need.update!(notified_user_ids: [volunteer.id])
-      }
+      end
+
       after { travel_back }
 
       context 'when it is noon' do

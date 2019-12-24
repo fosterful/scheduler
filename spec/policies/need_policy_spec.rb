@@ -22,7 +22,7 @@ RSpec.describe NeedPolicy do
       it { is_expected.to forbid_action(:edit) }
       it { is_expected.to forbid_action(:update) }
       it { is_expected.to forbid_action(:destroy) }
-      it { is_expected.to permit_action(:mark_unavailable)}
+      it { is_expected.to permit_action(:mark_unavailable) }
       it { is_expected.to forbid_action(:view_responses) }
 
       describe '.scope' do
@@ -36,7 +36,7 @@ RSpec.describe NeedPolicy do
     context 'when not of the office' do
       it { is_expected.to permit_action(:index) }
       it { is_expected.to forbid_action(:show) }
-      it { is_expected.to forbid_action(:mark_unavailable)}
+      it { is_expected.to forbid_action(:mark_unavailable) }
       it { is_expected.to forbid_action(:view_responses) }
 
       describe '.scope' do
@@ -60,7 +60,7 @@ RSpec.describe NeedPolicy do
     it { is_expected.to permit_action(:edit) }
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:destroy) }
-    it { is_expected.to permit_action(:mark_unavailable)}
+    it { is_expected.to permit_action(:mark_unavailable) }
     it { is_expected.to permit_action(:view_responses) }
 
     describe '.scope' do
@@ -161,7 +161,7 @@ RSpec.describe NeedPolicy do
                          :start_at,
                          :notes,
                          social_worker_ids: [],
-                         age_range_ids: []])
+                         age_range_ids:     []])
     end
   end
 
@@ -174,7 +174,7 @@ RSpec.describe NeedPolicy do
                                      :race_id,
                                      :notes,
                                      social_worker_ids: [],
-                                     age_range_ids: []])
+                                     age_range_ids:     []])
     end
   end
 

@@ -103,13 +103,13 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#preferred_language' do
-    it 'preferred_language' do
+    it 'is a Language' do
       result = need.preferred_language
 
       expect(result).to be_an_instance_of(Language)
     end
 
-    it 'preferred_language' do
+    it 'can be set to English' do
       need.preferred_language = english
 
       result = need.preferred_language
@@ -143,7 +143,7 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#notification_candidates' do
-    subject { need.notification_candidates}
+    subject { need.notification_candidates }
 
     context 'when user is not in office' do
       it { is_expected.to be_empty }
@@ -194,25 +194,27 @@ RSpec.describe Need, type: :model do
     end
   end
 
-  describe "#unavailable_users" do
+  describe '#unavailable_users' do
     subject { need.unavailable_users }
+
     before { need.update(unavailable_user_ids: [new_user.id]) }
+
     it { is_expected.to eq([new_user]) }
   end
 
   describe '#users_pending_response' do
     subject { need.users_pending_response }
+
     let(:unavailable_user) { create(:user) }
     let(:accepted_user) { create(:user, shifts: [shift]) }
     let(:pending_user) { create(:user) }
 
-    before {
-      need.update(
+    before do
+      need.update!(
         unavailable_user_ids: [unavailable_user.id],
-        notified_user_ids:
-          [unavailable_user.id, accepted_user.id, pending_user.id]
+        notified_user_ids:    [unavailable_user.id, accepted_user.id, pending_user.id]
       )
-    }
+    end
 
     it { is_expected.to eq([pending_user]) }
   end

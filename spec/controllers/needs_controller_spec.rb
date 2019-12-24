@@ -9,7 +9,9 @@ RSpec.describe NeedsController, type: :controller do
   before { sign_in user }
 
   describe '#index' do
-    let!(:tomorrow_need) { create(:need, start_at: 1.day.from_now, user: user, office: need.office) }
+    let!(:tomorrow_need) do
+      create(:need, start_at: 1.day.from_now, user: user, office: need.office)
+    end
     let!(:yesterday_need) { create(:need, start_at: 1.day.ago) }
 
     it 'returns ok' do
@@ -49,12 +51,14 @@ RSpec.describe NeedsController, type: :controller do
   describe '#create' do
     it 'POST create' do
       expect do
-        post :create, params: { need: { number_of_children: 2,
-                                        expected_duration:  2,
-                                        start_at:           Time.zone.now.advance(weeks: 1).to_param,
-                                        office_id:          need.office_id.to_param,
-                                        age_range_ids:      [AgeRange.first!.id],
-                                        preferred_language_id: 1 } }
+        post :create, params: {
+          need: { number_of_children:    2,
+                  expected_duration:     2,
+                  start_at:              Time.zone.now.advance(weeks: 1).to_param,
+                  office_id:             need.office_id.to_param,
+                  age_range_ids:         [AgeRange.first!.id],
+                  preferred_language_id: 1 }
+        }
       end.to change(Need, :count).by(1)
 
       expect(response).to have_http_status(:found)
@@ -89,6 +93,7 @@ RSpec.describe NeedsController, type: :controller do
 
   describe '#mark_unavailable' do
     subject { patch :mark_unavailable, params: { id: need.id } }
+
     it { is_expected.to redirect_to(need) }
   end
 end
