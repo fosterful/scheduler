@@ -27,3 +27,12 @@ Metrics/ClassLength:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/GlobalVars:
+  Enabled: false
