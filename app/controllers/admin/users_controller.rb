@@ -13,23 +13,17 @@ module Admin
       resources = apply_collection_includes(resources)
 
       # This is the unique part
-      resources = begin
-        if order.ordered_by?('name')
-          resources.order("first_name || ' ' || last_name #{order.direction}")
-        else
-          order.apply(resources)
-        end
-      end
+      resources = alter_name_ordering(resources)
       # end unique part
 
       resources = resources.page(params[:page]).per(records_per_page)
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
       render locals: {
-        resources: resources,
-        search_term: search_term,
-        page: page,
-        show_search_bar: show_search_bar?,
+        resources:       resources,
+        search_term:     search_term,
+        page:            page,
+        show_search_bar: show_search_bar?
       }
     end
 
@@ -54,5 +48,13 @@ module Admin
 
     alias invite_params resource_params
     alias current_inviter current_user
+
+    def alter_name_ordering(resources)
+      if order.ordered_by?('name')
+        resources.order("first_name || ' ' || last_name #{order.direction}")
+      else
+        order.apply(resources)
+      end
+    end
   end
 end

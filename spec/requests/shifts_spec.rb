@@ -23,7 +23,7 @@ RSpec.describe 'Shifts', type: :request do
   describe '#create' do
     before { sign_in user }
 
-    context 'success' do
+    context 'when success' do
       it 'redirects to the need' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
@@ -34,7 +34,7 @@ RSpec.describe 'Shifts', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'renders the new view' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
 
@@ -58,7 +58,7 @@ RSpec.describe 'Shifts', type: :request do
       expect(response).to redirect_to(need_path(need))
     end
 
-    context 'success' do
+    context 'when success' do
       it 'sets the flash to display the successful change message' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
@@ -70,7 +70,7 @@ RSpec.describe 'Shifts', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       it 'sets the flash to display an error message' do
         expect_any_instance_of(Shift).to receive(:save).and_return(false)
 
@@ -91,7 +91,7 @@ RSpec.describe 'Shifts', type: :request do
       expect(response).to redirect_to(need_shifts_path(need))
     end
 
-    context 'success' do
+    context 'when success' do
       it 'sets the flash to display the successful change message' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
@@ -102,7 +102,7 @@ RSpec.describe 'Shifts', type: :request do
       end
     end
 
-    context 'failure' do
+    context 'when failure' do
       context 'when there is only one shift left' do
         it 'sets the flash to display an error message' do
           allow_any_instance_of(Shift).to receive(:destroy).and_return(false)

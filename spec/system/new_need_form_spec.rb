@@ -6,12 +6,12 @@ RSpec.describe 'New need form', type: :system, js: true do
   let!(:coordinator) { create(:coordinator) }
   let!(:office1) { Office.first }
   let!(:office2) { create(:office) }
-  let!(:social_worker1) {
+  let!(:social_worker1) do
     create(:social_worker, offices: [office1], first_name: 'Social Worker 1')
-  }
-  let!(:social_worker2) {
+  end
+  let!(:social_worker2) do
     create(:social_worker, offices: [office2], first_name: 'Social Worker 2')
-  }
+  end
 
   before { sign_in coordinator }
 

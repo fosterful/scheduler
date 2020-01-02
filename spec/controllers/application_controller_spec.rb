@@ -11,10 +11,12 @@ RSpec.describe ApplicationController, type: :controller do
 
   describe 'before_filter :enforce_verification' do
     subject { get :index }
+
     before { sign_in(user) }
 
     context 'when user is not verified' do
       let(:user) { create(:user, verified: false) }
+
       it { is_expected.to redirect_to(verify_path) }
 
       context 'when in a Devise controller' do
@@ -29,6 +31,7 @@ RSpec.describe ApplicationController, type: :controller do
 
     context 'when user is verified' do
       let(:user) { create(:user) }
+
       it { is_expected.not_to redirect_to(verify_path) }
     end
   end

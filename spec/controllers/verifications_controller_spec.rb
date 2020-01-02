@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe VerificationsController, type: :controller do
   let(:user) { create(:user, verified: false) }
+
   before { sign_in user }
 
   describe '#index' do
@@ -23,11 +26,12 @@ RSpec.describe VerificationsController, type: :controller do
 
   describe '#check_code' do
     subject { post :check_code, params: { code: '123456' } }
-    before {
-      expect($twilio).to receive_message_chain(
+
+    before do
+      allow($twilio).to receive_message_chain(
         :verify, :services, :verification_checks, :create
       ) { double(:check, status: status) }
-    }
+    end
 
     context 'when code is approved' do
       let(:status) { 'approved' }

@@ -12,7 +12,7 @@ RSpec.describe ShiftPolicy do
   context 'when for volunteers' do
     let(:user) { build :user, role: 'volunteer' }
 
-    context 'of the office' do
+    context 'when of the office' do
       before { record.need.office.users << user }
 
       it { is_expected.to forbid_action(:create) }

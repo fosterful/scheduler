@@ -9,7 +9,7 @@ RSpec.describe Office, type: :model do
     expect(office.valid?).to be(true)
   end
 
-  context 'reporting' do
+  context 'when reporting' do
     let(:lang1) { create(:language, name: 'Lang1') }
     let(:lang2) { create(:language, name: 'Lang2') }
     let(:lang3) { create(:language, name: 'Lang3') }

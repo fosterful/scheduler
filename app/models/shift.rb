@@ -67,9 +67,9 @@ class Shift < ApplicationRecord
   end
 
   def make_user_available
-    if need.unavailable_user_ids.include?(user_id)
-      need.unavailable_user_ids -= [user_id]
-      need.save!
-    end
+    return unless need.unavailable_user_ids.include?(user_id)
+
+    need.unavailable_user_ids -= [user_id]
+    need.save!
   end
 end
