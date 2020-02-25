@@ -33,8 +33,9 @@ gem 'redis'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# Lib for building admin
-gem 'administrate'
+# Admin framework
+gem 'activeadmin'
+gem 'selectize-rails'
 
 # User registration & authorization
 gem 'devise'

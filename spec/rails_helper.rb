@@ -4,7 +4,9 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_group 'Policies', '/app/policies'
-  add_group 'Admin', ['/app/dashboards', 'app/fields']
+
+  add_filter "/app\/admin/"
+  add_filter "/app\/helpers\/admin/"
 end
 
 require 'spec_helper'

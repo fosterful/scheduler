@@ -1,17 +1,26 @@
-= form_for([namespace, page.resource], html: { class: "form" }) do |f|
-  - if page.resource.errors.any?
-    #error_explanation
-      %h2
-        = t(                                                                                        |
-            "administrate.form.errors",                                                             |
-            pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")), |
-            resource_name: display_resource_name(page.resource_name)                                |
-          )                                                                                         |
-      %ul
-        - page.resource.errors.full_messages.each do |message|
-          %li.flash-error= message
-  - filtered_attributes(page).each do |attribute|
-    %div{ class: "field-unit field-unit--#{attribute.html_class}" }
-      = render_field attribute, f: f
-  .form-actions
-    = f.submit
+= semantic_form_for ['admin', resource] do |f|
+  = f.semantic_errors 
+  = f.inputs do
+    - if resource.persisted?
+      = f.input :first_name
+      = f.input :last_name
+
+    = f.input :email
+    = f.input :offices, :input_html => {:class => 'multiple'}
+    = f.input :role, as: :select,     :collection => User::ROLES
+
+    - if resource.persisted?
+      = f.input :race
+      = f.input :first_language
+      = f.input :second_language
+      = f.input :time_zone
+      = f.input :age_ranges, as: :check_boxes
+      = f.input :birth_date, as: :date_select, :start_year => Date.current.year, :end_year => 1920
+      = f.input :phone
+      = f.input :resident_since, as: :date_select, :start_year => Date.current.year, :end_year => 1920
+      = f.input :discovered_omd_by, :input_html => { :rows => 1 }
+      = f.input :medical_limitations
+      = f.input :medical_limitations_desc, :input_html => { :rows => 5, :placeholder => 'Please explain'}
+      = f.input :conviction
+      = f.input :conviction_desc, :input_html => { :rows => 5, :placeholder => 'Please give a brief explanation' }
+    = f.actions 
