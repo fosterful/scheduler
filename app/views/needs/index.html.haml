@@ -3,6 +3,9 @@
 
 .grid-x
   .cell.medium-7.large-9.small-order-1.medium-order-2
+    - if current_user.admin?
+      .float-right
+        = react_component("NeedsIndexDatePicker/index", { date: @date })
     %h5.separator-left Needs
     %table.responsive-card-table.hover.unstriped
       %thead
@@ -21,4 +24,3 @@
   .cell.medium-5.large-3.small-order-2.medium-order-1
     %h5.separator-left My Schedule
     = react_component("blockouts/Scheduler/index", { blockouts: current_user.blockouts.excluding_occurrences.shuffle, authenticity_token: form_authenticity_token }, {id: 'scheduler'})
-

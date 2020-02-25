@@ -7,6 +7,8 @@ RSpec.describe UserPolicy, type: :policy do
   let(:user) { build(:user) }
   let(:other_user) { build(:user) }
 
+  let(:attributes) { User::PROFILE_ATTRS | [:email, { office_ids: [] }] }
+
   describe '#new?' do
     context 'when an admin' do
       let(:user) { build(:user, role: 'admin') }
@@ -93,24 +95,7 @@ RSpec.describe UserPolicy, type: :policy do
     it 'permitted_attributes_for_create' do
       result = subject.permitted_attributes_for_create
 
-      expect(result).to match_array([:birth_date,
-                                     :conviction,
-                                     :conviction_desc,
-                                     :discovered_omd_by,
-                                     :email,
-                                     :first_language_id,
-                                     :second_language_id,
-                                     :first_name,
-                                     :last_name,
-                                     :medical_limitations,
-                                     :medical_limitations_desc,
-                                     :phone,
-                                     :race_id,
-                                     :resident_since,
-                                     :role,
-                                     :time_zone,
-                                     { age_range_ids: [] },
-                                     { office_ids: [] }])
+      expect(result).to match_array(attributes | [:role])
     end
   end
 
@@ -118,31 +103,15 @@ RSpec.describe UserPolicy, type: :policy do
     it 'permitted_attributes' do
       result = subject.permitted_attributes
 
-      expect(result).to match_array([:birth_date,
-                                     :conviction,
-                                     :conviction_desc,
-                                     :discovered_omd_by,
-                                     :email,
-                                     :first_language_id,
-                                     :second_language_id,
-                                     :first_name,
-                                     :last_name,
-                                     :medical_limitations,
-                                     :medical_limitations_desc,
-                                     :phone,
-                                     :race_id,
-                                     :resident_since,
-                                     :time_zone,
-                                     { age_range_ids: [] },
-                                     { office_ids: [] }])
+      expect(result).to match_array(attributes)
     end
   end
 
   # TODO: auto-generated
   describe '#permitted_attributes_for_account_update' do
     it 'permitted_attributes_for_account_update' do
-      user        = double('user')
-      other_user  = double('other_user')
+      user        = instance_double(User, 'user')
+      other_user  = instance_double(User, 'other_user')
       user_policy = described_class.new(user, other_user)
       result      = user_policy.permitted_attributes_for_account_update
 

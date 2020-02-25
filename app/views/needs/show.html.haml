@@ -22,6 +22,16 @@
         %strong= @need.office
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
+        %div Child welfare workers
+      .cell.small-7.text-center
+        %ul.social_workers
+          - @need.social_workers.each do |social_worker|
+            %li
+              %strong= social_worker.name
+              - if social_worker.phone.present?
+                = "(Phone: #{social_worker.phone})"
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
         %div Requested By
       .cell.small-7.text-center
         %strong= @need.user.name

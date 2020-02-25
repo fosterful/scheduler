@@ -6,7 +6,7 @@
           = image_pack_tag 'media/images/omd-logo-horiz.png', class: 'logo'
       .cell.auto.align-right.align-middle.grid-x
         - if user_signed_in?
-          - if policy(Need).new?
+          - if policy(Need).new? && !controller_name.in?(%w(registrations verifications))
             = link_to new_need_path, class: 'button success show-for-medium' do
               %fa.fas.fa-plus
               New Need

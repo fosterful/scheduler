@@ -3,6 +3,7 @@
 module ShiftUpdateEventHelper
   # This module relies on the following variables being declared and present:
   # current_user, need, user, user_was
+  NOTIFIABLE_ROLES = [User::ADMIN, User::COORDINATOR, User::SOCIAL_WORKER].freeze
 
   def shift_user_is_current_user?
     user.present? && user.eql?(current_user)
@@ -20,12 +21,13 @@ module ShiftUpdateEventHelper
     current_user.scheduler? && user.nil?
   end
 
-  def social_workers_and_need_user
-    social_workers | [need.user]
+  def notifiable_office_users_and_need_user
+    notifiable_office_users | [need.user]
   end
 
-  def social_workers
-    need.office.users.social_workers
+  def notifiable_office_users
+    need.office.users.joins(:office_users).where('role IN (?)', NOTIFIABLE_ROLES)
+      .where(office_users: { send_notifications: true }).to_a
   end
 
 end

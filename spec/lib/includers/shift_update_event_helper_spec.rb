@@ -6,20 +6,27 @@ RSpec.describe ShiftUpdateEventHelper do
 
   let(:shift) { create(:shift) }
   let(:need) { shift.need }
-  let(:volunteer1) { create(:user, offices: [shift.office]) }
-  let(:volunteer2) { create(:user, offices: [shift.office]) }
+  let(:current_user) { volunteer }
   let(:object) do
-    double(Shift,
-           current_user: volunteer1,
-           user_was:     nil,
-           need:         need,
-           user:         shift.user).extend(described_class)
+    instance_double(
+      Services::Notifications::Shifts::Recipients::Update,
+      current_user: current_user,
+      user_was:     nil,
+      need:         need,
+      user:         shift.user
+    ).extend(described_class)
   end
-  let(:social_worker1) do
-    volunteer1.tap { |v| v.update!(role: User::SOCIAL_WORKER) }
-  end
-  let(:social_worker2) do
-    volunteer2.tap { |v| v.update!(role: User::SOCIAL_WORKER) }
+  let(:volunteer)       { create(:user, offices: [shift.office], role: User::VOLUNTEER) }
+  let(:social_worker)   { create(:user, offices: [shift.office], role: User::SOCIAL_WORKER) }
+  let(:coordinator)     { create(:user, offices: [shift.office], role: User::COORDINATOR) }
+  let(:admin)           { create(:user, offices: [shift.office], role: User::ADMIN) }
+  let(:non_notifiable)  { create(:user, offices: [shift.office], role: User::SOCIAL_WORKER) }
+
+  before do
+    [volunteer, social_worker, coordinator, admin].each do |user|
+      office_user = OfficeUser.where(user: user, office: shift.office).first
+      office_user.update!(send_notifications: true)
+    end
   end
 
   describe '#shift_user_is_current_user?' do
@@ -30,7 +37,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     it 'returns true when shift user is current user' do
-      shift.user = volunteer1
+      shift.user = volunteer
       shift.save!
 
       result = object.shift_user_is_current_user?
@@ -39,7 +46,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     it 'returns false when current user is not shift user' do
-      allow(object).to receive(:current_user).and_return(volunteer2)
+      allow(object).to receive(:current_user).and_return(social_worker)
 
       result = object.shift_user_is_current_user?
 
@@ -63,7 +70,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     it 'returns false if user_was is not current_user' do
-      allow(object).to receive(:user_was).and_return(volunteer2)
+      allow(object).to receive(:user_was).and_return(social_worker)
 
       result = object.current_user_left_shift?
 
@@ -80,7 +87,7 @@ RSpec.describe ShiftUpdateEventHelper do
 
     it 'returns true if user nil, and current_user is user_was' do
       allow(object).to receive(:user).and_return(nil)
-      allow(object).to receive(:user_was).and_return(volunteer1)
+      allow(object).to receive(:user_was).and_return(volunteer)
 
       result = object.current_user_left_shift?
 
@@ -88,7 +95,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     it 'returns true if user present and current_user is user_was' do
-      allow(object).to receive(:user_was).and_return(volunteer1)
+      allow(object).to receive(:user_was).and_return(volunteer)
 
       result = object.current_user_left_shift?
 
@@ -107,7 +114,7 @@ RSpec.describe ShiftUpdateEventHelper do
       end
 
       it 'returns false if shift assigned' do
-        shift.user = volunteer2
+        shift.user = coordinator
         shift.save!
 
         result = object.scheduler_with_user?
@@ -117,9 +124,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     context 'when current_user is a scheduler' do
-      before do
-        volunteer1.update!(role: User::COORDINATOR)
-      end
+      let(:current_user) { coordinator }
 
       it 'returns false if shift not assigned' do
         allow(object).to receive(:user).and_return(nil)
@@ -130,7 +135,7 @@ RSpec.describe ShiftUpdateEventHelper do
       end
 
       it 'returns true if shift assigned' do
-        shift.user = volunteer2
+        shift.user = coordinator
         shift.save!
 
         result = object.scheduler_with_user?
@@ -151,7 +156,7 @@ RSpec.describe ShiftUpdateEventHelper do
       end
 
       it 'returns false if shift assigned' do
-        shift.user = volunteer2
+        shift.user = coordinator
         shift.save!
 
         result = object.scheduler_without_user?
@@ -161,9 +166,7 @@ RSpec.describe ShiftUpdateEventHelper do
     end
 
     context 'when current_user is a scheduler' do
-      before do
-        volunteer1.update!(role: User::COORDINATOR)
-      end
+      let(:current_user) { coordinator }
 
       it 'returns true if shift not assigned' do
         allow(object).to receive(:user).and_return(nil)
@@ -174,7 +177,7 @@ RSpec.describe ShiftUpdateEventHelper do
       end
 
       it 'returns false if shift assigned' do
-        shift.user = volunteer2
+        shift.user = social_worker
         shift.save!
 
         result = object.scheduler_without_user?
@@ -184,42 +187,19 @@ RSpec.describe ShiftUpdateEventHelper do
     end
   end
 
-  describe '#social_workers_and_need_user' do
-    it 'returns need user and all social workers associated with the office' do
-      volunteer1.update!(role: User::SOCIAL_WORKER)
-      volunteer2.update!(role: User::SOCIAL_WORKER)
+  describe '#notifiable_office_users_and_need_user' do
+    it 'returns need user and all notifiable office users associated with the office' do
+      result = object.notifiable_office_users_and_need_user
 
-      result = object.social_workers_and_need_user
-
-      expect(result).to match_array([volunteer1, volunteer2, need.user])
-    end
-
-    it 'returns need user if no social workers' do
-      result = object.social_workers_and_need_user
-
-      expect(result).to match_array([need.user])
+      expect(result).to match_array([social_worker, coordinator, admin, need.user])
     end
   end
 
-  describe '#social_workers' do
-    before do
-      need.user.update!(role: User::VOLUNTEER)
-    end
+  describe '#notifiable_office_users' do
+    it 'returns all notifiable office users associated with the office' do
+      result = object.notifiable_office_users
 
-    it 'returns all social workers associated with the office' do
-      social_worker1
-      social_worker2
-
-      result = object.social_workers
-
-      expect(result).to match_array([social_worker1, social_worker2])
-    end
-
-    it 'returns empty collection if no social workers' do
-      result = object.social_workers
-
-      expect(result).to match_array([])
+      expect(result).to match_array([social_worker, coordinator, admin])
     end
   end
-
 end

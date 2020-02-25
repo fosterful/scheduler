@@ -30,7 +30,8 @@ RSpec.configure do |config|
                              '0.0.0.0'
                            end
     Capybara.server_port = '43447'
-    Capybara.app_host    = "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
+    Capybara.app_host =
+      "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
   end
 
   config.after :each, type: :system, js: true do

@@ -1,24 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import DateTime from 'react-datetime'
+import DatePicker from 'react-datepicker'
 
-class AddNeedsPicker extends React.Component {
+class AddNewNeedsPicker extends React.Component {
+  state = {
+    startDate: this.props.startAt ? new Date(this.props.startAt) : new Date()
+  }
+
+  handleChange = date => {
+    this.setState({
+      startDate: date
+    })
+  }
+
   render() {
-    const {
-      props: { startAt }
-    } = this
     return (
-      <DateTime
-        defaultValue={(startAt && new Date(startAt)) || undefined}
-        dateFormat='DD-MM-YYYY'
-        inputProps={{ name: 'need[start_at]' }}
-        timeConstraints={{ minutes: { step: 15 } }}
+      <DatePicker
+        selected={this.state.startDate}
+        onChange={this.handleChange}
+        showTimeSelect
+        timeIntervals={15}
+        dateFormat="MMM d, yyyy h:mm aa"
+        name="need[start_at]"
       />
     )
   }
 }
 
-AddNeedsPicker.propTypes = {
-  startAt: PropTypes.string
-}
-export default AddNeedsPicker
+export default AddNewNeedsPicker

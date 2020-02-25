@@ -15,10 +15,42 @@ AllCops:
     - 'script/**/*'
     - 'spec/**/*'
     - 'vendor/**/*'
+    - '**/*.haml'
 
 Metrics/BlockLength:
   Exclude:
     - 'lib/tasks/**/*'
+    - 'spec/**/*'
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 200
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/GlobalVars:
+  Enabled: false
+
+RSpec/ImplicitBlockExpectation:
+  Enabled: false
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/EmptyExampleGroup:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false

@@ -86,12 +86,6 @@ RSpec.describe Shift, type: :model do
 
   describe '.claimed' do # scope test
     it 'supports named scope claimed' do
-      result = described_class.limit(3).claimed
-
-      expect(result).to be_empty
-    end
-
-    it 'supports named scope claimed' do
       shift = create(:shift)
       shift.update!(user: create(:user))
 
@@ -105,6 +99,7 @@ RSpec.describe Shift, type: :model do
     let(:user) { create(:user) }
     let(:user2) { create(:user) }
     let(:need) { shift.need }
+
     before { need.update(unavailable_user_ids: [user.id, user2.id]) }
 
     it "clears the need's unavailable_user_ids on create" do
@@ -118,9 +113,10 @@ RSpec.describe Shift, type: :model do
     let(:user) { create(:user) }
     let(:user2) { create(:user) }
     let(:need) { shift.need }
+
     before { need.update(unavailable_user_ids: [user.id, user2.id]) }
 
-    it "removes the assigned user from the list of unavailable users" do
+    it 'removes the assigned user from the list of unavailable users' do
       expect(need.unavailable_user_ids).to eq([user.id, user2.id])
       shift.update!(user: user)
       expect(need.unavailable_user_ids).to eq([user2.id])

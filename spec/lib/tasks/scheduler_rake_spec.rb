@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'support/rake_shared_context'
 
 describe 'scheduler:update_blockouts' do
-  include_context 'rake'
+  include_context 'when rake'
 
   context 'with an end to occurrence' do
     it 'updates current_recurring Blockouts over time' do

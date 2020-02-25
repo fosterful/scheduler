@@ -27,10 +27,10 @@ class User < ApplicationRecord
                    :medical_limitations,
                    :medical_limitations_desc,
                    :conviction,
-                   :conviction_desc].freeze
+                   :conviction_desc,
+                   { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
-  has_and_belongs_to_many :offices
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
@@ -40,6 +40,11 @@ class User < ApplicationRecord
            through:    :shifts,
            class_name: 'Need',
            source:     'need'
+  has_many :office_users, dependent: :destroy
+  has_many :offices, through: :office_users
+  has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
+    join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
+    association_foreign_key: 'need_id'
 
   belongs_to :first_language,
              optional:   true,
@@ -83,7 +88,7 @@ class User < ApplicationRecord
             if:       -> { require_volunteer_profile_attributes? && conviction? }
 
   validates :role,
-            inclusion: { in: ROLES, message: '%{value} is not a valid role' }
+            inclusion: { in: ROLES, message: '%<value> is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :at_least_one_office
   validate :at_least_one_age_range,
@@ -96,10 +101,13 @@ class User < ApplicationRecord
   scope :notifiable, -> { volunteerable.with_phone }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
+  scope :verified, -> { where(verified: true) }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))
   }
+
+  before_save :check_phone_verification
 
   def self.shifts_by_user
     joins(:shifts).group('users.id')
@@ -169,12 +177,34 @@ class User < ApplicationRecord
   end
 
   def role_display
-    I18n.t("user.roles.#{role}", default: -> (*args) { role.titleize })
+    I18n.t("user.roles.#{role}", default: ->(*_args) { role.titleize })
+  end
+
+  # standard E.164 format used by Twilio
+  def e164_phone
+    '+1' + phone.gsub(/\D/, '')
+  end
+
+  def office_notification_ids
+    office_users.notifiable.pluck(:office_id)
+  end
+
+  def office_notification_ids=(ids)
+    ids = ids.reject(&:blank?).map(&:to_i)
+    office_users.each do |ou|
+      ou.update!(send_notifications: ou.office_id.in?(ids))
+    end
   end
 
   private
 
   def require_volunteer_profile_attributes?
     (volunteer? || coordinator?) && invitation_accepted_at?
+  end
+
+  def check_phone_verification
+    return unless phone_changed? && phone_was.present?
+
+    self.verified = false
   end
 end
