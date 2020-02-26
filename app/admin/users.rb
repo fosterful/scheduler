@@ -9,6 +9,11 @@ ActiveAdmin.register User do
 
   form partial: 'form'
 
+  member_action :activate, method: :post do
+    flash[:alert] = 'There was an issue activating this user.' unless resource.update(deactivated: false)
+    redirect_to admin_users_path
+  end
+
   member_action :deactivate, method: :post do
     flash[:alert] = 'There was an issue deactivating this user.' unless resource.update(deactivated: true)
     redirect_to admin_users_path
@@ -21,7 +26,11 @@ ActiveAdmin.register User do
     column :email
     column :offices
     actions do |u|
-      link_to 'Deactivate', deactivate_admin_user_path(u.id), method: :post unless u.deactivated
+      if u.deactivated
+        link_to 'Activate', activate_admin_user_path(u.id), method: :post
+      else
+        link_to 'Deactivate', deactivate_admin_user_path(u.id), method: :post
+      end
     end
   end
   #:nocov:
