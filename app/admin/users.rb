@@ -9,14 +9,11 @@ ActiveAdmin.register User do
 
   form partial: 'form'
 
-  member_action :activate, method: :post do
-    flash[:alert] = 'There was an issue activating this user.' unless resource.update(deactivated: false)
-    redirect_to admin_users_path
-  end
-
-  member_action :deactivate, method: :post do
-    flash[:alert] = 'There was an issue deactivating this user.' unless resource.update(deactivated: true)
-    redirect_to admin_users_path
+  %w( deactivate activate ).each do |activation_type|
+    member_action activation_type.to_sym, method: :post do
+      flash[:alert] = 'There was an issue updating this user.' unless resource.update(deactivated: !resource.deactivated)
+      redirect_to admin_users_path
+    end
   end
 
   #:nocov:
