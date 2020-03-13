@@ -140,6 +140,10 @@ class User < ApplicationRecord
       .where(blockouts: { id: nil })
   end
 
+  def active_for_authentication?
+    super && !deactivated
+  end
+
   def at_least_one_office
     return if offices.any?
 

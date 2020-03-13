@@ -9,13 +9,26 @@ ActiveAdmin.register User do
 
   form partial: 'form'
 
+  %w( deactivate activate ).each do |activation_type|
+    member_action activation_type.to_sym, method: :post do
+      flash[:alert] = 'There was an issue updating this user.' unless resource.update(deactivated: !resource.deactivated)
+      redirect_to admin_users_path
+    end
+  end
+
   #:nocov:
   index do
     id_column
     column :name, :sortable => 'last_name'
     column :email
     column :offices
-    actions
+    actions do |u|
+      if u.deactivated
+        link_to 'Activate', activate_admin_user_path(u.id), method: :post
+      else
+        link_to 'Deactivate', deactivate_admin_user_path(u.id), method: :post
+      end
+    end
   end
   #:nocov:
 
