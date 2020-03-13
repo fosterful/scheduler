@@ -60,7 +60,7 @@ RSpec.describe 'Needs', type: :request do
 
     context 'when failure' do
       it 'renders the new view' do
-        expect_any_instance_of(Need).to receive(:update).and_return(false)
+        expect_any_instance_of(Need).to receive(:valid?).and_return(false)
 
         post needs_path,
              params: { need: attributes_for(:need)
