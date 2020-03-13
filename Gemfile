@@ -88,15 +88,14 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'webmock'
   gem 'vcr'
+  gem 'spring'
+  gem 'spring-watcher-listen'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console'
   gem 'listen'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen'
   gem 'hint-rubocop_style'
 end
 
