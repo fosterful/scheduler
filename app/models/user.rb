@@ -140,10 +140,6 @@ class User < ApplicationRecord
       .where(blockouts: { id: nil })
   end
 
-  def destroy
-    update_attributes(deactivated: true) unless deactivated
-  end
-
   def active_for_authentication?
     super && !deactivated
   end
