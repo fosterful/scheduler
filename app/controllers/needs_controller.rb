@@ -36,7 +36,7 @@ class NeedsController < ApplicationController
 
     authorize @need
 
-    if @need.update(shifts: Services::BuildNeedShifts.call(@need))
+    if @need.valid? && @need.update(shifts: Services::BuildNeedShifts.call(@need))
       Services::Notifications::Needs.new(@need, :create).notify
 
       redirect_to(@need)
