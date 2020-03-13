@@ -78,24 +78,24 @@ RSpec.describe Office, type: :model do
       wa_need3.shifts.last.update(user: wa_user2)
     end
 
-    describe '.total_volunteer_minutes_by_office' do
-      it 'returns the total volunteer minutes grouped by office' do
-        expect(described_class.total_volunteer_minutes_by_office)
-          .to eql(or_office.id => 60, wa_office1.id => 60, wa_office2.id => 360)
+    describe '.total_volunteer_hours_by_office' do
+      it 'returns the total volunteer hours grouped by office' do
+        expect(described_class.total_volunteer_hours_by_office)
+          .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
       end
     end
 
-    describe '.total_volunteer_minutes_by_state' do
-      it 'returns the total volunteer minutes groupe by state' do
-        expect(described_class.total_volunteer_minutes_by_state)
-          .to eql('OR' => 60, 'WA' => 420)
+    describe '.total_volunteer_hours_by_state' do
+      it 'returns the total volunteer hours groupe by state' do
+        expect(described_class.total_volunteer_hours_by_state)
+          .to eql('OR' => 1.0, 'WA' => 7.0)
       end
     end
 
-    describe '.total_volunteer_minutes_by_county' do
-      it 'returns the total volunteer minutes groupe by county' do
-        expect(described_class.total_volunteer_minutes_by_county('WA'))
-          .to eql('Lewis' => 360, 'Clark' => 60)
+    describe '.total_volunteer_hours_by_county' do
+      it 'returns the total volunteer hours groupe by county' do
+        expect(described_class.total_volunteer_hours_by_county('WA'))
+          .to eql('Lewis' => 6.0, 'Clark' => 1.0)
       end
     end
 

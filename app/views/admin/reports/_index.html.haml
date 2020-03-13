@@ -3,20 +3,20 @@
 %hr
 %h2 Office
 %ul
-  %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_office_path(:csv), target: '_blank')
+  %li= link_to('Total Volunteer Hours', admin_reports_total_volunteer_hours_by_office_path(:csv), target: '_blank')
   %li= link_to('Total Children Served', admin_reports_total_children_served_by_office_path(:csv), target: '_blank')
 %hr
 %h2 State
 %ul
-  %li= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_state_path(:csv), target: '_blank')
+  %li= link_to('Total Volunteer Hours', admin_reports_total_volunteer_hours_by_state_path(:csv), target: '_blank')
   %li= link_to('Total Children Served', admin_reports_total_children_served_by_state_path(:csv), target: '_blank')
 %hr
 %h2 County
 %table
   %tbody
     %tr
-      = form_tag(admin_reports_total_volunteer_minutes_by_county_path(:csv), method: 'get') do
-        %td= label_tag(:state, 'Total Volunteer Minutes')
+      = form_tag(admin_reports_total_volunteer_hours_by_county_path(:csv), method: 'get') do
+        %td= label_tag(:state, 'Total Volunteer Hours')
         %td= select_tag :state, options_for_select(Address.distinct.pluck(:state))
         %td= submit_tag 'Query', data: { disable_with: false }
     %tr
@@ -26,7 +26,7 @@
         %td= submit_tag 'Query', data: { disable_with: false }
 %hr
 %h2 User
-%div= link_to('Total Volunteer Minutes', admin_reports_total_volunteer_minutes_by_user_path(:csv))
+%div= link_to('Total Volunteer Hours', admin_reports_total_volunteer_hours_by_user_path(:csv))
 %hr
 %h2 Demographic
 %ul

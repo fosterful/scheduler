@@ -24,28 +24,28 @@ RSpec.describe 'Admin reports spec', type: :request do
       end
     end
 
-    describe '#total_volunteer_minutes_by_office' do
-      it 'returns total volunteer minutes grouped by office' do
-        get admin_reports_total_volunteer_minutes_by_office_path(:csv)
+    describe '#total_volunteer_hours_by_office' do
+      it 'returns total volunteer hours grouped by office' do
+        get admin_reports_total_volunteer_hours_by_office_path(:csv)
 
-        expect(response.body).to include('Office ID', 'Volunteer Minutes')
+        expect(response.body).to include('Office ID', 'Volunteer Hours')
       end
     end
 
-    describe '#total_volunteer_minutes_by_state' do
-      it 'returns total volunteer minutes grouped by state' do
-        get admin_reports_total_volunteer_minutes_by_state_path(:csv)
+    describe '#total_volunteer_hours_by_state' do
+      it 'returns total volunteer hours grouped by state' do
+        get admin_reports_total_volunteer_hours_by_state_path(:csv)
 
-        expect(response.body).to include('State', 'Volunteer Minutes')
+        expect(response.body).to include('State', 'Volunteer Hours')
       end
     end
 
-    describe '#total_volunteer_minutes_by_county' do
-      it 'returns total volunteer minutes grouped by county' do
-        get admin_reports_total_volunteer_minutes_by_county_path(:csv),
+    describe '#total_volunteer_hours_by_county' do
+      it 'returns total volunteer hours grouped by county' do
+        get admin_reports_total_volunteer_hours_by_county_path(:csv),
             params: { state: 'WA' }
 
-        expect(response.body).to include('County', 'Volunteer Minutes')
+        expect(response.body).to include('County', 'Volunteer Hours')
       end
     end
 
@@ -90,11 +90,11 @@ RSpec.describe 'Admin reports spec', type: :request do
       end
     end
 
-    describe '#total_volunteer_minutes_by_user' do
-      it 'returns total volunteer minutes grouped by user' do
-        get admin_reports_total_volunteer_minutes_by_user_path(:csv)
+    describe '#total_volunteer_hours_by_user' do
+      it 'returns total volunteer hours grouped by user' do
+        get admin_reports_total_volunteer_hours_by_user_path(:csv)
 
-        expect(response.body).to include('User ID', 'Total Volunteer Minutes')
+        expect(response.body).to include('User ID', 'Total Volunteer Hours')
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe 'Admin reports spec', type: :request do
       it 'returns total volunteers grouped by spoken language' do
         get admin_reports_total_volunteers_by_spoken_language_path(:csv)
 
-        expect(response.body).to include('Language', 'Total Volunteer Minutes')
+        expect(response.body).to include('Language', 'Total Volunteer Hours')
       end
     end
   end

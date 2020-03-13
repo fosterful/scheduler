@@ -226,13 +226,13 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.total_volunteer_minutes_by_user' do
-      it 'returns the volunteer minutes grouped by user_id' do
-        expect(described_class.total_volunteer_minutes_by_user)
-          .to eql(or_user.id  => 60,
-                  wa_user1.id => 60,
-                  wa_user2.id => 300,
-                  wa_user3.id => 60)
+    describe '.total_volunteer_hours_by_user' do
+      it 'returns the volunteer hours grouped by user_id' do
+        expect(described_class.total_volunteer_hours_by_user)
+          .to eql(or_user.id  => 1.0,
+                  wa_user1.id => 1.0,
+                  wa_user2.id => 5.0,
+                  wa_user3.id => 1.0)
       end
     end
   end

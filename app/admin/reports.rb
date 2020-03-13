@@ -8,10 +8,10 @@ ActiveAdmin.register_page 'Reports' do
     CHILDREN_BY_DEMO       = 'total-children-by-demographic'
     CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
     CHILDREN_BY_STATE      = 'total-children-served-by-state'
-    MINUTES_BY_COUNTY      = 'total-volunteer-minutes-by-county'
-    MINUTES_BY_OFFICE      = 'total-volunteer-minutes-by-office'
-    MINUTES_BY_STATE       = 'total-volunteer-minutes-by-state'
-    MINUTES_BY_USER        = 'total-volunteer-minutes-by-user'
+    HOURS_BY_COUNTY        = 'total-volunteer-hours-by-county'
+    HOURS_BY_OFFICE        = 'total-volunteer-hours-by-office'
+    HOURS_BY_STATE         = 'total-volunteer-hours-by-state'
+    HOURS_BY_USER          = 'total-volunteer-hours-by-user'
     VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
     VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
 
@@ -20,12 +20,12 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
-  page_action :total_volunteer_minutes_by_office, method: :get do
-    @headers = ['Office ID', 'Volunteer Minutes']
-    @data    = Office.total_volunteer_minutes_by_office
+  page_action :total_volunteer_hours_by_office, method: :get do
+    @headers = ['Office ID', 'Volunteer Hours']
+    @data    = Office.total_volunteer_hours_by_office
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = content_disposition(MINUTES_BY_OFFICE)
+        headers['Content-Disposition'] = content_disposition(HOURS_BY_OFFICE)
         headers['Content-Type']        = 'text/csv'
       end
       format.json { render json: @data.to_json }
@@ -44,12 +44,12 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
-  page_action :total_volunteer_minutes_by_state, method: :get do
-    @headers = ['State', 'Volunteer Minutes']
-    @data    = Office.total_volunteer_minutes_by_state
+  page_action :total_volunteer_hours_by_state, method: :get do
+    @headers = ['State', 'Volunteer Hours']
+    @data    = Office.total_volunteer_hours_by_state
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = content_disposition(MINUTES_BY_STATE)
+        headers['Content-Disposition'] = content_disposition(HOURS_BY_STATE)
         headers['Content-Type']        = 'text/csv'
       end
       format.json { render json: @data.to_json }
@@ -68,12 +68,12 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
-  page_action :total_volunteer_minutes_by_county, method: :get do
-    @headers = ['County', 'Volunteer Minutes']
-    @data    = Office.total_volunteer_minutes_by_county(params['state'])
+  page_action :total_volunteer_hours_by_county, method: :get do
+    @headers = ['County', 'Volunteer Hours']
+    @data    = Office.total_volunteer_hours_by_county(params['state'])
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = content_disposition(MINUTES_BY_COUNTY)
+        headers['Content-Disposition'] = content_disposition(HOURS_BY_COUNTY)
         headers['Content-Type']        = 'text/csv'
       end
       format.json { render json: @data.to_json }
@@ -92,12 +92,12 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
-  page_action :total_volunteer_minutes_by_user, method: :get do
-    @headers = ['User ID', 'Total Volunteer Minutes']
-    @data    = User.total_volunteer_minutes_by_user
+  page_action :total_volunteer_hours_by_user, method: :get do
+    @headers = ['User ID', 'Total Volunteer Hours']
+    @data    = User.total_volunteer_hours_by_user
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = content_disposition(MINUTES_BY_USER)
+        headers['Content-Disposition'] = content_disposition(HOURS_BY_USER)
         headers['Content-Type']        = 'text/csv'
       end
       format.json { render json: @data.to_json }
@@ -130,7 +130,7 @@ ActiveAdmin.register_page 'Reports' do
 
 
   page_action :total_volunteers_by_spoken_language, method: :get do
-    @headers = ['Language', 'Total Volunteer Minutes']
+    @headers = ['Language', 'Total Volunteer Hours']
     @data    = User.total_volunteers_by_spoken_language
     respond_to do |format|
       format.csv do
