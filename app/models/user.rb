@@ -124,8 +124,8 @@ class User < ApplicationRecord
     volunteerable_by_language.count
   end
 
-  def self.total_volunteer_minutes_by_user
-    shifts_by_user.sum('shifts.duration')
+  def self.total_volunteer_hours_by_user
+    shifts_by_user.sum('shifts.duration / 60.0')
   end
 
   def self.exclude_blockouts(start_at, end_at)

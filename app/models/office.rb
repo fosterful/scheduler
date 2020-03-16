@@ -55,16 +55,16 @@ class Office < ApplicationRecord
     joins(users: :race).group('races.name')
   end
 
-  def self.total_volunteer_minutes_by_office
-    claimed_shifts_by_office.sum('shifts.duration')
+  def self.total_volunteer_hours_by_office
+    claimed_shifts_by_office.sum('shifts.duration / 60.0')
   end
 
-  def self.total_volunteer_minutes_by_state
-    claimed_shifts_by_state.sum('shifts.duration')
+  def self.total_volunteer_hours_by_state
+    claimed_shifts_by_state.sum('shifts.duration / 60.0')
   end
 
-  def self.total_volunteer_minutes_by_county(state)
-    claimed_shifts_by_county(state).sum('shifts.duration')
+  def self.total_volunteer_hours_by_county(state)
+    claimed_shifts_by_county(state).sum('shifts.duration / 60.0')
   end
 
   def self.total_children_served_by_office
