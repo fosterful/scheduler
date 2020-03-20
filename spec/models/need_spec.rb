@@ -219,4 +219,13 @@ RSpec.describe Need, type: :model do
     it { is_expected.to eq([pending_user]) }
   end
 
+  describe 'validates :intentional_start_at' do
+    before { need.start_at = need.start_at.midnight }
+
+    it 'adds a validation error when start_at is midnight' do
+      expect(need.valid?).to be false
+      expect(need.errors[:start_at]).to eq ['must not be midnight']
+    end
+  end
+
 end

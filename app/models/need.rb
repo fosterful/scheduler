@@ -26,6 +26,8 @@ class Need < ApplicationRecord
             numericality: { greater_than_or_equal_to: 60,
                             message:                  'must be at least one hour' }
 
+  validate :intentional_start_at
+
   scope :current, lambda {
     where('start_at > ?', Time.zone.now.at_beginning_of_day)
       .order(start_at: :asc)
@@ -76,5 +78,16 @@ class Need < ApplicationRecord
 
   def users_pending_response
     User.find(notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
+  end
+
+  private
+
+  # Midnight is the default selection, however is very unlikely to be intentionally selected.
+  # Thus, regard it as equal to the start time not being present.
+  # This forces the user to select an appropriate time.
+  def intentional_start_at
+    if start_at == start_at.midnight
+      errors.add(:start_at, 'must not be midnight')
+    end
   end
 end
