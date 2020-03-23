@@ -53,8 +53,7 @@ It is a Ruby/Rails based app that allows the coordination of scheduling between 
 2. Copy the `env.example` file to `.env`
    `cp env.example .env`
 
-   > Note: There exists a .env file in 1Password intended for development.
-   > Note: On Mac, make sure to append `:docker-compose.mac.yml` to `COMPOSE_FILE` to take advantage of cached volumes
+> Note: On Mac, make sure to append `:docker-compose.mac.yml` to `COMPOSE_FILE` to take advantage of cached volumes
 
 3. Run `docker-compose up`
 4. Open a browser to localhost:3000 to verify that the app is up.
