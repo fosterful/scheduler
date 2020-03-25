@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NeedsController < ApplicationController
+  before_action :check_need_creation_disabled?, only: %i(new create edit update)
+
   def index
     authorize Need
 
@@ -94,6 +96,13 @@ class NeedsController < ApplicationController
   end
 
   private
+
+  def check_need_creation_disabled?
+    if need_creation_disabled?
+      flash[:error] = "Need creation disable: #{redis.get('need_creation_disabled_msg')}"
+      redirect_to root_path
+    end
+  end
 
   def convert_to_minutes!
     return unless params[:need] && params[:need][:expected_duration].present?
