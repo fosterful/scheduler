@@ -37,6 +37,9 @@
         = render template: 'needs/office_social_workers', locals: { office: @need.office || policy_scope(Office).first }
 .grid-x
   .cell
+    =f.label 
+.grid-x
+  .cell
     = f.label :number_of_children do
       Number of Children
       = f.number_field :number_of_children, min: 1, max: 20, step: 1
