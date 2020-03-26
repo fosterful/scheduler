@@ -17,12 +17,10 @@ class Need < ApplicationRecord
   has_many :users, through: :shifts
   has_many :children, dependent: :destroy
 
-  accepts_nested_attributes_for :children
+  accepts_nested_attributes_for :children, allow_destroy: true
 
-  validates :age_ranges,
-            :start_at,
+  validates :start_at,
             :expected_duration,
-            :number_of_children,
             :office,
             presence: true
   validates :expected_duration,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_174417) do
+ActiveRecord::Schema.define(version: 2020_03_26_211104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,12 +64,13 @@ ActiveRecord::Schema.define(version: 2020_03_26_174417) do
   end
 
   create_table "children", force: :cascade do |t|
-    t.integer "age"
-    t.integer "sex"
+    t.bigint "need_id", null: false
+    t.integer "age", null: false
+    t.integer "sex", null: false
     t.text "notes"
-    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["need_id"], name: "index_children_on_need_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -84,7 +85,7 @@ ActiveRecord::Schema.define(version: 2020_03_26_174417) do
     t.bigint "preferred_language_id", null: false
     t.datetime "start_at", null: false
     t.integer "expected_duration", null: false
-    t.integer "number_of_children", null: false
+    t.integer "number_of_children"
     t.bigint "notified_user_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

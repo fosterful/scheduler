@@ -37,17 +37,7 @@
         = render template: 'needs/office_social_workers', locals: { office: @need.office || policy_scope(Office).first }
 .grid-x
   .cell
-    =f.label 
-.grid-x
-  .cell
-    = f.label :number_of_children do
-      Number of Children
-      = f.number_field :number_of_children, min: 1, max: 20, step: 1
-.grid-x
-  .cell
-    = f.label :age_range_ids do
-      Age Range of Children
-      = f.select :age_range_ids, options_for_select(AgeRange.all.each.with_object({}) { |a, o| o["#{a.min}-#{a.max}"] = a.id }, @need.age_range_ids), { include_blank: true }, {class: 'multiple', multiple: true, name: 'need[age_range_ids][]'}
+    = react_component("NeedChildForm", { children: @need.children, childSexes: Child.sexes.keys }, id: 'NeedChildForm')
 .grid-x
   .cell
     = f.label :race_id do
