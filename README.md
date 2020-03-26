@@ -67,7 +67,7 @@ It is a Ruby/Rails based app that allows the coordination of scheduling between 
 - `docker system prune` Cleans up unused containers, networks, and images `-a` removes all
   > Note: it is recommended to run the clean up commands weekly
 - `docker ps` Lists all running containers
-- `docker-compose run app bash` Starts a bash session on app, bringing up only dependent services.
+- `docker-compose run rails bash` Starts a bash session on app, bringing up only dependent services.
 - `docker exec -it ID_FROM_DOCKER_PS bash`. Connects another bash session to a running container.
 - `docker attach ID_FROM_DOCKER_PS` Attach is useful for pry debugging in a running container
   > Note: To detach use `ctrl-p + ctrl-q`
@@ -80,13 +80,13 @@ Here are a few examples:
 
 > Note: this is expecting the containers are up
 
-- `docker-compose exec app bundle exec rake db:migrate`
-- `docker-compose exec app bundle exec rails c`
+- `docker-compose exec rails bundle exec rake db:migrate`
+- `docker-compose exec rails bundle exec rails c`
 
 The pattern is docker-compose exec (container_name) rails or rake command.
 This pattern works for non-Rails commands also.
 
-- `docker-compose exec app bash` will open the terminal on the container
+- `docker-compose exec rails bash` will open the terminal on the container
 
 ### System Tests
 
