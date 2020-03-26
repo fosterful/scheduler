@@ -35,4 +35,25 @@ RSpec.describe ApplicationController, type: :controller do
       it { is_expected.not_to redirect_to(verify_path) }
     end
   end
+
+  describe '#need_creation_disabled?' do
+    let(:controller) { described_class.new }
+
+    subject { controller.need_creation_disabled? }
+
+    context 'when need_creation_disabled is not set' do
+      it 'is returns false' do
+        expect(subject).to eq(false)
+      end
+    end
+
+    context 'when need_creation_disabled is set' do
+      before { controller.redis.set('need_creation_disabled', true) }
+      after { controller.redis.del('need_creation_disabled') }
+
+      it 'is returns true' do
+        expect(subject).to eq(true)
+      end
+    end
+  end
 end

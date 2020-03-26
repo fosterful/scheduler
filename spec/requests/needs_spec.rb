@@ -36,6 +36,17 @@ RSpec.describe 'Needs', type: :request do
 
       expect(response).to be_successful
     end
+
+    context 'when need creation is disabled' do
+      before do
+        allow_any_instance_of(NeedsController).to receive(:need_creation_disabled?).and_return(true)
+      end
+
+      it 'redirects to the root path' do
+        get new_need_path
+        expect(response).to be_redirect
+      end
+    end
   end
 
   describe '#create' do

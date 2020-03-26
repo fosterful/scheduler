@@ -18,6 +18,19 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, flash: { error: 'Not authorized.' }
   end
 
+  def redis
+    @redis ||= begin
+      redis_connection = Redis.new(url: Rails.application.credentials.redis_url || ENV['REDIS_URL'])
+      Redis::Namespace.new(Rails.env, redis: redis_connection)
+    end
+  end
+  helper_method :redis
+
+  def need_creation_disabled?
+    redis.get('need_creation_disabled').present?
+  end
+  helper_method :need_creation_disabled?
+
   private
 
   def configure_permitted_parameters
