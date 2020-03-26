@@ -99,7 +99,7 @@ class NeedsController < ApplicationController
 
   def check_need_creation_disabled?
     if need_creation_disabled?
-      flash[:error] = "Need creation disable: #{redis.get('need_creation_disabled_msg')}"
+      flash[:error] = redis.get('need_creation_disabled_msg').presence || 'Need creation disabled'
       redirect_to root_path
     end
   end
