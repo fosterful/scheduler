@@ -15,7 +15,7 @@
     "core-js": "3",
     "foundation-sites": "^6.5.3",
     "inputmask": "^4.0.6",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.4",
     "moment": "^2.24.0",
     "moment-range": "^4.0.1",
