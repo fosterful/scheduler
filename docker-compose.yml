@@ -5,7 +5,7 @@ x-ruby: &ruby-base
     context: ./docker/ruby
     args:
       - RUBY_VERSION=2.6.5
-      - NODE_VERSION=11
+      - NODE_VERSION=12
       - INSTALL_PG_CLIENT=true
       - UID=${UID}
       - GID=${GID}
