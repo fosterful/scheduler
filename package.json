@@ -1,5 +1,8 @@
 {
   "name": "scheduler",
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "scripts": {
     "test": "jest --config=jest.config.js"
