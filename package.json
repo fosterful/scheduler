@@ -47,6 +47,6 @@
     "eslint": "^6.6.0",
     "eslint-config-hint": "^0.0.4",
     "jest": "^24.9.0",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.10.3"
   }
 }
