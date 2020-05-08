@@ -8,8 +8,8 @@ services:
         - RUBY_VERSION=2.6.5
         - NODE_VERSION=12
         - INSTALL_PG_CLIENT=true
-        - UID=${UID}
-        - GID=${GID}
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
     volumes:
       - .:/app
       - gems:/gems
@@ -43,8 +43,8 @@ services:
         - RUBY_VERSION=2.6.5
         - NODE_VERSION=12
         - INSTALL_PG_CLIENT=true
-        - UID=${UID}
-        - GID=${GID}
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
     volumes:
       - .:/app
       - gems:/gems
@@ -70,8 +70,8 @@ services:
         - RUBY_VERSION=2.6.5
         - NODE_VERSION=12
         - INSTALL_PG_CLIENT=true
-        - UID=${UID}
-        - GID=${GID}
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
     volumes:
       - .:/app
       - gems:/gems
