@@ -19,9 +19,9 @@ RUN apt-get update && apt-get install -y \
   netcat \
   sudo
 
-ARG UID=1000
+ARG UID
 ENV UID $UID
-ARG GID=1000
+ARG GID
 ENV GID $GID
 ARG USER=ruby
 ENV USER $USER
