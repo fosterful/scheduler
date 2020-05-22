@@ -40,6 +40,7 @@
     "react-toggle": "^4.0.2",
     "react_ujs": "^2.4.4",
     "rrule": "^2.6.0",
+    "sass-loader": "^8.0.2",
     "select2": "^4.0.12",
     "snakecase-keys": "^3.1.0",
     "stimulus": "^1.1.1",
