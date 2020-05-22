@@ -4,8 +4,11 @@ class Announcement < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   validates :author,
-            :message,
             :user_ids,
+            presence: true
+
+  validates :message,
+            length:   { in: 5..160 },
             presence: true
 
   def send_messages
