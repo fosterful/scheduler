@@ -18,6 +18,6 @@ class Announcement < ApplicationRecord
   end
 
   def users
-    User.where(id: user_ids).with_phone
+    User.where(id: user_ids).with_phone.verified
   end
 end
