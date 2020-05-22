@@ -107,6 +107,7 @@ class User < ApplicationRecord
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }
+  scope :announceable, -> { with_phone.verified }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))

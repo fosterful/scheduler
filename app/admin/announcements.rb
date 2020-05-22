@@ -1,18 +1,17 @@
 ActiveAdmin.register Announcement do
-  permit_params :message
+  config.sort_order = 'created_at_desc'
 
   actions :index, :show, :new, :create
+  permit_params :message
 
   before_create do |annoucement|
-    annoucement.author = current_user
-    annoucement.user_ids = User.with_phone.pluck(:id)
+    annoucement.author   = current_user
+    annoucement.user_ids = User.announceable.pluck(:id)
   end
 
   after_create do |announcement|
     announcement.send_messages
   end
-
-  config.sort_order = 'created_at_desc'
 
   #:nocov:
   index do

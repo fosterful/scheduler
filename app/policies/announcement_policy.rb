@@ -2,20 +2,22 @@
 
 class AnnouncementPolicy < ApplicationPolicy
 
+  delegate :admin?, to: :user
+
   def index?
-    user.admin?
+    admin?
   end
 
   def show?
-    user.admin?
+    admin?
   end
 
   def new?
-    user.admin?
+    admin?
   end
 
   def create?
-    user.admin?
+    admin?
   end
 
   def edit?
@@ -31,6 +33,6 @@ class AnnouncementPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:message]
+    %i(message)
   end
 end

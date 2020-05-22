@@ -131,6 +131,20 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.announceable' do # scope test
+    let(:unverified_user) { create(:user, verified: false) }
+
+    it 'supports named scope announceable' do
+      user.save!
+
+      result = described_class.announceable
+
+      expect(result).to all(be_a(described_class))
+      expect(result).not_to include(unverified_user)
+      expect(result).to include(user)
+    end
+  end
+
   context 'when reporting' do
     let(:lang1) { create(:language, name: 'Lang1') }
     let(:lang2) { create(:language, name: 'Lang2') }
