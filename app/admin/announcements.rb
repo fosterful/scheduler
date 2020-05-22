@@ -4,10 +4,12 @@ ActiveAdmin.register Announcement do
   config.sort_order = 'created_at_desc'
 
   actions :index, :show, :new, :create
+  form partial: 'form'
 
-  before_create do |annoucement|
-    annoucement.author   = current_user
-    annoucement.user_ids = User.announceable.pluck(:id)
+  before_create do |announcement|
+    announcement.author   = current_user
+    announcement.user_ids = announcement.user_ids.compact.presence ||
+      User.announceable.pluck(:id)
   end
 
   after_create(&:send_messages)
@@ -21,12 +23,6 @@ ActiveAdmin.register Announcement do
     actions
   end
   #:nocov:
-
-  form do |f|
-    f.semantic_errors
-    f.input :message
-    f.actions
-  end
 
   menu priority: 7
 end

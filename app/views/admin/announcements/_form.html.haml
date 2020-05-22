@@ -1,0 +1,11 @@
+= semantic_form_for ['admin', resource] do |f|
+  = f.semantic_errors 
+  = f.inputs do
+    = f.input :message
+    = f.input :user_ids,
+              input_html: { class: 'multiple',
+                            multiple: true },
+              label: 'Users',
+              as: :select,
+              collection: User.announceable.menu
+    = f.actions

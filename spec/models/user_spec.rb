@@ -9,6 +9,16 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be(true)
   end
 
+  describe '.menu' do
+    it 'returns a menu' do
+      user.save!
+
+      result = described_class.menu
+
+      expect(result).to eql([[user.to_s, user.id]])
+    end
+  end
+
   describe '.volunteerable' do
     let!(:volunteer) { create :user, role: 'volunteer' }
     let!(:coordinator) { create :user, role: 'coordinator' }

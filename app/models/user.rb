@@ -115,6 +115,10 @@ class User < ApplicationRecord
 
   before_save :check_phone_verification
 
+  def self.menu
+    where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
+  end
+
   def self.shifts_by_user
     joins(:shifts).group('users.id')
   end
