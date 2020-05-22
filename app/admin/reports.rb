@@ -1,4 +1,6 @@
 ActiveAdmin.register_page 'Reports' do
+  menu priority: 6
+
   content do
     render partial: 'index'
   end
