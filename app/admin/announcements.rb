@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Announcement do
   config.sort_order = 'created_at_desc'
 
@@ -9,9 +11,7 @@ ActiveAdmin.register Announcement do
     annoucement.user_ids = User.announceable.pluck(:id)
   end
 
-  after_create do |announcement|
-    announcement.send_messages
-  end
+  after_create(&:send_messages)
 
   #:nocov:
   index do
