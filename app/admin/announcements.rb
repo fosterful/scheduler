@@ -4,7 +4,6 @@ ActiveAdmin.register Announcement do
   config.sort_order = 'created_at_desc'
 
   actions :index, :show, :new, :create
-  permit_params :message
 
   before_create do |annoucement|
     annoucement.author   = current_user
