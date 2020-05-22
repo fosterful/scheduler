@@ -2,24 +2,6 @@
 
 class AnnouncementPolicy < ApplicationPolicy
 
-  delegate :admin?, to: :user
-
-  def index?
-    admin?
-  end
-
-  def show?
-    admin?
-  end
-
-  def new?
-    admin?
-  end
-
-  def create?
-    admin?
-  end
-
   def edit?
     false
   end
