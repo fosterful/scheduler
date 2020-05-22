@@ -34,6 +34,9 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
+  has_many :annoucements,
+           dependent:   :restrict_with_error,
+           foreign_key: 'author_id'
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
   has_many :served_needs, -> { distinct },
@@ -42,9 +45,11 @@ class User < ApplicationRecord
            source:     'need'
   has_many :office_users, dependent: :destroy
   has_many :offices, through: :office_users
-  has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
-    join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
-    association_foreign_key: 'need_id'
+  has_and_belongs_to_many :social_worker_needs,
+                          class_name:              'Need',
+                          join_table:              'needs_social_workers',
+                          foreign_key:             'social_worker_id',
+                          association_foreign_key: 'need_id'
 
   belongs_to :first_language,
              optional:   true,

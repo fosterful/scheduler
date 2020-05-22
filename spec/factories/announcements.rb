@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :announcement do
     message { "MyText" }
-    author { nil }
-    user_ids { "" }
+    user_ids { [create(:user).id] }
+    association :author, factory: :user
   end
 end
