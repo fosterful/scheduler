@@ -14,7 +14,7 @@ RSpec.describe AnnouncementPolicy do
     it 'permitted_attributes' do
       result = object.permitted_attributes
 
-      expect(result).to eql(%i(message))
+      expect(result).to eql([:message, { user_ids: [] }])
     end
   end
 
