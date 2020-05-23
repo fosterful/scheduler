@@ -3,21 +3,23 @@
 class ApplicationPolicy
   attr_reader :user, :record
 
+  delegate :admin?, to: :user
+
   def initialize(user, record)
     @user = user
     @record = record
   end
 
   def index?
-    user.admin?
+    admin?
   end
 
   def show?
-    user.admin?
+    admin?
   end
 
   def create?
-    user.admin?
+    admin?
   end
 
   def new?
@@ -25,7 +27,7 @@ class ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    admin?
   end
 
   def edit?
@@ -33,7 +35,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    user.admin?
+    admin?
   end
 
   class Scope

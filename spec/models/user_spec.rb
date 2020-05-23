@@ -9,6 +9,16 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be(true)
   end
 
+  describe '.menu' do
+    it 'returns a menu' do
+      user.save!
+
+      result = described_class.menu
+
+      expect(result).to eql([[user.to_s, user.id]])
+    end
+  end
+
   describe '.volunteerable' do
     let!(:volunteer) { create :user, role: 'volunteer' }
     let!(:coordinator) { create :user, role: 'coordinator' }
@@ -128,6 +138,20 @@ RSpec.describe User, type: :model do
   describe '.with_phone' do # scope test
     it 'supports named scope with_phone' do
       expect(described_class.limit(3).with_phone).to all(be_a(described_class))
+    end
+  end
+
+  describe '.announceable' do # scope test
+    let(:unverified_user) { create(:user, verified: false) }
+
+    it 'supports named scope announceable' do
+      user.save!
+
+      result = described_class.announceable
+
+      expect(result).to all(be_a(described_class))
+      expect(result).not_to include(unverified_user)
+      expect(result).to include(user)
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register_page 'Reports' do
   content do
     render partial: 'index'
@@ -128,7 +130,6 @@ ActiveAdmin.register_page 'Reports' do
     end
   end
 
-
   page_action :total_volunteers_by_spoken_language, method: :get do
     @headers = ['Language', 'Total Volunteer Hours']
     @data    = User.total_volunteers_by_spoken_language
@@ -140,5 +141,6 @@ ActiveAdmin.register_page 'Reports' do
       format.json { render json: @data.to_json }
     end
   end
-  
+
+  menu priority: 6
 end

@@ -1,0 +1,21 @@
+.announcement_warning
+  Message will be sent immediately. If no users are selected, it will be sent to ALL users with a verified phone!
+
+= semantic_form_for ['admin', resource] do |f|
+  = f.semantic_errors 
+  = f.inputs do
+    = f.input :message
+    = f.input :user_ids,
+              input_html: { class: 'multiple',
+                            multiple: true },
+              label: 'Users',
+              as: :select,
+              collection: User.announceable.menu
+    = f.actions
+
+:css
+  .announcement_warning {
+    font-size: 1rem;
+    font-weight: 500;
+    color: red;
+  }

@@ -34,6 +34,9 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
+  has_many :annoucements,
+           dependent:   :restrict_with_error,
+           foreign_key: 'author_id'
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
   has_many :served_needs, -> { distinct },
@@ -42,9 +45,11 @@ class User < ApplicationRecord
            source:     'need'
   has_many :office_users, dependent: :destroy
   has_many :offices, through: :office_users
-  has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
-    join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
-    association_foreign_key: 'need_id'
+  has_and_belongs_to_many :social_worker_needs,
+                          class_name:              'Need',
+                          join_table:              'needs_social_workers',
+                          foreign_key:             'social_worker_id',
+                          association_foreign_key: 'need_id'
 
   belongs_to :first_language,
              optional:   true,
@@ -102,12 +107,17 @@ class User < ApplicationRecord
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }
+  scope :announceable, -> { with_phone.verified }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))
   }
 
   before_save :check_phone_verification
+
+  def self.menu
+    where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
+  end
 
   def self.shifts_by_user
     joins(:shifts).group('users.id')

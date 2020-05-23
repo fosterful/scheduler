@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register User do
 
   config.sort_order = 'last_name_asc'
@@ -19,7 +21,7 @@ ActiveAdmin.register User do
   #:nocov:
   index do
     id_column
-    column :name, :sortable => 'last_name'
+    column :name, sortable: 'last_name'
     column :email
     column :offices
     actions do |u|

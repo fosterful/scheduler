@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Race do
 
   config.sort_order = 'id_asc'
@@ -13,5 +15,5 @@ ActiveAdmin.register Race do
   end
   #:nocov:
 
-   menu priority: 4
+  menu priority: 4
 end

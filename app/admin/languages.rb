@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Language do
 
   config.sort_order = 'id_asc'
@@ -14,5 +16,5 @@ ActiveAdmin.register Language do
   end
   #:nocov:
 
-   menu priority: 5
+  menu priority: 5
 end
