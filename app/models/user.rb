@@ -34,7 +34,7 @@ class User < ApplicationRecord
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
-  has_many :annoucements,
+  has_many :announcements,
            dependent:   :restrict_with_error,
            foreign_key: 'author_id'
   has_many :needs, dependent: :restrict_with_error

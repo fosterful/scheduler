@@ -9,6 +9,19 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be(true)
   end
 
+  it 'restricts destroy when announcements exist' do
+    user.save!
+    ann = create(:announcement, author: user)
+
+    expect { user.destroy }.to change(user.errors, :count).by(1)
+    expect { user.reload }.not_to raise_error
+
+    ann.destroy
+
+    expect { user.destroy }.not_to raise_error
+    expect { user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
   describe '.menu' do
     it 'returns a menu' do
       user.save!
