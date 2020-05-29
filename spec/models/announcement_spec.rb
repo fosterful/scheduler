@@ -8,6 +8,7 @@ RSpec.describe Announcement, type: :model do
   end
 
   describe '#send_messages' do
+    let(:announcement) { create :announcement }
     let(:phone_numbers) { ['(360) 610-7089'] }
 
     it 'send_messages' do
