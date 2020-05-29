@@ -440,7 +440,7 @@ GEM
       equalizer (~> 0.0.9)
       parser (~> 2.6.3)
       procto (~> 0.0.2)
-    vcr (5.1.0)
+    vcr (6.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.2)
