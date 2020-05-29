@@ -8,10 +8,12 @@ class Announcement < ApplicationRecord
             presence: true
 
   validates :message,
-            length:   { in: 5..160 },
+            length:   { in: 5..1600 },
             presence: true
 
   def send_messages
+    return unless persisted?
+
     Services::TextMessageEnqueue.send_messages(recipients, message)
   end
 
