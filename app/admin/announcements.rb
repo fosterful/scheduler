@@ -12,7 +12,7 @@ ActiveAdmin.register Announcement do
       User.announceable.pluck(:id)
   end
 
-  after_create(&:send_messages)
+  after_create(:send_messages)
 
   #:nocov:
   index do
@@ -25,4 +25,10 @@ ActiveAdmin.register Announcement do
   #:nocov:
 
   menu priority: 7
+
+  controller do
+    def send_messages(announcement)
+      announcement.send_messages if announcement.persisted?
+    end
+  end
 end

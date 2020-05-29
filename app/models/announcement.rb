@@ -12,6 +12,8 @@ class Announcement < ApplicationRecord
             presence: true
 
   def send_messages
+    return unless persisted?
+
     Services::TextMessageEnqueue.send_messages(recipients, message)
   end
 
