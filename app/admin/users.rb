@@ -7,6 +7,7 @@ ActiveAdmin.register User do
   filter :first_name
   filter :last_name
   filter :email
+  filter :role, as: :select, collection: -> { User::ROLES }
   filter :offices
 
   form partial: 'form'
@@ -24,6 +25,7 @@ ActiveAdmin.register User do
     column :name, sortable: 'last_name'
     column :email
     column :offices
+    column :role
     actions do |u|
       if u.deactivated
         link_to 'Activate', activate_admin_user_path(u.id), method: :post
