@@ -7,7 +7,7 @@
         .card
           .card-section
             %h5
-              %strong Total Volunteer Hours
+              %strong Volunteer Hours
             %p Some kind of description here about things.
             .flex-container.flex-dir-row-reverse
               = link_to dashboard_download_report_path(headers: ['Office ID', 'Volunteer Hours'], data_method: HOURS_BY_OFFICE.underscore, filename: HOURS_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
@@ -17,7 +17,7 @@
         .card
           .card-section
             %h5
-              %strong Total Children Served
+              %strong Children Served
             %p Some kind of description here about things.
             .flex-container.flex-dir-row-reverse
               = link_to dashboard_download_report_path(headers: ['Office ID', 'Children Served'], data_method: CHILDREN_BY_OFFICE.underscore, filename: CHILDREN_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
@@ -32,7 +32,7 @@
         .card
           .card-section
             %h5
-              %strong Total Volunteer Hours
+              %strong Volunteer Hours
             %p Some kind of description here about things.
             .flex-container.flex-dir-row-reverse
               = link_to dashboard_download_report_path(headers: ['State', 'Volunteer Hours'], data_method: HOURS_BY_STATE.underscore, filename: HOURS_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
@@ -42,7 +42,7 @@
         .card
           .card-section
             %h5
-              %strong Total Children Served
+              %strong Children Served
             %p Some kind of description here about things.
             .flex-container.flex-dir-row-reverse
               = link_to dashboard_download_report_path(headers: ['State', 'Children Served'], data_method: CHILDREN_BY_STATE.underscore, filename: CHILDREN_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
@@ -51,28 +51,41 @@
 
 .grid-x.margin-bottom-1
   .cell.small-9
-    %h2 County
-    = form_tag(dashboard_download_report_path(format: :csv), method: 'get') do
-      - ['County', 'Volunteer Hours'].each do |header|
-        = hidden_field_tag 'headers[]', header
-      = hidden_field_tag :data_method, HOURS_BY_COUNTY.underscore
-      = hidden_field_tag :filename, HOURS_BY_COUNTY
-      = hidden_field_tag :model, 'Office'
+    %h2 Demographic
 
-      = label_tag(:state, 'Total Volunteer Hours')
-      = select_tag :state, options_for_select(Address.distinct.pluck(:state))
-      = submit_tag 'Query', data: { disable_with: false }
+    .grid-x.grid-padding-left
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Children by Demographic
+            %p Some kind of description here about things.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['Preferred Language', 'Number of Children'], data_method: CHILDREN_BY_DEMO.underscore, filename: CHILDREN_BY_DEMO, model: 'Office', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
 
-    = form_tag(dashboard_download_report_path(format: :csv), method: 'get') do
-      - ['County', 'Children Served'].each do |header|
-        = hidden_field_tag 'headers[]', header
-      = hidden_field_tag :data_method, CHILDREN_BY_COUNTY.underscore
-      = hidden_field_tag :filename, CHILDREN_BY_COUNTY
-      = hidden_field_tag :model, 'Office'
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Volunteers Grouped By Race
+            %p Some kind of description here about things.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['Race', 'Number of Volunteers'], data_method: VOLUNTEERS_BY_RACE.underscore, filename: VOLUNTEERS_BY_RACE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
 
-      = label_tag(:state, 'Total Childrend Served')
-      = select_tag :state, options_for_select(Address.distinct.pluck(:state))
-      = submit_tag 'Query', data: { disable_with: false }
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Volunteers Grouped By Spoken Language
+            %p Some kind of description here about things.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['Language', 'Total Volunteer Hours'], data_method: VOLUNTEERS_BY_LANGUAGE.underscore, filename: VOLUNTEERS_BY_LANGUAGE, model: 'User', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
 
   .cell.medium-3
     %h2 User
@@ -82,7 +95,7 @@
         .card
           .card-section
             %h5
-              %strong Total Volunteer Hours
+              %strong Volunteer Hours
             %p Some kind of description here about things.
             .flex-container.flex-dir-row-reverse
               = link_to dashboard_download_report_path(headers: ['User ID', 'Total Volunteer Hours'], data_method: HOURS_BY_USER.underscore, filename: HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button' do
@@ -90,39 +103,49 @@
                 Download
 
 .grid-x
-  .cell
-    %h2 Demographic
+  .cell.small-9
+    %h2 County
 
     .grid-x.grid-padding-left
-      .cell.large-3
+      .cell.small-6
         .card
           .card-section
             %h5
-              %strong Total Children by Demographic
+              %strong Volunteer Hours
             %p Some kind of description here about things.
-            .flex-container.flex-dir-row-reverse
-              = link_to dashboard_download_report_path(headers: ['Preferred Language', 'Number of Children'], data_method: CHILDREN_BY_DEMO.underscore, filename: CHILDREN_BY_DEMO, model: 'Office', format: :csv), target: '_blank', class: 'button' do
-                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
-                Download
+            = form_tag(dashboard_download_report_path(format: :csv), method: 'get') do
+              - ['County', 'Volunteer Hours'].each do |header|
+                = hidden_field_tag 'headers[]', header
+              = hidden_field_tag :data_method, HOURS_BY_COUNTY.underscore
+              = hidden_field_tag :filename, HOURS_BY_COUNTY
+              = hidden_field_tag :model, 'Office'
 
-      .cell.large-3
+              = label_tag(:state)
+              = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+              -# = submit_tag 'Query', data: { disable_with: false }
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['User ID', 'Total Volunteer Hours'], data_method: HOURS_BY_USER.underscore, filename: HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+    
+      .cell.small-6
         .card
           .card-section
             %h5
-              %strong Total Volunteers Grouped By Race
+              %strong Childrend Served
             %p Some kind of description here about things.
-            .flex-container.flex-dir-row-reverse
-              = link_to dashboard_download_report_path(headers: ['Race', 'Number of Volunteers'], data_method: VOLUNTEERS_BY_RACE.underscore, filename: VOLUNTEERS_BY_RACE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
-                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
-                Download
+            = form_tag(dashboard_download_report_path(format: :csv), method: 'get') do
+              - ['County', 'Children Served'].each do |header|
+                = hidden_field_tag 'headers[]', header
+              = hidden_field_tag :data_method, CHILDREN_BY_COUNTY.underscore
+              = hidden_field_tag :filename, CHILDREN_BY_COUNTY
+              = hidden_field_tag :model, 'Office'
 
-      .cell.large-3
-        .card
-          .card-section
-            %h5
-              %strong Total Volunteers Grouped By Spoken Language
-            %p Some kind of description here about things.
+              = label_tag(:state, 'Total Childrend Served')
+              = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+              -# = submit_tag 'Query', data: { disable_with: false }
             .flex-container.flex-dir-row-reverse
-              = link_to dashboard_download_report_path(headers: ['Language', 'Total Volunteer Hours'], data_method: VOLUNTEERS_BY_LANGUAGE.underscore, filename: VOLUNTEERS_BY_LANGUAGE, model: 'User', format: :csv), target: '_blank', class: 'button' do
+              = link_to dashboard_download_report_path(headers: ['User ID', 'Total Volunteer Hours'], data_method: HOURS_BY_USER.underscore, filename: HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button' do
                 %i.fas.fa-file-download{style: 'margin-right: 3px;' }
                 Download
+  
