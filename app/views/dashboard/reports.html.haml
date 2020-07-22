@@ -2,7 +2,17 @@
   .cell.small-6
     %h2 Office
 
-    = link_to "Total Volunteer Hours", dashboard_download_report_path(headers: ['Office ID', 'Volunteer Hours'], data_method: HOURS_BY_OFFICE.underscore, filename: HOURS_BY_OFFICE, model: 'Office', format: :csv), target: '_blank'
+    .card
+      .card-section
+        %h5
+          %strong Total Volunteer Hours
+        %p Some kind of description here about things.
+        .flex-container.flex-dir-row-reverse
+          = link_to dashboard_download_report_path(headers: ['Office ID', 'Volunteer Hours'], data_method: HOURS_BY_OFFICE.underscore, filename: HOURS_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
+            %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+            Download
+
+    
     = link_to "Total Children Served", dashboard_download_report_path(headers: ['Office ID', 'Children Served'], data_method: CHILDREN_BY_OFFICE.underscore, filename: CHILDREN_BY_OFFICE, model: 'Office', format: :csv), target: '_blank'
 
   .cell.small-6
