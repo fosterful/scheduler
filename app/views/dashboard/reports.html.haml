@@ -1,7 +1,8 @@
 .grid-x
   .cell.small-6
     %h2 Office
-    .grid-x.grid-margin-x
+
+    .grid-x.grid-padding-left
       .cell.large-6
         .card
           .card-section
@@ -26,8 +27,28 @@
   .cell.small-6
     %h2 State
 
-    = link_to "Total Volunteer Hours", dashboard_download_report_path(headers: ['State', 'Volunteer Hours'], data_method: HOURS_BY_STATE.underscore, filename: HOURS_BY_STATE, model: 'Office', format: :csv), target: '_blank'
-    = link_to "Total Children Served", dashboard_download_report_path(headers: ['State', 'Children Served'], data_method: CHILDREN_BY_STATE.underscore, filename: CHILDREN_BY_STATE, model: 'Office', format: :csv), target: '_blank'
+    .grid-x.grid-padding-left
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Total Volunteer Hours
+            %p Some kind of description here about things.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['State', 'Volunteer Hours'], data_method: HOURS_BY_STATE.underscore, filename: HOURS_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Total Children Served
+            %p Some kind of description here about things.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_path(headers: ['State', 'Children Served'], data_method: CHILDREN_BY_STATE.underscore, filename: CHILDREN_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
 .grid-x
   .cell.small-6
     %h2 County
