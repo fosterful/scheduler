@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
     authorize current_user
 
     @headers = params[:headers]
-    @data    = params[:model].constantize.send(params[:data_method])
+    @data    = params[:state] ? params[:model].constantize.send(params[:data_method], params[:state]) : params[:model].constantize.send(params[:data_method])
     respond_to do |format|
       format.csv do
         headers['Content-Disposition'] = content_disposition(params[:filename])
