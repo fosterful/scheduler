@@ -12,6 +12,7 @@ const DashboardReportsDateRangePicker = () => {
         selected={start}
         onChange={setStart}
         dateFormat='MMM d, yyyy'
+        placeholderText='Start date'
       />
       to
       <DatePicker
@@ -19,6 +20,7 @@ const DashboardReportsDateRangePicker = () => {
         selected={end}
         onChange={setEnd}
         dateFormat='MMM d, yyyy'
+        placeholderText='End date'
       />
     </>
   )
