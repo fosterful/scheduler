@@ -114,7 +114,7 @@ RSpec.describe Office, type: :model do
 
     describe '.total_volunteer_hours_by_county' do
       it 'returns the total volunteer hours groupe by county' do
-        expect(described_class.total_volunteer_hours_by_county('WA'))
+        expect(described_class.total_volunteer_hours_by_county('WA', nil, nil))
           .to eql('Lewis' => 6.0, 'Clark' => 1.0)
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe Office, type: :model do
 
     describe '.total_children_served_by_county' do
       it 'returns the total children served in given state grouped by county' do
-        expect(described_class.total_children_served_by_county('WA'))
+        expect(described_class.total_children_served_by_county('WA', nil, nil))
           .to eql('Lewis' => 9, 'Clark' => 1)
       end
     end

@@ -17,20 +17,6 @@ class Office < ApplicationRecord
 
   alias_attribute :to_s, :name
 
-  def self.claimed_shifts_by_county(state)
-    with_claimed_shifts
-      .joins(:address)
-      .where(addresses: { state: state })
-      .group('addresses.county')
-  end
-
-  def self.claimed_needs_by_county(state)
-    with_claimed_needs
-      .joins(:address)
-      .where(addresses: { state: state })
-      .group('addresses.county')
-  end
-
   def self.total_volunteer_hours_by_office(start_at, end_at)
     with_claimed_shifts
       .then { |scope| filter_by_date_range(scope, start_at, end_at) } 
@@ -46,8 +32,13 @@ class Office < ApplicationRecord
       .sum('shifts.duration / 60.0')
   end
 
-  def self.total_volunteer_hours_by_county(state)
-    claimed_shifts_by_county(state).sum('shifts.duration / 60.0')
+  def self.total_volunteer_hours_by_county(state, start_at, end_at)
+    with_claimed_shifts
+      .joins(:address)
+      .where(addresses: { state: state })
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group('addresses.county')
+      .sum('shifts.duration / 60.0')
   end
 
   def self.total_children_served_by_office(start_at, end_at)
@@ -65,8 +56,13 @@ class Office < ApplicationRecord
       .sum('needs.number_of_children')
   end
 
-  def self.total_children_served_by_county(state)
-    claimed_needs_by_county(state).sum('needs.number_of_children')
+  def self.total_children_served_by_county(state, start_at, end_at)
+    with_claimed_needs
+      .joins(:address)
+      .where(addresses: { state: state })
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group('addresses.county')
+      .sum('needs.number_of_children')
   end
 
   def self.total_children_by_demographic(start_at, end_at)
