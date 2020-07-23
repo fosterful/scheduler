@@ -80,14 +80,34 @@ RSpec.describe Office, type: :model do
 
     describe '.total_volunteer_hours_by_office' do
       it 'returns the total volunteer hours grouped by office' do
-        expect(described_class.total_volunteer_hours_by_office)
+        expect(described_class.total_volunteer_hours_by_office(nil, nil))
           .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+      end
+
+      context 'with a date range' do
+        it 'returns the total hours filtered by dates' do
+          expect(described_class.total_volunteer_hours_by_office('Jan 1, 2010', 'Feb 2, 2030'))
+            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+
+          expect(described_class.total_volunteer_hours_by_office(nil, 'Feb 2, 2030'))
+            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+
+          expect(described_class.total_volunteer_hours_by_office('Jan 1, 2010', nil))
+            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+        end
+
+        it 'does not use office\'s needs that are out of range' do
+          or_need.update(start_at: 1.month.from_now)
+
+          expect(described_class.total_volunteer_hours_by_office(nil, Time.zone.now.strftime('%b %e, %Y')))
+            .to eql(wa_office1.id => 1.0, wa_office2.id => 6.0)
+        end
       end
     end
 
     describe '.total_volunteer_hours_by_state' do
       it 'returns the total volunteer hours groupe by state' do
-        expect(described_class.total_volunteer_hours_by_state)
+        expect(described_class.total_volunteer_hours_by_state(nil, nil))
           .to eql('OR' => 1.0, 'WA' => 7.0)
       end
     end
@@ -101,14 +121,14 @@ RSpec.describe Office, type: :model do
 
     describe '.total_children_served_by_office' do
       it 'returns the total children served grouped by office' do
-        expect(described_class.total_children_served_by_office)
+        expect(described_class.total_children_served_by_office(nil, nil))
           .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
       end
     end
 
     describe '.total_children_served_by_state' do
       it 'returns the total children served group by state' do
-        expect(described_class.total_children_served_by_state)
+        expect(described_class.total_children_served_by_state(nil, nil))
           .to eql('OR' => 3, 'WA' => 10)
       end
     end
@@ -122,7 +142,7 @@ RSpec.describe Office, type: :model do
 
     describe '.total_children_by_demographic' do
       it 'returns the total children with each preferred_language' do
-        expect(described_class.total_children_by_demographic)
+        expect(described_class.total_children_by_demographic(nil, nil))
           .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
       end
     end
@@ -156,73 +176,9 @@ RSpec.describe Office, type: :model do
     end
   end
 
-  describe '.claimed_shifts_by_office' do
-    it 'claimed_shifts_by_office' do
-      result = described_class.claimed_shifts_by_office
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.claimed_shifts_by_state' do
-    it 'claimed_shifts_by_state' do
-      result = described_class.claimed_shifts_by_state
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.claimed_shifts_by_county' do
-    it 'claimed_shifts_by_county' do
-      result = described_class.claimed_shifts_by_county('WA')
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.claimed_needs_by_office' do
-    it 'claimed_needs_by_office' do
-      result = described_class.claimed_needs_by_office
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.claimed_needs_by_state' do
-    it 'claimed_needs_by_state' do
-      result = described_class.claimed_needs_by_state
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.claimed_needs_by_county' do
-    it 'claimed_needs_by_county' do
-      result = described_class.claimed_needs_by_county('WA')
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.with_preferred_language' do
-    it 'with_preferred_language' do
-      result = described_class.with_preferred_language
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.users_by_race' do
-    it 'users_by_race' do
-      result = described_class.users_by_race
-
-      expect(result).to be_empty
-    end
-  end
-
   describe '.total_volunteers_by_race' do
     it 'total_volunteers_by_race' do
-      result = described_class.total_volunteers_by_race
+      result = described_class.total_volunteers_by_race(nil, nil)
 
       expect(result).to be_empty
     end

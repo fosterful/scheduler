@@ -123,18 +123,17 @@ class User < ApplicationRecord
     joins(:shifts).group('users.id')
   end
 
-  def self.volunteerable_by_language
+  def self.total_volunteers_by_spoken_language(_, _)
     volunteerable
       .joins('INNER JOIN languages ON languages.id IN '\
                '(users.first_language_id, users.second_language_id)')
       .group('languages.name')
+      .count
+      # .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      # .count
   end
 
-  def self.total_volunteers_by_spoken_language
-    volunteerable_by_language.count
-  end
-
-  def self.total_volunteer_hours_by_user
+  def self.total_volunteer_hours_by_user(_, _)
     shifts_by_user.sum('shifts.duration / 60.0')
   end
 
@@ -220,5 +219,17 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
+  end
+
+  def self.parse_start_date(date)
+    (date ? Date.parse(date) : DateTime.new(2000, 1, 1)).beginning_of_day
+  end
+
+  def self.parse_end_date(date)
+    (date ? Date.parse(date) : DateTime.tomorrow).end_of_day
+  end
+
+  def self.filter_by_date_range(scope, start_at, end_at)
+    scope.where('needs.start_at between ? AND ?', parse_start_date(start_at), parse_end_date(end_at))
   end
 end

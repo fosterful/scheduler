@@ -37,7 +37,7 @@ ActiveAdmin.register_page 'Reports' do
   page_action :total_children_served_by_office, method: :get do
     @headers = ['Office ID', 'Children Served']
     @data    = Office.total_children_served_by_office
-    respond_to do |format|Office ID
+    respond_to do |format|
       format.csv do
         headers['Content-Disposition'] = content_disposition(CHILDREN_BY_OFFICE)
         headers['Content-Type']        = 'text/csv'

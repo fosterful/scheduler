@@ -258,14 +258,14 @@ RSpec.describe User, type: :model do
 
     describe '.total_volunteers_by_spoken_language' do
       it 'returns the number of volunteers grouped by language name' do
-        expect(described_class.total_volunteers_by_spoken_language)
+        expect(described_class.total_volunteers_by_spoken_language(nil, nil))
           .to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
       end
     end
 
     describe '.total_volunteer_hours_by_user' do
       it 'returns the volunteer hours grouped by user_id' do
-        expect(described_class.total_volunteer_hours_by_user)
+        expect(described_class.total_volunteer_hours_by_user(nil, nil))
           .to eql(or_user.id  => 1.0,
                   wa_user1.id => 1.0,
                   wa_user2.id => 5.0,
@@ -329,14 +329,6 @@ RSpec.describe User, type: :model do
   describe '.shifts_by_user' do
     it 'shifts_by_user' do
       result = described_class.shifts_by_user
-
-      expect(result).to be_empty
-    end
-  end
-
-  describe '.volunteerable_by_language' do
-    it 'volunteerable_by_language' do
-      result = described_class.volunteerable_by_language
 
       expect(result).to be_empty
     end
