@@ -128,10 +128,10 @@
         .card
           .card-section
             %h5
-              %strong Childrend Served
+              %strong Children Served
             %p Some kind of description here about things.
 
-            = label_tag(:state, 'Total Childrend Served')
+            = label_tag(:state, 'Total Children Served')
             = select_tag :state, options_for_select(Address.distinct.pluck(:state))
 
             .flex-container.flex-dir-row-reverse
