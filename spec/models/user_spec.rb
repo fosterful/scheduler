@@ -175,6 +175,7 @@ RSpec.describe User, type: :model do
     let(:race1) { create(:race, name: 'Race1') }
     let(:race2) { create(:race, name: 'Race2') }
     let(:race3) { create(:race, name: 'Race3') }
+
     let(:wa_address1) { build(:address, :wa) }
     let(:wa_address2) { build(:address, :wa, county: 'Lewis') }
     let(:wa_office1) do
@@ -184,9 +185,12 @@ RSpec.describe User, type: :model do
       create(:wa_office, address: wa_address2).tap { wa_address2.save! }
     end
     let(:or_office) { create(:or_office) }
+
     let(:wa_sw1) { create(:user, role: 'social_worker', offices: [wa_office1]) }
     let(:wa_sw2) { create(:user, role: 'social_worker', offices: [wa_office2]) }
     let(:or_sw) { create(:user, role: 'social_worker', offices: [or_office]) }
+    let(:admin) { create :user, role: 'admin' }
+    let(:coordinator) { create :user, role: 'coordinator' }
     let(:wa_user1) do
       create(:user,
              offices:         [wa_office1],
@@ -207,6 +211,7 @@ RSpec.describe User, type: :model do
     let(:or_user) do
       create(:user, offices: [or_office], race: race3, first_language: lang2)
     end
+
     let(:wa_need1) do
       create(:need_with_shifts,
              user:               wa_sw1,
@@ -256,20 +261,98 @@ RSpec.describe User, type: :model do
       wa_need3.shifts.last.update(user: wa_user2)
     end
 
-    describe '.total_volunteers_by_spoken_language' do
-      it 'returns the number of volunteers grouped by language name' do
-        expect(described_class.total_volunteers_by_spoken_language(nil, nil))
-          .to eql(lang1.name => 1, lang2.name => 4, lang3.name => 1)
+    describe '.total_volunteer_hours_by_user' do
+      let(:volunteer) { create :user, role: 'volunteer' }
+
+      it 'raises an error when a user is neither an admin or coordinator' do
+        expect { described_class.total_volunteer_hours_by_user(volunteer, nil, nil) }
+          .to raise_error(RuntimeError, "#{volunteer} does not have the proper permissions")
+      end
+
+      context 'as an admin' do
+        it 'returns the total volunteer hours grouped by office' do
+          expect(described_class.total_volunteer_hours_by_user(admin, nil, nil))
+            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+        end
+      end
+
+      context 'as a coordinator' do
+        before do
+          coordinator.offices << or_office
+        end
+
+        it 'returns data scoped by users offices' do
+          expect(described_class.total_volunteer_hours_by_user(coordinator, nil, nil))
+            .to eql(or_user.id => 1)
+        end
+      end
+
+      context 'with a date range' do
+        it 'returns the total hours filtered by dates' do
+          expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
+            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+
+          expect(described_class.total_volunteer_hours_by_user(admin, nil, 'Feb 2, 2030'))
+            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+
+          expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', nil))
+            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+        end
+
+        it 'does not use office\'s needs that are out of range' do
+          or_need.update(start_at: 1.month.from_now)
+
+          expect(described_class.total_volunteer_hours_by_user(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
+            .to eql(wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+        end
       end
     end
 
-    describe '.total_volunteer_hours_by_user' do
-      it 'returns the volunteer hours grouped by user_id' do
-        expect(described_class.total_volunteer_hours_by_user(nil, nil))
-          .to eql(or_user.id  => 1.0,
-                  wa_user1.id => 1.0,
-                  wa_user2.id => 5.0,
-                  wa_user3.id => 1.0)
+    describe '.total_volunteers_by_spoken_language' do
+      let(:volunteer) { create :user, role: 'volunteer' }
+      let!(:need) { create :need, user: volunteer }
+
+      it 'raises an error when a user is neither an admin or coordinator' do
+        expect { described_class.total_volunteers_by_spoken_language(volunteer, nil, nil) }
+          .to raise_error(RuntimeError, "#{volunteer} does not have the proper permissions")
+      end
+
+      context 'as an admin' do
+        it 'returns the total volunteer hours grouped by office' do
+          expect(described_class.total_volunteers_by_spoken_language(admin, nil, nil))
+            .to eql('English' => 1)
+        end
+      end
+
+      context 'as a coordinator' do
+        before do
+          coordinator.offices << or_office
+        end
+
+        it 'returns data scoped by users offices' do
+          expect(described_class.total_volunteers_by_spoken_language(coordinator, nil, nil))
+            .to be_empty
+        end
+      end
+
+      context 'with a date range' do
+        it 'returns the total hours filtered by dates' do
+          expect(described_class.total_volunteers_by_spoken_language(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
+            .to eql('English' => 1)
+
+          expect(described_class.total_volunteers_by_spoken_language(admin, nil, 'Feb 2, 2030'))
+            .to eql('English' => 1)
+
+          expect(described_class.total_volunteers_by_spoken_language(admin, 'Jan 1, 2010', nil))
+            .to eql('English' => 1)
+        end
+
+        it 'does not use office\'s needs that are out of range' do
+          or_need.update(start_at: 1.month.from_now)
+
+          expect(described_class.total_volunteers_by_spoken_language(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
+            .to eql('English' => 1)
+        end
       end
     end
   end
@@ -323,14 +406,6 @@ RSpec.describe User, type: :model do
       result = described_class.notifiable
 
       expect(result).to all(be_a(described_class))
-    end
-  end
-
-  describe '.shifts_by_user' do
-    it 'shifts_by_user' do
-      result = described_class.shifts_by_user
-
-      expect(result).to be_empty
     end
   end
 

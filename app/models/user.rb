@@ -119,22 +119,22 @@ class User < ApplicationRecord
     where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
   end
 
-  def self.shifts_by_user
-    joins(:shifts).group('users.id')
-  end
-
-  def self.total_volunteers_by_spoken_language(_, _)
-    volunteerable
+  def self.total_volunteers_by_spoken_language(current_user, start_at, end_at)
+    filter_by_office_users(current_user, true)
       .joins('INNER JOIN languages ON languages.id IN '\
                '(users.first_language_id, users.second_language_id)')
+      .joins(:needs)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('languages.name')
       .count
-      # .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      # .count
   end
 
-  def self.total_volunteer_hours_by_user(_, _)
-    shifts_by_user.sum('shifts.duration / 60.0')
+  def self.total_volunteer_hours_by_user(current_user, start_at, end_at)
+    filter_by_office_users(current_user, false)
+      .joins(shifts: :need)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group('users.id')
+      .sum('shifts.duration / 60.0')
   end
 
   def self.exclude_blockouts(start_at, end_at)
@@ -226,10 +226,20 @@ class User < ApplicationRecord
   end
 
   def self.parse_end_date(date)
-    (date ? Date.parse(date) : DateTime.tomorrow).end_of_day
+    (date ? Date.parse(date) : DateTime.yesterday).end_of_day
   end
 
   def self.filter_by_date_range(scope, start_at, end_at)
     scope.where('needs.start_at between ? AND ?', parse_start_date(start_at), parse_end_date(end_at))
+  end
+
+  def self.filter_by_office_users(current_user, use_volunteerable_scope)
+    if current_user.admin?
+      use_volunteerable_scope ? volunteerable : all
+    elsif current_user.coordinator?
+      (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
+    else
+      raise "#{current_user} does not have the proper permissions"
+    end
   end
 end

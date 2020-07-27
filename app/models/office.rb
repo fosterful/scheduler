@@ -12,28 +12,45 @@ class Office < ApplicationRecord
 
   alias_attribute :to_s, :name
 
-  scope :with_claimed_shifts, -> { joins(needs: :shifts).merge(Shift.claimed) }
-  scope :with_claimed_needs, -> { joins(:needs).merge(Need.has_claimed_shifts) }
+  scope :with_claimed_shifts, -> (user) {
+    if user.admin?
+      joins(needs: :shifts).merge(Shift.claimed)
+    elsif user.coordinator?
+      joins(:office_users, needs: :shifts).where(office_users: { user: user }).merge(Shift.claimed)
+    else
+      raise 'You do not have the proper permissions'
+    end
+  }
+
+  scope :with_claimed_needs, -> (user) {
+    if user.admin?
+      joins(:needs).merge(Need.has_claimed_shifts)
+    elsif user.coordinator?
+      joins(:office_users, :needs).where(office_users: { user: user }).merge(Need.has_claimed_shifts)
+    else
+      raise 'You do not have the proper permissions'
+    end
+  }
 
   alias_attribute :to_s, :name
 
-  def self.total_volunteer_hours_by_office(start_at, end_at)
-    with_claimed_shifts
+  def self.total_volunteer_hours_by_office(current_user, start_at, end_at)
+    with_claimed_shifts(current_user)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) } 
       .group('offices.id')
       .sum('shifts.duration / 60.0')
   end
 
-  def self.total_volunteer_hours_by_state(start_at, end_at)
-    with_claimed_shifts
+  def self.total_volunteer_hours_by_state(current_user, start_at, end_at)
+    with_claimed_shifts(current_user)
       .joins(:address)
-      .group('addresses.state')
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group('addresses.state')
       .sum('shifts.duration / 60.0')
   end
 
-  def self.total_volunteer_hours_by_county(state, start_at, end_at)
-    with_claimed_shifts
+  def self.total_volunteer_hours_by_county(current_user, state, start_at, end_at)
+    with_claimed_shifts(current_user)
       .joins(:address)
       .where(addresses: { state: state })
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
@@ -41,23 +58,23 @@ class Office < ApplicationRecord
       .sum('shifts.duration / 60.0')
   end
 
-  def self.total_children_served_by_office(start_at, end_at)
-    with_claimed_needs
+  def self.total_children_served_by_office(current_user, start_at, end_at)
+    with_claimed_needs(current_user)
       .group('offices.id')
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .sum('needs.number_of_children')
   end
 
-  def self.total_children_served_by_state(start_at, end_at)
-    with_claimed_needs
+  def self.total_children_served_by_state(current_user, start_at, end_at)
+    with_claimed_needs(current_user)
       .joins(:address)
       .group('addresses.state')
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .sum('needs.number_of_children')
   end
 
-  def self.total_children_served_by_county(state, start_at, end_at)
-    with_claimed_needs
+  def self.total_children_served_by_county(current_user, state, start_at, end_at)
+    with_claimed_needs(current_user)
       .joins(:address)
       .where(addresses: { state: state })
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
@@ -65,15 +82,17 @@ class Office < ApplicationRecord
       .sum('needs.number_of_children')
   end
 
-  def self.total_children_by_demographic(start_at, end_at)
+  def self.total_children_by_demographic(current_user, start_at, end_at)
     joins(needs: :preferred_language)
-      .group('languages.name')
+      .then { |scope| scope_by_office_users_if_coordinator(scope, current_user) }
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group('languages.name')
       .sum('needs.number_of_children')
   end
 
-  def self.total_volunteers_by_race(start_at, end_at)
+  def self.total_volunteers_by_race(current_user, start_at, end_at)
     joins(:needs, users: :race)
+      .then { |scope| scope_by_office_users_if_coordinator(scope, current_user) }
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('races.name')
       .count('users.id')
@@ -85,12 +104,22 @@ class Office < ApplicationRecord
 
   private
 
+  def self.scope_by_office_users_if_coordinator(scope, user)
+    if user.admin?
+      scope
+    elsif user.coordinator?
+      scope.joins(:office_users).where(office_users: { user: user })
+    else
+      raise 'You do not have the proper permissions'
+    end
+  end
+
   def self.parse_start_date(date)
-    (date ? Date.parse(date) : DateTime.new(2000, 1, 1)).beginning_of_day
+    (date ? Date.parse(date) : DateTime.new(1950, 1, 1)).beginning_of_day
   end
 
   def self.parse_end_date(date)
-    (date ? Date.parse(date) : DateTime.tomorrow).end_of_day
+    (date ? Date.parse(date) : DateTime.yesterday).end_of_day
   end
 
   def self.filter_by_date_range(scope, start_at, end_at)
