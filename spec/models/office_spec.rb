@@ -117,8 +117,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_volunteer_hours_by_office(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
 
-          expect(described_class.total_volunteer_hours_by_office(admin, nil, 'Feb 2, 2030'))
-            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+          expect(described_class.total_volunteer_hours_by_office(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+          .to be_empty
 
           expect(described_class.total_volunteer_hours_by_office(admin, 'Jan 1, 2010', nil))
             .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
@@ -164,8 +164,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_volunteer_hours_by_state(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('OR' => 1.0, 'WA' => 7.0)
 
-          expect(described_class.total_volunteer_hours_by_state(admin, nil, 'Feb 2, 2030'))
-            .to eql('OR' => 1.0, 'WA' => 7.0)
+          expect(described_class.total_volunteer_hours_by_state(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_volunteer_hours_by_state(admin, 'Jan 1, 2010', nil))
             .to eql('OR' => 1.0, 'WA' => 7.0)
@@ -211,8 +211,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_volunteer_hours_by_county(admin, 'WA', 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('Clark' => 1.0, 'Lewis' => 6.0)
 
-          expect(described_class.total_volunteer_hours_by_county(admin, 'WA', nil, 'Feb 2, 2030'))
-            .to eql('Clark' => 1.0, 'Lewis' => 6.0)
+          expect(described_class.total_volunteer_hours_by_county(admin, 'WA', nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_volunteer_hours_by_county(admin, 'WA', 'Jan 1, 2010', nil))
             .to eql('Clark' => 1.0, 'Lewis' => 6.0)
@@ -258,8 +258,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_children_served_by_office(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
 
-          expect(described_class.total_children_served_by_office(admin, nil, 'Feb 2, 2030'))
-            .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
+          expect(described_class.total_children_served_by_office(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_children_served_by_office(admin, 'Jan 1, 2010', nil))
             .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
@@ -305,8 +305,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_children_served_by_state(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('OR' => 3, 'WA' => 10)
 
-          expect(described_class.total_children_served_by_state(admin, nil, 'Feb 2, 2030'))
-            .to eql('OR' => 3, 'WA' => 10)
+          expect(described_class.total_children_served_by_state(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_children_served_by_state(admin, 'Jan 1, 2010', nil))
             .to eql('OR' => 3, 'WA' => 10)
@@ -352,8 +352,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_children_served_by_county(admin, 'WA', 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('Clark' => 1, 'Lewis' => 9)
 
-          expect(described_class.total_children_served_by_county(admin, 'WA', nil, 'Feb 2, 2030'))
-            .to eql('Clark' => 1, 'Lewis' => 9)
+          expect(described_class.total_children_served_by_county(admin, 'WA', nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_children_served_by_county(admin, 'WA', 'Jan 1, 2010', nil))
             .to eql('Clark' => 1, 'Lewis' => 9)
@@ -399,8 +399,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_children_by_demographic(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
 
-          expect(described_class.total_children_by_demographic(admin, nil, 'Feb 2, 2030'))
-            .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
+          expect(described_class.total_children_by_demographic(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_children_by_demographic(admin, 'Jan 1, 2010', nil))
             .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
@@ -446,8 +446,8 @@ RSpec.describe Office, type: :model do
           expect(described_class.total_volunteers_by_race(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('Hispanic' => 13)
 
-          expect(described_class.total_volunteers_by_race(admin, nil, 'Feb 2, 2030'))
-            .to eql('Hispanic' => 13)
+          expect(described_class.total_volunteers_by_race(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_volunteers_by_race(admin, 'Jan 1, 2010', nil))
             .to eql('Hispanic' => 13)

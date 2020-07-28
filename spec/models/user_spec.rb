@@ -292,8 +292,8 @@ RSpec.describe User, type: :model do
           expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
 
-          expect(described_class.total_volunteer_hours_by_user(admin, nil, 'Feb 2, 2030'))
-            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+          expect(described_class.total_volunteer_hours_by_user(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', nil))
             .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
@@ -340,8 +340,8 @@ RSpec.describe User, type: :model do
           expect(described_class.total_volunteers_by_spoken_language(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('English' => 1)
 
-          expect(described_class.total_volunteers_by_spoken_language(admin, nil, 'Feb 2, 2030'))
-            .to eql('English' => 1)
+          expect(described_class.total_volunteers_by_spoken_language(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
+            .to be_empty
 
           expect(described_class.total_volunteers_by_spoken_language(admin, 'Jan 1, 2010', nil))
             .to eql('English' => 1)
