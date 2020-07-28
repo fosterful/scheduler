@@ -97,7 +97,7 @@ RSpec.describe Office, type: :model do
       context 'as an admin' do
         it 'returns the total volunteer hours grouped by office' do
           expect(described_class.total_volunteer_hours_by_office(admin, nil, nil))
-            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+            .to eql(or_office.name => 1.0, wa_office1.name => 7.0)
         end
       end
 
@@ -108,27 +108,27 @@ RSpec.describe Office, type: :model do
 
         it 'returns data scoped by users offices' do
           expect(described_class.total_volunteer_hours_by_office(coordinator, nil, nil))
-            .to eql(or_office.id => 1.0)
+            .to eql(or_office.name => 1.0)
         end
       end
 
       context 'with a date range' do
         it 'returns the total hours filtered by dates' do
           expect(described_class.total_volunteer_hours_by_office(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
-            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+            .to eql(or_office.name => 1.0, wa_office1.name => 7.0)
 
           expect(described_class.total_volunteer_hours_by_office(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
           .to be_empty
 
           expect(described_class.total_volunteer_hours_by_office(admin, 'Jan 1, 2010', nil))
-            .to eql(or_office.id => 1.0, wa_office1.id => 1.0, wa_office2.id => 6.0)
+            .to eql(or_office.name => 1.0, wa_office1.name => 7.0)
         end
 
         it 'does not use office\'s needs that are out of range' do
           or_need.update(start_at: 1.month.from_now)
 
           expect(described_class.total_volunteer_hours_by_office(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
-            .to eql(wa_office1.id => 1.0, wa_office2.id => 6.0)
+            .to eql(wa_office1.name => 7.0)
         end
       end
     end
@@ -238,7 +238,7 @@ RSpec.describe Office, type: :model do
       context 'as an admin' do
         it 'returns the total volunteer hours grouped by office' do
           expect(described_class.total_children_served_by_office(admin, nil, nil))
-            .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
+            .to eql(or_office.name => 3, wa_office1.name => 10)
         end
       end
 
@@ -249,27 +249,27 @@ RSpec.describe Office, type: :model do
 
         it 'returns data scoped by users offices' do
           expect(described_class.total_children_served_by_office(coordinator, nil, nil))
-            .to eql(or_office.id => 3)
+            .to eql(or_office.name => 3)
         end
       end
 
       context 'with a date range' do
         it 'returns the total hours filtered by dates' do
           expect(described_class.total_children_served_by_office(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
-            .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
+            .to eql(or_office.name => 3, wa_office1.name => 10)
 
           expect(described_class.total_children_served_by_office(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
             .to be_empty
 
           expect(described_class.total_children_served_by_office(admin, 'Jan 1, 2010', nil))
-            .to eql(or_office.id => 3, wa_office1.id => 1, wa_office2.id => 9)
+            .to eql(or_office.name => 3, wa_office1.name => 10)
         end
 
         it 'does not use office\'s needs that are out of range' do
           or_need.update(start_at: 1.month.from_now)
 
           expect(described_class.total_children_served_by_office(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
-            .to eql(wa_office1.id => 1, wa_office2.id => 9)
+            .to eql(wa_office1.name => 10)
         end
       end
     end
