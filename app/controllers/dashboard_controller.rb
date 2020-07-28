@@ -13,11 +13,11 @@ class DashboardController < ApplicationController
   ::VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
 
   def reports
-    authorize current_user
+    redirect_to :root unless DashboardPolicy.new(current_user).reports?
   end
 
   def download_report
-    authorize current_user
+    redirect_to :root unless DashboardPolicy.new(current_user).download_report?
 
     @headers = params[:headers]
     @data    = if params[:state]

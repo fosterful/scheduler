@@ -34,14 +34,6 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
-  def reports?
-    user.role.in? [User::COORDINATOR, User::ADMIN]
-  end
-
-  def download_report?
-    user.role.in? [User::COORDINATOR, User::ADMIN]
-  end
-
   private
 
   def authorize_role_assignment
