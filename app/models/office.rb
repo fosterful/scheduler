@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Office < ApplicationRecord
+  extend DateRangeFilterHelper
+
   has_one :address, as: :addressable, dependent: :destroy
   has_many :needs, dependent: :destroy
   has_many :office_users, dependent: :destroy
@@ -112,17 +114,5 @@ class Office < ApplicationRecord
     else
       raise 'You do not have the proper permissions'
     end
-  end
-
-  def self.parse_start_date(date)
-    (date ? Date.parse(date) : DateTime.new(1950, 1, 1)).beginning_of_day
-  end
-
-  def self.parse_end_date(date)
-    (date ? Date.parse(date) : DateTime.yesterday).end_of_day
-  end
-
-  def self.filter_by_date_range(scope, start_at, end_at)
-    scope.where('needs.start_at between ? AND ?', parse_start_date(start_at), parse_end_date(end_at))
   end
 end

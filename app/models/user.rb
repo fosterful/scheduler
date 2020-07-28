@@ -6,6 +6,7 @@ class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable, :lockable, validate_on_invite: true
+  extend DateRangeFilterHelper
 
   ADMIN         = 'admin'
   COORDINATOR   = 'coordinator'
@@ -219,18 +220,6 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
-  end
-
-  def self.parse_start_date(date)
-    (date ? Date.parse(date) : DateTime.new(2000, 1, 1)).beginning_of_day
-  end
-
-  def self.parse_end_date(date)
-    (date ? Date.parse(date) : DateTime.yesterday).end_of_day
-  end
-
-  def self.filter_by_date_range(scope, start_at, end_at)
-    scope.where('needs.start_at between ? AND ?', parse_start_date(start_at), parse_end_date(end_at))
   end
 
   def self.filter_by_office_users(current_user, use_volunteerable_scope)
