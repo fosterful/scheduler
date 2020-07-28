@@ -135,7 +135,7 @@ class User < ApplicationRecord
     filter_by_office_users(current_user, false)
       .joins(shifts: :need)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      .group('users.id')
+      .group(:id, :first_name, :last_name)
       .sum('shifts.duration / 60.0')
   end
 

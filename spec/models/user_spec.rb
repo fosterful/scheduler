@@ -272,7 +272,7 @@ RSpec.describe User, type: :model do
       context 'as an admin' do
         it 'returns the total volunteer hours grouped by office' do
           expect(described_class.total_volunteer_hours_by_user(admin, nil, nil))
-            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+            .to eql([or_user.id, or_user.first_name, or_user.last_name] => 1.0, [wa_user1.id, wa_user1.first_name, wa_user1.last_name] => 1.0, [wa_user2.id, wa_user2.first_name, wa_user2.last_name] => 5.0, [wa_user3.id, wa_user3.first_name, wa_user3.last_name] => 1.0)
         end
       end
 
@@ -283,27 +283,27 @@ RSpec.describe User, type: :model do
 
         it 'returns data scoped by users offices' do
           expect(described_class.total_volunteer_hours_by_user(coordinator, nil, nil))
-            .to eql(or_user.id => 1)
+            .to eql([or_user.id, or_user.first_name, or_user.last_name] => 1)
         end
       end
 
       context 'with a date range' do
         it 'returns the total hours filtered by dates' do
           expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
-            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+            .to eql([or_user.id, or_user.first_name, or_user.last_name] => 1.0, [wa_user1.id, wa_user1.first_name, wa_user1.last_name] => 1.0, [wa_user2.id, wa_user2.first_name, wa_user2.last_name] => 5.0, [wa_user3.id, wa_user3.first_name, wa_user3.last_name] => 1.0)
 
           expect(described_class.total_volunteer_hours_by_user(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
             .to be_empty
 
           expect(described_class.total_volunteer_hours_by_user(admin, 'Jan 1, 2010', nil))
-            .to eql(or_user.id => 1.0, wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+            .to eql([or_user.id, or_user.first_name, or_user.last_name] => 1.0, [wa_user1.id, wa_user1.first_name, wa_user1.last_name] => 1.0, [wa_user2.id, wa_user2.first_name, wa_user2.last_name] => 5.0, [wa_user3.id, wa_user3.first_name, wa_user3.last_name] => 1.0)
         end
 
         it 'does not use office\'s needs that are out of range' do
           or_need.update(start_at: 1.month.from_now)
 
           expect(described_class.total_volunteer_hours_by_user(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
-            .to eql(wa_user1.id => 1.0, wa_user2.id => 5.0, wa_user3.id => 1.0)
+            .to eql([wa_user1.id, wa_user1.first_name, wa_user1.last_name] => 1.0, [wa_user2.id, wa_user2.first_name, wa_user2.last_name] => 5.0, [wa_user3.id, wa_user3.first_name, wa_user3.last_name] => 1.0)
         end
       end
     end

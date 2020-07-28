@@ -39,7 +39,7 @@ class Office < ApplicationRecord
   def self.total_volunteer_hours_by_office(current_user, start_at, end_at)
     with_claimed_shifts(current_user)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) } 
-      .group('offices.name')
+      .group(:id, :name)
       .sum('shifts.duration / 60.0')
   end
 
@@ -62,7 +62,7 @@ class Office < ApplicationRecord
 
   def self.total_children_served_by_office(current_user, start_at, end_at)
     with_claimed_needs(current_user)
-      .group('offices.name')
+      .group(:id, :name)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .sum('needs.number_of_children')
   end
