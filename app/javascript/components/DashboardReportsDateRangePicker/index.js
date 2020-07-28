@@ -7,6 +7,11 @@ const DashboardReportsDateRangePicker = () => {
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   const [msg, setMsg] = useState(null)
 
+  const clearDates = () => {
+    setStart(null)
+    setEnd(null)
+  }
+
   global.displayDateRangeErrorMessage = msg => {
     setShowErrorMessage(true)
     setMsg(msg)
@@ -33,6 +38,14 @@ const DashboardReportsDateRangePicker = () => {
           dateFormat='MMM d, yyyy'
           placeholderText='End date'
         />
+        {(start || end) && (
+          <span>
+            <button className='button secondary margin-left-1' onClick={clearDates}>
+              <i className='fas fa-times-circle' style={{ marginRight: '0.25rem' }} />
+              Clear dates
+            </button>
+          </span>
+        )}
       </div>
       {showErrorMessage && <div className='alert callout'>{msg}</div>}
     </>
