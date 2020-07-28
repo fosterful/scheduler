@@ -32,7 +32,6 @@ class DashboardController < ApplicationController
         headers['Content-Type']        = 'text/csv'
         render 'report_template.csv'
       end
-      format.json { render json: @data.to_json }
     end
   end
 
