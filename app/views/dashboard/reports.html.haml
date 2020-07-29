@@ -78,7 +78,7 @@
               %strong Children Served
             %p This report contains the number of children served at the child welfare office by volunteers per county.
 
-            = label_tag(:state, 'Total Children Served')
+            = label_tag(:state, 'State')
             = select_tag :state, options_for_select(Address.distinct.pluck(:state))
 
             .flex-container.flex-dir-row-reverse
