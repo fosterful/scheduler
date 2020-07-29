@@ -1,24 +1,22 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  ::CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
-  ::CHILDREN_BY_DEMO       = 'total-children-by-demographic'
-  ::CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
-  ::CHILDREN_BY_STATE      = 'total-children-served-by-state'
-  ::HOURS_BY_COUNTY        = 'total-volunteer-hours-by-county'
-  ::HOURS_BY_OFFICE        = 'total-volunteer-hours-by-office'
-  ::HOURS_BY_STATE         = 'total-volunteer-hours-by-state'
-  ::HOURS_BY_USER          = 'total-volunteer-hours-by-user'
-  ::VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
-  ::VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
+  before_action :authorize_user
 
-  def reports
-    redirect_to :root unless DashboardPolicy.new(current_user).reports?
-  end
+  CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
+  CHILDREN_BY_DEMO       = 'total-children-by-demographic'
+  CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
+  CHILDREN_BY_STATE      = 'total-children-served-by-state'
+  HOURS_BY_COUNTY        = 'total-volunteer-hours-by-county'
+  HOURS_BY_OFFICE        = 'total-volunteer-hours-by-office'
+  HOURS_BY_STATE         = 'total-volunteer-hours-by-state'
+  HOURS_BY_USER          = 'total-volunteer-hours-by-user'
+  VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
+  VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
+
+  def reports; end
 
   def download_report
-    redirect_to :root unless DashboardPolicy.new(current_user).download_report?
-
     @headers = params[:headers]
     @data    = if params[:state]
       params[:model].constantize.send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
@@ -36,6 +34,10 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def authorize_user
+    redirect_to :root unless DashboardPolicy.new(current_user).dashboard?
+  end
 
   def content_disposition(report_name)
     "attachment; filename=\"#{DateTime.current.to_i}-#{report_name}.csv\""

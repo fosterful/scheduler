@@ -7,11 +7,7 @@ class DashboardPolicy < ApplicationPolicy
     @user = user
   end
 
-  def reports?
-    user.role.in? [User::COORDINATOR, User::ADMIN]
-  end
-
-  def download_report?
+  def dashboard?
     user.role.in? [User::COORDINATOR, User::ADMIN]
   end
 end
