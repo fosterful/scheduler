@@ -51,10 +51,15 @@ RSpec.describe 'Dashboard', type: :request do
 
   describe '#download_report' do
     let(:user) { create :user, role: 'admin' }
+    before { sign_in user }
+
+    it 'does nothing when given wrong params' do
+      get dashboard_download_report_path, params: { state: 'WA', headers: ['County', 'Children Served'], data_method: 'foobar', filename: DashboardController::CHILDREN_BY_COUNTY, model: 'Foobar', format: :csv }
+
+      expect(response).to redirect_to :dashboard_download_report
+    end
 
     context 'with state param' do
-      before { sign_in user }
-
       it 'is successful' do
         get dashboard_download_report_path, params: { state: 'WA', headers: ['County', 'Children Served'], data_method: DashboardController::CHILDREN_BY_COUNTY.underscore, filename: DashboardController::CHILDREN_BY_COUNTY, model: 'Office', format: :csv }
 
@@ -63,8 +68,6 @@ RSpec.describe 'Dashboard', type: :request do
     end
 
     context 'without state param' do
-      before { sign_in user }
-
       it 'is successful' do
         get dashboard_download_report_path, params: { headers: ['Office Name', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_OFFICE.underscore, filename: DashboardController::HOURS_BY_OFFICE, model: 'Office', format: :csv }
 
@@ -73,8 +76,6 @@ RSpec.describe 'Dashboard', type: :request do
     end
 
     context 'with state and date range' do
-      before { sign_in user }
-
       it 'is successful' do
         get dashboard_download_report_path, params: { start_date: 'Jan 1, 2010', end_date: 'Jan 1, 2020', state: 'OR', headers: ['County', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_COUNTY.underscore, filename: DashboardController::HOURS_BY_COUNTY, model: 'Office', format: :csv }
 
@@ -83,8 +84,6 @@ RSpec.describe 'Dashboard', type: :request do
     end
 
     context 'without state and with date range' do
-      before { sign_in user }
-
       it 'is successful' do
         get dashboard_download_report_path, params: { start_date: 'Jan 1, 2010', end_date: 'Jan 1, 2020', headers: ['State', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_STATE.underscore, filename: DashboardController::HOURS_BY_STATE, model: 'Office', format: :csv }
 
