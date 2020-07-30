@@ -7,12 +7,11 @@
         %th Name
         %th Email
         %th Role
-        %th Actions
+        -# %th Actions
     %tbody
       - users.each do |user|
         %tr
           %td= "#{user.first_name} #{user.last_name}"
           %td= user.email
           %td= user.role
-          %td
-            wee
+          -# %td
