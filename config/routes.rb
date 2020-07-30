@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   get 'dashboard/reports' => 'dashboard#reports'
   get 'dashboard/download_report' => 'dashboard#download_report'
+  get 'dashboard/users' => 'dashboard#users'
 
   root to: 'needs#index'
 end

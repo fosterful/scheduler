@@ -16,6 +16,13 @@ class DashboardController < ApplicationController
 
   SAFE_MODELS = ['Office', 'User']
 
+  def users
+    if current_user.admin?
+      @data = fetch_office_users_data(Office.all)
+    else
+    end
+  end
+
   def reports; end
 
   def download_report
@@ -38,6 +45,12 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def fetch_office_users_data(offices)
+    offices.each_with_object({}) do |office, hash|
+      hash[office.name] = office.users
+    end
+  end
 
   def sensitive_params_are_safe
     params[:model].in?(SAFE_MODELS) &&
