@@ -44,7 +44,7 @@ RSpec.describe 'Dashboard', type: :request do
       it 'is successful' do
         get dashboard_reports_path
   
-        expect(response).to redirect_to :root
+        expect(response).to be_successful
       end
     end
   end

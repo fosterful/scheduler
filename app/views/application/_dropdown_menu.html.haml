@@ -10,6 +10,7 @@
       .cell.small-9.text-right Users
       .cell.small-2.small-offset-1
         %i.fas.fa-users
+- if current_user.admin? || current_user.coordinator? || current_user.social_worker?
   = link_to dashboard_reports_path do
     .grid-x.menu-item
       .cell.small-9.text-right Reports

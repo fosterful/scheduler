@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  before_action :authorize_user
-
   CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
   CHILDREN_BY_DEMO       = 'total-children-by-demographic'
   CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
@@ -17,6 +15,8 @@ class DashboardController < ApplicationController
   SAFE_MODELS = ['Office', 'User']
 
   def users
+    redirect_to :root unless DashboardPolicy.new(current_user).users?
+
     @data = if current_user.admin?
       fetch_office_users_data(Office.all)
     else
@@ -24,9 +24,13 @@ class DashboardController < ApplicationController
     end
   end
 
-  def reports; end
+  def reports
+    redirect_to :root unless DashboardPolicy.new(current_user).reports?
+  end
 
   def download_report
+    redirect_to :root unless DashboardPolicy.new(current_user).reports?
+
     return redirect_to dashboard_download_report_path unless sensitive_params_are_safe
 
     @headers = params[:headers]
@@ -67,10 +71,6 @@ class DashboardController < ApplicationController
       VOLUNTEERS_BY_LANGUAGE,
       VOLUNTEERS_BY_RACE
     ].map(&:underscore))
-  end
-
-  def authorize_user
-    redirect_to :root unless DashboardPolicy.new(current_user).dashboard?
   end
 
   def content_disposition(report_name)
