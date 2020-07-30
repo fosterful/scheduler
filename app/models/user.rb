@@ -226,7 +226,7 @@ class User < ApplicationRecord
   def self.filter_by_office_users(current_user, use_volunteerable_scope)
     if current_user.admin?
       use_volunteerable_scope ? volunteerable : all
-    elsif current_user.coordinator?
+    elsif current_user.coordinator? || current_user.social_worker?
       (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
     else
       raise "#{current_user} does not have the proper permissions"

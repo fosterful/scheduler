@@ -17,7 +17,7 @@ class Office < ApplicationRecord
   scope :with_claimed_shifts, -> (user) {
     if user.admin?
       joins(needs: :shifts).merge(Shift.claimed)
-    elsif user.coordinator?
+    elsif user.coordinator? || user.social_worker?
       joins(:office_users, needs: :shifts).where(office_users: { user: user }).merge(Shift.claimed)
     else
       raise 'You do not have the proper permissions'
@@ -27,7 +27,7 @@ class Office < ApplicationRecord
   scope :with_claimed_needs, -> (user) {
     if user.admin?
       joins(:needs).merge(Need.has_claimed_shifts)
-    elsif user.coordinator?
+    elsif user.coordinator? || user.social_worker?
       joins(:office_users, :needs).where(office_users: { user: user }).merge(Need.has_claimed_shifts)
     else
       raise 'You do not have the proper permissions'
