@@ -49,6 +49,52 @@ RSpec.describe 'Dashboard', type: :request do
     end
   end
 
+  describe '#users' do
+    context 'as an admin' do
+      let(:user) { create :user, role: 'admin' }
+      before { sign_in user }
+
+      it 'is successful' do
+        get dashboard_users_path
+  
+        expect(response).to be_successful
+      end
+    end
+
+    context 'as a coordinator' do
+      let(:user) { create :user, role: 'coordinator' }
+      before { sign_in user }
+
+      it 'is successful' do
+        get dashboard_users_path
+  
+        expect(response).to be_successful
+      end
+    end
+
+    context 'as a volunteer' do
+      let(:user) { create :user, role: 'volunteer' }
+      before { sign_in user }
+
+      it 'is successful' do
+        get dashboard_users_path
+  
+        expect(response).to redirect_to :root
+      end
+    end
+
+    context 'as a social worker' do
+      let(:user) { create :user, role: 'social_worker' }
+      before { sign_in user }
+
+      it 'is successful' do
+        get dashboard_users_path
+  
+        expect(response).to redirect_to :root
+      end
+    end
+  end
+
   describe '#download_report' do
     let(:user) { create :user, role: 'admin' }
     before { sign_in user }
