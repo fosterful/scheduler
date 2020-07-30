@@ -17,9 +17,10 @@ class DashboardController < ApplicationController
   SAFE_MODELS = ['Office', 'User']
 
   def users
-    if current_user.admin?
-      @data = fetch_office_users_data(Office.all)
+    @data = if current_user.admin?
+      fetch_office_users_data(Office.all)
     else
+      fetch_office_users_data(current_user.offices)
     end
   end
 
