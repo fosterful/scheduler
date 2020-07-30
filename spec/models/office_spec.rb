@@ -43,7 +43,8 @@ RSpec.describe Office, type: :model do
              number_of_children: 1,
              expected_duration:  60,
              office:             wa_office1,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let(:wa_need2) do
       create(:need_with_shifts,
@@ -51,7 +52,8 @@ RSpec.describe Office, type: :model do
              number_of_children: 2,
              expected_duration:  240,
              office:             wa_office2,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let(:wa_need3) do
       create(:need_with_shifts,
@@ -59,7 +61,8 @@ RSpec.describe Office, type: :model do
              number_of_children: 7,
              expected_duration:  120,
              office:             wa_office2,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let!(:unmet_wa_need) do
       create(:need_with_shifts,
@@ -67,7 +70,8 @@ RSpec.describe Office, type: :model do
              number_of_children: 2,
              expected_duration:  120,
              office:             wa_office2,
-             preferred_language: lang3)
+             preferred_language: lang3,
+             start_at: Time.zone.now.yesterday)
     end
     let(:or_need) do
       create(:need_with_shifts,
@@ -75,7 +79,8 @@ RSpec.describe Office, type: :model do
              number_of_children: 3,
              expected_duration:  120,
              office:             or_office,
-             preferred_language: lang2)
+             preferred_language: lang2,
+             start_at: Time.zone.now.yesterday)
     end
 
     before do

@@ -218,7 +218,8 @@ RSpec.describe User, type: :model do
              number_of_children: 1,
              expected_duration:  60,
              office:             wa_office1,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let(:wa_need2) do
       create(:need_with_shifts,
@@ -226,7 +227,8 @@ RSpec.describe User, type: :model do
              number_of_children: 2,
              expected_duration:  240,
              office:             wa_office2,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let(:wa_need3) do
       create(:need_with_shifts,
@@ -234,7 +236,8 @@ RSpec.describe User, type: :model do
              number_of_children: 7,
              expected_duration:  120,
              office:             wa_office2,
-             preferred_language: lang1)
+             preferred_language: lang1,
+             start_at: Time.zone.now.yesterday)
     end
     let!(:unmet_wa_need) do
       create(:need_with_shifts,
@@ -242,7 +245,8 @@ RSpec.describe User, type: :model do
              number_of_children: 2,
              expected_duration:  120,
              office:             wa_office2,
-             preferred_language: lang3)
+             preferred_language: lang3,
+             start_at: Time.zone.now.yesterday)
     end
     let(:or_need) do
       create(:need_with_shifts,
@@ -250,7 +254,8 @@ RSpec.describe User, type: :model do
              number_of_children: 3,
              expected_duration:  120,
              office:             or_office,
-             preferred_language: lang2)
+             preferred_language: lang2,
+             start_at: Time.zone.now.yesterday)
     end
 
     before do
@@ -310,7 +315,7 @@ RSpec.describe User, type: :model do
 
     describe '.total_volunteers_by_spoken_language' do
       let(:volunteer) { create :user, role: 'volunteer' }
-      let!(:need) { create :need, user: volunteer }
+      let!(:need) { create :need, user: volunteer, start_at: Time.zone.now.yesterday }
 
       it 'raises an error when a user is neither an admin or coordinator' do
         expect { described_class.total_volunteers_by_spoken_language(volunteer, nil, nil) }
