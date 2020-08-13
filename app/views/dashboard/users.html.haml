@@ -8,12 +8,10 @@
         %th Email
         %th Role
         %th Invitation Status
-        -# %th Actions
     %tbody
       - users.each do |user|
         %tr
-          %td= "#{user}”
+          %td= user
           %td= user.email
           %td= user.role_display
           %td= user.invitation_accepted_at ? 'Accepted' : 'Not yet accepted'
-          -# %td
