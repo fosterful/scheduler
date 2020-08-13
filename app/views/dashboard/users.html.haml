@@ -12,8 +12,8 @@
     %tbody
       - users.each do |user|
         %tr
-          %td= "#{user.first_name} #{user.last_name}"
+          %td= "#{user}”
           %td= user.email
-          %td= user.role
+          %td= user.role_display
           %td= user.invitation_accepted_at ? 'Accepted' : 'Not yet accepted'
           -# %td
