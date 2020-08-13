@@ -1,0 +1,17 @@
+- @data.each do |office_name, users|
+  %h2= office_name
+
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Role
+        %th Invitation Status
+    %tbody
+      - users.each do |user|
+        %tr
+          %td= user
+          %td= user.email
+          %td= user.role_display
+          %td= user.invitation_accepted_at ? 'Accepted' : 'Not yet accepted'

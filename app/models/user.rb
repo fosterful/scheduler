@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  extend DateRangeFilterHelper
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
@@ -119,23 +121,22 @@ class User < ApplicationRecord
     where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
   end
 
-  def self.shifts_by_user
-    joins(:shifts).group('users.id')
-  end
-
-  def self.volunteerable_by_language
-    volunteerable
+  def self.total_volunteers_by_spoken_language(current_user, start_at, end_at)
+    filter_by_office_users(current_user, true)
       .joins('INNER JOIN languages ON languages.id IN '\
                '(users.first_language_id, users.second_language_id)')
+      .joins(:needs)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('languages.name')
+      .count
   end
 
-  def self.total_volunteers_by_spoken_language
-    volunteerable_by_language.count
-  end
-
-  def self.total_volunteer_hours_by_user
-    shifts_by_user.sum('shifts.duration / 60.0')
+  def self.total_volunteer_hours_by_user(current_user, start_at, end_at)
+    filter_by_office_users(current_user, false)
+      .joins(shifts: :need)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group(:id, :first_name, :last_name)
+      .sum('shifts.duration / 60.0')
   end
 
   def self.exclude_blockouts(start_at, end_at)
@@ -220,5 +221,15 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
+  end
+
+  def self.filter_by_office_users(current_user, use_volunteerable_scope)
+    if current_user.admin?
+      use_volunteerable_scope ? volunteerable : all
+    elsif current_user.coordinator? || current_user.social_worker?
+      (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
+    else
+      raise "#{current_user} does not have the proper permissions"
+    end
   end
 end

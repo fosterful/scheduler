@@ -1,0 +1,142 @@
+= react_component("DashboardReportsDateRangePicker/index")
+
+.grid-x.margin-vertical-1
+  .cell.small-6
+    %h2 By Office
+
+    .grid-x.grid-padding-left
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Volunteer Hours
+            %p This report contains the number of hours served at the child welfare office by volunteers per child welfare office.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Office Name', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_OFFICE.underscore, filename: DashboardController::HOURS_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Children Served
+            %p This report contains the number of children served at the child welfare office by volunteers per child welfare office.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Office Name', 'Children Served'], data_method: DashboardController::CHILDREN_BY_OFFICE.underscore, filename: DashboardController::CHILDREN_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+  .cell.small-6
+    %h2 By State
+
+    .grid-x.grid-padding-left
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Volunteer Hours
+            %p This report contains the number of hours served at the child welfare office by volunteers per state.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['State', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_STATE.underscore, filename: DashboardController::HOURS_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+      .cell.large-6
+        .card
+          .card-section
+            %h5
+              %strong Children Served
+            %p This report contains the number of children served at the child welfare office by volunteers per state.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['State', 'Children Served'], data_method: DashboardController::CHILDREN_BY_STATE.underscore, filename: DashboardController::CHILDREN_BY_STATE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+.grid-x.margin-bottom-1
+  .cell
+    %h2 By County
+
+    .grid-x.grid-padding-left
+      .cell.small-6
+        .card
+          .card-section
+            %h5
+              %strong Volunteer Hours
+            %p This report contains the number of hours served at the child welfare office by volunteers per county.
+
+            = label_tag(:state)
+            = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['County', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_COUNTY.underscore, filename: DashboardController::HOURS_BY_COUNTY, model: 'Office', format: :csv), target: '_blank', class: 'button  get_report_with_state' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+    
+      .cell.small-6
+        .card
+          .card-section
+            %h5
+              %strong Children Served
+            %p This report contains the number of children served at the child welfare office by volunteers per county.
+
+            = label_tag(:state, 'State')
+            = select_tag :state, options_for_select(Address.distinct.pluck(:state))
+
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['County', 'Children Served'], data_method: DashboardController::CHILDREN_BY_COUNTY.underscore, filename: DashboardController::CHILDREN_BY_COUNTY, model: 'Office', format: :csv), target: '_blank', class: 'button get_report_with_state' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+.grid-x
+  .cell.small-9
+    %h2 By Demographic
+
+    .grid-x.grid-padding-left
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Children by Demographic
+            %p This report contains demographic information as indicated on the Scheduler intake form.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Preferred Language', 'Number of Children'], data_method: DashboardController::CHILDREN_BY_DEMO.underscore, filename: DashboardController::CHILDREN_BY_DEMO, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Volunteers Grouped By Race
+            %p This report contains race/cultural information as self-reported by OMD volunteers.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Race', 'Number of Volunteers'], data_method: DashboardController::VOLUNTEERS_BY_RACE.underscore, filename: DashboardController::VOLUNTEERS_BY_RACE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+      .cell.large-4
+        .card
+          .card-section
+            %h5
+              %strong Volunteers Grouped By Spoken Language
+            %p This report contains spoken language information as self-reported by OMD volunteers.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Language', 'Total Volunteer Hours'], data_method: DashboardController::VOLUNTEERS_BY_LANGUAGE.underscore, filename: DashboardController::VOLUNTEERS_BY_LANGUAGE, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+  .cell.medium-3
+    %h2 By User
+
+    .grid-x.grid-padding-left
+      .cell
+        .card
+          .card-section
+            %h5
+              %strong Volunteer Hours
+            %p This report contains volunteer hours served per OMD Volunteer.
+            %br
+            %br
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['User Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download

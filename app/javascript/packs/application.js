@@ -12,6 +12,7 @@ import moment from 'moment-timezone'
 import { extendMoment } from 'moment-range'
 import 'react-toggle/style.css'
 import '../src/responses'
+import '../src/dashboard_reports'
 
 moment.tz.setDefault(window.timeZone)
 window.moment = extendMoment(moment)
@@ -19,7 +20,7 @@ window.moment = extendMoment(moment)
 Rails.start()
 Turbolinks.start()
 
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function () {
   $('select.single').select2()
   $('select.multiple').select2({
     maximumSelectionLength: 0
@@ -32,4 +33,4 @@ var componentRequireContext = require.context('components', true)
 var ReactRailsUJS = require('react_ujs')
 ReactRailsUJS.useContext(componentRequireContext)
 
-import "controllers"
+import 'controllers'
