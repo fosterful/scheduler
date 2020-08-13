@@ -34,7 +34,7 @@ const updatePathAndClick = function (event, getStateValue) {
   bindClick($this, getStateValue)
 }
 
-$(document).ready(function () {
+$(document).on('turbolinks:load', function () {
   bindClick($('.get_report'), false)
 
   bindClick($('.get_report_with_state'), true)
