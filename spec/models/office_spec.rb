@@ -468,18 +468,19 @@ RSpec.describe Office, type: :model do
     end
 
     describe '#needs_satisfied_by_office' do
-      before do
-        create(:need,
-                user:               or_sw,
-                number_of_children: 3,
-                expected_duration:  120,
-                office:             or_office,
-                preferred_language: lang2,
-                start_at: Time.zone.now.yesterday
-              )
-      end
+        let(:need_with_no_shifts) {
+          create(:need,
+            user:               or_sw,
+            number_of_children: 3,
+            expected_duration:  120,
+            office:             or_office,
+            preferred_language: lang2,
+            start_at: Time.zone.now.yesterday
+          )
+      }
 
       it 'does the things' do
+        expect(need_with_no_shifts.shifts.count).to eq(0)
         expect(described_class.needs_satisfied_by_office(admin, nil, nil)).to eql(["By Office", ["Vancouver Office", "100%"], ["Port Kent Office", "50%"], ["Vancouver Office", "100%"], "By State", ["WA", "100%"], ["OR", "50%"], "Total", ["All Offices", "83%"]])
       end
     end
