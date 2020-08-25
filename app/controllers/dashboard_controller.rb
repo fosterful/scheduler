@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
   HOURS_BY_USER          = 'total-volunteer-hours-by-user'
   VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
   VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
+  NEEDS_SATISFIED_BY_OFFICE     = 'needs-satisfied-by-office'
 
   SAFE_MODELS = ['Office', 'User']
 
@@ -35,9 +36,9 @@ class DashboardController < ApplicationController
 
     @headers = params[:headers]
     @data    = if params[:state]
-      params[:model].constantize.send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
+      params[:model].constantize.public_send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
     else
-      params[:model].constantize.send(params[:data_method], current_user, params[:start_date], params[:end_date])
+      params[:model].constantize.public_send(params[:data_method], current_user, params[:start_date], params[:end_date])
     end
 
     respond_to do |format|
@@ -69,7 +70,8 @@ class DashboardController < ApplicationController
       HOURS_BY_STATE,
       HOURS_BY_USER,
       VOLUNTEERS_BY_LANGUAGE,
-      VOLUNTEERS_BY_RACE
+      VOLUNTEERS_BY_RACE,
+      NEEDS_SATISFIED_BY_OFFICE
     ].map(&:underscore))
   end
 
