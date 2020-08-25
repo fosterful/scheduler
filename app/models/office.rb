@@ -107,8 +107,11 @@ class Office < ApplicationRecord
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
 
     [
+      ["By Office"],
       percent_satisfied_by_office(offices),
+      ["By State"],
       percent_satisfied_by_state(offices),
+      ["Total"],
       percent_satisfied_total(offices)
     ].flatten(1)
   end
