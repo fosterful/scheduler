@@ -77,7 +77,7 @@ class Need < ApplicationRecord
   end
 
   def users_pending_response
-    User.notifiable.find(notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
+    User.notifiable.where(id: notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
   end
 
   private
