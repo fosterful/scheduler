@@ -412,6 +412,12 @@ RSpec.describe User, type: :model do
 
       expect(result).to all(be_a(described_class))
     end
+
+    it 'does not trigger notifications to deactivated users' do
+      user = create :user, deactivated: true
+
+      expect(User.notifiable).not_to include(user)
+    end
   end
 
   describe '#to_s' do
