@@ -479,7 +479,7 @@ RSpec.describe Office, type: :model do
           )
       }
 
-      it 'does the things' do
+      it 'returns the expected result' do
         expect(need_with_no_shifts.shifts.count).to eq(0)
         expect(described_class.needs_satisfied_by_office(admin, nil, nil)).to eql(["By Office", ["Vancouver Office", "100%"], ["Port Kent Office", "50%"], ["Vancouver Office", "100%"], "By State", ["WA", "100%"], ["OR", "50%"], "Total", ["All Offices", "83%"]])
       end
