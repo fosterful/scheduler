@@ -133,21 +133,21 @@ class Office < ApplicationRecord
   end
 
   def self.percent_satisfied_by_office(offices)
-    offices.reduce([]) do |arr, office|
-      arr << [office.name, needs_satisfied_percent(office.needs)]
+    offices.map do |office|
+      [office.name, needs_satisfied_percent(office.needs)]
     end
   end
 
   def self.percent_satisfied_by_state(offices)
     offices.group_by { |o| o.address.state }.map do |state, offices_by_state|
-      ar_collection_needs = Need.where(id: offices_by_state.map(&:needs).flatten.map(&:id))
+      ar_collection_needs = Need.where(office_id: offices_by_state.pluck(:id))
 
       [state, needs_satisfied_percent(ar_collection_needs)]
     end
   end
 
   def self.percent_satisfied_total(offices)
-    ar_collection_needs = Need.where(id: offices.map(&:needs).flatten.map(&:id))
+    ar_collection_needs = Need.where(office_id: offices.pluck(:id))
 
     [["All Offices", needs_satisfied_percent(ar_collection_needs)]]
   end
