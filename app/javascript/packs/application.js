@@ -11,7 +11,6 @@ import OMDLogo from 'images/omd-logo-horiz.png'
 import moment from 'moment-timezone'
 import { extendMoment } from 'moment-range'
 import 'react-toggle/style.css'
-import '../src/responses'
 import '../src/dashboard_reports'
 
 moment.tz.setDefault(window.timeZone)

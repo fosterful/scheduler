@@ -102,15 +102,15 @@
           = submit_tag 'I am not available for this request.', class: 'button alert'
         %br
   - if policy(@need).view_responses?
-    .responses-container
+    .responses-container{data: { controller: 'needs-show' }}
       %p
-        = link_to pluralize(@need.unavailable_users.size, 'volunteer'), '#', id: 'toggle-unavailable-list'
+        = link_to pluralize(@need.unavailable_users.size, 'volunteer'), '#', id: 'toggle-unavailable-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#unavailable-list' }
         cannot fill this request
       %ul#unavailable-list.hide
         - @need.unavailable_users.each do |user|
           %li= user.name
       %p
-        = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list'
+        = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#pending-list' }
         have not yet responded
       %ul#pending-list.hide
         - @need.users_pending_response.each do |user|
