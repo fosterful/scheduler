@@ -97,6 +97,7 @@ class Office < ApplicationRecord
       .then { |scope| scope_by_office_users_if_coordinator(scope, current_user) }
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('races.name')
+      .distinct
       .count('users.id')
   end
 
