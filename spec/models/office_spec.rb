@@ -431,7 +431,7 @@ RSpec.describe Office, type: :model do
       context 'as an admin' do
         it 'returns the total volunteer hours grouped by office' do
           expect(described_class.total_volunteers_by_race(admin, nil, nil))
-            .to eql('Hispanic' => 13)
+            .to eql('Hispanic' => 7)
         end
       end
 
@@ -442,27 +442,27 @@ RSpec.describe Office, type: :model do
 
         it 'returns data scoped by users offices' do
           expect(described_class.total_volunteers_by_race(coordinator, nil, nil))
-            .to eql('Hispanic' => 3)
+            .to eql('Hispanic' => 1)
         end
       end
 
       context 'with a date range' do
         it 'returns the total hours filtered by dates' do
           expect(described_class.total_volunteers_by_race(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
-            .to eql('Hispanic' => 13)
+            .to eql('Hispanic' => 7)
 
           expect(described_class.total_volunteers_by_race(admin, nil, (Time.zone.now - 2.days).strftime('%b %e, %Y')))
             .to be_empty
 
           expect(described_class.total_volunteers_by_race(admin, 'Jan 1, 2010', nil))
-            .to eql('Hispanic' => 13)
+            .to eql('Hispanic' => 7)
         end
 
         it 'does not use office\'s needs that are out of range' do
           or_need.update(start_at: 1.month.from_now)
 
           expect(described_class.total_volunteers_by_race(admin, nil, Time.zone.now.strftime('%b %e, %Y')))
-            .to eql('Hispanic' => 11)
+            .to eql('Hispanic' => 5)
         end
       end
     end
