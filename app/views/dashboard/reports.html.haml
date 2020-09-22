@@ -137,6 +137,6 @@
             %br
             %br
             .flex-container.flex-dir-row-reverse
-              = link_to dashboard_download_report_url(headers: ['User Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
+              = link_to dashboard_download_report_url(headers: ['id', 'First Name', 'Last Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
                 %i.fas.fa-file-download{style: 'margin-right: 3px;' }
                 Download

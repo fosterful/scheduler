@@ -116,8 +116,15 @@ RSpec.describe 'Dashboard', type: :request do
     context 'without state param' do
       it 'is successful' do
         get dashboard_download_report_path, params: { headers: ['Office Name', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_OFFICE.underscore, filename: DashboardController::HOURS_BY_OFFICE, model: 'Office', format: :csv }
-
         expect(response).to be_successful
+      end
+    end
+
+    context 'when data method has a matching template' do
+      it 'renders the matching template' do
+        create(:shift, user: user, need: build(:need, start_at: 1.day.ago))
+        get dashboard_download_report_path, params: { headers: ['id', 'First Name', 'Last Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv }
+        expect(response.body).to include("#{user.id},#{user.first_name},#{user.last_name},1.0")
       end
     end
 
