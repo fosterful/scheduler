@@ -1,0 +1,3 @@
+= CSV.generate_line @headers
+- @data.each do |cell1, cell2|
+  = CSV.generate_line([cell1, cell2].flatten).html_safe
