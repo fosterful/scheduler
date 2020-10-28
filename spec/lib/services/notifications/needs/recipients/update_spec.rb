@@ -14,10 +14,6 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
   let(:user) { build(:user) }
 
   describe '#recipients' do
-    it 'does not include the need user/creator' do
-      expect(need.office.users).to include(need.user)
-      expect(subject).not_to include(need.user)
-    end
 
     it 'does not include non-volunteers' do
       need.office.users << (social_worker = build(:user, role: 'social_worker'))
@@ -54,7 +50,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
         need.office.users << [user]
         need.update(unavailable_user_ids: [user.id])
 
-        expect(subject).to be_empty
+        expect(subject).to eq([need.user])
       end
     end
 
@@ -80,8 +76,8 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
         need.office.users << [user, language_speaking_user]
       end
 
-      it 'includes only users that speak the language' do
-        expect(subject).to contain_exactly(language_speaking_user)
+      it 'includes only users that speak the language and need creator' do
+        expect(subject).to contain_exactly(language_speaking_user, need.user)
       end
     end
 
@@ -94,8 +90,8 @@ RSpec.describe Services::Notifications::Needs::Recipients::Update do
         need.office.users << [user, user_with_age_range]
       end
 
-      it 'includes only users that include the age_range' do
-        expect(subject).to contain_exactly(user_with_age_range)
+      it 'includes only users that include the age_range and need creator' do
+        expect(subject).to contain_exactly(user_with_age_range, need.user)
       end
     end
   end
