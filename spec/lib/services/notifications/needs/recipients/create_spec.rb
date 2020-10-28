@@ -15,12 +15,6 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
   let(:social_worker) { build(:social_worker, age_ranges: need.age_ranges) }
 
   describe '#recipients' do
-    it 'does not include the need user/creator' do
-      expect(need.office.users).to include(need.user)
-
-      expect(subject).not_to include(need.user)
-    end
-
     it 'does not include non-volunteers' do
       need.office.users << [social_worker, volunteer]
 
@@ -52,7 +46,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
 
         result = subject
 
-        expect(result).to eql([volunteer])
+        expect(result).to eql([volunteer, need.user])
       end
     end
 
@@ -63,7 +57,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
 
         result = subject
 
-        expect(result).to be_empty
+        expect(result).to eql([need.user])
       end
     end
 
@@ -89,10 +83,10 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
         need.office.users << [volunteer, language_speaking_user]
       end
 
-      it 'includes only users that speak the language' do
+      it 'includes only users that speak the language and need creator' do
         result = subject
 
-        expect(result).to eql([language_speaking_user])
+        expect(result).to eql([language_speaking_user, need.user])
       end
     end
 
@@ -106,10 +100,10 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
         need.office.users << [volunteer, user_with_age_range]
       end
 
-      it 'includes only users that include the age_range' do
+      it 'includes only users that include the age_range and need creator' do
         result = subject
 
-        expect(result).to match_array([user_with_age_range])
+        expect(result).to match_array([user_with_age_range, need.user])
       end
     end
   end
