@@ -15,7 +15,6 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
   let(:social_worker) { build(:social_worker, age_ranges: need.age_ranges) }
 
   describe '#recipients' do
-
     it 'does not include non-volunteers' do
       need.office.users << [social_worker, volunteer]
 
