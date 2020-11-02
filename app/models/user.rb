@@ -30,6 +30,8 @@ class User < ApplicationRecord
                    :medical_limitations_desc,
                    :conviction,
                    :conviction_desc,
+                   :receive_email_notifications,
+                   :receive_sms_notifications,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
@@ -98,6 +100,7 @@ class User < ApplicationRecord
             inclusion: { in: ROLES, message: '%<value> is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :at_least_one_office
+  validate :at_least_one_notification_preference
   validate :at_least_one_age_range,
            if: :require_volunteer_profile_attributes?
 
@@ -159,6 +162,12 @@ class User < ApplicationRecord
     return if offices.any?
 
     errors.add(:base, 'At least one office assignment is required')
+  end
+
+  def at_least_one_notification_preference
+    return if receive_email_notifications? || receive_sms_notifications?
+
+    errors.add(:base, 'At least one notification preference is required')
   end
 
   def at_least_one_age_range
