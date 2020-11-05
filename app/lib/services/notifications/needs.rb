@@ -13,6 +13,7 @@ module Services
 
       def notify
         Services::TextMessageEnqueue.send_messages(phone_numbers, message)
+        Services::EmailMessageEnqueue.send_messages(email_addresses, message)
         unless need.destroyed?
           need.notified_user_ids |= recipients.map(&:id)
           need.save!
@@ -22,7 +23,11 @@ module Services
       end
 
       def phone_numbers
-        recipients.map(&:phone)
+        recipients.select { |r| r.receive_sms_notifications? }.map(&:phone)
+      end
+
+      def email_addresses
+        recipients.select { |r| r.receive_email_notifications? }.map(&:email)
       end
     end
   end
