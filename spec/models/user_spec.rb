@@ -59,6 +59,16 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#at_least_one_notification_preference' do
+    it 'adds an error if no notification preference is selected' do
+      user.receive_email_notifications = false
+      user.receive_sms_notifications = false
+      expect(user.valid?).to be(false)
+      expect(user.errors.full_messages.first)
+        .to eq('At least one notification preference is required')
+    end
+  end
+
   describe '#name' do
     context 'when first & last name are present' do
       it 'returns first & last name' do
