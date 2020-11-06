@@ -220,6 +220,14 @@ RSpec.describe Need, type: :model do
   end
 
   describe 'validates :intentional_start_at' do
+    before { need.start_at = '' }
+
+    it 'falls back to presence validation when start_at is blank' do
+      expect(need.valid?).to be false
+    end
+  end
+
+  describe 'validates :intentional_start_at' do
     before { need.start_at = need.start_at.midnight }
 
     it 'adds a validation error when start_at is midnight' do
@@ -227,5 +235,4 @@ RSpec.describe Need, type: :model do
       expect(need.errors[:start_at]).to eq ['must not be midnight']
     end
   end
-
 end
