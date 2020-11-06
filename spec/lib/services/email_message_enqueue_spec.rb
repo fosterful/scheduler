@@ -12,5 +12,4 @@ RSpec.describe Services::EmailMessageEnqueue do
       described_class.send_messages([email], message)
     end
   end
-
 end

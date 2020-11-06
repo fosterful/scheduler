@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
   default from: 'info@officemomsanddads.com'
