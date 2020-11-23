@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_211104) do
+ActiveRecord::Schema.define(version: 2020_10_28_212318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 2020_03_26_211104) do
   create_table "age_ranges_users", id: false, force: :cascade do |t|
     t.bigint "age_range_id", null: false
     t.bigint "user_id", null: false
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.text "message", null: false
+    t.bigint "author_id", null: false
+    t.bigint "user_ids", default: [], null: false, array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_announcements_on_author_id"
   end
 
   create_table "blockouts", force: :cascade do |t|
@@ -180,6 +189,8 @@ ActiveRecord::Schema.define(version: 2020_03_26_211104) do
     t.bigint "second_language_id"
     t.boolean "verified", default: false, null: false
     t.boolean "deactivated", default: false, null: false
+    t.boolean "receive_sms_notifications", default: true, null: false
+    t.boolean "receive_email_notifications", default: false, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
@@ -190,6 +201,7 @@ ActiveRecord::Schema.define(version: 2020_03_26_211104) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "announcements", "users", column: "author_id"
   add_foreign_key "blockouts", "blockouts", column: "parent_id"
   add_foreign_key "blockouts", "users"
   add_foreign_key "needs", "languages", column: "preferred_language_id"

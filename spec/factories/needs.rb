@@ -11,6 +11,7 @@ FactoryBot.define do
 
     after(:build) do |need|
       need.age_ranges << build(:age_range)
+      need.children << build(:child) unless need.children.any?
     end
 
     factory :need_with_shifts do
