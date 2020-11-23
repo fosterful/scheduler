@@ -1,32 +1,29 @@
-version: "3.7"
-
-x-ruby: &ruby-base
-  build:
-    context: ./docker/ruby
-    args:
-      - RUBY_VERSION=2.6.5
-      - NODE_VERSION=11
-      - INSTALL_PG_CLIENT=true
-      - UID=${UID}
-      - GID=${GID}
-  volumes:
-    - .:/app
-    - gems:/gems
-    - node_modules:/app/node_modules
-    - packs:/app/public/packs
-    - rails_cache:/app/tmp/cache
-  tmpfs:
-    - /tmp
-  user: ruby
-  tty: true
-  stdin_open: true
-  depends_on:
-    - postgres
-    - redis
+version: "3.0"
 
 services:
   rails:
-    <<: *ruby-base
+    build:
+      context: ./docker/ruby
+      args:
+        - RUBY_VERSION=2.6.5
+        - NODE_VERSION=12
+        - INSTALL_PG_CLIENT=true
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - .:/app
+      - gems:/gems
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
+    tmpfs:
+      - /tmp
+    user: ruby
+    tty: true
+    stdin_open: true
+    depends_on:
+      - postgres
+      - redis
     command: bundle exec rails server -p 3000 -b '0.0.0.0'
     ports:
       - "3000:3000"
@@ -40,13 +37,55 @@ services:
       - SELENIUM_REMOTE_HOST=selenium
       - BOOTSNAP_CACHE_DIR=/gems/bootsnap
   webpacker:
-    <<: *ruby-base
+    build:
+      context: ./docker/ruby
+      args:
+        - RUBY_VERSION=2.6.5
+        - NODE_VERSION=12
+        - INSTALL_PG_CLIENT=true
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - .:/app
+      - gems:/gems
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
+    tmpfs:
+      - /tmp
+    user: ruby
+    tty: true
+    stdin_open: true
+    depends_on:
+      - postgres
+      - redis
     command: ./bin/webpack-dev-server
     ports:
       - "3035:3035"
     entrypoint: /app/docker/webpack-entrypoint
   sidekiq:
-    <<: *ruby-base
+    build:
+      context: ./docker/ruby
+      args:
+        - RUBY_VERSION=2.6.5
+        - NODE_VERSION=12
+        - INSTALL_PG_CLIENT=true
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - .:/app
+      - gems:/gems
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
+    tmpfs:
+      - /tmp
+    user: ruby
+    tty: true
+    stdin_open: true
+    depends_on:
+      - postgres
+      - redis
     command: bundle exec sidekiq
     entrypoint: /app/docker/sidekiq-entrypoint
     environment:

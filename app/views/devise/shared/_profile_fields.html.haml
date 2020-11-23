@@ -24,6 +24,9 @@
                       autocomplete: 'email',
                       required: true
     .help-text Required
+    = f.label :receive_email_notifications do
+      Receive Notifications via Email?
+      = f.check_box :receive_email_notifications
 
 - if devise_mapping.confirmable? && resource.pending_reconfirmation?
   %div
@@ -38,6 +41,9 @@
                           data: { inputmask: "'mask': '(999) 999-9999'" },
                           required: true
     .help-text Required / Must be able to receive text messages
+    = f.label :receive_sms_notifications do
+      Receive Notifications via SMS?
+      = f.check_box :receive_sms_notifications
 
 - if f.object.invitation_accepted?
   %fieldset.fieldset

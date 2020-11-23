@@ -2,7 +2,7 @@ ARG RUBY_VERSION=2.6
 
 FROM ruby:$RUBY_VERSION
 
-ARG NODE_VERSION=11
+ARG NODE_VERSION=12
 
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 
@@ -19,9 +19,9 @@ RUN apt-get update && apt-get install -y \
   netcat \
   sudo
 
-ARG UID=1000
+ARG UID
 ENV UID $UID
-ARG GID=1000
+ARG GID
 ENV GID $GID
 ARG USER=ruby
 ENV USER $USER

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   devise_for :users, controllers: {
@@ -12,6 +14,10 @@ Rails.application.routes.draw do
     put 'users' => 'devise/registrations#update', as: 'user_registration'
   end
 
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   resources :blockouts, except: %i[index new edit show]
   resources :needs do
     resources :shifts, except: %i[new]
@@ -22,6 +28,10 @@ Rails.application.routes.draw do
   get 'verify' => 'verifications#index', as: :verify
   post 'send_code' => 'verifications#send_code', as: :send_code
   post 'check_code' => 'verifications#check_code', as: :check_code
+
+  get 'dashboard/reports' => 'dashboard#reports'
+  get 'dashboard/download_report' => 'dashboard#download_report'
+  get 'dashboard/users' => 'dashboard#users'
 
   root to: 'needs#index'
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  extend DateRangeFilterHelper
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
@@ -28,12 +30,17 @@ class User < ApplicationRecord
                    :medical_limitations_desc,
                    :conviction,
                    :conviction_desc,
+                   :receive_email_notifications,
+                   :receive_sms_notifications,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
   has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
+  has_many :announcements,
+           dependent:   :restrict_with_error,
+           foreign_key: 'author_id'
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
   has_many :served_needs, -> { distinct },
@@ -42,9 +49,11 @@ class User < ApplicationRecord
            source:     'need'
   has_many :office_users, dependent: :destroy
   has_many :offices, through: :office_users
-  has_and_belongs_to_many :social_worker_needs, class_name: 'Need',
-    join_table: 'needs_social_workers', foreign_key: 'social_worker_id',
-    association_foreign_key: 'need_id'
+  has_and_belongs_to_many :social_worker_needs,
+                          class_name:              'Need',
+                          join_table:              'needs_social_workers',
+                          foreign_key:             'social_worker_id',
+                          association_foreign_key: 'need_id'
 
   belongs_to :first_language,
              optional:   true,
@@ -91,6 +100,7 @@ class User < ApplicationRecord
             inclusion: { in: ROLES, message: '%<value> is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :at_least_one_office
+  validate :at_least_one_notification_preference
   validate :at_least_one_age_range,
            if: :require_volunteer_profile_attributes?
 
@@ -98,10 +108,11 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :notifiable, -> { volunteerable.with_phone }
+  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false) }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }
+  scope :announceable, -> { with_phone.verified }
 
   scope :speaks_language, lambda { |language|
     where(first_language: language).or(where(second_language: language))
@@ -109,23 +120,26 @@ class User < ApplicationRecord
 
   before_save :check_phone_verification
 
-  def self.shifts_by_user
-    joins(:shifts).group('users.id')
+  def self.menu
+    where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
   end
 
-  def self.volunteerable_by_language
-    volunteerable
+  def self.total_volunteers_by_spoken_language(current_user, start_at, end_at)
+    filter_by_office_users(current_user, true)
       .joins('INNER JOIN languages ON languages.id IN '\
                '(users.first_language_id, users.second_language_id)')
+      .joins(:needs)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('languages.name')
+      .count
   end
 
-  def self.total_volunteers_by_spoken_language
-    volunteerable_by_language.count
-  end
-
-  def self.total_volunteer_hours_by_user
-    shifts_by_user.sum('shifts.duration / 60.0')
+  def self.total_volunteer_hours_by_user(current_user, start_at, end_at)
+    filter_by_office_users(current_user, false)
+      .joins(shifts: :need)
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+      .group(:id, :first_name, :last_name)
+      .sum('shifts.duration / 60.0')
   end
 
   def self.exclude_blockouts(start_at, end_at)
@@ -148,6 +162,12 @@ class User < ApplicationRecord
     return if offices.any?
 
     errors.add(:base, 'At least one office assignment is required')
+  end
+
+  def at_least_one_notification_preference
+    return if receive_email_notifications? || receive_sms_notifications?
+
+    errors.add(:base, 'At least one notification preference is required')
   end
 
   def at_least_one_age_range
@@ -210,5 +230,15 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
+  end
+
+  def self.filter_by_office_users(current_user, use_volunteerable_scope)
+    if current_user.admin?
+      use_volunteerable_scope ? volunteerable : all
+    elsif current_user.coordinator? || current_user.social_worker?
+      (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
+    else
+      raise "#{current_user} does not have the proper permissions"
+    end
   end
 end

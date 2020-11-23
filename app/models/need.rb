@@ -72,6 +72,7 @@ class Need < ApplicationRecord
       .exclude_blockouts(start_at, end_at)
       .then { |users| scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
+      .then { |users| users.to_a | [user] }
   end
 
   def unavailable_users
@@ -79,7 +80,7 @@ class Need < ApplicationRecord
   end
 
   def users_pending_response
-    User.find(notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
+    User.notifiable.where(id: notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
   end
 
   private
@@ -88,8 +89,7 @@ class Need < ApplicationRecord
   # Thus, regard it as equal to the start time not being present.
   # This forces the user to select an appropriate time.
   def intentional_start_at
-    return if start_at.nil?
-    
+    return if start_at.blank?    
     if start_at == start_at.midnight
       errors.add(:start_at, 'must not be midnight')
     end

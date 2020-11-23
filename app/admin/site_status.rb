@@ -1,4 +1,6 @@
-ActiveAdmin.register_page "Site Status" do
+# frozen_string_literal: true
+
+ActiveAdmin.register_page 'Site Status' do
 
   page_action :update_site_status, method: :post do
     if params[:need_creation_disabled].present?

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register AgeRange do
 
   config.sort_order = 'id_asc'

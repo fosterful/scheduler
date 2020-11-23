@@ -169,20 +169,20 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#users_to_notify' do
-    it 'returns nothing if no shifts' do
+    it 'returns only the need user if there are no shifts' do
       result = need.users_to_notify
 
-      expect(result).to be_empty
+      expect(result).to eq([need.user])
     end
 
-    it 'users_to_notify' do
+    it 'returns shift users and the need user' do
       need.office.users << new_user
       need.shifts << shift
       new_user.age_ranges << shift.age_ranges
 
       result = need.users_to_notify
 
-      expect(result.to_a).to eql([new_user])
+      expect(result.to_a).to eq([new_user, need.user])
     end
   end
 
@@ -220,6 +220,14 @@ RSpec.describe Need, type: :model do
   end
 
   describe 'validates :intentional_start_at' do
+    before { need.start_at = '' }
+
+    it 'falls back to presence validation when start_at is blank' do
+      expect(need.valid?).to be false
+    end
+  end
+
+  describe 'validates :intentional_start_at' do
     before { need.start_at = need.start_at.midnight }
 
     it 'adds a validation error when start_at is midnight' do
@@ -227,5 +235,4 @@ RSpec.describe Need, type: :model do
       expect(need.errors[:start_at]).to eq ['must not be midnight']
     end
   end
-
 end
