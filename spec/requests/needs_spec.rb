@@ -54,7 +54,8 @@ RSpec.describe 'Needs', type: :request do
       let(:params) do
         {
           need: attributes_for(:need).merge(office_id:     need.office_id,
-                                            age_range_ids: [AgeRange.first.id])
+                                            age_range_ids: [AgeRange.first.id],
+                                            children_attributes: [{age: 5, sex: 'female'}])
         }
       end
 
