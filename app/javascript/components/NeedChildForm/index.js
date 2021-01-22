@@ -69,8 +69,8 @@ class NeedChildForm extends React.Component {
   }
 
   childPosition = child => {
-    const actualchildren = this.state.children.filter( e => !e._destroy )
-    return actualchildren.indexOf(child) + 1
+    const actualChildren = this.state.children.filter( e => !e._destroy )
+    return actualChildren.indexOf(child) + 1
   }
 
   render() {
