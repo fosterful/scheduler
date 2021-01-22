@@ -37,7 +37,7 @@
         = render template: 'needs/office_social_workers', locals: { office: @need.office || policy_scope(Office).first }
 .grid-x
   .cell
-    = react_component("NeedChildForm", { children: @need.children, childSexes: Child.sexes.keys }, id: 'NeedChildForm')
+    = react_component("NeedChildForm/index", { children: @need.children, childSexes: Child.sexes.keys }, id: 'NeedChildForm')
 .grid-x
   .cell
     = f.label :race_id do
