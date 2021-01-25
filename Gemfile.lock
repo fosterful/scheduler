@@ -326,7 +326,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    redis (4.2.1)
+    redis (4.2.5)
     redis-namespace (1.8.0)
       redis (>= 3.0.4)
     regexp_parser (1.8.2)
