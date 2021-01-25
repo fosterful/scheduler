@@ -206,7 +206,7 @@ GEM
       railties (>= 5.0, < 6.1)
       responders (>= 2, < 4)
     jaro_winkler (1.5.4)
-    jbuilder (2.10.1)
+    jbuilder (2.11.1)
       activesupport (>= 5.0.0)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
