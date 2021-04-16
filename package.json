@@ -46,6 +46,7 @@
     "stimulus": "^1.1.1",
     "turbolinks": "^5.0.3",
     "webpack": "^4.41.2",
+    "webpack-cli": "^4.6.0",
     "what-input": "^5.2.6"
   },
   "devDependencies": {
@@ -54,7 +55,6 @@
     "eslint": "^6.6.0",
     "eslint-config-hint": "^0.0.4",
     "jest": "^24.9.0",
-    "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
   }
 }
