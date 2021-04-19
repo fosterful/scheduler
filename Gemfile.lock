@@ -198,7 +198,7 @@ GEM
       rubocop-performance (>= 1.3.0)
       rubocop-rails (>= 2.0.0)
       rubocop-rspec (>= 1.33.0)
-    honeybadger (4.7.2)
+    honeybadger (4.8.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
