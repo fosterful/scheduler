@@ -331,7 +331,7 @@ GEM
       railties (>= 3.2)
       tilt
     redis (4.2.5)
-    redis-namespace (1.8.0)
+    redis-namespace (1.8.1)
       redis (>= 3.0.4)
     regexp_parser (1.8.2)
     responders (3.0.1)
