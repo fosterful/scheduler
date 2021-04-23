@@ -23,11 +23,11 @@ module Services
       end
 
       def phone_numbers
-        recipients.select { |r| r.receive_sms_notifications? }.map(&:phone)
+        recipients.select(&:receive_sms_notifications?).map(&:phone)
       end
 
       def email_addresses
-        recipients.select { |r| r.receive_email_notifications? }.map(&:email)
+        recipients.select(&:receive_email_notifications?).map(&:email)
       end
     end
   end

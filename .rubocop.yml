@@ -16,6 +16,7 @@ AllCops:
     - 'spec/**/*'
     - 'vendor/**/*'
     - '**/*.haml'
+    - 'config.ru'
 
 Metrics/BlockLength:
   Exclude:

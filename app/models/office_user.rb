@@ -3,7 +3,7 @@
 class OfficeUser < ApplicationRecord
   belongs_to :office
   belongs_to :user
-  scope :notifiable, -> {
+  scope :notifiable, lambda {
     joins(:user).where(send_notifications: true).merge(User.notifiable)
   }
 end

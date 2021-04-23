@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register User do
+ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
 
   config.sort_order = 'last_name_asc'
 
@@ -12,9 +12,11 @@ ActiveAdmin.register User do
 
   form partial: 'form'
 
-  %w( deactivate activate ).each do |activation_type|
+  %w(deactivate activate).each do |activation_type|
     member_action activation_type.to_sym, method: :post do
-      flash[:alert] = 'There was an issue updating this user.' unless resource.update(deactivated: !resource.deactivated)
+      unless resource.update(deactivated: !resource.deactivated)
+        flash[:alert] = 'There was an issue updating this user.'
+      end
       redirect_to admin_users_path
     end
   end
@@ -38,7 +40,9 @@ ActiveAdmin.register User do
 
   show do
     attributes_table do
-      rows :first_name, :last_name, :email, :role, :time_zone, :race, :first_language, :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by, :medical_limitations
+      rows  :first_name, :last_name, :email, :role, :time_zone, :race, :first_language,
+            :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by,
+            :medical_limitations
       row :medical_limitations_desc do
         simple_format user.medical_limitations_desc
       end
