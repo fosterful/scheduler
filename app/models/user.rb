@@ -40,7 +40,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :announcements,
            dependent:   :restrict_with_error,
-           foreign_key: 'author_id'
+           foreign_key: 'author_id',
+           inverse_of:  :author
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
   has_many :served_needs, -> { distinct },
@@ -220,6 +221,18 @@ class User < ApplicationRecord
     end
   end
 
+  def self.filter_by_office_users(current_user, use_volunteerable_scope)
+    if current_user.admin?
+      use_volunteerable_scope ? volunteerable : all
+    elsif current_user.coordinator? || current_user.social_worker?
+      (use_volunteerable_scope ? volunteerable : User).where(
+        id: current_user.offices.map(&:users).flatten.map(&:id)
+      )
+    else
+      raise "#{current_user} does not have the proper permissions"
+    end
+  end
+
   private
 
   def require_volunteer_profile_attributes?
@@ -230,15 +243,5 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
-  end
-
-  def self.filter_by_office_users(current_user, use_volunteerable_scope)
-    if current_user.admin?
-      use_volunteerable_scope ? volunteerable : all
-    elsif current_user.coordinator? || current_user.social_worker?
-      (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
-    else
-      raise "#{current_user} does not have the proper permissions"
-    end
   end
 end

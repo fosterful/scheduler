@@ -28,7 +28,8 @@ class Office < ApplicationRecord
     if user.admin?
       joins(:needs).merge(Need.has_claimed_shifts)
     elsif user.coordinator? || user.social_worker?
-      joins(:office_users, :needs).where(office_users: { user: user }).merge(Need.has_claimed_shifts)
+      joins(:office_users, :needs).where(office_users: { user: user })
+      .merge(Need.has_claimed_shifts)
     else
       raise 'You do not have the proper permissions'
     end
@@ -104,8 +105,6 @@ class Office < ApplicationRecord
   def notifiable_users
     users.notifiable
   end
-
-  private
 
   def self.scope_by_office_users_if_coordinator(scope, user)
     if user.admin?

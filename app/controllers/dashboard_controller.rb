@@ -17,11 +17,12 @@ class DashboardController < ApplicationController
   def users
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
-    @data = if current_user.admin?
-              fetch_office_users_data(Office.all)
-            else
-              fetch_office_users_data(current_user.offices)
-    end
+    @data =
+      if current_user.admin?
+        fetch_office_users_data(Office.all)
+      else
+        fetch_office_users_data(current_user.offices)
+      end
   end
 
   def reports
@@ -33,12 +34,7 @@ class DashboardController < ApplicationController
 
     return redirect_to dashboard_download_report_path unless sensitive_params_are_safe
 
-    @headers = params[:headers]
-    @data    = if params[:state]
-                 params[:model].constantize.send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
-               else
-                 params[:model].constantize.send(params[:data_method], current_user, params[:start_date], params[:end_date])
-    end
+    set_download_report_variables
 
     respond_to do |format|
       format.csv do
@@ -55,6 +51,21 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def set_download_report_variables
+    @headers = params[:headers]
+    @data =
+      if params[:state]
+        params[:model].constantize.send(
+          params[:data_method], current_user, params[:state], params[:start_date],
+          params[:end_date]
+        )
+      else
+        params[:model].constantize.send(
+          params[:data_method], current_user, params[:start_date], params[:end_date]
+        )
+      end
+  end
 
   def fetch_office_users_data(offices)
     offices.each_with_object({}) do |office, hash|
