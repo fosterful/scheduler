@@ -140,3 +140,20 @@
               = link_to dashboard_download_report_url(headers: ['id', 'First Name', 'Last Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
                 %i.fas.fa-file-download{style: 'margin-right: 3px;' }
                 Download
+
+  .cell.medium-3
+    %h2 Donor Report
+
+    .grid-x.grid-padding-left
+      .cell
+        .card
+          .card-section
+            %h5
+              %strong Donor Report
+            %p lorem ipsum
+            %br
+            %br
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Office Name or State', 'Percent Satisfied'], data_method: DashboardController::NEEDS_SATISFIED_BY_OFFICE.underscore, filename: DashboardController::NEEDS_SATISFIED_BY_OFFICE, model: 'Office', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download

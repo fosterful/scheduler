@@ -101,6 +101,22 @@ class Office < ApplicationRecord
       .count('users.id')
   end
 
+  def self.needs_satisfied_by_office(current_user, start_at, end_at)
+    offices = joins(:needs)
+      .includes(:address, :needs)
+      .then { |scope| scope_by_office_users_if_coordinator(scope, current_user) }
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
+
+    [
+      ["By Office"],
+      percent_satisfied_by_office(offices),
+      ["By State"],
+      percent_satisfied_by_state(offices),
+      ["Total"],
+      percent_satisfied_total(offices)
+    ].flatten(1)
+  end
+
   def notifiable_users
     users.notifiable
   end
@@ -115,5 +131,29 @@ class Office < ApplicationRecord
     else
       raise 'You do not have the proper permissions'
     end
+  end
+
+  def self.percent_satisfied_by_office(offices)
+    offices.map do |office|
+      [office.name, needs_satisfied_percent(office.needs)]
+    end
+  end
+
+  def self.percent_satisfied_by_state(offices)
+    offices.group_by { |o| o.address.state }.map do |state, offices_by_state|
+      ar_collection_needs = Need.where(office_id: offices_by_state.pluck(:id))
+
+      [state, needs_satisfied_percent(ar_collection_needs)]
+    end
+  end
+
+  def self.percent_satisfied_total(offices)
+    ar_collection_needs = Need.where(office_id: offices.pluck(:id))
+
+    [["All Offices", needs_satisfied_percent(ar_collection_needs)]]
+  end
+
+  def self.needs_satisfied_percent(needs)
+    "#{(needs.joins(:shifts).uniq.count.fdiv(needs.count) * 100).round}%"
   end
 end

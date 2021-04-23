@@ -12,6 +12,7 @@ FactoryBot.define do
     end
 
     factory :or_office do
+      name { "Port Kent Office" }
       association :address, factory: %i(address or), strategy: :build
     end
 
