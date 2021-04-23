@@ -5,8 +5,8 @@ services:
     build:
       context: ./docker/ruby
       args:
-        - RUBY_VERSION=2.6.5
-        - NODE_VERSION=12
+        - RUBY_VERSION=2.7.3
+        - NODE_VERSION=14
         - INSTALL_PG_CLIENT=true
         - UID=${UID:-1000}
         - GID=${GID:-1000}
@@ -40,8 +40,8 @@ services:
     build:
       context: ./docker/ruby
       args:
-        - RUBY_VERSION=2.6.5
-        - NODE_VERSION=12
+        - RUBY_VERSION=2.7.3
+        - NODE_VERSION=14
         - INSTALL_PG_CLIENT=true
         - UID=${UID:-1000}
         - GID=${GID:-1000}
@@ -67,8 +67,8 @@ services:
     build:
       context: ./docker/ruby
       args:
-        - RUBY_VERSION=2.6.5
-        - NODE_VERSION=12
+        - RUBY_VERSION=2.7.3
+        - NODE_VERSION=14
         - INSTALL_PG_CLIENT=true
         - UID=${UID:-1000}
         - GID=${GID:-1000}

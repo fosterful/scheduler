@@ -1,29 +1,6 @@
-GIT
-  remote: https://github.com/mbj/mutant.git
-  revision: 90d103dc323eded68a7e80439def069f18b5e990
-  ref: 90d103dc323eded68a7e80439def069f18b5e990
-  specs:
-    mutant (0.8.25)
-      abstract_type (~> 0.0.7)
-      adamantium (~> 0.2.0)
-      anima (~> 0.3.1)
-      ast (~> 2.2)
-      concord (~> 0.1.5)
-      diff-lcs (~> 1.3)
-      equalizer (~> 0.0.9)
-      ice_nine (~> 0.11.1)
-      memoizable (~> 0.4.2)
-      parser (~> 2.6.0)
-      procto (~> 0.0.2)
-      unparser (~> 0.4.3)
-    mutant-rspec (0.8.25)
-      mutant (~> 0.8.25)
-      rspec-core (>= 3.8.0, < 4.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    abstract_type (0.0.7)
     actioncable (6.1.3.1)
       actionpack (= 6.1.3.1)
       activesupport (= 6.1.3.1)
@@ -97,10 +74,6 @@ GEM
       memoizable (~> 0.4.0)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    anima (0.3.1)
-      abstract_type (~> 0.0.7)
-      adamantium (~> 0.2)
-      equalizer (~> 0.0.11)
     arbre (1.4.0)
       activesupport (>= 3.0.0, < 6.2)
       ruby2_keywords (>= 0.0.2, < 1.0)
@@ -442,14 +415,6 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.6.1)
-    unparser (0.4.5)
-      abstract_type (~> 0.0.7)
-      adamantium (~> 0.2.0)
-      concord (~> 0.1.5)
-      diff-lcs (~> 1.3)
-      equalizer (~> 0.0.9)
-      parser (~> 2.6.3)
-      procto (~> 0.0.2)
     vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -497,8 +462,6 @@ DEPENDENCIES
   jbuilder
   listen
   mainstreet
-  mutant!
-  mutant-rspec!
   pg
   procto
   pry-byebug
@@ -535,7 +498,7 @@ DEPENDENCIES
   webpacker
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.7.3p183
 
 BUNDLED WITH
    2.2.16
