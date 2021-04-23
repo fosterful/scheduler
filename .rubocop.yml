@@ -3,7 +3,7 @@ inherit_gem:
     - default.yml
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7.3
   TargetRailsVersion: 5.2
   DisplayCopNames: true
   Exclude:
