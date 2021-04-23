@@ -12,15 +12,15 @@ class DashboardController < ApplicationController
   VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
   VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
 
-  SAFE_MODELS = ['Office', 'User']
+  SAFE_MODELS = %w(Office User).freeze
 
   def users
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
     @data = if current_user.admin?
-      fetch_office_users_data(Office.all)
-    else
-      fetch_office_users_data(current_user.offices)
+              fetch_office_users_data(Office.all)
+            else
+              fetch_office_users_data(current_user.offices)
     end
   end
 
@@ -35,9 +35,9 @@ class DashboardController < ApplicationController
 
     @headers = params[:headers]
     @data    = if params[:state]
-      params[:model].constantize.send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
-    else
-      params[:model].constantize.send(params[:data_method], current_user, params[:start_date], params[:end_date])
+                 params[:model].constantize.send(params[:data_method], current_user, params[:state], params[:start_date], params[:end_date])
+               else
+                 params[:model].constantize.send(params[:data_method], current_user, params[:start_date], params[:end_date])
     end
 
     respond_to do |format|
@@ -64,18 +64,18 @@ class DashboardController < ApplicationController
 
   def sensitive_params_are_safe
     params[:model].in?(SAFE_MODELS) &&
-    params[:data_method].in?([
-      CHILDREN_BY_COUNTY,
-      CHILDREN_BY_DEMO,
-      CHILDREN_BY_OFFICE,
-      CHILDREN_BY_STATE,
-      HOURS_BY_COUNTY,
-      HOURS_BY_OFFICE,
-      HOURS_BY_STATE,
-      HOURS_BY_USER,
-      VOLUNTEERS_BY_LANGUAGE,
-      VOLUNTEERS_BY_RACE
-    ].map(&:underscore))
+      params[:data_method].in?([
+        CHILDREN_BY_COUNTY,
+        CHILDREN_BY_DEMO,
+        CHILDREN_BY_OFFICE,
+        CHILDREN_BY_STATE,
+        HOURS_BY_COUNTY,
+        HOURS_BY_OFFICE,
+        HOURS_BY_STATE,
+        HOURS_BY_USER,
+        VOLUNTEERS_BY_LANGUAGE,
+        VOLUNTEERS_BY_RACE
+      ].map(&:underscore))
   end
 
   def content_disposition(report_name)

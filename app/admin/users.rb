@@ -12,9 +12,11 @@ ActiveAdmin.register User do
 
   form partial: 'form'
 
-  %w( deactivate activate ).each do |activation_type|
+  %w(deactivate activate).each do |activation_type|
     member_action activation_type.to_sym, method: :post do
-      flash[:alert] = 'There was an issue updating this user.' unless resource.update(deactivated: !resource.deactivated)
+      unless resource.update(deactivated: !resource.deactivated)
+        flash[:alert] = 'There was an issue updating this user.'
+      end
       redirect_to admin_users_path
     end
   end

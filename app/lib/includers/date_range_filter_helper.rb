@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DateRangeFilterHelper
   def parse_start_date(date)
     (date ? Date.parse(date) : DateTime.new(2000, 1, 1)).beginning_of_day

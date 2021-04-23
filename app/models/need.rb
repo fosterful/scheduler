@@ -88,9 +88,7 @@ class Need < ApplicationRecord
   # This forces the user to select an appropriate time.
   def intentional_start_at
     return if start_at.blank?
-    
-    if start_at == start_at.midnight
-      errors.add(:start_at, 'must not be midnight')
-    end
+
+    errors.add(:start_at, 'must not be midnight') if start_at == start_at.midnight
   end
 end

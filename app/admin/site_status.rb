@@ -11,16 +11,16 @@ ActiveAdmin.register_page 'Site Status' do
 
     redis.set('need_creation_disabled_msg', params[:need_creation_disabled_msg])
 
-    redirect_to "/admin/site_status"
+    redirect_to '/admin/site_status'
   end
 
   content do
-    form action: "site_status/update_site_status", method: :post do |f|
+    form action: 'site_status/update_site_status', method: :post do |f|
       f.input name: :need_creation_disabled, id: :need_creation_disabled, type: :checkbox, checked: need_creation_disabled?
       f.label 'Need creation disabled', for: :need_creation_disabled
 
       f.label 'Message', for: :need_creation_disabled_msg, style: 'display: block;'
-      f.textarea redis.get('need_creation_disabled_msg'), name: :need_creation_disabled_msg, id: :need_creation_disabled_msg, :rows => 5, style: 'width: 400px;'
+      f.textarea redis.get('need_creation_disabled_msg'), name: :need_creation_disabled_msg, id: :need_creation_disabled_msg, rows: 5, style: 'width: 400px;'
 
       f.input :submit, type: :submit, style: 'display: block;'
     end

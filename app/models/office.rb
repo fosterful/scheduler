@@ -14,7 +14,7 @@ class Office < ApplicationRecord
 
   alias_attribute :to_s, :name
 
-  scope :with_claimed_shifts, -> (user) {
+  scope :with_claimed_shifts, lambda { |user|
     if user.admin?
       joins(needs: :shifts).merge(Shift.claimed)
     elsif user.coordinator? || user.social_worker?
@@ -24,7 +24,7 @@ class Office < ApplicationRecord
     end
   }
 
-  scope :with_claimed_needs, -> (user) {
+  scope :with_claimed_needs, lambda { |user|
     if user.admin?
       joins(:needs).merge(Need.has_claimed_shifts)
     elsif user.coordinator? || user.social_worker?
@@ -38,7 +38,7 @@ class Office < ApplicationRecord
 
   def self.total_volunteer_hours_by_office(current_user, start_at, end_at)
     with_claimed_shifts(current_user)
-      .then { |scope| filter_by_date_range(scope, start_at, end_at) } 
+      .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group(:id, :name)
       .sum('shifts.duration / 60.0')
   end
