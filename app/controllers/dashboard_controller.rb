@@ -44,11 +44,11 @@ class DashboardController < ApplicationController
       format.csv do
         headers['Content-Disposition'] = content_disposition(params[:filename])
         headers['Content-Type']        = 'text/csv'
-        dynamic_template_path = "dashboard/#{params[:data_method]}_template.csv"
+        dynamic_template_path = "dashboard/#{params[:data_method]}_template"
         if template_exists?(dynamic_template_path)
-          render dynamic_template_path
+          render dynamic_template_path, format: :csv
         else
-          render 'report_template.csv'
+          render 'report_template', format: :csv
         end
       end
     end
