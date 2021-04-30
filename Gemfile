@@ -101,9 +101,16 @@ group :development do
 end
 
 group :test do
+  # Mutant license key is scoped to
+  # https://github.com/OfficeMomsandDads/scheduler
+  # and will not be useful elsewhere
+  source 'https://oss:FwSfIZqXnuDWxwB4bivZrsfvvVPP4iNW@gem.mutant.dev' do
+    gem 'mutant-license'
+  end
+
   gem 'capybara'
-  #gem 'mutant',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
-  #gem 'mutant-rspec',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
+  gem 'mutant'
+  gem 'mutant-rspec'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end
