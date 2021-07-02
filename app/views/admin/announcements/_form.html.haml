@@ -1,7 +1,7 @@
 .announcement_warning
   Message will be sent immediately. If no users are selected, it will be sent to ALL users with a verified phone!
 
-= semantic_form_for ['admin', resource] do |f|
+= semantic_form_for [:admin, resource] do |f|
   = f.semantic_errors 
   = f.inputs do
     = f.input :message
