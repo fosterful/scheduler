@@ -1,0 +1,31 @@
+---
+version: '3.0'
+
+services:
+  code:
+    build:
+      context: ./docker/ruby
+      args:
+        - RUBY_VERSION=2.7.3
+        - NODE_VERSION=14
+        - INSTALL_PG_CLIENT=true
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - .:/app
+      - gems:/gems
+    user: ruby
+    tty: true
+    stdin_open: true
+    depends_on:
+      - redis
+      - postgres
+    command: tail -f /dev/null
+    environment:
+        WEBPACKER_DEV_SERVER_HOST: webpacker
+        SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL}
+        SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
+        SELENIUM_REMOTE_HOST: selenium
+        BOOTSNAP_CACHE_DIR: /gems/bootsnap
+        REDIS_URL: redis://redis:6379/0
+        REDIS_HOST: redis
