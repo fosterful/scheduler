@@ -34,10 +34,6 @@ RUN groupadd -g $GID $USER && \
 
 ENV LANG C.UTF-8
 
-# Point Bundler at /gems. This will cause Bundler to re-use gems that have already been installed on the gems volume
-ENV BUNDLE_PATH /gems
-ENV BUNDLE_HOME /gems
-
 # Increase how many threads Bundler uses when installing. Optional!
 ENV BUNDLE_JOBS 20
 
@@ -67,9 +63,9 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
 ;fi
 
 RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
-RUN mkdir -p /app && chown $USER:$USER /app
+RUN mkdir -p /workspace/scheduler && chown $USER:$USER /workspace/scheduler
 
-WORKDIR /app
+WORKDIR /workspace/scheduler
 
 RUN mkdir -p node_modules && chown $USER:$USER node_modules
 RUN mkdir -p public/packs && chown $USER:$USER public/packs

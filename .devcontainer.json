@@ -1,9 +1,7 @@
-// See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "rails",
-	"workspaceFolder": "/app",
-	"extensions": [
-		"rebornix.Ruby"
-	]
+  "dockerComposeFile": ["docker-compose.yml", "docker-compose.codespaces.yml"],
+  "service": "code",
+  "workspaceFolder": "/workspace/scheduler",
+  "runServices": ["code", "postgres", "redis"],
+  "postCreateCommand": "bin/setup"
 }
