@@ -34,9 +34,6 @@ RUN groupadd -g $GID $USER && \
 
 ENV LANG C.UTF-8
 
-# Point Bundler at /gems. This will cause Bundler to re-use gems that have already been installed on the gems volume
-ENV BUNDLE_HOME /gems
-
 # Increase how many threads Bundler uses when installing. Optional!
 ENV BUNDLE_JOBS 20
 
