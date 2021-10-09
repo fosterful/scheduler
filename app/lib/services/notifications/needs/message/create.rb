@@ -10,12 +10,11 @@ module Services
           include Rails.application.routes.url_helpers
           include StartAtHelper
 
-          delegate :start_at,
+          delegate :start_at, :office,
                    to: :need
 
           def message
-            "A new need starting #{starting_day} at #{start_time} has opened "\
-              "up at your local office! #{url}".freeze
+            "Your help is needed at the child welfare office (in #{office.name}). Click here to respond yes/no: #{url}"
           end
 
           private
