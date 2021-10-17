@@ -63,9 +63,9 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
 ;fi
 
 RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
-RUN mkdir -p /workspace/scheduler && chown $USER:$USER /workspace/scheduler
+RUN mkdir -p /workspaces/scheduler && chown $USER:$USER /workspaces/scheduler
 
-WORKDIR /workspace/scheduler
+WORKDIR /workspaces/scheduler
 
 RUN mkdir -p node_modules && chown $USER:$USER node_modules
 RUN mkdir -p public/packs && chown $USER:$USER public/packs
