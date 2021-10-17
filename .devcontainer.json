@@ -3,5 +3,5 @@
   "service": "code",
   "workspaceFolder": "/workspaces/scheduler",
   "runServices": ["code", "postgres", "redis"],
-  "postCreateCommand": "bin/setup"
+  "postCreateCommand": "sudo chown -R $USER:$USER $(pwd) && bin/setup"
 }
