@@ -72,6 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def enforce_covid_19_vaccinated
+    return unless current_user.require_covid_19_vaccinated?
     return if current_user.covid_19_vaccinated? || devise_controller?
 
     redirect_to vaccination_status_path

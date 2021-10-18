@@ -235,6 +235,10 @@ class User < ApplicationRecord
     end
   end
 
+  def require_covid_19_vaccinated?
+    offices.joins(:address).where(addresses: { state: 'WA' }).exists?
+  end
+
   private
 
   def require_volunteer_profile_attributes?
@@ -248,6 +252,7 @@ class User < ApplicationRecord
   end
 
   def notify_not_covid_19_vaccinated
+    return unless require_covid_19_vaccinated?
     return if covid_19_vaccinated != false || covid_19_vaccinated_before_last_save == false
 
     UserMailer.with(user: self).user_not_covid_19_vaccinated.deliver_later

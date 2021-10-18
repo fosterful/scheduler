@@ -79,6 +79,9 @@ class Shift < ApplicationRecord
     # Verify that a user is being assigned to the shift
     return true unless user.present? && user_id_changed? && user_id_was.nil?
 
+    # Only validate if user requires covid 19 vaccination
+    return true unless user.require_covid_19_vaccinated?
+
     # If the user has been vaccinated, return.
     return true if user&.covid_19_vaccinated?
 

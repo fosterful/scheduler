@@ -207,7 +207,7 @@
             If Yes, please describe below:
             = f.text_area :conviction_desc
 
-- unless f.object.covid_19_vaccinated?
+- if f.object.require_covid_19_vaccinated? && !f.object.covid_19_vaccinated?
   .grid-x.grid-padding-x.grid-margin-y
     .cell.medium-12
       %fieldset.fieldset
