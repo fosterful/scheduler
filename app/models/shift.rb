@@ -15,6 +15,8 @@ class Shift < ApplicationRecord
   validates :duration,
             :start_at,
             presence: true
+  
+  validate :covid_19_status, on: :update
 
   delegate :age_range_ids,
            :age_ranges,
@@ -71,5 +73,15 @@ class Shift < ApplicationRecord
 
     need.unavailable_user_ids -= [user_id]
     need.save!
+  end
+
+  def covid_19_status
+    # Verify that a user is being assigned to the shift
+    return true unless user.present? && user_id_changed? && user_id_was.nil?
+
+    # If the user has been vaccinated, return.
+    return true if user&.covid_19_vaccinated?
+
+    errors.add(:base, "#{user} has not reported their COVID-19 vaccination status and cannot be assigned to this shift.") && false
   end
 end

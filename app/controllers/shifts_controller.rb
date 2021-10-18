@@ -51,7 +51,7 @@ class ShiftsController < ApplicationController
                          'Shift Released!'
                        end
     else
-      flash[:alert] = DEFAULT_ERROR
+      flash[:alert] = @shift.errors.full_messages.to_sentence
     end
 
     redirect_to params[:redirect_to] || @need
