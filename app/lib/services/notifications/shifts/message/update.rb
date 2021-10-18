@@ -46,8 +46,7 @@ module Services
           end
 
           def shift_assigned
-            "You have been assigned a shift #{starting_day} from "\
-              "#{duration_in_words}."
+            "Thank You! Please be ready to show proof of vaccination at the door. See you soon."
           end
 
           def shift_unassigned
