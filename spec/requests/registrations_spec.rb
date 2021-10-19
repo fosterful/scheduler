@@ -13,5 +13,17 @@ RSpec.describe 'User registrations', type: :request do
         }.from(nil).to(true)
       end
     end
+
+    context 'when updating other fields' do
+      it 'requires the password' do
+        expect { put user_registration_path, params: { user: { first_name: 'Bobby' } }}.not_to change {
+          user.reload.email
+        }
+
+        expect { put user_registration_path, params: { user: { current_password: 'foobar', first_name: 'Bobby' } }}.to change {
+          user.reload.first_name
+        }
+      end
+    end
   end
 end
