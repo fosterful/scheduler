@@ -207,19 +207,18 @@
             If Yes, please describe below:
             = f.text_area :conviction_desc
 
-- if f.object.require_covid_19_vaccinated? && !f.object.covid_19_vaccinated?
-  .grid-x.grid-padding-x.grid-margin-y
-    .cell.medium-12
-      %fieldset.fieldset
-        .help-text Required
-        = f.label :covid_19_vaccinated do
-          Have you been fully vaccinated against COVID-19?
-          = f.label :covid_19_vaccinated_true do
-            = f.radio_button :covid_19_vaccinated, true, required: true
-            Yes
-          = f.label :covid_19_vaccinated_false do
-            = f.radio_button :covid_19_vaccinated, false, required: true
-            No
+.grid-x.grid-padding-x.grid-margin-y
+  .cell.medium-12
+    %fieldset.fieldset
+      .help-text Required
+      = f.label :covid_19_vaccinated do
+        Have you been fully vaccinated against COVID-19?
+        = f.label :covid_19_vaccinated_true do
+          = f.radio_button :covid_19_vaccinated, true, required: true
+          Yes
+        = f.label :covid_19_vaccinated_false do
+          = f.radio_button :covid_19_vaccinated, false, required: true
+          No
         
 - if f.object.invitation_accepted?
   .grid-x.grid-padding-x.grid-margin-y
