@@ -6,7 +6,7 @@
         COVID-19 Vaccination status
       .card-section
         - if current_user.covid_19_vaccinated == false
-          %p You have reported that you are not vaccinated. State mandates require that you are fully vaccinated against COVID-19 before serving at the DCYF.
+          %p You have reported that you are not fully vaccinated. State mandates require that you are fully vaccinated against COVID-19 before serving in any DCYF building.
           %p= link_to "Update my vaccination status", edit_user_registration_path
         - else
           = form_for(current_user, as: :user, url: registration_path(:user), html: { method: :put }) do |f|
