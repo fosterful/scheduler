@@ -1,7 +1,7 @@
 {
   "dockerComposeFile": ["docker-compose.yml", "docker-compose.codespaces.yml"],
   "service": "code",
-  "workspaceFolder": "/workspace/scheduler",
+  "workspaceFolder": "/workspaces/scheduler",
   "runServices": ["code", "postgres", "redis"],
-  "postCreateCommand": "bin/setup"
+  "postCreateCommand": "sudo chown -R $USER:$USER $(pwd) && bin/setup"
 }
