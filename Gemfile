@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.7.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
@@ -101,9 +101,16 @@ group :development do
 end
 
 group :test do
+  # Mutant license key is scoped to
+  # https://github.com/OfficeMomsandDads/scheduler
+  # and will not be useful elsewhere
+  source 'https://oss:FwSfIZqXnuDWxwB4bivZrsfvvVPP4iNW@gem.mutant.dev' do
+    gem 'mutant-license'
+  end
+
   gem 'capybara'
-  gem 'mutant',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
-  gem 'mutant-rspec',  github: 'mbj/mutant', ref: '90d103dc323eded68a7e80439def069f18b5e990'
+  gem 'mutant'
+  gem 'mutant-rspec'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end

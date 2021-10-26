@@ -98,10 +98,10 @@ class NeedsController < ApplicationController
   private
 
   def check_need_creation_disabled?
-    if need_creation_disabled?
-      flash[:error] = redis.get('need_creation_disabled_msg').presence || 'Need creation disabled'
-      redirect_to root_path
-    end
+    return unless need_creation_disabled?
+
+    flash[:error] = redis.get('need_creation_disabled_msg').presence || 'Need creation disabled'
+    redirect_to root_path
   end
 
   def convert_to_minutes!

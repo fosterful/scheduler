@@ -1,8 +1,8 @@
-ARG RUBY_VERSION=2.6
+ARG RUBY_VERSION=2.7.3
 
 FROM ruby:$RUBY_VERSION
 
-ARG NODE_VERSION=12
+ARG NODE_VERSION=14
 
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 
@@ -34,10 +34,6 @@ RUN groupadd -g $GID $USER && \
 
 ENV LANG C.UTF-8
 
-# Point Bundler at /gems. This will cause Bundler to re-use gems that have already been installed on the gems volume
-ENV BUNDLE_PATH /gems
-ENV BUNDLE_HOME /gems
-
 # Increase how many threads Bundler uses when installing. Optional!
 ENV BUNDLE_JOBS 20
 
@@ -67,9 +63,9 @@ RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
 ;fi
 
 RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
-RUN mkdir -p /app && chown $USER:$USER /app
+RUN mkdir -p /workspaces/scheduler && chown $USER:$USER /workspaces/scheduler
 
-WORKDIR /app
+WORKDIR /workspaces/scheduler
 
 RUN mkdir -p node_modules && chown $USER:$USER node_modules
 RUN mkdir -p public/packs && chown $USER:$USER public/packs

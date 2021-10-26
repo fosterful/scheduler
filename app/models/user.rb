@@ -32,6 +32,7 @@ class User < ApplicationRecord
                    :conviction_desc,
                    :receive_email_notifications,
                    :receive_sms_notifications,
+                   :covid_19_vaccinated,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
@@ -40,7 +41,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :age_ranges
   has_many :announcements,
            dependent:   :restrict_with_error,
-           foreign_key: 'author_id'
+           foreign_key: 'author_id',
+           inverse_of:  :author
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
   has_many :served_needs, -> { distinct },
@@ -119,6 +121,7 @@ class User < ApplicationRecord
   }
 
   before_save :check_phone_verification
+  after_save :notify_not_covid_19_vaccinated
 
   def self.menu
     where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
@@ -220,6 +223,22 @@ class User < ApplicationRecord
     end
   end
 
+  def self.filter_by_office_users(current_user, use_volunteerable_scope)
+    if current_user.admin?
+      use_volunteerable_scope ? volunteerable : all
+    elsif current_user.coordinator? || current_user.social_worker?
+      (use_volunteerable_scope ? volunteerable : User).where(
+        id: current_user.offices.map(&:users).flatten.map(&:id)
+      )
+    else
+      raise "#{current_user} does not have the proper permissions"
+    end
+  end
+
+  def require_covid_19_vaccinated?
+    offices.joins(:address).where(addresses: { state: 'WA' }).exists?
+  end
+
   private
 
   def require_volunteer_profile_attributes?
@@ -232,13 +251,10 @@ class User < ApplicationRecord
     self.verified = false
   end
 
-  def self.filter_by_office_users(current_user, use_volunteerable_scope)
-    if current_user.admin?
-      use_volunteerable_scope ? volunteerable : all
-    elsif current_user.coordinator? || current_user.social_worker?
-      (use_volunteerable_scope ? volunteerable : User).where(id: current_user.offices.map(&:users).flatten.map(&:id))
-    else
-      raise "#{current_user} does not have the proper permissions"
-    end
+  def notify_not_covid_19_vaccinated
+    return unless require_covid_19_vaccinated?
+    return if covid_19_vaccinated != false || covid_19_vaccinated_before_last_save == false
+
+    UserMailer.with(user: self).user_not_covid_19_vaccinated.deliver_later
   end
 end

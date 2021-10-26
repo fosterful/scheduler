@@ -29,6 +29,7 @@ FactoryBot.define do
     age_range_ids { [1] }
 
     verified { true }
+    covid_19_vaccinated { true }
 
     after :build do |user|
       user.offices << build(:wa_office) unless user.offices.any?
