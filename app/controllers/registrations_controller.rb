@@ -1,4 +1,12 @@
 class RegistrationsController < Devise::RegistrationsController
+  def vaccination_status
+    if user_signed_in?
+      render :vaccination_status
+    else
+      redirect_to root_path
+    end
+  end
+
   protected
 
   def update_resource(resource, params)
@@ -8,4 +16,5 @@ class RegistrationsController < Devise::RegistrationsController
       super
     end
   end
+
 end
