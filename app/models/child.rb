@@ -1,5 +1,5 @@
 class Child < ApplicationRecord
-  belongs_to :need, counter_cache: :number_of_children
+  belongs_to :need
   enum sex: { male: 0, female: 1 }
 
   validates :age, 
