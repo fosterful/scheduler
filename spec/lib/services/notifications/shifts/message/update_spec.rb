@@ -53,8 +53,7 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
           result = object.message
 
-          expect(result).to eql('You have been assigned a shift Thu, May 23 '\
-                                  'from 11:15am to 01:15pm.')
+          expect(result).to eql('Thank You! Please be ready to show proof of vaccination at the door. See you soon.')
           expect(result).to be_frozen
         end
       end

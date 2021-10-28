@@ -3,19 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe Services::Notifications::Needs::Message::Create do
-  subject { described_class.new(need, notifier).call }
+  describe '#message' do
+    let(:object) { described_class.new(need) }
+    let(:need) { create(:need, start_at: starts) }
+    let(:starts) { Time.zone.now.tomorrow.change(hour: 12, minute: 0) }
+    let(:url) { "http://localhost:3000/needs/#{need.id}" }
 
-  let(:notifier) { double }
-  let(:need) do
-    create(:need, start_at: Date.parse('2019-05-23')).tap do |need|
-      need.update(shifts: Services::BuildNeedShifts.call(need))
+    it 'returns expected message for create event' do
+      result = object.message
+
+      expect(result)
+        .to eql("Your help is needed at the child welfare office (in #{need.office.name}). Click here to respond yes/no: #{url}")
     end
   end
-  let(:msg) do
-    'A new need starting Thu, May 23 at 12:00am has opened up at your local '\
-      "office! http://localhost:3000/needs/#{need.id}"
-  end
-  let(:volunteer) { build(:user, age_ranges: need.age_ranges) }
-  let(:social_worker) { build(:social_worker, age_ranges: need.age_ranges) }
-
 end

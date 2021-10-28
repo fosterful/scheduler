@@ -11,11 +11,11 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - .:/app
+      - .:/workspaces/scheduler
       - gems:/gems
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - rails_cache:/app/tmp/cache
+      - node_modules:/workspaces/scheduler/node_modules
+      - packs:/workspaces/scheduler/public/packs
+      - rails_cache:/workspaces/scheduler/tmp/cache
     tmpfs:
       - /tmp
     user: ruby
@@ -29,7 +29,7 @@ services:
       - "3000:3000"
       - "1080:1080"
       - "43447:43447"
-    entrypoint: /app/docker/rails-entrypoint
+    entrypoint: /workspaces/scheduler/docker/rails-entrypoint
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
@@ -46,11 +46,11 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - .:/app
+      - .:/workspaces/scheduler
       - gems:/gems
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - rails_cache:/app/tmp/cache
+      - node_modules:/workspaces/scheduler/node_modules
+      - packs:/workspaces/scheduler/public/packs
+      - rails_cache:/workspaces/scheduler/tmp/cache
     tmpfs:
       - /tmp
     user: ruby
@@ -62,7 +62,7 @@ services:
     command: ./bin/webpack-dev-server
     ports:
       - "3035:3035"
-    entrypoint: /app/docker/webpack-entrypoint
+    entrypoint: /workspaces/scheduler/docker/webpack-entrypoint
   sidekiq:
     build:
       context: ./docker/ruby
@@ -73,11 +73,11 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - .:/app
+      - .:/workspaces/scheduler
       - gems:/gems
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - rails_cache:/app/tmp/cache
+      - node_modules:/workspaces/scheduler/node_modules
+      - packs:/workspaces/scheduler/public/packs
+      - rails_cache:/workspaces/scheduler/tmp/cache
     tmpfs:
       - /tmp
     user: ruby
@@ -87,7 +87,7 @@ services:
       - postgres
       - redis
     command: bundle exec sidekiq
-    entrypoint: /app/docker/sidekiq-entrypoint
+    entrypoint: /workspaces/scheduler/docker/sidekiq-entrypoint
     environment:
       - BOOTSNAP_CACHE_DIR=/gems/bootsnap
   selenium:

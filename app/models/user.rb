@@ -32,6 +32,7 @@ class User < ApplicationRecord
                    :conviction_desc,
                    :receive_email_notifications,
                    :receive_sms_notifications,
+                   :covid_19_vaccinated,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
@@ -120,6 +121,7 @@ class User < ApplicationRecord
   }
 
   before_save :check_phone_verification
+  after_save :notify_not_covid_19_vaccinated
 
   def self.menu
     where(nil).map { |u| [u.to_s, u.id] }.sort_by(&:first)
@@ -233,6 +235,10 @@ class User < ApplicationRecord
     end
   end
 
+  def require_covid_19_vaccinated?
+    offices.joins(:address).where(addresses: { state: 'WA' }).exists?
+  end
+
   private
 
   def require_volunteer_profile_attributes?
@@ -243,5 +249,12 @@ class User < ApplicationRecord
     return unless phone_changed? && phone_was.present?
 
     self.verified = false
+  end
+
+  def notify_not_covid_19_vaccinated
+    return unless require_covid_19_vaccinated?
+    return if covid_19_vaccinated != false || covid_19_vaccinated_before_last_save == false
+
+    UserMailer.with(user: self).user_not_covid_19_vaccinated.deliver_later
   end
 end
