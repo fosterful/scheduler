@@ -261,8 +261,8 @@ GEM
       procto (~> 0.0.2)
       unparser (~> 0.5.2)
       variable (~> 0.0.1)
-    mutant-rspec (0.9.4)
-      mutant (~> 0.9.4)
+    mutant-rspec (0.9.14)
+      mutant (~> 0.9.14)
       rspec-core (>= 3.8.0, < 4.0.0)
     nio4r (2.5.7)
     nokogiri (1.11.7)
@@ -349,8 +349,8 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
-    rrule (0.4.2)
-      activesupport (>= 4.1)
+    rrule (0.4.3)
+      activesupport (>= 2.3, < 7)
     rspec-collection_matchers (1.2.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.10.1)
@@ -483,7 +483,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.4.2)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   ruby
