@@ -95,9 +95,9 @@ RSpec.describe Need, type: :model do
     describe '.total_children_served' do
       it 'returns the total number of children served' do
         expect(described_class.total_children_served)
-          .to eql(wa_need1.number_of_children +
-                    wa_need2.number_of_children +
-                    or_need.number_of_children)
+          .to eql(wa_need1.children.count +
+                    wa_need2.children.count +
+                    or_need.children.count)
       end
     end
   end
