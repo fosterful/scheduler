@@ -44,11 +44,7 @@ class Need < ApplicationRecord
   }
 
   def self.total_children_served
-    children = 0
-    self.has_claimed_shifts.all.each do |need|
-      children += need.children.count
-    end
-    children
+    has_claimed_shifts.joins(:children).count('children.id')
   end
 
   alias_attribute :duration, :expected_duration
