@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :need do
     association :office, strategy: :build
     user { association :user, offices: [@instance.office], role: 'social_worker', strategy: :build }
+    sequence(:id) { |number| number }
     start_at { Time.zone.now }
     expected_duration { 120 }
     preferred_language_id { 1 }
@@ -15,7 +16,8 @@ FactoryBot.define do
       need.age_ranges << build(:age_range)
 
       evaluator.children_count.times do
-        need.children << build(:child)
+        need.children << build(:child, need_id: need.id)
+        # byebug
       end
     end
 
