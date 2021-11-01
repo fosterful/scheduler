@@ -229,10 +229,20 @@ RSpec.describe Need, type: :model do
 
   describe 'validates :intentional_start_at' do
     before { need.start_at = need.start_at.midnight }
-
+    
     it 'adds a validation error when start_at is midnight' do
       expect(need.valid?).to be false
       expect(need.errors[:start_at]).to eq ['must not be midnight']
     end
   end
+  
+  describe 'validates :at_least_one_child' do
+    before { need.children.destroy_all }
+    
+    it 'adds a validation error when a need has no children' do
+      expect(need.valid?).to be false
+      expect(need.errors[:base]).to eq ['At least one child is required']
+    end
+  end
+
 end
