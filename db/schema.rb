@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_18_033835) do
+ActiveRecord::Schema.define(version: 2021_11_02_223259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,15 @@ ActiveRecord::Schema.define(version: 2021_10_18_033835) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shift_surveys", force: :cascade do |t|
+    t.text "notes"
+    t.integer "status"
+    t.bigint "shift_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shift_id"], name: "index_shift_surveys_on_shift_id"
+  end
+
   create_table "shifts", force: :cascade do |t|
     t.bigint "need_id", null: false
     t.bigint "user_id"
@@ -158,7 +167,9 @@ ActiveRecord::Schema.define(version: 2021_10_18_033835) do
     t.integer "duration", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shift_survey_id"
     t.index ["need_id"], name: "index_shifts_on_need_id"
+    t.index ["shift_survey_id"], name: "index_shifts_on_shift_survey_id"
     t.index ["user_id"], name: "index_shifts_on_user_id"
   end
 
@@ -228,6 +239,7 @@ ActiveRecord::Schema.define(version: 2021_10_18_033835) do
   add_foreign_key "needs", "languages", column: "preferred_language_id"
   add_foreign_key "needs", "offices"
   add_foreign_key "needs", "users"
+  add_foreign_key "shift_surveys", "shifts"
   add_foreign_key "shifts", "needs"
   add_foreign_key "shifts", "users"
 end
