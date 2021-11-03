@@ -15,6 +15,33 @@ ActiveAdmin.register ShiftSurvey do
     column :updated_at
     actions
   end
+
+  show do 
+    attributes_table do
+      row :id
+      row :date do |shift_survey|
+        shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
+      end
+      row :name do |shift_survey|
+        shift_survey.shift.user.name
+      end
+      row :need do |shift_survey|
+        shift_survey.shift.need.id
+      end
+      row :shifts do
+        table_for shift_survey.shift.user_need_shifts do
+          column :id
+          column 'Duration' do |s|
+            s.duration_in_words
+          end
+        end
+      end
+      row :status
+    
+      row :created_at
+      row :updated_at
+    end
+  end
   #:nocov:
 
   menu priority: 9

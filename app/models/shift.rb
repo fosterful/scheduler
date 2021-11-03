@@ -49,6 +49,10 @@ class Shift < ApplicationRecord
                      "Your shift on #{time} has been canceled.")
   end
 
+  def user_need_shifts
+    self.user.shifts.where(need_id: self.need_id)
+  end
+
   def users_to_notify
     # this differs from Need#users_to_notify because start_at and end_at differ
     notification_candidates

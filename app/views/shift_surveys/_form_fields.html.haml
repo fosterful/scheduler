@@ -1,0 +1,13 @@
+- if f.object.errors.any?
+  #error_explanation
+    %h5
+      = pluralize(f.object.errors.count, "error")
+      prohibited this task from being saved:
+    %ul
+      - f.object.errors.full_messages.each do |msg|
+        %li= msg
+.grid-x
+  .cell
+    = f.label :notes do
+      Notes
+      = f.text_area :notes, :rows => 6, :placeholder => 'Enter notes here'
