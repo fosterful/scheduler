@@ -5,6 +5,13 @@ ActiveAdmin.register ShiftSurvey do
   config.sort_order = 'id_asc'
 
   #:nocov:
+  form do |f|
+    f.semantic_errors
+    inputs 'Details' do
+      input :status, as: :select, collection: ['Incomplete', 'Complete']
+    end
+    f.actions
+  end
   index do
     id_column
     column "User" do |shift_survey|
@@ -19,6 +26,7 @@ ActiveAdmin.register ShiftSurvey do
   show do 
     attributes_table do
       row :id
+      row :notes
       row :date do |shift_survey|
         shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
       end
@@ -26,7 +34,10 @@ ActiveAdmin.register ShiftSurvey do
         shift_survey.shift.user.name
       end
       row :need do |shift_survey|
-        shift_survey.shift.need.id
+        table_for shift_survey.shift.need do
+          column :id
+          column :number_of_children
+        end
       end
       row :shifts do
         table_for shift_survey.shift.user_need_shifts do

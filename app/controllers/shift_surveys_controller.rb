@@ -28,7 +28,7 @@ class ShiftSurveysController < ApplicationController
 
   def create
     @shift_survey = ShiftSurvey.new(shift_survey_params)
-    @shift_survey.update(status: 0)
+    @shift_survey.update(status: "Complete")
     if @shift_survey.save
       redirect_to @shift_survey
     else
