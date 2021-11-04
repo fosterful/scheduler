@@ -1,27 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ShiftSurveyPolicy, type: :policy do
-  let(:user) { User.new }
 
-  subject { described_class }
+  subject { described_class.new(user, shift_survey) }
+  let(:user) { creator }
+  let(:creator) { build :user, role: 'social_worker' }
+  let(:record) { build :shift, user: creator }
+  let(:shift_survey) { build :shift_survey, shift: record }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
+  describe '#permitted_attributes' do
+    it 'permitted_attributes' do
+      result = subject.permitted_attributes
+
+      expect(result).to eql([:notes, :shift_id, :survey_id, :status])
+    end
   end
 
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
 end

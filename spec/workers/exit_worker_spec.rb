@@ -1,4 +1,4 @@
 require 'rails_helper'
-RSpec.describe ExitWorker, type: :worker do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe ShiftSurveyWorker do
+
 end

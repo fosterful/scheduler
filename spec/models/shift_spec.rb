@@ -10,6 +10,7 @@ RSpec.describe Shift, type: :model do
   end
 
   it 'has a valid factory' do
+    
     expect(shift.valid?).to be(true)
   end
 
@@ -65,6 +66,21 @@ RSpec.describe Shift, type: :model do
       result = shift.duration_in_words
 
       expect(result).to eql('12:34pm to 01:34pm')
+    end
+  end
+
+  describe '#user_need_shifts' do
+    it 'returns nil if no user associated with shift' do
+      result = shift.user_need_shifts
+      expect(result).to be_nil
+    end
+
+    it 'returns a list of all shifts for a user for a given need' do
+      shift = create(:shift,
+        start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'),
+        user:     create(:user))
+      result = shift.user_need_shifts
+      expect(result.first.id).to equal(shift.id)
     end
   end
 
