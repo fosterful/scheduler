@@ -15,7 +15,7 @@
     %br
     %strong= @shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
     %h3 Shifts
-    - @user_need_shifts.each do |shift|
+    - @shift_survey.shift.user_need_shifts.each do |shift|
       %ul
         %li= shift.start_at.strftime("%A, %B %d, %Y")
         %li= shift.duration_in_words

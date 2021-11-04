@@ -50,7 +50,9 @@ class Shift < ApplicationRecord
   end
 
   def user_need_shifts
-    self.user.shifts.where(need_id: self.need_id)
+    if user_id?
+      user.shifts.where(need_id: need_id)
+    end
   end
 
   def users_to_notify
