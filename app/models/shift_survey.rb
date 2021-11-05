@@ -1,6 +1,7 @@
 class ShiftSurvey < ApplicationRecord
   belongs_to :shift
   after_create :generate_token
+  serialize :ratings, Array
 
   def generate_token
     shift = self.shift

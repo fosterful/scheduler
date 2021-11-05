@@ -24,7 +24,7 @@ class ShiftSurveyWorker
       if !remaining_user_need_shifts.any? && Time.now > shift.end_at + 30.minutes && shift.shift_survey_id == nil #check for existing survey
         survey = ShiftSurvey.create!(shift_id: shift.id)
         user_need_shifts.update_all(shift_survey_id: survey.id)
-        message = "Test Message"
+        message = "Thanks for taking a shift at the child welfare office today! We’d love to know how you’re feeling about it, or if there’s anything that needs our attention. Please take this one-minute survey. #{ link_to "Shift Survey", survey }"
         send_message(shift.user.email, message)
       end
     end

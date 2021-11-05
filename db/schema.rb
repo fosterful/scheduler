@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_03_232639) do
+ActiveRecord::Schema.define(version: 2021_11_05_201003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(version: 2021_11_03_232639) do
     t.index ["user_id"], name: "index_blockouts_on_user_id"
   end
 
+  create_table "children", force: :cascade do |t|
+    t.bigint "need_id", null: false
+    t.integer "age", null: false
+    t.integer "sex", null: false
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["need_id"], name: "index_children_on_need_id"
+  end
+
   create_table "languages", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -112,7 +122,7 @@ ActiveRecord::Schema.define(version: 2021_11_03_232639) do
     t.bigint "preferred_language_id", null: false
     t.datetime "start_at", null: false
     t.integer "expected_duration", null: false
-    t.integer "number_of_children", null: false
+    t.integer "number_of_children"
     t.bigint "notified_user_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -158,6 +168,13 @@ ActiveRecord::Schema.define(version: 2021_11_03_232639) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "token"
+    t.text "supplies"
+    t.text "response_time"
+    t.text "hours_match"
+    t.text "ratings"
+    t.text "ratings_text"
+    t.text "comments"
+    t.text "questions"
     t.index ["shift_id"], name: "index_shift_surveys_on_shift_id"
   end
 
