@@ -46,23 +46,27 @@ class NeedsController < ApplicationController
       render(:new)
     end
   end
-
+  
   def edit
     @need = policy_scope(Need).find(params[:id])
-
+    
     authorize @need
   end
-
+  
   def update
     @need = policy_scope(Need).find(params[:id])
     @need.assign_attributes(permitted_attributes(@need))
-
+    
     authorize @need
-
-    if @need.save
-      Services::Notifications::Needs.new(@need, :update).notify
-      redirect_to(@need)
+    if params[:need][:children_attributes].select { |_, v| v[:_destroy] == ''}.keys.any?
+      if @need.save
+        Services::Notifications::Needs.new(@need, :update).notify
+        redirect_to(@need)
+      else
+        render(:edit)
+      end
     else
+      flash.now[:error] = 'A need must include at least one child.'
       render(:edit)
     end
   end
