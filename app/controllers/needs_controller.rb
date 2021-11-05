@@ -58,6 +58,7 @@ class NeedsController < ApplicationController
     @need.assign_attributes(permitted_attributes(@need))
     
     authorize @need
+    
     if params[:need][:children_attributes].select { |_, v| v[:_destroy] == ''}.keys.any?
       if @need.save
         Services::Notifications::Needs.new(@need, :update).notify

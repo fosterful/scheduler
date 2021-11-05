@@ -76,7 +76,7 @@ RSpec.describe NeedsController, type: :controller do
   describe '#update' do
     it 'PATCH update' do
       expect { 
-        patch :update, params: { id: need.id, need: { notes: 'Foobar' } }
+        patch :update, params: { id: need.id, need: { notes: 'Foobar', children_attributes: {"0" => {age: 5, sex: 'female', _destroy: ''}} } }
       }.to change { need.reload.notes }.to('Foobar')
       expect(response).to have_http_status(:found)
     end
