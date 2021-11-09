@@ -41,7 +41,7 @@ RSpec.describe 'Shift Surveys', type: :request do
       it 'changes status to "Complete"' do
         expect(shift_survey.status).to eq("Incomplete")
         put "/shift_surveys/#{shift_survey.token}",
-          params: { "shift_survey"=>{"notes"=>"Updated Notes"}} 
+          params: { "shift_survey"=>{"notes"=>"Updated Notes", "ratings"=>[]}} 
         expect(shift_survey.reload.notes).to eql("Updated Notes")
         expect(shift_survey.reload.status).to eql("Complete")
         expect(response).to render_template(:thanks)
@@ -53,7 +53,7 @@ RSpec.describe 'Shift Surveys', type: :request do
         shift_survey
         expect_any_instance_of(ShiftSurvey).to receive(:save).and_return(false)
         put "/shift_surveys/#{shift_survey.token}",
-          params: { "shift_survey"=>{"notes"=>"Updated Notes"}}
+          params: { "shift_survey"=>{"notes"=>"Updated Notes", "ratings"=>[]}}
         expect(flash[:notice]).to eql("Error")
         expect(response).to render_template(:show)
       end
