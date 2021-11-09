@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe ShiftSurveyPolicy, type: :policy do
+RSpec.describe ShiftSurveyPolicy,
+ type: :policy do
 
   subject { described_class.new(user, shift_survey) }
   let(:user) { creator }
@@ -12,7 +13,22 @@ RSpec.describe ShiftSurveyPolicy, type: :policy do
     it 'permitted_attributes' do
       result = subject.permitted_attributes
 
-      expect(result).to eql([:notes, :shift_id, :survey_id, :status, :supplies, :response_time, :hours_match, :ratings, :ratings_text, :comments, :questions])
+      expect(result).to eql([
+        :notes,
+        :shift_id,
+        :survey_id,
+        :status,
+        :supplies,
+        :response_time,
+        :hours_match,
+        :supplies_text,
+        :response_time_text,
+        :hours_match_text,
+        :ratings,
+        :ratings_text,
+        :comments,
+        :questions
+      ])
     end
   end
 

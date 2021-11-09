@@ -4,9 +4,6 @@ class ShiftSurvey < ApplicationRecord
   serialize :ratings, Array
 
   def generate_token
-    shift = self.shift
-    token_a = [shift.user_id, shift.need_id, shift.id]
-    token_string = token_a.join("-")
-    self.update(token: Base64.urlsafe_encode64(token_string))
+    self.update(token: SecureRandom.urlsafe_base64(16))
   end
 end

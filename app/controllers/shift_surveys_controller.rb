@@ -19,6 +19,12 @@ class ShiftSurveysController < ApplicationController
 
   def update
     @shift_survey = ShiftSurvey.find_by(token: params[:token])
+    ["supplies", "response_time", "hours_match"].each do |field|
+      if params[:shift_survey]["#{field}"] === "true"
+        params[:shift_survey]["#{field}_text"] = ""
+      end
+    end
+    params[:shift_survey][:ratings] = params[:shift_survey][:ratings].select {|feeling| feeling.present?}
     @shift_survey.assign_attributes(permitted_attributes(@shift_survey))
     if @shift_survey.save
       @shift_survey.update(status: "Complete")

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_05_201003) do
+ActiveRecord::Schema.define(version: 2021_11_08_213353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,13 +168,16 @@ ActiveRecord::Schema.define(version: 2021_11_05_201003) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "token"
-    t.text "supplies"
-    t.text "response_time"
-    t.text "hours_match"
+    t.boolean "supplies"
+    t.boolean "response_time"
+    t.boolean "hours_match"
     t.text "ratings"
     t.text "ratings_text"
     t.text "comments"
     t.text "questions"
+    t.text "supplies_text"
+    t.text "response_time_text"
+    t.text "hours_match_text"
     t.index ["shift_id"], name: "index_shift_surveys_on_shift_id"
   end
 
