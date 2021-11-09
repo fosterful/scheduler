@@ -38,6 +38,12 @@ RSpec.describe Need, type: :model do
     end
   end
 
+  describe "number_of_children" do
+    it 'returns the number of children associated' do
+      expect(need.number_of_children).to eql(1)  
+    end
+  end
+
   describe '.current' do # scope test
     it 'supports named scope current' do
       expect(described_class.limit(3).current).to all(be_a(described_class))

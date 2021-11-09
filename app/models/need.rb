@@ -49,6 +49,10 @@ class Need < ApplicationRecord
 
   alias_attribute :duration, :expected_duration
 
+  def number_of_children
+    children.count
+  end
+  
   def end_at
     start_at.advance(minutes: expected_duration)
   end
