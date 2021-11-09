@@ -58,6 +58,27 @@ RSpec.describe 'Shift Surveys', type: :request do
         expect(response).to render_template(:show)
       end
     end
+
+    context 'when data is entered in text boxes and yes is selected' do
+      it 'does not save the data in the text box' do
+        shift_survey
+        put "/shift_surveys/#{shift_survey.token}",
+          params: { "shift_survey"=>{"notes"=>"Updated Notes",
+           "ratings"=>[1],
+           "supplies" => "true",
+           "response_time" => "true",
+           "hours_match" => "true",
+           "supplies_text" => "text that should not be saved",
+           "response_time_text" => "text that should not be saved",
+           "hours_match_text" => "text that should not be saved" }}
+        expect(shift_survey.reload.hours_match).to eql(true)
+        expect(shift_survey.reload.hours_match_text).to eql("")
+        expect(shift_survey.reload.supplies).to eql(true)
+        expect(shift_survey.reload.supplies_text).to eql("")
+        expect(shift_survey.reload.response_time).to eql(true)
+        expect(shift_survey.reload.response_time_text).to eql("")
+      end
+    end
   end
 
 
