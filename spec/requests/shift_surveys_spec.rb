@@ -30,7 +30,7 @@ RSpec.describe 'Shift Surveys', type: :request do
     context "when token is invalid" do
       it 'renders invalid' do
         get "/shift_surveys/invalid-token"
-        expect(response).to render_template(:invalid)
+        expect(response).to redirect_to root_path
       end
     end
     
