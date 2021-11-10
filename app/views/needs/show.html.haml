@@ -111,7 +111,7 @@
           %li= user.name
       %p
         = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#pending-list' }
-        have not yet responded
+        = "#{"has".pluralize(@need.users_pending_response.size)} not yet responded"
       %ul#pending-list.hide
         - @need.users_pending_response.each do |user|
           %li= user.name
