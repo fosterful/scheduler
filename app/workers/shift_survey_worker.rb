@@ -2,6 +2,7 @@
 
 class ShiftSurveyWorker
   include Sidekiq::Worker
+  include Rails.application.routes.url_helpers
 
   def perform 
     send_shift_surveys
@@ -24,15 +25,15 @@ class ShiftSurveyWorker
       if !remaining_user_need_shifts.any? && Time.now > shift.end_at + 30.minutes && shift.shift_survey_id == nil #check for existing survey
         survey = ShiftSurvey.create!(shift_id: shift.id)
         user_need_shifts.update_all(shift_survey_id: survey.id)
-        message = "Thanks for taking a shift at the child welfare office today! We’d love to know how you’re feeling about it, or if there’s anything that needs our attention. Please take this one-minute survey. #{ link_to "Shift Survey", survey }"
-        send_message(shift.user.email, message)
+        message = "Thanks for taking a shift at the child welfare office today! We’d love to know how you’re feeling about it, or if there’s anything that needs our attention. Please take this one-minute survey. #{ shift_survey_path(survey) }"
+        send_message([shift.user.phone], message)
       end
     end
   end
   
-  def send_message(email_address, message)
+  def send_message(phone_numbers, message)
     #TODO: Determine and send preferred notification preference. 
-    Services::EmailMessageEnqueue.send_messages(email_address, message)
+    Services::TextMessageEnqueue.send_messages(phone_numbers, message)
   end
 
 end

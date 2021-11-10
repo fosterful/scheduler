@@ -6,8 +6,8 @@ class ShiftSurveysController < ApplicationController
   def show
     @shift_survey = ShiftSurvey.find_by(token: params[:token])
     if @shift_survey.nil?
-      flash[:notice] = 'Invalid token'
-      render 'invalid'
+      flash[:notice] = 'Invalid survey token'
+      redirect_to root_path
       return
     end
     

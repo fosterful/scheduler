@@ -14,4 +14,10 @@ RSpec.describe ShiftSurvey, type: :model do
     end
   end
 
+  describe 'to_param' do
+    it 'generates a link based on the token' do
+      expect(shift_survey.to_param).to eq(shift_survey.token)
+    end
+  end
+
 end
