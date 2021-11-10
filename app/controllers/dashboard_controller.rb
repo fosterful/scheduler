@@ -11,8 +11,9 @@ class DashboardController < ApplicationController
   HOURS_BY_USER          = 'total-volunteer-hours-by-user'
   VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
   VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
+  RESPONSES_BY_SHIFT     = 'survey-responses-by-shift'
 
-  SAFE_MODELS = %w(Office User).freeze
+  SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 
   def users
     redirect_to :root unless DashboardPolicy.new(current_user).users?
@@ -85,7 +86,8 @@ class DashboardController < ApplicationController
         HOURS_BY_STATE,
         HOURS_BY_USER,
         VOLUNTEERS_BY_LANGUAGE,
-        VOLUNTEERS_BY_RACE
+        VOLUNTEERS_BY_RACE,
+        RESPONSES_BY_SHIFT
       ].map(&:underscore))
   end
 

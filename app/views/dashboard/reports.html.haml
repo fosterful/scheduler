@@ -140,3 +140,22 @@
               = link_to dashboard_download_report_url(headers: ['id', 'First Name', 'Last Name', 'Total Volunteer Hours'], data_method: DashboardController::HOURS_BY_USER.underscore, filename: DashboardController::HOURS_BY_USER, model: 'User', format: :csv), target: '_blank', class: 'button get_report' do
                 %i.fas.fa-file-download{style: 'margin-right: 3px;' }
                 Download
+
+                .grid-x.margin-bottom-1
+  .cell
+    %h2 Survey
+
+    .grid-x.grid-padding-left
+      .cell.small-6
+        .card
+          .card-section
+            %h5
+              %strong Shift Survey Responses
+            %p This report contains the number of hours served at the child welfare office by volunteers per county.
+            .flex-container.flex-dir-row-reverse
+              = link_to dashboard_download_report_url(headers: ['Volunteer Name', 'Adequate Supplies'], data_method: DashboardController::RESPONSES_BY_SHIFT.underscore, filename: DashboardController::RESPONSES_BY_SHIFT, model: 'ShiftSurvey', format: :csv), target: '_blank', class: 'button get_report' do
+                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+                Download
+
+
+                -# ['Shifts', 'Volunteer Name', 'Adequate Supplies?', 'Supplies Comments', 'Social Worker Response Time?', 'Response Time Comments', 'Hours Assigned Matched Hours Volunteered?', 'Time Match Comments', 'Feelings after shift', 'Feedback', 'Questions']
