@@ -44,11 +44,16 @@
   .cell
     = f.label :age_range_ids do
       Age Range of Children
-      = f.select :age_range_ids, options_for_select(AgeRange.all.each.with_object({}) { |a, o| o["#{a.min}-#{a.max}"] = a.id }, @need.age_range_ids), { include_blank: true }, {class: 'multiple', multiple: true, name: 'need[age_range_ids][]'}
+      = f.select :age_range_ids, options_for_select(AgeRange.all.each.with_object({}) { |a, o| o["#{a.min}-#{a.max}"] = a.id }, @need.age_range_ids), { include_blank: true }, {class: 'multiple', multiple: true, name: 'need[age_range_ids][]'}     
+.grid-x
+  .cell
+    = f.label :hispanic_volunteer do
+      Preferred Ethnicity
+      = f.select :hispanic_volunteer , options_for_select([['Hispanic', 'true'], ['Non-Hispanic', 'false']]), {include_blank: true}, class: 'single'
 .grid-x
   .cell
     = f.label :race_id do
-      Preferred Culture
+      Preferred Race
       = f.select :race_id, options_for_select(race_options_for_select), { include_blank: true }, class: 'single'
 .grid-x
   .cell

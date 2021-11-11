@@ -40,7 +40,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
 
   show do
     attributes_table do
-      rows  :first_name, :last_name, :email, :role, :time_zone, :race, :first_language,
+      rows  :first_name, :last_name, :email, :role, :time_zone, :race, :hispanic, :first_language,
             :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by,
             :medical_limitations
       row :medical_limitations_desc do

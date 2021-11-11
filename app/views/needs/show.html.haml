@@ -52,6 +52,15 @@
         %strong= @need.preferred_language.name
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
+        %div Prefer Hispanic Volunteer
+      .cell.small-7.text-center
+        - if @need.hispanic_volunteer == true
+          %strong= 'Yes'
+        - else  
+          %strong= 'No'
+
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
         %div Notes
       .cell.small-7.text-center
         %strong= simple_format("#{@need.notes}")

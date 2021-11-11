@@ -33,6 +33,7 @@ class User < ApplicationRecord
                    :receive_email_notifications,
                    :receive_sms_notifications,
                    :covid_19_vaccinated,
+                   :hispanic,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
