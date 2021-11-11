@@ -66,15 +66,15 @@ class Need < ApplicationRecord
   end
 
   def users_to_notify
-    if !preferred_language_override.present?
+    if preferred_language_override.present?
       notification_candidates
         .exclude_blockouts(start_at, end_at)
-        .then { |users| scope_users_by_language(users) }
         .then { |users| scope_users_by_age_ranges(users) }
         .then { |users| users.to_a | [user] }
     else
       notification_candidates
         .exclude_blockouts(start_at, end_at)
+        .then { |users| scope_users_by_language(users) }
         .then { |users| scope_users_by_age_ranges(users) }
         .then { |users| users.to_a | [user] }
     end
