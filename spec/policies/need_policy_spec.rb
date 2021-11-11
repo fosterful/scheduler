@@ -160,6 +160,7 @@ RSpec.describe NeedPolicy do
                          :race_id,
                          :start_at,
                          :notes,
+                         :preferred_language_override,
                          social_worker_ids: [],
                          age_range_ids:     []])
     end
@@ -173,6 +174,7 @@ RSpec.describe NeedPolicy do
                                      :preferred_language_id,
                                      :race_id,
                                      :notes,
+                                     :preferred_language_override,
                                      social_worker_ids: [],
                                      age_range_ids:     []])
     end
