@@ -15,7 +15,7 @@ class ShiftSurvey < ApplicationRecord
   end
 
   def generate_token
-    self.update(token: SecureRandom.urlsafe_base64(16))
+    update(token: SecureRandom.urlsafe_base64(16))
   end
 
 end

@@ -3,7 +3,7 @@
 class ShiftSurveysController < ApplicationController
   skip_before_action :authenticate_user!
 
-  def show
+  def edit
     @shift_survey = ShiftSurvey.find_by(token: params[:token])
     if @shift_survey.nil?
       flash[:notice] = 'Invalid survey token'
@@ -31,7 +31,7 @@ class ShiftSurveysController < ApplicationController
       render 'thanks'
     else
       flash[:notice] = 'Error'
-      render 'show'
+      render 'edit'
     end
   end
 
