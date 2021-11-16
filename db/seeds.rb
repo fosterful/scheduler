@@ -60,13 +60,10 @@ end
    Vietnamese
    Other).each { |language| Language.find_or_create_by(name: language) }
 
-['American Indian/Alaska Native',
+['American Indian or Alaska Native',
  'Asian',
- 'Black/African American',
- 'Eastern European',
- 'Hawaiian/Pacific Islander',
- 'Hispanic',
- 'Indian',
+ 'Black or African American',
+ 'Native Hawaiian or Other Pacific Islander',
  'White/Caucasian',
  'Other'].each { |race| Race.find_or_create_by(name: race) }
 
