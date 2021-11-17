@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.datetime "updated_at", null: false
     t.bigint "race_id"
     t.text "notes"
+    t.boolean "preferred_language_override", default: false
     t.bigint "unavailable_user_ids", default: [], array: true
     t.boolean "preferred_language_override", default: false
     t.index ["office_id"], name: "index_needs_on_office_id"
