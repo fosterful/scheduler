@@ -19,7 +19,7 @@
         = f.radio_button :supplies, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :supplies, false , data: { action: 'click->shift-survey#handleRadioClick' }
+        = f.radio_button :supplies, false , data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
         = f.text_area :supplies_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr
@@ -30,7 +30,7 @@
         = f.radio_button :response_time, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :response_time, false, data: { action: 'click->shift-survey#handleRadioClick' }
+        = f.radio_button :response_time, false, data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
         = f.text_area :response_time_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr
@@ -41,7 +41,7 @@
         = f.radio_button :hours_match, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :hours_match, false, data: { action: 'click->shift-survey#handleRadioClick' }
+        = f.radio_button :hours_match, false, data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
         = f.text_area :hours_match_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr

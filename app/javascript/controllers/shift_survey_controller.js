@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ["noTextBox", "true"]
 
   initialize() {
+    if (this.trueTarget.checked == false && this.falseTarget.checked == false) return
     this.handleRadioClick()
   }
 
