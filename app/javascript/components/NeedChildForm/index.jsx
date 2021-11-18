@@ -67,13 +67,16 @@ class NeedChildForm extends React.Component {
     }
   }
 
-  addChild = index => {
+  addChild = () => {
     this.setState({ children: [...this.state.children, {}] })
   }
 
+  actualChildren = () => { 
+    return this.state.children.filter(e => !e._destroy)
+   }
+
   childPosition = child => {
-    const actualChildren = this.state.children.filter(e => !e._destroy)
-    return actualChildren.indexOf(child) + 1
+    return this.actualChildren().indexOf(child) + 1
   }
 
   render() {
@@ -87,7 +90,7 @@ class NeedChildForm extends React.Component {
                 onClick={this.destroyChild.bind(this, index)}
                 aria-label="Close alert" type="button"
                 style={{
-                  display: this.state.children.filter(e => !e._destroy).length === 1 ? 'none' : 'block'
+                  display: this.actualChildren().length === 1 ? 'none' : 'block'
                 }}>
                 <span aria-hidden="true">&times;</span>
               </button>

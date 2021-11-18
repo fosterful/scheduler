@@ -120,19 +120,7 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    context "when all children are destroyed" do
-      let(:params) do
-        {
-          need: attributes_for(:need).merge(office_id:     need.office_id,
-                                            age_range_ids: [AgeRange.first.id],
-                                            children_attributes: {"0" => {age: 5, sex: 'female', _destroy: 'true'}})
-        }
-      end
-      it 'gives an error' do
-          put need_path(need), params: params
-          expect(response).to render_template(:edit)    
-      end
-    end
+    
   end
 
   describe '#destroy' do

@@ -59,15 +59,10 @@ class NeedsController < ApplicationController
     
     authorize @need
     
-    if params[:need][:children_attributes].select { |_, v| v[:_destroy] == ''}.keys.any?
-      if @need.save
-        Services::Notifications::Needs.new(@need, :update).notify
-        redirect_to(@need)
-      else
-        render(:edit)
-      end
+    if @need.save
+      Services::Notifications::Needs.new(@need, :update).notify
+      redirect_to(@need)
     else
-      flash.now[:error] = 'A need must include at least one child.'
       render(:edit)
     end
   end
