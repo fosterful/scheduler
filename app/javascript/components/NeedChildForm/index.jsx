@@ -22,9 +22,9 @@ const SexInput = props => {
     <div className="field">
       <label>Sex
         <select name={`need[children_attributes][${props.index}][sex]`} defaultValue={props.child.sex}>
-            {props.childSexes.map((sex, index) =>
-              <option key={index} value={sex}>{ capitalize(sex) }</option>
-            )}
+          {props.childSexes.map((sex, index) =>
+            <option key={index} value={sex}>{capitalize(sex)}</option>
+          )}
         </select>
       </label>
     </div>
@@ -58,10 +58,13 @@ class NeedChildForm extends React.Component {
   }
 
   destroyChild = index => {
-    const child = Object.assign({}, this.state.children[index], {
-      _destroy: true
-    })
-    this.setState({ children: [...this.state.children.filter((e, i) => i != index), child] })
+    const destroyedChildren = this.state.children.filter(e => e._destroy).length
+    if (destroyedChildren < this.state.children.length - 1) {
+      const child = Object.assign({}, this.state.children[index], {
+        _destroy: true
+      })
+      this.setState({ children: [...this.state.children.filter((e, i) => i != index), child] })
+    }
   }
 
   addChild = index => {
@@ -69,7 +72,7 @@ class NeedChildForm extends React.Component {
   }
 
   childPosition = child => {
-    const actualChildren = this.state.children.filter( e => !e._destroy )
+    const actualChildren = this.state.children.filter(e => !e._destroy)
     return actualChildren.indexOf(child) + 1
   }
 
@@ -77,19 +80,24 @@ class NeedChildForm extends React.Component {
     return (
       <div>
         {this.state.children.map((child, index) =>
-          <div key={index} className="card" style={{width: '100%', display: child._destroy ? 'none' : 'block'}}>
+          <div key={index} className="card" style={{ width: '100%', display: child._destroy ? 'none' : 'block' }}>
             <div className="card-divider">
-                <h4>Child {this.childPosition(child)}</h4>
-                <button className="close-button" onClick={this.destroyChild.bind(this, index)} aria-label="Close alert" type="button">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+              <h4>Child {this.childPosition(child)}</h4>
+              <button className="close-button"
+                onClick={this.destroyChild.bind(this, index)}
+                aria-label="Close alert" type="button"
+                style={{
+                  display: this.state.children.filter(e => !e._destroy).length === 1 ? 'none' : 'block'
+                }}>
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div className="card-section">
-              <AgeInput {...{child, index}} />
-              <SexInput childSexes={this.props.childSexes} {...{child, index}} />
-              <NotesInput {...{child, index}} />
-              <IdInput {...{child, index}} />
-              <DestroyInput {...{child, index}} />
+              <AgeInput {...{ child, index }} />
+              <SexInput childSexes={this.props.childSexes} {...{ child, index }} />
+              <NotesInput {...{ child, index }} />
+              <IdInput {...{ child, index }} />
+              <DestroyInput {...{ child, index }} />
             </div>
           </div>
         )}
