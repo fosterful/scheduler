@@ -15,6 +15,7 @@ class User < ApplicationRecord
   VOLUNTEER     = 'volunteer'
 
   ROLES         = [ADMIN, COORDINATOR, SOCIAL_WORKER, VOLUNTEER].freeze
+  STATUSES      = %w[active inactive pending].freeze
   PROFILE_ATTRS = [:first_name,
                    :last_name,
                    :phone,
@@ -110,7 +111,7 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false) }
+  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false).where(status: 'Active') }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }

@@ -9,6 +9,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
   filter :email
   filter :role, as: :select, collection: -> { User::ROLES }
   filter :offices
+  filter :status, as: :select, collection: -> { User::STATUSES }
 
   form partial: 'form'
 
@@ -28,6 +29,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
     column :email
     column :offices
     column :role
+    column :status
     actions do |u|
       if u.deactivated
         link_to 'Activate', activate_admin_user_path(u.id), method: :post
@@ -40,7 +42,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
 
   show do
     attributes_table do
-      rows  :first_name, :last_name, :email, :role, :time_zone, :race, :first_language,
+      rows  :first_name, :last_name, :status, :email, :role, :time_zone, :race, :first_language,
             :second_language, :birth_date, :phone, :resident_since, :discovered_omd_by,
             :medical_limitations
       row :medical_limitations_desc do

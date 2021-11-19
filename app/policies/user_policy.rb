@@ -21,15 +21,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    permitted_attributes | %i(email role conviction conviction_desc)
+    permitted_attributes | %i(email role conviction conviction_desc status)
   end
 
   def permitted_attributes_for_account_update
-    [:email, *User::PROFILE_ATTRS]
+    [:status, :email, *User::PROFILE_ATTRS]
   end
 
   def permitted_attributes
-    [:email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
+    [:status, :email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
       attrs << :role if user.admin?
     end
   end

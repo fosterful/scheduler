@@ -7,7 +7,8 @@
 
     = f.input :email
     = f.input :offices, :input_html => {:class => 'multiple'}
-    = f.input :role, as: :select,     :collection => User::ROLES
+    = f.input :role, as: :select,       :collection => User::ROLES
+    = f.input :status, as: :select,     :collection => User::STATUSES
 
     - if resource.persisted?
       = f.input :race

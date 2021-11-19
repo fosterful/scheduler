@@ -85,6 +85,15 @@
 
 .grid-x.grid-padding-x.grid-margin-y
   .cell
+    = f.label :status do
+      Status
+      = f.select :status,
+               User::STATUSES,
+               required: true
+    .help-text Required
+
+.grid-x.grid-padding-x.grid-margin-y
+  .cell
     = f.label :time_zone do
       Time Zone
       = f.select :time_zone,

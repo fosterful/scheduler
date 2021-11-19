@@ -13,6 +13,7 @@ FactoryBot.define do
     password_confirmation { 'foobar' }
 
     role { 'volunteer' }
+    status { 'active' }
     confirmed_at { Time.zone.now }
     invitation_accepted_at { Time.zone.now }
 
