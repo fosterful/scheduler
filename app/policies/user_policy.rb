@@ -25,11 +25,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_account_update
-    [:status, :email, *User::PROFILE_ATTRS]
+    [:email, *User::PROFILE_ATTRS]
   end
 
   def permitted_attributes
-    [:status, :email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
+    [:email, { office_ids: [] }, *User::PROFILE_ATTRS].tap do |attrs|
       attrs << :role if user.admin?
     end
   end
