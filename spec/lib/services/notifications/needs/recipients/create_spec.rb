@@ -15,7 +15,7 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
   let(:inactive_volunteer) { build(:user, age_ranges: need.age_ranges, status: 'inactive') }
   let(:pending_volunteer) { build(:user, age_ranges: need.age_ranges, status: 'pending') }
   let(:social_worker) { build(:social_worker, age_ranges: need.age_ranges) }
-  
+
   describe '#recipients' do
     it 'does not include non-volunteers' do
       need.office.users << [social_worker, volunteer]
