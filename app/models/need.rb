@@ -74,7 +74,7 @@ class Need < ApplicationRecord
   def users_to_notify
     notification_candidates
       .exclude_blockouts(start_at, end_at)
-      .then { |users| scope_users_by_language(users) }
+      .then { |users| preferred_language_override.present? ? users : scope_users_by_language(users) }
       .then { |users| scope_users_by_age_ranges(users) }
       .then { |users| users.to_a | [user] }
   end
@@ -85,6 +85,11 @@ class Need < ApplicationRecord
 
   def users_pending_response
     User.notifiable.where(id: notified_user_ids - unavailable_user_ids - shifts.pluck(:user_id))
+  end
+
+  def users_language_pending_response
+    users_pending_response.where(first_language_id: preferred_language_id)
+    .or(users_pending_response.where(second_language_id: preferred_language_id))
   end
 
   private

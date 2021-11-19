@@ -44,6 +44,7 @@ class NeedPolicy < ApplicationPolicy
   def permitted_attributes
     [:race_id, :preferred_language_id, :notes, social_worker_ids: [],
      children_attributes: %i(id _destroy age sex notes)]
+
   end
 
   class Scope < Scope

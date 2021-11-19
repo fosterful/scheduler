@@ -26,4 +26,17 @@ RSpec.describe 'User registrations', type: :request do
       end
     end
   end
+  
+  describe '#vaccination_status' do
+    
+    it 'redirects to root if not logged in' do
+      sign_out user
+      expect(get vaccination_status_path).to redirect_to(root_path)
+    end
+    
+    it 'does not redirect to root if logged in' do
+      sign_in user
+      expect(get vaccination_status_path).not_to redirect_to(root_path)
+    end
+  end
 end
