@@ -22,7 +22,7 @@
         %strong= @need.office
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
-        %div Child welfare workers
+        %div Child Welfare Workers
       .cell.small-7.text-center
         %ul.social_workers
           - @need.social_workers.each do |social_worker|
@@ -50,6 +50,11 @@
         %div Preferred Language
       .cell.small-7.text-center
         %strong= @need.preferred_language.name
+    .grid-x.grid-padding-y.align-middle
+      .cell.small-5
+        %div Ignore Preferred Language for Notifications
+      .cell.small-7.text-center
+        %strong= @need.preferred_language_override
     .grid-x.grid-padding-y.align-middle
       .cell.small-5
         %div Notes
@@ -111,7 +116,13 @@
           %li= user.name
       %p
         = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#pending-list' }
-        have not yet responded
+        = "have not yet responded"
       %ul#pending-list.hide
         - @need.users_pending_response.each do |user|
+          %li= user.name
+      %p
+        = link_to pluralize(@need.users_language_pending_response.size, 'volunteer'), '#', id: 'toggle-language-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#language-list' }
+        who speaks the preferred language has not responded
+      %ul#language-list.hide
+        - @need.users_language_pending_response.each do |user|
           %li= user.name
