@@ -120,7 +120,6 @@ RSpec.describe 'Needs', type: :request do
       end
     end
 
-    
   end
 
   describe '#destroy' do
