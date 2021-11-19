@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 class AddNewNeedsPicker extends React.Component {
   state = {
     startDate: this.props.startAt ? new Date(this.props.startAt) : null,
-    disabled: !!this.props.startAt
+    disabled: !!this.props.exists
   }
 
 
