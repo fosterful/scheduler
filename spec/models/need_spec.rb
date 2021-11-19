@@ -112,7 +112,6 @@ RSpec.describe Need, type: :model do
 
     it 'can be set to English' do
       need.preferred_language = english
-
       result = need.preferred_language
 
       expect(result).to eql(english)
@@ -136,7 +135,6 @@ RSpec.describe Need, type: :model do
 
     it 'returns true if expired' do
       need.start_at = Time.zone.now.advance(hours: -3)
-
       result = need.expired?
 
       expect(result).to be true
@@ -169,9 +167,6 @@ RSpec.describe Need, type: :model do
       end
       
     end
-
-    
-
   end
 
   describe '#users_to_notify' do
@@ -203,14 +198,14 @@ RSpec.describe Need, type: :model do
         need.office.users << english_user
       end
 
-      context 'is false' do
+      context 'when it is false' do
         it 'returns users with preferred langauge' do
           need.update(preferred_language_override: false)
           expect(subject).not_to include(english_user)
         end
       end
 
-      context 'is true' do
+      context 'when it is true' do
         it 'returns all availalble users' do
           need.update(preferred_language_override: true)
           expect(subject).to include(english_user)
@@ -218,7 +213,6 @@ RSpec.describe Need, type: :model do
       end
       
     end
-
   end
 
   describe '.has_claimed_shifts' do # scope test
