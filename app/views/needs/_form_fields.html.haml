@@ -55,6 +55,10 @@
     = f.label :preferred_language_id do
       Preferred Language
       = f.select :preferred_language_id, language_options_for_select, { include_blank: false }, class: 'single'
+  .cell
+    = f.label :preferred_language_override do
+      = f.check_box :preferred_language_override, class: 'single'
+      Ignore preferred language when notifiying volunteers
 .grid-x
   .cell
     = f.label :notes do

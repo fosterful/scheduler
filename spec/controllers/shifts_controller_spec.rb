@@ -33,7 +33,7 @@ RSpec.describe ShiftsController, type: :controller do
   end
 
   describe '#update' do
-    it 'PATCH update' do
+    it 'PATCH update claims shift' do
       patch :update, params: { need_id: need.id,
                                id:      shift.id,
                                shift:   { user_id: other_user.id.to_param } }
@@ -41,6 +41,20 @@ RSpec.describe ShiftsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(shift.reload.user_id).to equal(other_user.id)
     end
+    
+    it 'PATCH update releases shift' do
+      patch :update, params: { need_id: need.id,
+      id:      shift.id,
+      shift:   { user_id: other_user.id.to_param } }
+      patch :update, params: { need_id: need.id,
+      id:      shift.id,
+      shift:   { user_id: nil }
+    }
+    
+    expect(flash[:notice]).to eq 'Shift Released!'
+    expect(shift.reload.user_id).to equal(nil)
+    end
+
   end
 
   describe '#destroy' do
