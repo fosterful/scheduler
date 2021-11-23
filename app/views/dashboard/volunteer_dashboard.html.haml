@@ -1,15 +1,19 @@
 %h1 Volunteer statistics for #{@current_user.name}
 -# = react_component("DashboardReportsDateRangePicker/index")
 
-%p
-  %strong First Need Served:
-  %span= current_user.served_needs.order('start_at').first.start_at.strftime("%m/%d/%Y")
-%p
-  %strong Last Need Served:
-  %span= current_user.served_needs.order('start_at').last.start_at.strftime("%m/%d/%Y")
-%p
-  %strong Total Hours Volunteered:
-  %span= User.total_volunteer_hours_by_user(@current_user, nil, nil).values.first.to_i
-%p
-  %strong Total Children Served:
-  %span= User.total_children_by_user(@current_user, nil, nil)
+- if current_user.served_needs.any?
+  %p
+    %strong First Need Served:
+    %span= current_user.served_needs.order('start_at').first.start_at.strftime("%m/%d/%Y")
+  %p
+    %strong Last Need Served:
+    %span= current_user.served_needs.order('start_at').last.start_at.strftime("%m/%d/%Y")
+  %p
+    %strong Total Hours Volunteered:
+    %span= User.total_volunteer_hours_by_user(@current_user, nil, nil).values.first.to_i
+  %p
+    %strong Total Children Served:
+    %span= User.total_children_by_user(@current_user, nil, nil)
+- else
+  %p
+    Complete at least one shift to see statistics here.
