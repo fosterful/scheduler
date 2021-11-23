@@ -146,13 +146,9 @@ class User < ApplicationRecord
   end
 
   def self.total_children_by_user(current_user, start_at, end_at)
-
-    foo = filter_by_office_users(current_user, false)
-      .joins(:need)
+    current_user.served_needs
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      .group(:need_id, :number_of_children)
-
-      binding.pry
+      .sum('number_of_children')
   end
 
   def self.exclude_blockouts(start_at, end_at)
