@@ -31,6 +31,7 @@ services:
       - "43447:43447"
     entrypoint: /workspaces/scheduler/docker/rails-entrypoint
     environment:
+      - WEB_CONCURRENCY=1
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
