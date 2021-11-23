@@ -60,7 +60,7 @@ then
   # 11: If the command to execute is 'rails server', then we must remove any
   # pid file present. Suddenly killing and removing app containers might leave
   # this file, and prevent rails from starting-up if present:
-  if [[ "$4" = "s" || "$4" = "server" ]]; then rm -rf $APP_TEMP_PATH/tmp/pids/server.pid; fi
+  if [[ "$4" = "s" || "$4" = "server" ]]; then rm -rf $APP_TEMP_PATH/pids/server.pid; fi
 fi
 
 # 12: Execute the given or default command:
