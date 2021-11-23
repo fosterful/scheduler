@@ -28,8 +28,8 @@ class ShiftSurveyWorker
   end
   
   def send_message(user, message)
-    user.receive_sms_notifications? ? Services::TextMessageEnqueue.send_messages([user.phone], message) : nil
-    user.receive_email_notifications? ? Services::EmailMessageEnqueue.send_messages([user.email], message) : nil
+    Services::TextMessageEnqueue.send_messages([user.phone], message) if user.receive_sms_notifications?
+    Services::EmailMessageEnqueue.send_messages([user.email], message) if user.receive_email_notifications?
   end
 
 end
