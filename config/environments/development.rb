@@ -88,4 +88,9 @@ Rails.application.configure do
   config.twilio_number = '+15005550006'.freeze
 
   config.hosts << ".githubpreview.dev"
+
+  if File.file?('/.dockerenv') == true
+    host_ip = `/sbin/ip route|awk '/default/ { print $3 }'`.strip
+    config.web_console.permissions = host_ip
+  end
 end
