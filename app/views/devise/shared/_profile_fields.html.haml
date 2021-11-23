@@ -82,7 +82,7 @@
                          required: true
     .help-text Required
 
-- if current_user.admin? || current_user.coordinator?
+- if current_user.present? && (current_user.admin? || current_user.coordinator?)
   .grid-x.grid-padding-x.grid-margin-y
     .cell
       = f.label :status do
