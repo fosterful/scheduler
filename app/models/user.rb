@@ -34,6 +34,7 @@ class User < ApplicationRecord
                    :receive_email_notifications,
                    :receive_sms_notifications,
                    :covid_19_vaccinated,
+                   :status,
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
@@ -111,7 +112,7 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false).where(status: 'Active') }
+  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false).where(status: 'active') }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }

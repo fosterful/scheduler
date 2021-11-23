@@ -6,6 +6,7 @@ RSpec.describe Need, type: :model do
   let(:need) { create(:need) }
   let(:shift) { create(:shift, need: need) }
   let(:english) { Language.find_by!(name: 'English') }
+  let(:french) { Language.create(name: 'French') }
   let(:new_user) { create(:user) }
 
   it 'has a valid factory' do
@@ -111,7 +112,6 @@ RSpec.describe Need, type: :model do
 
     it 'can be set to English' do
       need.preferred_language = english
-
       result = need.preferred_language
 
       expect(result).to eql(english)
@@ -135,7 +135,6 @@ RSpec.describe Need, type: :model do
 
     it 'returns true if expired' do
       need.start_at = Time.zone.now.advance(hours: -3)
-
       result = need.expired?
 
       expect(result).to be true
@@ -143,6 +142,7 @@ RSpec.describe Need, type: :model do
   end
 
   describe '#notification_candidates' do
+    
     subject { need.notification_candidates }
 
     context 'when user is not in office' do
@@ -151,24 +151,30 @@ RSpec.describe Need, type: :model do
 
     context 'when user is in office' do
       before { need.office.users << new_user }
-
+      
       it { is_expected.to eq([new_user]) }
-
+      
       context 'when user has already been notified' do
         before { need.update notified_user_ids: [new_user.id] }
-
+        
         it { is_expected.to eq([new_user]) }
       end
-
+      
       context 'when user has marked themselves unavailable' do
         before { need.update unavailable_user_ids: [new_user.id] }
-
+        
         it { is_expected.to be_empty }
       end
+      
     end
   end
 
   describe '#users_to_notify' do
+    let(:english_user) { create(:user, first_language: english, first_name: "English", age_ranges: need.age_ranges) }
+    let(:french_user) { create(:user, first_language: french, first_name: "French", age_ranges: need.age_ranges)}
+
+    subject { need.users_to_notify }
+    
     it 'returns only the need user if there are no shifts' do
       result = need.users_to_notify
 
@@ -183,6 +189,29 @@ RSpec.describe Need, type: :model do
       result = need.users_to_notify
 
       expect(result.to_a).to eq([new_user, need.user])
+    end
+    
+    context "preferred_language_override" do
+      before do
+        need.preferred_language_id = french.id
+        need.office.users << french_user
+        need.office.users << english_user
+      end
+
+      context 'when it is false' do
+        it 'returns users with preferred langauge' do
+          need.update(preferred_language_override: false)
+          expect(subject).not_to include(english_user)
+        end
+      end
+
+      context 'when it is true' do
+        it 'returns all availalble users' do
+          need.update(preferred_language_override: true)
+          expect(subject).to include(english_user)
+        end 
+      end
+      
     end
   end
 

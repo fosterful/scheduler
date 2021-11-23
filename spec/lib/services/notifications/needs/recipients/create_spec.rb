@@ -12,16 +12,28 @@ RSpec.describe Services::Notifications::Needs::Recipients::Create do
     end
   end
   let(:volunteer) { build(:user, age_ranges: need.age_ranges) }
+  let(:inactive_volunteer) { build(:user, age_ranges: need.age_ranges, status: 'inactive') }
+  let(:pending_volunteer) { build(:user, age_ranges: need.age_ranges, status: 'pending') }
   let(:social_worker) { build(:social_worker, age_ranges: need.age_ranges) }
 
   describe '#recipients' do
     it 'does not include non-volunteers' do
       need.office.users << [social_worker, volunteer]
-
+      
       result = subject
-
+      
       expect(result).to include(volunteer)
       expect(result).not_to include(social_worker)
+    end
+    
+    it 'only includes active users' do
+      need.office.users << [volunteer, pending_volunteer, inactive_volunteer]
+      
+      result = subject
+      
+      expect(result).not_to include(pending_volunteer)
+      expect(result).not_to include(inactive_volunteer)
+      expect(result).to include(volunteer)
     end
 
     context 'with multiple users' do
