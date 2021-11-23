@@ -147,6 +147,7 @@ class User < ApplicationRecord
 
   def self.total_children_by_user(current_user, start_at, end_at)
     current_user.served_needs
+      .where("needs.start_at < ?", Time.now)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .sum('number_of_children')
   end

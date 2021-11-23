@@ -2,12 +2,13 @@
 -# = react_component("DashboardReportsDateRangePicker/index")
 
 - if current_user.served_needs.any?
+  - served_needs = current_user.served_needs.where("needs.start_at < ?", Time.zone.now).order('start_at')
   %p
     %strong First Need Served:
-    %span= current_user.served_needs.order('start_at').first.start_at.strftime("%m/%d/%Y")
+    %span= served_needs.first.start_at.strftime("%m/%d/%Y")
   %p
     %strong Last Need Served:
-    %span= current_user.served_needs.order('start_at').last.start_at.strftime("%m/%d/%Y")
+    %span= served_needs.last.start_at.strftime("%m/%d/%Y")
   %p
     %strong Total Hours Volunteered:
     %span= User.total_volunteer_hours_by_user(@current_user, nil, nil).values.first.to_i
