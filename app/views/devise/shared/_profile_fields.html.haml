@@ -82,15 +82,15 @@
                          required: true
     .help-text Required
 
-
-.grid-x.grid-padding-x.grid-margin-y
-  .cell
-    = f.label :status do
-      Status
-      = f.select :status,
-               User::STATUSES,
-               required: true
-    .help-text Required
+- if current_user.admin? || current_user.coordinator?
+  .grid-x.grid-padding-x.grid-margin-y
+    .cell
+      = f.label :status do
+        Status
+        = f.select :status,
+                User::STATUSES,
+                required: true
+      .help-text Required
 
 .grid-x.grid-padding-x.grid-margin-y
   .cell

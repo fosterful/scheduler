@@ -8,6 +8,8 @@
         %th Email
         %th Role
         %th Invitation Status
+        %th Active Status
+        %th Edit
     %tbody
       - users.each do |user|
         %tr
@@ -15,3 +17,5 @@
           %td= user.email
           %td= user.role_display
           %td= user.invitation_accepted_at ? 'Accepted' : 'Not yet accepted'
+          %td= user.status.humanize
+          %td= link_to 'Edit', edit_user_registration_path(user)
