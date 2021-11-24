@@ -152,6 +152,26 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shift_surveys", force: :cascade do |t|
+    t.text "notes"
+    t.string "status", default: "Incomplete"
+    t.bigint "shift_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "token"
+    t.boolean "supplies"
+    t.boolean "response_time"
+    t.boolean "hours_match"
+    t.text "ratings"
+    t.text "ratings_text"
+    t.text "comments"
+    t.text "questions"
+    t.text "supplies_text"
+    t.text "response_time_text"
+    t.text "hours_match_text"
+    t.index ["shift_id"], name: "index_shift_surveys_on_shift_id"
+  end
+
   create_table "shifts", force: :cascade do |t|
     t.bigint "need_id", null: false
     t.bigint "user_id"
@@ -159,7 +179,9 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.integer "duration", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shift_survey_id"
     t.index ["need_id"], name: "index_shifts_on_need_id"
+    t.index ["shift_survey_id"], name: "index_shifts_on_shift_survey_id"
     t.index ["user_id"], name: "index_shifts_on_user_id"
   end
 
@@ -229,6 +251,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
   add_foreign_key "needs", "languages", column: "preferred_language_id"
   add_foreign_key "needs", "offices"
   add_foreign_key "needs", "users"
+  add_foreign_key "shift_surveys", "shifts"
   add_foreign_key "shifts", "needs"
   add_foreign_key "shifts", "users"
 end

@@ -1,0 +1,22 @@
+- content_for :page_header do
+  .header-text How was your shift?
+.grid-x.grid-padding-x
+  .cell.large-9
+    %h2 Shift Survey
+    = form_for(@shift_survey, url: {action: 'update'}, html: { method: :put }) do |f|
+      = render partial: 'form_fields', locals: { f: f, action: :edit }
+      .grid-x
+        .cell
+          .actions
+            = f.submit "Submit", class: 'button'
+  .cell.large-3
+    %h2 Info
+    %strong= @shift_survey.shift.user.name
+    %br
+    %strong= @shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
+    %h3 Shifts
+    - @shift_survey.shift.user_need_shifts.each do |shift|
+      %ul
+        %li= shift.start_at.strftime("%A, %B %d, %Y")
+        %li= shift.duration_in_words
+      %hr
