@@ -9,7 +9,7 @@ RSpec.describe 'Shift Surveys', type: :request do
   let(:volunteer) { create :user, role: 'volunteer', offices: [office] }
   let(:need) { create :need_with_assigned_shifts, user: user, office: office }
   let(:shift) { need.shifts.first }
-  let(:shift_survey) { create :shift_survey, shift: shift }
+  let(:shift_survey) { create :shift_survey, user: shift.user, need: need }
   
   describe '#edit' do
     context "when survey exists and is incomplete" do

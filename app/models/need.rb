@@ -16,6 +16,7 @@ class Need < ApplicationRecord
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
   has_many :children, dependent: :destroy
+  has_many :shift_surveys
 
   accepts_nested_attributes_for :children, allow_destroy: true
 

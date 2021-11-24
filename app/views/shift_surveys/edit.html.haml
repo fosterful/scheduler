@@ -10,13 +10,18 @@
           .actions
             = f.submit "Submit", class: 'button'
   .cell.large-3
-    %h2 Info
-    %strong= @shift_survey.shift.user.name
-    %br
-    %strong= @shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
+    %h2 Details
+    %ul
+      %li
+        %strong Volunteer:
+        = @shift_survey.user.name
+      %li
+        %strong Date:
+        = @shift_survey.need.start_at.strftime("%A, %B %d, %Y")
+      %li
+        %strong Children: 
+        = @shift_survey.need.number_of_children
     %h3 Shifts
-    - @shift_survey.shift.user_need_shifts.each do |shift|
-      %ul
-        %li= shift.start_at.strftime("%A, %B %d, %Y")
-        %li= shift.duration_in_words
-      %hr
+    %ul
+    - Need.find(@shift_survey.need_id).shifts.where(user_id: @shift_survey.user_id).each do |shift|
+      %li= shift.duration_in_words

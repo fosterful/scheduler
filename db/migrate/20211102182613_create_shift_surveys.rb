@@ -4,7 +4,8 @@ class CreateShiftSurveys < ActiveRecord::Migration[6.1]
       t.text :notes
       t.string :status, :default => "Incomplete"
       t.string :token
-      t.references :shift, null: false, foreign_key: true
+      t.references :need, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
       t.boolean :supplies
       t.text :supplies_text
       t.boolean :response_time
