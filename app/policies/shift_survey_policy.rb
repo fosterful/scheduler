@@ -2,7 +2,8 @@ class ShiftSurveyPolicy < ApplicationPolicy
   def permitted_attributes
     [
     :notes,
-    :shift_id,
+    :need_id,
+    :user_id,
     :survey_id,
     :status,
     :supplies,

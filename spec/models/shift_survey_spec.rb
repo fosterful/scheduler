@@ -21,12 +21,4 @@ RSpec.describe ShiftSurvey, type: :model do
     end
   end
 
-  describe 'survey_responses_by_shift' do
-    it 'returns a hash of responses by shift' do
-      ShiftSurvey.survey_responses_by_shift(user, Date.yesterday.to_s, Date.tomorrow.to_s).each do |shift, responses|
-        expect(responses.count).to eq(shift.survey_responses.count)
-      end
-    end
-  end
-
 end

@@ -6,7 +6,6 @@ class Shift < ApplicationRecord
   belongs_to :need, inverse_of: :shifts
   has_one :office, through: :need
   has_one :preferred_language, through: :need
-  has_one :shift_survey, dependent: :destroy
   belongs_to :user, optional: true
   before_destroy :notify_user_of_cancelation,
                  if: -> { user&.phone.present? }

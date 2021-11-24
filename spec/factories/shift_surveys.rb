@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :shift_survey do
-    association :shift, strategy: :build
+    association :user, strategy: :build
+    association :need, strategy: :build
     notes { 'Here are some shift notes' }
   end
 end

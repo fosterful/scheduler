@@ -15,6 +15,7 @@ class Need < ApplicationRecord
                           association_foreign_key: 'social_worker_id'
   has_many :shifts, dependent: :destroy
   has_many :users, through: :shifts
+  has_many :shift_surveys
 
   validates :age_ranges,
             :start_at,

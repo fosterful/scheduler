@@ -45,6 +45,7 @@ class User < ApplicationRecord
            inverse_of:  :author
   has_many :needs, dependent: :restrict_with_error
   has_many :shifts, dependent: :restrict_with_error
+  has_many :shift_surveys
   has_many :served_needs, -> { distinct },
            through:    :shifts,
            class_name: 'Need',

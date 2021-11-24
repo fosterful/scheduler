@@ -4,10 +4,10 @@ RSpec.describe ShiftSurveyPolicy,
  type: :policy do
 
   subject { described_class.new(user, shift_survey) }
-  let(:user) { creator }
   let(:creator) { build :user, role: 'social_worker' }
+  let(:user) { creator }
   let(:record) { build :shift, user: creator }
-  let(:shift_survey) { build :shift_survey, shift: record }
+  let(:shift_survey) { build :shift_survey, user: creator }
 
   describe '#permitted_attributes' do
     it 'permitted_attributes' do
@@ -15,7 +15,8 @@ RSpec.describe ShiftSurveyPolicy,
 
       expect(result).to eql([
       :notes,
-      :shift_id,
+      :need_id,
+      :user_id,
       :survey_id,
       :status,
       :supplies,

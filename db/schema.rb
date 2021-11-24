@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_172116) do
+ActiveRecord::Schema.define(version: 2021_11_02_182613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.bigint "preferred_language_id", null: false
     t.datetime "start_at", null: false
     t.integer "expected_duration", null: false
-    t.integer "number_of_children", null: false
+    t.integer "number_of_children"
     t.bigint "notified_user_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -156,7 +156,8 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.text "notes"
     t.string "status", default: "Incomplete"
     t.string "token"
-    t.bigint "shift_id", null: false
+    t.bigint "need_id", null: false
+    t.bigint "user_id", null: false
     t.boolean "supplies"
     t.text "supplies_text"
     t.boolean "response_time"
@@ -169,7 +170,8 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.text "questions"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["shift_id"], name: "index_shift_surveys_on_shift_id"
+    t.index ["need_id"], name: "index_shift_surveys_on_need_id"
+    t.index ["user_id"], name: "index_shift_surveys_on_user_id"
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -179,7 +181,9 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.integer "duration", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shift_survey_id"
     t.index ["need_id"], name: "index_shifts_on_need_id"
+    t.index ["shift_survey_id"], name: "index_shifts_on_shift_survey_id"
     t.index ["user_id"], name: "index_shifts_on_user_id"
   end
 
@@ -231,12 +235,13 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.boolean "receive_sms_notifications", default: true, null: false
     t.boolean "receive_email_notifications", default: false, null: false
     t.boolean "covid_19_vaccinated"
+    t.string "status", default: "Pending"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -249,7 +254,8 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
   add_foreign_key "needs", "languages", column: "preferred_language_id"
   add_foreign_key "needs", "offices"
   add_foreign_key "needs", "users"
-  add_foreign_key "shift_surveys", "shifts"
+  add_foreign_key "shift_surveys", "needs"
+  add_foreign_key "shift_surveys", "users"
   add_foreign_key "shifts", "needs"
   add_foreign_key "shifts", "users"
 end
