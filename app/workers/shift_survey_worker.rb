@@ -12,7 +12,7 @@ class ShiftSurveyWorker
  
   def send_shift_surveys
 
-    Need.where('start_at BETWEEN ? AND ? ', 1.day.ago, Time.now - 30.minutes).each do |need|
+    Need.where('start_at BETWEEN ? AND ? ', 1.day.ago, 30.minutes.ago).each do |need|
       need.shifts.pluck(:user_id).uniq.each do |user_id|
         user = User.find(user_id)
         remaining_shifts = need.shifts.where(user_id: user_id).where('start_at > ? ', Time.now - 30.minutes)
