@@ -3,7 +3,7 @@
 class ShiftSurveysController < ApplicationController
   skip_before_action :authenticate_user!
 
-  def show
+  def edit
     @shift_survey = ShiftSurvey.find_by(token: params[:token])
     if @shift_survey.nil?
       flash[:notice] = 'Invalid survey token'
@@ -19,11 +19,6 @@ class ShiftSurveysController < ApplicationController
 
   def update
     @shift_survey = ShiftSurvey.find_by(token: params[:token])
-    ["supplies", "response_time", "hours_match"].each do |field|
-      if params[:shift_survey]["#{field}"] === "true"
-        params[:shift_survey]["#{field}_text"] = ""
-      end
-    end
     params[:shift_survey][:ratings] = params[:shift_survey][:ratings].select {|feeling| feeling.present?}
     @shift_survey.assign_attributes(permitted_attributes(@shift_survey))
     if @shift_survey.save
@@ -31,7 +26,7 @@ class ShiftSurveysController < ApplicationController
       render 'thanks'
     else
       flash[:notice] = 'Error'
-      render 'show'
+      render 'edit'
     end
   end
 

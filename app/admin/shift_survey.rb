@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register ShiftSurvey do
+  before_filter do
+    ShiftSurvey.class_eval do
+      def to_param
+        id.to_s
+      end
+    end
+  end
 
   config.sort_order = 'id_asc'
 
@@ -58,7 +65,7 @@ ActiveAdmin.register ShiftSurvey do
         end
         table_for shift_survey do
           column "How are you feeling after your shift at the child welfare office? (check all that apply)" do |s|
-            s.ratings
+            JSON.parse(s.ratings)
           end
           column "Comments" do |s|
             s.ratings_text

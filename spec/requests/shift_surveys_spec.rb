@@ -11,25 +11,25 @@ RSpec.describe 'Shift Surveys', type: :request do
   let(:shift) { need.shifts.first }
   let(:shift_survey) { create :shift_survey, shift: shift }
   
-  describe '#show' do
+  describe '#edit' do
     context "when survey exists and is incomplete" do
       it 'renders the survey' do
-        get "/shift_surveys/#{shift_survey.token}"
-        expect(response).to render_template(:show)
+        get "/shift_surveys/#{shift_survey.token}/edit"
+        expect(response).to render_template(:edit)
       end
     end
 
     context "when survey exists and is complete" do
       it 'renders thanks' do
         shift_survey.update(status: "Complete")
-        get "/shift_surveys/#{shift_survey.token}"
+        get "/shift_surveys/#{shift_survey.token}/edit"
         expect(response).to render_template(:thanks)
       end
     end
     
     context "when token is invalid" do
-      it 'renders invalid' do
-        get "/shift_surveys/invalid-token"
+      it 'gives a flash notice of invalid' do
+        get "/shift_surveys/invalid-token/edit"
         expect(response).to redirect_to root_path
       end
     end
@@ -49,36 +49,16 @@ RSpec.describe 'Shift Surveys', type: :request do
     end
     
     context 'when fail' do
-      it 'renders show' do
+      it 'renders edit' do
         shift_survey
         expect_any_instance_of(ShiftSurvey).to receive(:save).and_return(false)
         put "/shift_surveys/#{shift_survey.token}",
           params: { "shift_survey"=>{"notes"=>"Updated Notes", "ratings"=>[]}}
         expect(flash[:notice]).to eql("Error")
-        expect(response).to render_template(:show)
+        expect(response).to render_template(:edit)
       end
     end
 
-    context 'when data is entered in text boxes and yes is selected' do
-      it 'does not save the data in the text box' do
-        shift_survey
-        put "/shift_surveys/#{shift_survey.token}",
-          params: { "shift_survey"=>{"notes"=>"Updated Notes",
-           "ratings"=>[1],
-           "supplies" => "true",
-           "response_time" => "true",
-           "hours_match" => "true",
-           "supplies_text" => "text that should not be saved",
-           "response_time_text" => "text that should not be saved",
-           "hours_match_text" => "text that should not be saved" }}
-        expect(shift_survey.reload.hours_match).to eql(true)
-        expect(shift_survey.reload.hours_match_text).to eql("")
-        expect(shift_survey.reload.supplies).to eql(true)
-        expect(shift_survey.reload.supplies_text).to eql("")
-        expect(shift_survey.reload.response_time).to eql(true)
-        expect(shift_survey.reload.response_time_text).to eql("")
-      end
-    end
   end
 
 

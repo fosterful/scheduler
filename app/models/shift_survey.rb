@@ -3,7 +3,6 @@ class ShiftSurvey < ApplicationRecord
 
   belongs_to :shift
   after_create :generate_token
-  serialize :ratings, Array
 
   def self.survey_responses_by_shift(current_user, start_at, end_at)
     ShiftSurvey.joins(:shift)
@@ -15,7 +14,7 @@ class ShiftSurvey < ApplicationRecord
   end
 
   def generate_token
-    self.update(token: SecureRandom.urlsafe_base64(16))
+    update(token: SecureRandom.urlsafe_base64(16))
   end
 
 end

@@ -9,7 +9,7 @@ RSpec.describe ShiftSurveyWorker do
     context 'when there are completed shifts' do
       let(:office) { create :office }
       let(:user) { create :user, role: 'coordinator', offices: [office] }
-      let(:volunteer) { create :user, role: 'volunteer', offices: [office] }
+      let(:volunteer) { create :user, role: 'volunteer', offices: [office], receive_email_notifications: true }
       let(:need) { create :need_with_assigned_shifts, user: user, office: office }
 
       before do
@@ -20,6 +20,11 @@ RSpec.describe ShiftSurveyWorker do
         expect { subject.call }.to change(ShiftSurvey, :count).by(1)
       end
       it { is_expected.to change(SendTextMessageWorker.jobs, :size) }
+      
+      it 'enqueues the shift survey email' do
+       expect { subject.call }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end
+      
     end
 
     context 'when there are no completed shifts' do 

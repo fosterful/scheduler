@@ -15,35 +15,35 @@
     = f.label :supplies do
       Did you have adequate supplies to care for the child(ren) during your time at the office?
       <br/>
-      .survey-radio
-        = f.radio_button :supplies, true
+      .survey-radio{data: {controller: 'shift-survey'}}
+        = f.radio_button :supplies, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :supplies, false 
+        = f.radio_button :supplies, false , data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
-        = f.text_area :supplies_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'"
+        = f.text_area :supplies_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr
     = f.label :response_time do
       Did the assigned social worker respond to questions or concerns in a timely manner?
       <br/>
-      .survey-radio
-        = f.radio_button :response_time, true
+      .survey-radio{data: {controller: 'shift-survey'}}
+        = f.radio_button :response_time, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :response_time, false
+        = f.radio_button :response_time, false, data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
-        = f.text_area :response_time_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'"
+        = f.text_area :response_time_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr
     = f.label :hours_match do
       Did the hours you signed up for match the hours you volunteered?
       <br/>
-      .survey-radio
-        = f.radio_button :hours_match, true
+      .survey-radio{data: {controller: 'shift-survey'}}
+        = f.radio_button :hours_match, true, data: { target: 'shift-survey.true', action: 'click->shift-survey#handleRadioClick' }
         Yes 
         <br/>
-        = f.radio_button :hours_match, false
+        = f.radio_button :hours_match, false, data: { target: 'shift-survey.false', action: 'click->shift-survey#handleRadioClick' }
         No
-        = f.text_area :hours_match_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'"
+        = f.text_area :hours_match_text, class: "survey-text-area", :rows => 4, placeholder: "Please explain why you answered 'No'", data: { target: 'shift-survey.noTextBox'}
     %hr
       How are you feeling after your shift at the child welfare office? (check all that apply)
     = f.label :ratings do
@@ -59,18 +59,3 @@
     = f.label :questions do
       Any questions for your Volunteer Coordinator? (Optional)
       = f.text_area :questions, :rows => 4, :placeholder => 'Enter notes for your Volunteer Coordinator here'
-
-:javascript
-  $(document).ready( function() {
-    $('input:radio').change(
-      function() {
-        let radio_name_text = $(this).attr('name');
-        radio_name_text = radio_name_text.replace(']', '_text]');
-        if ($(this).val() == 'false') {
-          $(`textarea[name="${radio_name_text}"]`).show();
-        } else {
-          $(`textarea[name="${radio_name_text}"]`).hide();
-        }
-      }
-    );
-  });
