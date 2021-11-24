@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.bigint "preferred_language_id", null: false
     t.datetime "start_at", null: false
     t.integer "expected_duration", null: false
-    t.integer "number_of_children", null: false
+    t.integer "number_of_children"
     t.bigint "notified_user_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
