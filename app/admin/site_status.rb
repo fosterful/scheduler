@@ -11,7 +11,9 @@ ActiveAdmin.register_page 'Site Status' do
 
     redis.set('need_creation_disabled_msg', params[:need_creation_disabled_msg])
 
-    redirect_to '/admin/site_status'
+
+    flash[:notice] = 'Updated site status'
+    redirect_to "/admin/site_status"
   end
 
   content do

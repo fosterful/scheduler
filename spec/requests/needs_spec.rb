@@ -54,7 +54,8 @@ RSpec.describe 'Needs', type: :request do
       let(:params) do
         {
           need: attributes_for(:need).merge(office_id:     need.office_id,
-                                            age_range_ids: [AgeRange.first.id])
+                                            age_range_ids: [AgeRange.first.id],
+                                            children_attributes: [{age: 5, sex: 'female'}])
         }
       end
 
@@ -91,12 +92,19 @@ RSpec.describe 'Needs', type: :request do
   end
 
   describe '#update' do
+    let(:params) do
+      {
+        need: attributes_for(:need).merge(office_id:     need.office_id,
+                                          age_range_ids: [AgeRange.first.id],
+                                          children_attributes: {"0" => {age: 5, sex: 'female', _destroy: ''}})
+      }
+    end
     context 'when success' do
       it 'redirects to the need' do
         expect(Services::TextMessageEnqueue)
           .to receive(:send_messages).once.with(Array, String)
 
-        put need_path(need), params: { need: { number_of_children: 20 } }
+        put need_path(need), params: params
 
         expect(response).to redirect_to(assigns(:need))
       end
@@ -106,11 +114,12 @@ RSpec.describe 'Needs', type: :request do
       it 'renders the edit view' do
         expect_any_instance_of(Need).to receive(:save).and_return(false)
 
-        put need_path(need), params: { need: { number_of_children: 20 } }
+        put need_path(need), params: params
 
         expect(response).to render_template(:edit)
       end
     end
+
   end
 
   describe '#destroy' do
