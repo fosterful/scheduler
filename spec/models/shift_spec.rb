@@ -10,7 +10,6 @@ RSpec.describe Shift, type: :model do
   end
 
   it 'has a valid factory' do
-    
     expect(shift.valid?).to be(true)
   end
 
