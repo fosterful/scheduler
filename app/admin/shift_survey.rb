@@ -22,7 +22,7 @@ ActiveAdmin.register ShiftSurvey do
   index do
     id_column
     column "User" do |shift_survey|
-      shift_survey.shift.user.name
+      shift_survey.user.name
     end
     column :status
     column :created_at
@@ -65,7 +65,7 @@ ActiveAdmin.register ShiftSurvey do
         end
         table_for shift_survey do
           column "How are you feeling after your shift at the child welfare office? (check all that apply)" do |s|
-            JSON.parse(s.ratings)
+            s.ratings.nil? ? nil : JSON.parse(s.ratings)
           end
           column "Comments" do |s|
             s.ratings_text
@@ -91,20 +91,21 @@ ActiveAdmin.register ShiftSurvey do
   sidebar "Shift Details", only: :show do
     attributes_table_for shift_survey do
       row :date do |shift_survey|
-        shift_survey.shift.start_at.strftime("%A, %B %d, %Y")
+        shift_survey.need.start_at.strftime("%A, %B %d, %Y")
       end
       row :shifts do
-        table_for shift_survey.shift.user_need_shifts do
+        table_for shift_survey.need.shifts.where(user_id: shift_survey.user_id) do
           column 'Shift Duration(s)' do |s|
             s.duration_in_words
           end
         end
       end
       row "Children" do |shift_survey|
-        shift_survey.shift.need.number_of_children
+        binding.pry
+        shift_survey.need.number_of_children
       end
       row "Volunteer" do |shift_survey|
-        shift_survey.shift.user.name
+        shift_survey.need.user.name
       end
     end
   end
