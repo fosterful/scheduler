@@ -101,7 +101,6 @@ ActiveAdmin.register ShiftSurvey do
         end
       end
       row "Children" do |shift_survey|
-        binding.pry
         shift_survey.need.number_of_children
       end
       row "Volunteer" do |shift_survey|

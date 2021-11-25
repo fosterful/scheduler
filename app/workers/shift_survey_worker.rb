@@ -18,7 +18,7 @@ class ShiftSurveyWorker
         remaining_shifts = need.shifts.where(user_id: user_id).where('start_at > ? ', 30.minutes.ago)
         if remaining_shifts.none?
           survey = ShiftSurvey.create!(need: need, user: user)
-          message = "Thanks for taking a shift at the child welfare office today! We’d love to know how you’re feeling about it, or if there’s anything that needs our attention. Please take this one-minute survey. #{ shift_survey_path(survey) }"
+          message = "Thanks for taking a shift at the child welfare office today! We’d love to know how you’re feeling about it, or if there’s anything that needs our attention. Please take this one-minute survey. #{ edit_shift_survey_url(survey) }"
           send_message(user, message)
         end
       end
