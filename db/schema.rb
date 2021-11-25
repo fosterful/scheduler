@@ -181,9 +181,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_172116) do
     t.integer "duration", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "shift_survey_id"
     t.index ["need_id"], name: "index_shifts_on_need_id"
-    t.index ["shift_survey_id"], name: "index_shifts_on_shift_survey_id"
     t.index ["user_id"], name: "index_shifts_on_user_id"
   end
 
