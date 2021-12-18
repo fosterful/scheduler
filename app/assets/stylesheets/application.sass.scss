@@ -1,13 +1,12 @@
-@import 'stylesheets/settings';
-@import '~foundation-sites/scss/foundation';
+@import 'settings';
+@import 'foundation-sites/scss/foundation';
 @include foundation-everything(true, $prototype: true);
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/solid';
 @import 'select2/dist/css/select2.css';
 @import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css';
 @import "react-datepicker/dist/react-datepicker.css";
+@import 'react-day-picker/lib/style.css';
+@import "react-toggle/style.css";
 
 * {
   box-sizing: border-box;
@@ -54,10 +53,10 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   left: -20px !important;
 }
 
-@import 'stylesheets/nav';
-@import 'stylesheets/needs';
-@import 'stylesheets/shifts';
-@import 'stylesheets/invites';
-@import 'stylesheets/reports';
-@import '../components/blockouts/Scheduler';
-@import 'stylesheets/responsive_card_table';
+@import 'nav';
+@import 'needs';
+@import 'shifts';
+@import 'invites';
+@import 'reports';
+@import 'Scheduler';
+@import 'responsive_card_table';

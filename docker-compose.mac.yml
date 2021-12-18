@@ -3,9 +3,6 @@ services:
   rails:
     volumes:
       - .:/app:cached
-  webpacker:
-    volumes:
-      - .:/app:cached
   sidekiq:
     volumes:
       - .:/app:cached

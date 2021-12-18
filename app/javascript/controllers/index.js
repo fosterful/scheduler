@@ -2,8 +2,10 @@
 // Controller files must be named *_controller.js.
 
 import { Application } from "stimulus"
-import { definitionsFromContext } from "stimulus/webpack-helpers"
 
 const application = Application.start()
-const context = require.context("controllers", true, /_controller\.js$/)
-application.load(definitionsFromContext(context))
+import NeedsShowController from './needs_show_controller'
+application.register("needs_show", NeedsShowController)
+
+import NewNeedFormController from './new_need_form_controller'
+application.register("new_need_form", NewNeedFormController)

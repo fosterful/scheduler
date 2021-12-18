@@ -2,7 +2,6 @@
 // - foundation-sites/dist/js/npm.js
 
 // The 'zf' path alias is configured in the following config file:
-// - build/webpack.base.conf.js
 
 // Foundation core and utils - Best to import all of these
 import jQuery from 'jquery';

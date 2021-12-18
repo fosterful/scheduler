@@ -8,10 +8,11 @@
     = csp_meta_tag
     :javascript
       window.timeZone = '#{Time.zone.tzinfo.name}'
-    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = favicon_link_tag asset_pack_path('media/images/omd-icon.png')
-    = favicon_link_tag asset_pack_path('media/images/omd-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    %link{:crossorigin => "anonymous", :href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css", :integrity => "sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==", :referrerpolicy => "no-referrer", :rel => "stylesheet"}/
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = favicon_link_tag image_path('omd-icon.png')
+    = favicon_link_tag image_path('omd-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
   %body
     = render partial: 'nav'
     - if content_for :page_header

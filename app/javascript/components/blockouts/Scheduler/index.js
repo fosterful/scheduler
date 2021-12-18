@@ -8,7 +8,6 @@ import Modal from 'blockouts/Modal'
 import splitblockoutsWithDays from 'blockouts/helpers/splitBlockoutsByDay'
 import expandRecurringBlockOuts from 'blockouts/helpers/expandRecurringBlockouts'
 import makeRequestFn from 'blockouts/helpers/makeRequest'
-import 'react-day-picker/lib/style.css'
 
 class Scheduler extends React.Component {
   setCalendarMonth = calendarMonth => this.setState({ calendarMonth: moment(calendarMonth).startOf('month') })

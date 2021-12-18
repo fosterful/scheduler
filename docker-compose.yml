@@ -31,38 +31,10 @@ services:
       - "43447:43447"
     entrypoint: /workspaces/scheduler/docker/rails-entrypoint
     environment:
-      - WEBPACKER_DEV_SERVER_HOST=webpacker
       - SEED_ADMIN_EMAIL=${SEED_ADMIN_EMAIL}
       - SEED_ADMIN_PASSWORD=${SEED_ADMIN_PASSWORD}
       - SELENIUM_REMOTE_HOST=selenium
       - BOOTSNAP_CACHE_DIR=/gems/bootsnap
-  webpacker:
-    build:
-      context: ./docker/ruby
-      args:
-        - RUBY_VERSION=2.7.3
-        - NODE_VERSION=14
-        - INSTALL_PG_CLIENT=true
-        - UID=${UID:-1000}
-        - GID=${GID:-1000}
-    volumes:
-      - .:/workspaces/scheduler
-      - gems:/gems
-      - node_modules:/workspaces/scheduler/node_modules
-      - packs:/workspaces/scheduler/public/packs
-      - rails_cache:/workspaces/scheduler/tmp/cache
-    tmpfs:
-      - /tmp
-    user: ruby
-    tty: true
-    stdin_open: true
-    depends_on:
-      - postgres
-      - redis
-    command: ./bin/webpack-dev-server
-    ports:
-      - "3035:3035"
-    entrypoint: /workspaces/scheduler/docker/webpack-entrypoint
   sidekiq:
     build:
       context: ./docker/ruby

@@ -2,8 +2,6 @@ import React from 'react'
 import SchedulerContext from 'blockouts/contexts/scheduler'
 import PropTypes from 'prop-types'
 import DayPicker from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
-import 'blockouts/Scheduler.scss'
 
 const Calendar = ({ blockouts }) =>
   <SchedulerContext.Consumer>
