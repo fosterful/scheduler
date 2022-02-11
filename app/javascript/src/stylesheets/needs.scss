@@ -57,3 +57,16 @@ ul.social_workers {
     }
   }
 }
+
+table.need-details {
+  margin-bottom: 2rem;
+  td:first-child {
+    width: 200px;
+  }
+  td:last-child {
+    width: 400px;
+  }
+  tr:last-of-type {
+    border-bottom: none;
+  }
+}
