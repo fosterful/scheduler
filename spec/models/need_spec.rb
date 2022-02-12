@@ -39,6 +39,12 @@ RSpec.describe Need, type: :model do
     end
   end
 
+  describe "number_of_children" do
+    it 'returns the number of children associated' do
+      expect(need.number_of_children).to eql(1)  
+    end
+  end
+
   describe '.current' do # scope test
     it 'supports named scope current' do
       expect(described_class.limit(3).current).to all(be_a(described_class))
@@ -60,28 +66,28 @@ RSpec.describe Need, type: :model do
     let(:wa_need1) do
       create(:need_with_shifts,
              user:               wa_sw1,
-             number_of_children: 1,
+             children_count:     1,
              expected_duration:  120,
              office:             wa_office1)
     end
     let(:wa_need2) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  240,
              office:             wa_office2)
     end
     let!(:unmet_wa_need) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  120,
              office:             wa_office2)
     end
     let(:or_need) do
       create(:need_with_shifts,
              user:               or_sw,
-             number_of_children: 3,
+             children_count:     3,
              expected_duration:  120,
              office:             or_office)
     end
@@ -96,9 +102,9 @@ RSpec.describe Need, type: :model do
     describe '.total_children_served' do
       it 'returns the total number of children served' do
         expect(described_class.total_children_served)
-          .to eql(wa_need1.number_of_children +
-                    wa_need2.number_of_children +
-                    or_need.number_of_children)
+          .to eql(wa_need1.children.count +
+                    wa_need2.children.count +
+                    or_need.children.count)
       end
     end
   end
@@ -258,10 +264,20 @@ RSpec.describe Need, type: :model do
 
   describe 'validates :intentional_start_at' do
     before { need.start_at = need.start_at.midnight }
-
+    
     it 'adds a validation error when start_at is midnight' do
       expect(need.valid?).to be false
       expect(need.errors[:start_at]).to eq ['must not be midnight']
     end
   end
+
+  describe 'validates :at_least_one_child' do
+    before { need.children.destroy_all }
+    
+    it 'adds a validation error when a need has no children' do
+      expect(need.valid?).to be false
+      expect(need.errors[:base]).to eq ['At least one child is required']
+    end
+  end
+
 end
