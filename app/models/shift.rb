@@ -24,6 +24,31 @@ class Shift < ApplicationRecord
            :preferred_language,
            to: :need
 
+  def self.for_survey_notification
+    # Find last shift for a given user & need
+    # Having clause is to window results so as to keep
+    # query performant
+    subquery = select(:user_id, :need_id, "MAX(start_at) AS max_start_at")
+                .having('MAX(start_at) BETWEEN ? AND ?', 2.day.ago, Time.current)
+                .group(:user_id, :need_id)
+
+    # Get whole records based on subquery above
+    join_sql = <<~SQL
+      INNER JOIN (#{subquery.to_sql}) sub ON (
+        sub.user_id = shifts.user_id
+        AND sub.need_id = shifts.need_id
+        AND sub.max_start_at = shifts.start_at
+      )
+    SQL
+
+    # Add additional filtering for users that have alread been sent the survey
+    # and where the shift end is greater than 30 minutes ago
+    joins(join_sql)
+      .where('start_at + make_interval(mins := duration) < ?', 30.minutes.ago)
+      .joins('LEFT JOIN shift_surveys on (shift_surveys.need_id = shifts.need_id AND shift_surveys.user_id = shifts.user_id)')
+      .where('shift_surveys.id IS NULL')
+  end
+
   def duration_in_words
     "#{start_at.to_s(:time)} to #{end_at.to_s(:time)}"
   end
@@ -46,6 +71,12 @@ class Shift < ApplicationRecord
     Services::TextMessageEnqueue
       .send_messages([recipient.phone],
                      "Your shift on #{time} has been canceled.")
+  end
+
+  def user_need_shifts
+    if user_id?
+      user.shifts.where(need_id: need_id)
+    end
   end
 
   def users_to_notify

@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     post 'office_social_workers', on: :collection
   end
 
+  resources :shift_surveys, only: %i[edit update], param: :token
+
   get 'verify' => 'verifications#index', as: :verify
   post 'send_code' => 'verifications#send_code', as: :send_code
   post 'check_code' => 'verifications#check_code', as: :check_code
