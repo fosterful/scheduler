@@ -3,4 +3,4 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
   %body
-    %p #{@shift_survey.user} has submitted a shift survey. View it here: #{admin_shift_survey_url(@shift_survey)}
+    %p #{@shift_survey.user} has submitted a shift survey. View it here: #{admin_shift_survey_url(@shift_survey.id)}
