@@ -23,6 +23,7 @@ class ShiftSurveysController < ApplicationController
     @shift_survey.assign_attributes(permitted_attributes(@shift_survey))
     if @shift_survey.save
       @shift_survey.update(status: "Complete")
+      UserMailer.with(shift_survey: @shift_survey).shift_survey_submitted.deliver_later
       render 'thanks'
     else
       flash[:notice] = 'Error'
