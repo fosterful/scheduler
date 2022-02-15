@@ -40,7 +40,7 @@ RSpec.describe Office, type: :model do
     let(:wa_need1) do
       create(:need_with_shifts,
              user:               wa_sw1,
-             number_of_children: 1,
+             children_count:     1,
              expected_duration:  60,
              office:             wa_office1,
              preferred_language: lang1,
@@ -49,7 +49,7 @@ RSpec.describe Office, type: :model do
     let(:wa_need2) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  240,
              office:             wa_office2,
              preferred_language: lang1,
@@ -58,7 +58,7 @@ RSpec.describe Office, type: :model do
     let(:wa_need3) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 7,
+             children_count:     7,
              expected_duration:  120,
              office:             wa_office2,
              preferred_language: lang1,
@@ -67,7 +67,7 @@ RSpec.describe Office, type: :model do
     let!(:unmet_wa_need) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  120,
              office:             wa_office2,
              preferred_language: lang3,
@@ -76,7 +76,7 @@ RSpec.describe Office, type: :model do
     let(:or_need) do
       create(:need_with_shifts,
              user:               or_sw,
-             number_of_children: 3,
+             children_count:     3,
              expected_duration:  120,
              office:             or_office,
              preferred_language: lang2,
@@ -241,7 +241,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'as an admin' do
-        it 'returns the total volunteer hours grouped by office' do
+        it 'returns the total volunteer children grouped by office' do
           expect(described_class.total_children_served_by_office(admin, nil, nil))
             .to eql([or_office.id, or_office.name] => 3, [wa_office1.id, wa_office1.name] => 1, [wa_office2.id, wa_office2.name] => 9)
         end
@@ -259,7 +259,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'with a date range' do
-        it 'returns the total hours filtered by dates' do
+        it 'returns the total children filtered by dates' do
           expect(described_class.total_children_served_by_office(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql([or_office.id, or_office.name] => 3, [wa_office1.id, wa_office1.name] => 1, [wa_office2.id, wa_office2.name] => 9)
 
@@ -288,7 +288,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'as an admin' do
-        it 'returns the total volunteer hours grouped by office' do
+        it 'returns the total children grouped by office' do
           expect(described_class.total_children_served_by_state(admin, nil, nil))
             .to eql('OR' => 3, 'WA' => 10)
         end
@@ -306,7 +306,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'with a date range' do
-        it 'returns the total hours filtered by dates' do
+        it 'returns the total children filtered by dates' do
           expect(described_class.total_children_served_by_state(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('OR' => 3, 'WA' => 10)
 
@@ -335,7 +335,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'as an admin' do
-        it 'returns the total volunteer hours grouped by office' do
+        it 'returns the total children grouped by office' do
           expect(described_class.total_children_served_by_county(admin, 'WA', nil, nil))
             .to eql('Clark' => 1, 'Lewis' => 9)
         end
@@ -353,7 +353,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'with a date range' do
-        it 'returns the total hours filtered by dates' do
+        it 'returns the total children filtered by dates' do
           expect(described_class.total_children_served_by_county(admin, 'WA', 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql('Clark' => 1, 'Lewis' => 9)
 
@@ -382,7 +382,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'as an admin' do
-        it 'returns the total volunteer hours grouped by office' do
+        it 'returns the total children grouped by office' do
           expect(described_class.total_children_by_demographic(admin, nil, nil))
             .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
         end
@@ -400,7 +400,7 @@ RSpec.describe Office, type: :model do
       end
 
       context 'with a date range' do
-        it 'returns the total hours filtered by dates' do
+        it 'returns the total children filtered by dates' do
           expect(described_class.total_children_by_demographic(admin, 'Jan 1, 2010', 'Feb 2, 2030'))
             .to eql(lang1.name => 10, lang2.name => 3, lang3.name => 2)
 
