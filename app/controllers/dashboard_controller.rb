@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
   HOURS_BY_USER          = 'total-volunteer-hours-by-user'
   VOLUNTEERS_BY_LANGUAGE = 'total-volunteers-by-spoken-language'
   VOLUNTEERS_BY_RACE     = 'total-volunteers-by-race'
-  RESPONSES_BY_SHIFT     = 'survey-responses-by-shift'
+  # RESPONSES_BY_SHIFT     = 'survey-responses-by-shift'
 
   SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 

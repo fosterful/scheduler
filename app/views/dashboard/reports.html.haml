@@ -142,17 +142,17 @@
                 Download
 
                 .grid-x.margin-bottom-1
-  .cell
-    %h2 Shift Survey
+  -# .cell
+  -#   %h2 Shift Survey
 
-    .grid-x.grid-padding-left
-      .cell.small-6
-        .card
-          .card-section
-            %h5
-              %strong Shift Survey Responses
-            %p This report contains all volunteer responses to the end-of-shift surveys. 
-            .flex-container.flex-dir-row-reverse
-              = link_to dashboard_download_report_url(data_method: DashboardController::RESPONSES_BY_SHIFT.underscore, filename: DashboardController::RESPONSES_BY_SHIFT, model: 'ShiftSurvey', format: :csv), target: '_blank', class: 'button get_report' do
-                %i.fas.fa-file-download{style: 'margin-right: 3px;' }
-                Download
+  -#   .grid-x.grid-padding-left
+  -#     .cell.small-6
+  -#       .card
+  -#         .card-section
+  -#           %h5
+  -#             %strong Shift Survey Responses
+  -#           %p This report contains all volunteer responses to the end-of-shift surveys. 
+  -#           .flex-container.flex-dir-row-reverse
+  -#             = link_to dashboard_download_report_url(data_method: DashboardController::RESPONSES_BY_SHIFT.underscore, filename: DashboardController::RESPONSES_BY_SHIFT, model: 'ShiftSurvey', format: :csv), target: '_blank', class: 'button get_report' do
+  -#               %i.fas.fa-file-download{style: 'margin-right: 3px;' }
+  -#               Download
