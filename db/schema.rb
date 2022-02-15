@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_213316) do
+ActiveRecord::Schema.define(version: 2021_11_02_182613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,7 +129,6 @@ ActiveRecord::Schema.define(version: 2021_10_27_213316) do
     t.bigint "race_id"
     t.text "notes"
     t.bigint "unavailable_user_ids", default: [], array: true
-    t.boolean "preferred_language_override", default: false
     t.index ["office_id"], name: "index_needs_on_office_id"
     t.index ["preferred_language_id"], name: "index_needs_on_preferred_language_id"
     t.index ["race_id"], name: "index_needs_on_race_id"
@@ -248,7 +247,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_213316) do
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
