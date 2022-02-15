@@ -86,8 +86,7 @@ class DashboardController < ApplicationController
         HOURS_BY_STATE,
         HOURS_BY_USER,
         VOLUNTEERS_BY_LANGUAGE,
-        VOLUNTEERS_BY_RACE,
-        RESPONSES_BY_SHIFT
+        VOLUNTEERS_BY_RACE
       ].map(&:underscore))
   end
 
