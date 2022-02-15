@@ -4,7 +4,7 @@ class AddChildrenToExistingNeedsTakeTwo < ActiveRecord::Migration[6.1]
       range_i = 0
       age_ranges = need.age_ranges
       need.read_attribute(:number_of_children).times do
-        j = age_ranges[range_i]
+        j = age_ranges[range_i] || age_ranges.first || AgeRange.order('RANDOM()').first
         need.children.create!(
           age: rand(j.min..j.max),
           sex: rand(0..1),
