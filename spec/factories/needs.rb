@@ -26,5 +26,10 @@ FactoryBot.define do
         create_list(:shift, need.expected_duration / 60, need: need)
       end
     end
+    factory :need_with_assigned_shifts do
+      after(:create) do |need|
+        create_list(:shift, need.expected_duration / 60, need: need, user: User.first)
+      end
+    end
   end
 end

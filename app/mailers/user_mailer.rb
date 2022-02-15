@@ -12,4 +12,9 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     mail(to: "sarah@officemomsanddads.com", subject: "#{@user} not vaccinated")
   end
+
+  def shift_survey_submitted
+    @shift_survey = params[:shift_survey]
+    mail(to: "info@officemomsanddads.com", subject: "#{@shift_survey.user} submitted a shift survey")
+  end
 end

@@ -1,0 +1,3 @@
+= CSV.generate_line ShiftSurvey.attribute_names
+- @data.each do |survey|
+  = CSV.generate_line(survey.attributes.values).html_safe
