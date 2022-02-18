@@ -46,8 +46,12 @@ module Services
           end
 
           def shift_assigned
-            "You have been assigned a shift #{starting_day} from "\
+            if current_user.require_covid_19_vaccinated?
+              "Thank You! Please be ready to show proof of vaccination at the door. See you soon."
+            else
+              "You have been assigned a shift #{starting_day} from "\
               "#{duration_in_words}."
+            end
           end
 
           def shift_unassigned

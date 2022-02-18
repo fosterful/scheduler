@@ -10,8 +10,9 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
   as :user do
-    get 'users/edit' => 'devise/registrations#edit', as: 'edit_user_registration'
-    put 'users' => 'devise/registrations#update', as: 'user_registration'
+    get 'users/edit' => 'registrations#edit', as: 'edit_user_registration'
+    get 'vaccination_status' => 'registrations#vaccination_status'
+    put 'users' => 'registrations#update', as: 'user_registration'
   end
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -24,6 +25,8 @@ Rails.application.routes.draw do
     patch 'mark_unavailable', on: :member
     post 'office_social_workers', on: :collection
   end
+
+  resources :shift_surveys, only: %i[edit update], param: :token
 
   get 'verify' => 'verifications#index', as: :verify
   post 'send_code' => 'verifications#send_code', as: :send_code

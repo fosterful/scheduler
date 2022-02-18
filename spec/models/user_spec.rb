@@ -225,7 +225,7 @@ RSpec.describe User, type: :model do
     let(:wa_need1) do
       create(:need_with_shifts,
              user:               wa_sw1,
-             number_of_children: 1,
+             children_count:     1,
              expected_duration:  60,
              office:             wa_office1,
              preferred_language: lang1,
@@ -234,7 +234,7 @@ RSpec.describe User, type: :model do
     let(:wa_need2) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  240,
              office:             wa_office2,
              preferred_language: lang1,
@@ -243,7 +243,7 @@ RSpec.describe User, type: :model do
     let(:wa_need3) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 7,
+             children_count:     7,
              expected_duration:  120,
              office:             wa_office2,
              preferred_language: lang1,
@@ -252,7 +252,7 @@ RSpec.describe User, type: :model do
     let!(:unmet_wa_need) do
       create(:need_with_shifts,
              user:               wa_sw2,
-             number_of_children: 2,
+             children_count:     2,
              expected_duration:  120,
              office:             wa_office2,
              preferred_language: lang3,
@@ -261,7 +261,7 @@ RSpec.describe User, type: :model do
     let(:or_need) do
       create(:need_with_shifts,
              user:               or_sw,
-             number_of_children: 3,
+             children_count:     3,
              expected_duration:  120,
              office:             or_office,
              preferred_language: lang2,
@@ -503,6 +503,58 @@ RSpec.describe User, type: :model do
       user.office_notification_ids = [office2.id.to_s]
       expect(office_user1.reload.send_notifications?).to be false
       expect(office_user2.reload.send_notifications?).to be true
+    end
+  end
+
+  describe '#require_covid_19_vaccinated?' do
+    let(:user) { create :user, offices: [office] }
+    subject { user.require_covid_19_vaccinated? }
+
+    context 'when the user is assigned to a WA office' do
+      let(:office) { build(:wa_office) }
+      
+      it { is_expected.to be(true) }
+    end
+
+    context 'when the user is not assigned to a WA office' do
+      let(:office) { create(:or_office) }
+      
+      it { is_expected.to be(false) }
+    end
+  end
+
+  describe '#notify_not_covid_19_vaccinated' do
+    context 'when covid_19_vaccinated is being set to false' do
+      let(:user) { build :user, offices: [build(:wa_office)]}
+      let(:expected_mail_args) { ["UserMailer", "user_not_covid_19_vaccinated", "deliver_now", anything] }
+
+      it 'Enqueues the user_not_covid_19_vaccinated email' do
+        expect { user.update(covid_19_vaccinated: false) }.to have_enqueued_job(ActionMailer::MailDeliveryJob).with(*expected_mail_args)
+      end
+      
+      context 'when require_covid_19_vaccinated? is false' do
+        let(:user) { build :user, offices: [build(:or_office)]}
+
+        it 'does not enqueue a user_not_covid_19_vaccinated email' do
+          expect { user.update(covid_19_vaccinated: false) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+        end
+      end
+    end
+
+    context 'when covid_19_vaccinated was already set to false' do
+      let!(:user) { create :user, covid_19_vaccinated: false, offices: [build(:wa_office)]}
+      
+      it 'does not enqueue a user_not_covid_19_vaccinated email' do
+        expect { user.update(covid_19_vaccinated: false) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end
+    end
+
+    context 'when some other attr is being set' do
+      let(:user) { build :user, offices: [build(:wa_office)]}
+      
+      it 'does not enqueue a user_not_covid_19_vaccinated email' do
+        expect { user.update(updated_at: Time.current) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end
     end
   end
 end

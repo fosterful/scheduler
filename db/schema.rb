@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_175037) do
+ActiveRecord::Schema.define(version: 2022_02_15_192557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(version: 2021_04_23_175037) do
     t.index ["user_id"], name: "index_blockouts_on_user_id"
   end
 
+  create_table "children", force: :cascade do |t|
+    t.bigint "need_id", null: false
+    t.integer "age", null: false
+    t.integer "sex", null: false
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["need_id"], name: "index_children_on_need_id"
+  end
+
   create_table "languages", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -112,13 +122,14 @@ ActiveRecord::Schema.define(version: 2021_04_23_175037) do
     t.bigint "preferred_language_id", null: false
     t.datetime "start_at", null: false
     t.integer "expected_duration", null: false
-    t.integer "number_of_children", null: false
+    t.integer "number_of_children"
     t.bigint "notified_user_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "race_id"
     t.text "notes"
     t.bigint "unavailable_user_ids", default: [], array: true
+    t.boolean "preferred_language_override", default: false, null: false
     t.index ["office_id"], name: "index_needs_on_office_id"
     t.index ["preferred_language_id"], name: "index_needs_on_preferred_language_id"
     t.index ["race_id"], name: "index_needs_on_race_id"
@@ -149,6 +160,28 @@ ActiveRecord::Schema.define(version: 2021_04_23_175037) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shift_surveys", force: :cascade do |t|
+    t.text "notes"
+    t.string "status", default: "Incomplete"
+    t.string "token"
+    t.bigint "need_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "supplies"
+    t.text "supplies_text"
+    t.boolean "response_time"
+    t.text "response_time_text"
+    t.boolean "hours_match"
+    t.text "hours_match_text"
+    t.text "ratings"
+    t.text "ratings_text"
+    t.text "comments"
+    t.text "questions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["need_id"], name: "index_shift_surveys_on_need_id"
+    t.index ["user_id"], name: "index_shift_surveys_on_user_id"
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -209,12 +242,13 @@ ActiveRecord::Schema.define(version: 2021_04_23_175037) do
     t.boolean "deactivated", default: false, null: false
     t.boolean "receive_sms_notifications", default: true, null: false
     t.boolean "receive_email_notifications", default: false, null: false
+    t.boolean "covid_19_vaccinated"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -227,6 +261,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_175037) do
   add_foreign_key "needs", "languages", column: "preferred_language_id"
   add_foreign_key "needs", "offices"
   add_foreign_key "needs", "users"
+  add_foreign_key "shift_surveys", "needs"
+  add_foreign_key "shift_surveys", "users"
   add_foreign_key "shifts", "needs"
   add_foreign_key "shifts", "users"
 end

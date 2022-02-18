@@ -6,55 +6,70 @@
     = link_to 'Edit Need', edit_need_path(@need), class: 'button secondary'
     = link_to 'Delete Need', need_path(@need), method: :delete, class: 'button alert', data: { confirm: 'Are you sure you want to destroy this Need?' }
 %h2 Details
-.grid-x.align-center
-  .cell.small-12.medium-8.large-6
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Start Time
-      .cell.small-7.text-center
+%table.unstriped.need-details
+  %tbody
+    %tr
+      %td Start Time
+      %td
         %strong= @need.effective_start_at.strftime('%l:%M%P')
         %br
         = @need.start_at.strftime('%A, %b %d')
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Office
-      .cell.small-7.text-center
+    %tr
+      %td Office
+      %td
         %strong= @need.office
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Child welfare workers
-      .cell.small-7.text-center
+    %tr
+      %td Child Welfare Workers
+      %td
         %ul.social_workers
           - @need.social_workers.each do |social_worker|
             %li
               %strong= social_worker.name
               - if social_worker.phone.present?
                 = "(Phone: #{social_worker.phone})"
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Requested By
-      .cell.small-7.text-center
+    %tr
+      %td Requested By
+      %td
         %strong= @need.user.name
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Number of Children
-      .cell.small-7.text-center
-        %strong= @need.number_of_children
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Age Range(s)
-      .cell.small-7.text-center
-        %strong= @need.age_ranges.join(', ')
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Preferred Language
-      .cell.small-7.text-center
+    %tr
+      %td Number of Children
+      %td
+        %strong= @need.children.count
+    %tr
+      %td Preferred Language
+      %td
         %strong= @need.preferred_language.name
-    .grid-x.grid-padding-y.align-middle
-      .cell.small-5
-        %div Notes
-      .cell.small-7.text-center
-        %strong= simple_format("#{@need.notes}")
+    %tr
+      %td Ignore Preferred Language for Notifications
+      %td
+        %strong= @need.preferred_language_override.to_s.capitalize
+    - if @need.notes.present?
+      %tr
+        %td Notes
+        %td
+          %strong= simple_format("#{@need.notes}")
+.grid-x
+  .cell
+    - @need.children.each_with_index do |child, index|
+      .card{style: "margin-bottom: 3rem;"}
+        .card-divider
+          %h5{style: "font-weight: bold;"} Child #{index + 1}
+        .card-section{style: "padding:0;"}
+          %table.unstriped.need-details{style: "border: none;"}
+            %tbody{style: "border: none;"}
+              %tr
+                %td Age
+                %td
+                  %strong= child.age
+              %tr
+                %td Sex
+                %td
+                  %strong= child.sex
+              - if child.notes.present?
+                %tr
+                  %td Notes
+                  %td
+                    %strong= child.notes
 %h2 Shifts
 .shifts-container
   - @shifts.each do |shift|
@@ -111,7 +126,13 @@
           %li= user.name
       %p
         = link_to pluralize(@need.users_pending_response.size, 'volunteer'), '#', id: 'toggle-pending-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#pending-list' }
-        have not yet responded
+        = "have not yet responded"
       %ul#pending-list.hide
         - @need.users_pending_response.each do |user|
+          %li= user.name
+      %p
+        = link_to pluralize(@need.users_language_pending_response.size, 'volunteer'), '#', id: 'toggle-language-list', data: { action: 'needs-show#toggleUserListDisplay', list_id: '#language-list' }
+        who speaks the preferred language has not responded
+      %ul#language-list.hide
+        - @need.users_language_pending_response.each do |user|
           %li= user.name

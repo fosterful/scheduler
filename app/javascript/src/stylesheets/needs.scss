@@ -43,3 +43,30 @@ ul.social_workers {
     }
   }
 }
+
+
+#NeedChildForm {
+  .card-divider {
+    position: relative;
+    .delete-event {
+      cursor: pointer;
+      color: $alert-color;
+      position: absolute;
+      right: 1rem;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+table.need-details {
+  margin-bottom: 2rem;
+  td:first-child {
+    width: 200px;
+  }
+  td:last-child {
+    width: 400px;
+  }
+  tr:last-of-type {
+    border-bottom: none;
+  }
+}

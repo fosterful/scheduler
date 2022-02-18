@@ -68,6 +68,21 @@ RSpec.describe Shift, type: :model do
     end
   end
 
+  describe '#user_need_shifts' do
+    it 'returns nil if no user associated with shift' do
+      result = shift.user_need_shifts
+      expect(result).to be_nil
+    end
+
+    it 'returns a list of all shifts for a user for a given need' do
+      shift = create(:shift,
+        start_at: Time.zone.parse('2019-01-09 09:00:00 -0800'),
+        user:     create(:user))
+      result = shift.user_need_shifts
+      expect(result.first.id).to equal(shift.id)
+    end
+  end
+
   describe '#can_destroy?' do
     it 'returns false if only one shift' do
       result = shift.can_destroy?
@@ -123,4 +138,52 @@ RSpec.describe Shift, type: :model do
     end
   end
 
+  describe '.for_survey_notification' do
+    subject { Shift.for_survey_notification }
+
+    # User with multiple shifts, same need
+    let(:user1) { create :user }
+    let(:need) { create :need }
+    let!(:shift1) { create :shift, need: need, user: user1, start_at: 1.hour.ago - 30.minutes }
+    let!(:shift2) { create :shift, need: need, user: user1, start_at: 2.hours.ago - 30.minutes }
+
+    # User with multiple shifts, different needs
+    let(:user2) { create :user }
+    let!(:shift3) { create :shift, user: user2, start_at: 1.hour.ago - 30.minutes }
+    let!(:shift4) { create :shift, user: user2, start_at: 1.hours.ago - 45.minutes }
+
+    # User who's shift hasn't ended yet
+    let(:user3) { create :user }
+    let!(:shift5) { create :shift, user: user3, start_at: 1.hours.ago }
+
+    # User who's shift has ended, but the survey was sent already
+    let(:user4) { create :user }
+    let!(:shift6) { create :shift, user: user4, start_at: 1.hour.ago - 30.minutes }
+    let!(:shift_survey) { create :shift_survey, need: shift6.need, user: shift6.user }
+
+    # User who's shift is in the future
+    let(:user5) { create :user }
+    let!(:shift7) { create :shift, user: user5, start_at: 4.hours.from_now }
+
+    it 'returns the expected shifts' do
+      expect(subject).to be_a(ActiveRecord::Relation)
+
+      # User with multiple shifts, same need
+      expect(subject).to include(shift1)
+      expect(subject).not_to include(shift2)
+
+      # User with multiple shifts, different needs
+      expect(subject).to include(shift3)
+      expect(subject).to include(shift4)
+
+      # User who's shift hasn't ended yet
+      expect(subject).not_to include(shift5)
+
+      # User who's shift has ended, but the survey was sent already
+      expect(subject).not_to include(shift6)
+
+      # User who's shift is in the future
+      expect(subject).not_to include(shift7)
+    end
+  end
 end

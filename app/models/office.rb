@@ -63,34 +63,38 @@ class Office < ApplicationRecord
 
   def self.total_children_served_by_office(current_user, start_at, end_at)
     with_claimed_needs(current_user)
+      .joins(needs: :children)
       .group(:id, :name)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      .sum('needs.number_of_children')
+      .count('children.id') 
   end
 
   def self.total_children_served_by_state(current_user, start_at, end_at)
     with_claimed_needs(current_user)
       .joins(:address)
+      .joins(needs: :children)
       .group('addresses.state')
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      .sum('needs.number_of_children')
+      .count('children.id')
   end
 
   def self.total_children_served_by_county(current_user, state, start_at, end_at)
     with_claimed_needs(current_user)
       .joins(:address)
+      .joins(needs: :children)
       .where(addresses: { state: state })
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('addresses.county')
-      .sum('needs.number_of_children')
+      .count('children.id')
   end
 
   def self.total_children_by_demographic(current_user, start_at, end_at)
     joins(needs: :preferred_language)
+      .joins(needs: :children)
       .then { |scope| scope_by_office_users_if_coordinator(scope, current_user) }
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('languages.name')
-      .sum('needs.number_of_children')
+      .count('children.id')
   end
 
   def self.total_volunteers_by_race(current_user, start_at, end_at)
@@ -115,4 +119,5 @@ class Office < ApplicationRecord
       raise 'You do not have the proper permissions'
     end
   end
+
 end

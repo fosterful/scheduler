@@ -16,5 +16,10 @@ if Rails.env.production?
         name: 'Reminders', cron: '0 9-20 * * *', class: 'RemindWorker'
       )
     end
+    unless Sidekiq::Cron::Job.find('Shift Surveys')
+      Sidekiq::Cron::Job.create(
+        name: 'Shift Surveys', cron: '0 5,20,35,50 * ? * *', class: 'ShiftSurveyWorker'
+      )
+    end
   end
 end
