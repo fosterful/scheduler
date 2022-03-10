@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://codeclimate.com/github/OfficeMomsandDads/scheduler/maintainability"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability" alt="Maintainability"></a>
-  <a href="https://codeclimate.com/github/OfficeMomsandDads/scheduler/test_coverage"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage" alt="Test Coverage"></a>
+  <a href="https://codeclimate.com/github/fosterful/scheduler/maintainability"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability" alt="Maintainability"></a>
+  <a href="https://codeclimate.com/github/fosterful/scheduler/test_coverage"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage" alt="Test Coverage"></a>
   <a href="https://gitter.im/office-moms-and-dads/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
   <img src="https://badges.gitter.im/office-moms-and-dads/community.svg" alt="Gitter Chat Link"></a>
 </p>
@@ -19,13 +19,13 @@
 
 ### Who are we?
 
-Office Moms & Dads, a nonprofit organization, is a community of qualified volunteers partnering with child welfare offices to provide a nurturing environment for children entering foster care.
+Fosterful, a nonprofit organization, is a community of qualified volunteers partnering with child welfare offices to provide a nurturing environment for children entering foster care.
 
-Office Moms & Dads’ 5-year vision is to establish and sustain sites throughout Washington and Idaho where children entering care transition with minimal trauma into their foster care placement.
+Fosterful’ 5-year vision is to establish and sustain sites throughout Washington and Idaho where children entering care transition with minimal trauma into their foster care placement.
 
 ## What does the scheduler do?
 
-It is a Ruby/Rails based app that allows the coordination of scheduling between various workers and volunteers supporting children entering the foster care system. Specifically, it is designed to alert volunteers when there is need of a kind person to sit with children during a scary time, often on short notice. For more information about the organization, please visit [Office Moms and Dads](http://www.fosterful.org).
+It is a Ruby/Rails based app that allows the coordination of scheduling between various workers and volunteers supporting children entering the foster care system. Specifically, it is designed to alert volunteers when there is need of a kind person to sit with children during a scary time, often on short notice. For more information about the organization, please visit [Fosterful](http://www.fosterful.org).
 
 <hr />
 
@@ -140,7 +140,7 @@ Fork this repository, clone your forked repo, and then [setup your environment](
 
 Fork the Repository
 
-- On the top right of the Office Moms and Dads repository, click fork.
+- On the top right of the Fosterful repository, click fork.
 - Click on the green "Clone or Download" button. Copy the provided link to your clipboard.
 
 Clone Project to Local Machine
@@ -228,7 +228,7 @@ For all other questions and concerns related to this project, please open an iss
 
 Interested in finding out more about what we do, or how you can support our mission? Please visit [https://fosterful.org](https://fosterful.org).
 
-If after reading about us, you still have questions, you can [contact Us](mailto:info@fosterful.org) directly via email.
+If after reading about us, you still have questions, you can [contact us](mailto:info@fosterful.org) directly via email.
 
 ---
 
