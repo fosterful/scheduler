@@ -3,7 +3,7 @@
     .grid-x.grid-padding-y
       .cell.shrink
         = link_to root_path do
-          = image_pack_tag 'media/images/omd-logo-horiz.png', class: 'logo'
+          = image_pack_tag 'media/images/fosterful.svg', class: 'logo'
       .cell.auto.align-right.align-middle.grid-x
         - if user_signed_in?
           - if policy(Need).new? && !controller_name.in?(%w(registrations verifications))

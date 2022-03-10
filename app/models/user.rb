@@ -111,7 +111,9 @@ class User < ApplicationRecord
   scope :social_workers, -> { where(role: SOCIAL_WORKER) }
   scope :volunteers, -> { where(role: VOLUNTEER) }
   scope :volunteerable, -> { volunteers.or(coordinators) }
-  scope :notifiable, -> { volunteerable.with_phone.where(deactivated: false) }
+  scope :deactivated, -> { where(deactivated: true) }
+  scope :active, -> { where(deactivated: false) }
+  scope :notifiable, -> { volunteerable.with_phone.active }
   scope :schedulers, -> { coordinators.or(social_workers) }
   scope :with_phone, -> { where.not(phone: nil) }
   scope :verified, -> { where(verified: true) }
