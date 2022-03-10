@@ -1,8 +1,4 @@
 <p align="center">
-  <img src="https://default.salsalabs.org/api/organization/e2390606-bfe8-4802-974b-cb2bb603a4fb/logo/data" alt="Moms and Dads Logo" background>
-</p>
-
-<p align="center">
   <a href="https://codeclimate.com/github/fosterful/scheduler/maintainability"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/maintainability" alt="Maintainability"></a>
   <a href="https://codeclimate.com/github/fosterful/scheduler/test_coverage"><img src="https://api.codeclimate.com/v1/badges/aaf7efce352e6a023791/test_coverage" alt="Test Coverage"></a>
   <a href="https://gitter.im/office-moms-and-dads/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
