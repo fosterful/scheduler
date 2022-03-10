@@ -16,7 +16,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "has expected content" do
       mail = UserMailer.with(user: user).user_not_covid_19_vaccinated
-      expect(mail.to).to eq(['sarah@officemomsanddads.com'])
+      expect(mail.to).to eq(['sarah@fosterful.org'])
       expect(mail.subject).to eq("#{user} not vaccinated")
       expect(mail.body).to include(user.to_s)
     end
@@ -27,7 +27,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "has expected content" do
       mail = UserMailer.with(shift_survey: shift_survey).shift_survey_submitted
-      expect(mail.to).to eq(['info@officemomsanddads.com'])
+      expect(mail.to).to eq(['info@fosterful.org'])
       expect(mail.subject).to eq("#{shift_survey.user} submitted a shift survey")
       expect(mail.body).to include(shift_survey.user.to_s)
     end

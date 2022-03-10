@@ -1,5 +1,4 @@
 .nav {
-  background-color: $secondary-color;
   color: $white;
   a {
     color: $white;
@@ -20,7 +19,7 @@
     }
   }
   .menu-item {
-    color: $secondary-color;
+    color: $primary-color;
     padding: .5rem;
     border-bottom: 1px solid $secondary-color;
     &:hover {
@@ -34,8 +33,7 @@ img.logo {
 }
 
 .page-header {
-  color: $white;
-  background-color: lighten($secondary-color, 15%);
+  background-color: $secondary-color;
   margin-bottom: .5rem;
   .header-text {
     padding: 1rem 0;

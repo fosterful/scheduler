@@ -121,8 +121,8 @@ Rails.application.configure do
   ### Additional settings
   
   # Default host
-  config.action_mailer.default_url_options = { host: 'app.officemomsanddads.com' }
-  Rails.application.routes.default_url_options = { host: 'app.officemomsanddads.com' }
+  config.action_mailer.default_url_options = { host: 'app.fosterful.org' }
+  Rails.application.routes.default_url_options = { host: 'app.fosterful.org' }
 
   # Mailer config
   config.action_mailer.delivery_method = :smtp

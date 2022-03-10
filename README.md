@@ -25,7 +25,7 @@ Office Moms & Dads’ 5-year vision is to establish and sustain sites throughout
 
 ## What does the scheduler do?
 
-It is a Ruby/Rails based app that allows the coordination of scheduling between various workers and volunteers supporting children entering the foster care system. Specifically, it is designed to alert volunteers when there is need of a kind person to sit with children during a scary time, often on short notice. For more information about the organization, please visit [Office Moms and Dads](http://www.officemomsanddads.com).
+It is a Ruby/Rails based app that allows the coordination of scheduling between various workers and volunteers supporting children entering the foster care system. Specifically, it is designed to alert volunteers when there is need of a kind person to sit with children during a scary time, often on short notice. For more information about the organization, please visit [Office Moms and Dads](http://www.fosterful.org).
 
 <hr />
 
@@ -226,9 +226,9 @@ For all other questions and concerns related to this project, please open an iss
 
 ## Support and Contact details
 
-Interested in finding out more about what we do, or how you can support our mission? Please visit [https://officemomsanddads.com](https://officemomsanddads.com).
+Interested in finding out more about what we do, or how you can support our mission? Please visit [https://fosterful.org](https://fosterful.org).
 
-If after reading about us, you still have questions, you can directly [contact us](https://officemomsanddads.com/contact-us/) through our website.
+If after reading about us, you still have questions, you can [contact Us](mailto:info@fosterful.org) directly via email.
 
 ---
 
