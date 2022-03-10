@@ -4,6 +4,14 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  constraints(host: "app.officemomsanddads.com", format: "html") do
+    get ":any", to: redirect(host: "app.fosterful.org", path: "/%{any}"), any: /.*/
+  end
+
+  constraints(host: "app-staging.officemomsanddads.com", format: "html") do
+    get ":any", to: redirect(host: "app-staging.fosterful.org", path: "/%{any}"), any: /.*/
+  end
+
   devise_for :users, controllers: {
     invitations: 'invitations'
   }, skip: [:registrations]
