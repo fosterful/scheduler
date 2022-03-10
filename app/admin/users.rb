@@ -4,6 +4,10 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
 
   config.sort_order = 'last_name_asc'
 
+  scope 'Active users', :active, default: true
+  scope 'Deactivated users', :deactivated
+  scope :all
+
   filter :first_name
   filter :last_name
   filter :email
