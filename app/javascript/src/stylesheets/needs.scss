@@ -31,15 +31,16 @@ ul.social_workers {
     color: $white;
     border-radius: $global-radius;
     &.claimed {
-      background-color:lighten($secondary-color, 15%);
+      background-color: $secondary-color;
+      color: $primary-color;
     }
     &.unclaimed {
       background-color: $success-color;
     }
     &.add-shift {
-      color: lighten($secondary-color, 15%);
+      color: $primary-color;
       background-color: $white;
-      border: 1px dashed lighten($secondary-color, 15%);
+      border: 1px dashed $primary-color;
     }
   }
 }
