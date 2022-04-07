@@ -414,7 +414,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    telephone_number (1.4.12)
+    telephone_number (1.4.15)
     temple (0.8.2)
     thor (1.2.1)
     thread_safe (0.3.6)
