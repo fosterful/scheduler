@@ -6,13 +6,13 @@ services:
     build:
       context: ./docker/ruby
       args:
-        - RUBY_VERSION=2.7.3
+        - RUBY_VERSION=2.7.5
         - NODE_VERSION=14
         - INSTALL_PG_CLIENT=true
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - .:/app
+      - .:/workspaces/scheduler
       - gems:/gems
     user: ruby
     tty: true

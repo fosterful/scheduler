@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=2.7.3
+ARG RUBY_VERSION=2.7.5
 
 FROM ruby:$RUBY_VERSION
 
@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
   vim \
   git \
   netcat \
-  sudo
+  sudo \
+  iproute2
 
 ARG UID
 ENV UID $UID
