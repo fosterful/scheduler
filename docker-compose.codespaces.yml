@@ -12,7 +12,7 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - .:/app
+      - .:/workspaces/scheduler
       - gems:/gems
     user: ruby
     tty: true
