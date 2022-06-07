@@ -46,21 +46,20 @@ class NeedsController < ApplicationController
       render(:new)
     end
   end
-  
+
   def edit
     @need = policy_scope(Need).find(params[:id])
-    
+
     authorize @need
   end
-  
+
   def update
     @need = policy_scope(Need).find(params[:id])
     @need.assign_attributes(permitted_attributes(@need))
-    
+
     authorize @need
-    
+
     if @need.save
-      Services::Notifications::Needs.new(@need, :update).notify
       redirect_to(@need)
     else
       render(:edit)
