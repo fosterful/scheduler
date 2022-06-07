@@ -36,24 +36,6 @@ RSpec.describe Services::Notifications::Needs do
       end.to output("hello\n").to_stdout
     end
 
-    describe 'notified_user_ids' do
-      let(:action) { :update }
-
-      it 'adds to notified_user_ids' do
-        expect(need.notified_user_ids).to be_empty
-        need.office.users << shift_user
-        expect(need.users_to_notify).to eq([shift_user, need.user])
-        object.notify
-        expect(need.notified_user_ids).to eq([shift_user.id, need.user.id])
-      end
-
-      it 'does not remove from notified_user_ids' do
-        need.update notified_user_ids: [shift_user.id]
-        expect(need.users_to_notify).to eq([need.user])
-        object.notify
-        expect(need.notified_user_ids).to eq([shift_user.id, need.user.id])
-      end
-    end
   end
 
   describe '#phone_numbers' do

@@ -101,9 +101,6 @@ RSpec.describe 'Needs', type: :request do
     end
     context 'when success' do
       it 'redirects to the need' do
-        expect(Services::TextMessageEnqueue)
-          .to receive(:send_messages).once.with(Array, String)
-
         put need_path(need), params: params
 
         expect(response).to redirect_to(assigns(:need))
