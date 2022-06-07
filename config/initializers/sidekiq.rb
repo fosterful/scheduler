@@ -12,16 +12,17 @@ end
 
 if Rails.env.production?
   CRONJOBS = [
-  {
-    'name'  => 'Reminders',
-    'class' => 'RemindWorker',
-    'cron'  => '0 9-20 * * *',
-  },
-  {
-    'name'  => 'Shift Surveys',
-    'class' => 'ShiftSurveyWorker',
-    'cron'  => '0 5,20,35,50 * ? * *'
-  }]
+    {
+      'name'  => 'Reminders',
+      'class' => 'RemindWorker',
+      'cron'  => '0 9-20 * * *'
+    },
+    {
+      'name'  => 'Shift Surveys',
+      'class' => 'ShiftSurveyWorker',
+      'cron'  => '0 5,20,35,50 * ? * *'
+    }
+  ]
 
-  Sidekiq::Cron::Job.load_from_array! CRONJOBS
+  Sidekiq::Cron::Job.load_from_array!(CRONJOBS)
 end
