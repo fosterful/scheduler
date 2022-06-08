@@ -20,7 +20,7 @@ if Rails.env.production?
     {
       'name'  => 'Shift Surveys',
       'class' => 'ShiftSurveyWorker',
-      'cron'  => '0 5,20,35,50 * ? * *'
+      'cron'  => '*/5 * * * *'
     }
   ]
 
