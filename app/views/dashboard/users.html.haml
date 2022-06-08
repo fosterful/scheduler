@@ -1,3 +1,15 @@
+= form_tag(dashboard_users_path, method: :get) do
+  Name
+  \#{text_field_tag :name}
+  Email
+  \#{text_field_tag :email}
+  Role
+  \#{text_field_tag :role}
+  Role
+  \#{text_field_tag :accepted?}
+
+  \#{submit_tag 'Search', class: "btn btn-info"}
+
 - @data.each do |office_name, users|
   %h2= office_name
 

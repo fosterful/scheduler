@@ -18,12 +18,14 @@ class DashboardController < ApplicationController
   def users
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
-    @data =
+    scope =
       if current_user.admin?
         fetch_office_users_data(Office.all)
       else
         fetch_office_users_data(current_user.offices)
       end
+
+      @data = Things::IndexFilter.new.call(scope, params)
   end
 
   def reports
