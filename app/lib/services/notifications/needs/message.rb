@@ -11,8 +11,6 @@ module Services
           klass = case action
                     when :create
                       Create
-                    when :update
-                      Update
                     when :destroy
                       Destroy
                   end

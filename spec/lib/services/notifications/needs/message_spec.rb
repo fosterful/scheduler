@@ -19,17 +19,6 @@ RSpec.describe Services::Notifications::Needs::Message do
       end
     end
 
-    context 'on update' do
-      let(:action) { :update }
-      let(:klass) { Services::Notifications::Needs::Message::Update }
-
-      it 'correctly routes update event' do
-        expect(klass).to receive(:new).and_call_original
-
-        object.message
-      end
-    end
-
     context 'on destroy' do
       let(:action) { :destroy }
       let(:klass) { Services::Notifications::Needs::Message::Destroy }
