@@ -13,7 +13,7 @@ jobs:
           PGUSER: circleci-user
           RAILS_ENV: test
           DATABASE_URL: postgres://circleci-user@127.0.0.1/test_db
-          CC_TEST_REPORTER_ID: 3eb0a4ad46937f9c44053ed82830fde407b01e50d717bc6146a05a31753d718f
+          CC_TEST_REPORTER_ID: 9953aaf0ceb1bce9274717fdf6549d14d431f2eafaa44b6ad1c026b74daed60d
           SELENIUM_REMOTE_HOST: localhost
       - image: circleci/postgres:11.4-alpine
         environment:
