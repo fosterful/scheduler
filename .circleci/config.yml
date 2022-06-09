@@ -25,6 +25,11 @@ jobs:
     steps:
       - checkout
 
+      # Install IP route package
+      - run:
+          name: Install IP route
+          command: sudo apt-get update && sudo apt-get install iproute2
+
       # Install bundler
       - run:
           name: Install bundler
