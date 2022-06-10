@@ -100,7 +100,7 @@ class User < ApplicationRecord
             if:       -> { require_volunteer_profile_attributes? && conviction? }
 
   validates :role,
-            inclusion: { in: ROLES, message: '%<value> is not a valid role' }
+            inclusion: { in: ROLES, message: '%{value} is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :at_least_one_office
   validate :at_least_one_notification_preference
