@@ -1,8 +1,8 @@
-ARG RUBY_VERSION=2.7.3
+ARG RUBY_VERSION=2.7.6
 
 FROM ruby:$RUBY_VERSION
 
-ARG NODE_VERSION=14
+ARG NODE_VERSION=16
 
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 
@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
   vim \
   git \
   netcat \
-  sudo
+  sudo \
+  iproute2
 
 ARG UID
 ENV UID $UID
@@ -27,10 +28,10 @@ ARG USER=ruby
 ENV USER $USER
 
 RUN groupadd -g $GID $USER && \
-    useradd -u $UID -g $USER -m $USER && \
-    usermod -p "*" $USER && \
-    usermod -aG sudo $USER && \
-    echo "$USER ALL=NOPASSWD: ALL" >> /etc/sudoers.d/50-$USER
+  useradd -u $UID -g $USER -m $USER && \
+  usermod -p "*" $USER && \
+  usermod -aG sudo $USER && \
+  echo "$USER ALL=NOPASSWD: ALL" >> /etc/sudoers.d/50-$USER
 
 ENV LANG C.UTF-8
 
@@ -60,7 +61,7 @@ ARG INSTALL_PG_CLIENT=true
 RUN if [ ${INSTALL_PG_CLIENT} = true  ]; then \
   # Install the pgsql client
   apt-get install -y postgresql-client \
-;fi
+  ;fi
 
 RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
 RUN mkdir -p /workspaces/scheduler && chown $USER:$USER /workspaces/scheduler

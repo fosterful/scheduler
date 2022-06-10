@@ -6,8 +6,8 @@ services:
     build:
       context: ./docker/ruby
       args:
-        - RUBY_VERSION=2.7.3
-        - NODE_VERSION=14
+        - RUBY_VERSION=2.7.6
+        - NODE_VERSION=16
         - INSTALL_PG_CLIENT=true
         - UID=${UID:-1000}
         - GID=${GID:-1000}
@@ -22,9 +22,9 @@ services:
       - postgres
     command: tail -f /dev/null
     environment:
-        SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL}
-        SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
-        SELENIUM_REMOTE_HOST: selenium
-        BOOTSNAP_CACHE_DIR: /gems/bootsnap
-        REDIS_URL: redis://redis:6379/0
-        REDIS_HOST: redis
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
+      SELENIUM_REMOTE_HOST: selenium
+      BOOTSNAP_CACHE_DIR: /gems/bootsnap
+      REDIS_URL: redis://redis:6379/0
+      REDIS_HOST: redis

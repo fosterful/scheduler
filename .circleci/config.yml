@@ -3,12 +3,12 @@ jobs:
   build:
     parallelism: 1
     docker:
-      - image: circleci/ruby:2.7.3-node
+      - image: cimg/ruby:2.7.6-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
-          BUNDLER_VERSION: 2.0.2
+          BUNDLER_VERSION: 2.2.16
           PGHOST: 127.0.0.1
           PGUSER: circleci-user
           RAILS_ENV: test
@@ -25,10 +25,15 @@ jobs:
     steps:
       - checkout
 
+      # Install IP route package
+      - run:
+          name: Install IP route
+          command: sudo apt-get update && sudo apt-get install iproute2
+
       # Install bundler
       - run:
           name: Install bundler
-          command: gem install bundler:2.0.2
+          command: gem install bundler:2.2.16
 
       # Which version of bundler?
       - run:
@@ -38,8 +43,8 @@ jobs:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - bundle-v2-{{ checksum "Gemfile.lock" }}
-            - bundle-v2-
+            - bundle-v3-{{ checksum "Gemfile.lock" }}
+            - bundle-v3
 
       - run:
           name: Bundle Install
@@ -47,15 +52,15 @@ jobs:
 
       # Store bundle cache
       - save_cache:
-          key: bundle-v2-{{ checksum "Gemfile.lock" }}
+          key: bundle-v3-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
-            - yarn-{{ checksum "yarn.lock" }}
-            - yarn-
+            - yarn-v2-{{ checksum "yarn.lock" }}
+            - yarn-v2-
 
       - run:
           name: Yarn Install
@@ -63,7 +68,7 @@ jobs:
 
       # Store yarn / webpacker cache
       - save_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
+          key: yarn-v2-{{ checksum "yarn.lock" }}
           paths:
             - ~/.yarn-cache
 
