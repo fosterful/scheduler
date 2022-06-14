@@ -1,0 +1,118 @@
+%h1 Report Lite
+
+= react_component("DashboardReportsDateRangePicker/index")
+
+%p Select Which Office:
+=render "form"
+
+%br/
+
+%h2= "Volunteers - Most active by # of hours"
+%code
+  User.where(role:'volunteer' AND verified?: true AND "office = params[office_id]"?)
+
+  Needs.joins(:user).where("created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Hours Volunteered
+      %th Commonly accepted age group
+  %tbody
+    %tr
+      %td= 'test user 1'
+      %td= 'test.user.volunteer1@gmail.com'
+      %td= '20'
+      %td= '0-2'
+    %tr
+      %td= 'test user 2'
+      %td= 'test.user.volunteer2@gmail.com'
+      %td= '12'
+      %td= '6-9'
+    %tr
+      %td= 'test user 3'
+      %td= 'test.user.volunteer3@gmail.com'
+      %td= '1'
+      %td= '13-17'
+    %tr
+      %td= ''
+      %td
+        %b= 'TOTAL HOURS'
+      %td
+        %b= '33'
+      %td= ''
+
+    %tr
+      %td= ''
+      %td= 'display all if counts are equal'
+      %td
+        %b= 'MOST COMMON AGE GROUP'
+      %td
+        %b= '3-5'
+
+
+-# Can a social worker belong to many offices?
+%h2= "Social Workers - Most active by # of request created"
+%code
+  User.where(role:'social_worker' AND verified?: true AND "office = params[office_id]"?)
+
+  Needs.joins(:user).where("office = params[office_id]", "created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Needs Created
+      %th Shifts Created
+  %tbody
+    %tr
+      %td= 'test user 4'
+      %td= 'test.user.socialworker1@gmail.com'
+      %td= '10'
+      %td= '...'
+    %tr
+      %td= 'test user 5'
+      %td= 'test.user.socialworker2@gmail.com'
+      %td= '8'
+      %td= '...'
+    %tr
+      %td= 'test user 6'
+      %td= 'test.user.socialworker3@gmail.com'
+      %td= '4'
+      %td= '...'
+    %tr
+      %td= ''
+      %td
+        %b= 'TOTAL NEEDS'
+      %td
+        %b= '22'
+      %td= ''
+
+    %tr
+      %td= ''
+      %td= ''
+      %td
+        %b= 'TOTAL SHIFTS'
+      %td
+        %b= '...'
+
+%h2= "Shifts - breakdown"
+%code
+  Shift.where("created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
+
+%table
+  %thead
+    %tr
+      %th Needs Created
+      %th Shifts Create
+      %th Filled
+      %th Unfill
+  %tbody
+    %tr
+      %td= '12'
+      %td= '20'
+      %td= '15'
+      %td= '5'

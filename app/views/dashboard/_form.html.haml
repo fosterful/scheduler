@@ -1,0 +1,4 @@
+-# Which method? POST to dashboard controller? dashboard#office_filter?,
+= form_with model: @offices do |f|
+  = f.select :office_id, Office.all.map { |office| [office.name, office.id] }
+  = f.submit
