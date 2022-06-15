@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  include DateRangeFilterHelper
+
   CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
   CHILDREN_BY_DEMO       = 'total-children-by-demographic'
   CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
@@ -16,14 +18,35 @@ class DashboardController < ApplicationController
   SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 
   def users
+    # This should redirect to root if user is not an admin or coordinator
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
     @data =
       if current_user.admin?
         fetch_office_users_data(Office.all)
       else
+        # This triggers if user is coordinator
         fetch_office_users_data(current_user.offices)
       end
+  end
+
+  def dashboard
+    # This should redirect to root if not admin or coordinator
+    redirect_to :root unless DashboardPolicy.new(current_user).users?
+
+    # might cause issue with date depending on format/parsing
+    # seems to be working with no format issues
+    @foo = User
+    .joins(shifts: :need)
+    .where(needs: {office_id: params[:office_id]})
+    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    .group(:id, :first_name, :last_name, :email)
+    .sum('shifts.duration / 60.0')
+
+    # format SQL query to easily access data
+    @bar = @foo.map { | key, value | {id: key[0], name: "#{key[1]} #{key[2]}", email: key[3], hours: value} }
+
+    # sort hash by value sum
   end
 
   def reports
