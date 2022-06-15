@@ -8,11 +8,6 @@
 %br/
 
 %h2= "Volunteers - Most active by # of hours"
-%code
-  User.where(role:'volunteer' AND "office = params[office_id]"?)
-
-  Needs.joins(:user).where("created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
-
 %table
   %thead
     %tr
@@ -28,9 +23,6 @@
         %td= user[:email]
         %td= user[:hours]
 
-
--# Can a social worker belong to many offices?
--# A need is has a user, by who created it.
 %h2= "Social Workers - Most active by # of request created"
 %code
   User.where(role:'social_worker' AND verified?: true AND "office = params[office_id]"?)
