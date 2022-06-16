@@ -15,5 +15,5 @@ ActiveAdmin.register Race do
   end
   #:nocov:
 
-  menu priority: 4
+  menu priority: 5
 end

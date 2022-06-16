@@ -16,5 +16,5 @@ ActiveAdmin.register Language do
   end
   #:nocov:
 
-  menu priority: 5
+  menu priority: 6
 end

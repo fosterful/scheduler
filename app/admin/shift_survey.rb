@@ -30,7 +30,7 @@ ActiveAdmin.register ShiftSurvey do
     actions
   end
 
-  show do 
+  show do
     attributes_table do
       row "Shift Survey ID" do |s|
         s.id
@@ -82,12 +82,12 @@ ActiveAdmin.register ShiftSurvey do
           end
         end
       end
-      
+
       row :created_at
       row :updated_at
     end
   end
-  
+
   sidebar "Shift Details", only: :show do
     attributes_table_for shift_survey do
       row :date do |shift_survey|
@@ -110,5 +110,5 @@ ActiveAdmin.register ShiftSurvey do
   end
   #:nocov:
 
-  menu priority: 9
+  menu priority: 8
 end

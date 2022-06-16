@@ -16,5 +16,5 @@ ActiveAdmin.register AgeRange do
   end
   #:nocov:
 
-  menu priority: 3
+  menu priority: 4
 end
