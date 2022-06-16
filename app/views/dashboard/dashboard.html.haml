@@ -3,11 +3,8 @@
 
 %br/
 
-%p= @test.map{|n|n}
-
-
 %h2= "Breakdown by Office: #{}"
-%h3 Most active by # of hours - good data
+%h3 Most active by # of hours
 %table
   %thead
     %tr
@@ -25,7 +22,7 @@
         %td= user[:email]
         %td= user[:hours]
 
-%h3 Most active by # of needs created - good data
+%h3 Most active by # of needs created
 %table
   %thead
     %tr
@@ -58,18 +55,3 @@
       %td= @total_shifts_created
       %td= @total_shifts_claimed
       %td= @total_shifts_unclaimed
-
-
-
-%table
-  %thead
-    %tr
-      %th ID
-      %th office
-      %th user
-  %tbody
-    - @test.each do |need|
-      %tr
-        %td= need.id
-        %td= need.office_id
-        %td= need.user_id
