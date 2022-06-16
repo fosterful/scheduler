@@ -1,82 +1,75 @@
-%h1 Report Lite
-
--# = react_component("DashboardReportsDateRangePicker/index")
-
 %p Select Which Office:
 =render "form"
 
 %br/
 
-%h2= "Volunteers - Most active by # of hours"
+%p= @test.map{|n|n}
+
+
+%h2= "Breakdown by Office: #{}"
+%h3 Most active by # of hours - good data
 %table
   %thead
     %tr
       %th ID
+      %th Role
       %th Name
       %th Email
       %th Hours Volunteered
   %tbody
-    - @bar.each do |user|
+    - @users_active_by_shift_claimed.each do |user|
       %tr
         %td= user[:id]
+        %td= user[:role]
         %td= user[:name]
         %td= user[:email]
         %td= user[:hours]
 
-%h2= "Social Workers - Most active by # of request created"
-%code
-  User.where(role:'social_worker' AND verified?: true AND "office = params[office_id]"?)
-
-  Needs.joins(:user).where("office = params[office_id]", "created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
-
+%h3 Most active by # of needs created - good data
 %table
   %thead
     %tr
+      %th ID
+      %th Role
       %th Name
       %th Email
       %th Needs Created
-      %th Shifts Created
   %tbody
-    %tr
-      %td= 'test user 4'
-      %td= 'test.user.socialworker1@gmail.com'
-      %td= '10'
-      %td= '...'
-    %tr
-      %td= 'test user 5'
-      %td= 'test.user.socialworker2@gmail.com'
-      %td= '8'
-      %td= '...'
-    %tr
-      %td= ''
-      %td
-        %b= 'TOTAL NEEDS'
-      %td
-        %b= '22'
-      %td= ''
+    - @users_active_by_need_created.each do |user|
+      %tr
+        %td= user[:id]
+        %td= user[:role]
+        %td= user[:name]
+        %td= user[:email]
+        %td= user[:needs_created]
 
-    %tr
-      %td= ''
-      %td= ''
-      %td
-        %b= 'TOTAL SHIFTS'
-      %td
-        %b= '...'
 
-%h2= "Shifts - breakdown"
-%code
-  Shift.where("created_at >= :start_date AND created_at <= :end_date", {start_date: params[:start_date], end_date: params[:end_date]})
-
+%h3 Shifts
 %table
   %thead
     %tr
       %th Needs Created
-      %th Shifts Create
-      %th Filled
-      %th Unfill
+      %th Shifts Created
+      %th Filled Shifts
+      %th Unfilled Shifts
   %tbody
     %tr
-      %td= '12'
-      %td= '20'
-      %td= '15'
-      %td= '5'
+      %td= @total_needs_created
+      %td= @total_shifts_created
+      %td= @total_shifts_claimed
+      %td= @total_shifts_unclaimed
+
+
+
+%table
+  %thead
+    %tr
+      %th ID
+      %th office
+      %th user
+  %tbody
+    - @test.each do |need|
+      %tr
+        %td= need.id
+        %td= need.office_id
+        %td= need.user_id

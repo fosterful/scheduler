@@ -34,19 +34,85 @@ class DashboardController < ApplicationController
     # This should redirect to root if not admin or coordinator
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
-    # might cause issue with date depending on format/parsing
-    # seems to be working with no format issues
-    @foo = User
-    .joins(shifts: :need)
+    active_by_hours
+    active_by_needs
+    shift_data
+  end
+
+  def active_by_hours
+    # hours are by claimed shifts
+    @users_active_by_shift_claimed = User
+    .joins(shifts: :need) # nested association
     .where(needs: {office_id: params[:office_id]})
     .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-    .group(:id, :first_name, :last_name, :email)
+    .group(:id, :role, :first_name, :last_name, :email)
     .sum('shifts.duration / 60.0')
 
     # format SQL query to easily access data
-    @bar = @foo.map { | key, value | {id: key[0], name: "#{key[1]} #{key[2]}", email: key[3], hours: value} }
+    # https://api.rubyonrails.org/v7.0.3/classes/ActiveRecord/QueryMethods.html#method-i-where
+    # try name placeholders
+    @users_active_by_shift_claimed = @users_active_by_shift_claimed.map do | key, value |
+      { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], hours: value }
+    end
 
-    # sort hash by value sum
+    # sort by decending values
+    @users_active_by_shift_claimed = @users_active_by_shift_claimed.sort_by! { |user| user[:hours]}.reverse
+
+    # create nested array where is inner array is users grouped by role, then sort inner role by hours
+  end
+
+  def active_by_needs
+    @users_active_by_need_created = User
+    .joins(:needs)
+    .where(needs: {office_id: params[:office_id]})
+    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    .group(:id, :role, :first_name, :last_name, :email)
+    .count
+
+    @users_active_by_need_created = @users_active_by_need_created.map do | key, value |
+      { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], needs_created: value }
+    end
+
+    #  # sort by decending values
+    @users_active_by_need_created = @users_active_by_need_created.sort_by! { |user| user[:needs_created]}.reverse
+  end
+
+  def shift_data
+
+    # DATA OK
+
+    # count of all needs created including unclaimed shifts, cant see unclaimed shift
+    @total_needs_created = Need
+    .where(office_id: params[:office_id])
+    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    .count
+
+    # how do we ge need join shift?
+    # @test = Need
+    # .joins(:shifts)
+    # .where(office_id: params[:office_id])
+    # .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    # list of need for every shift created that has associated need
+
+    #count of all shifts created including unclaimed shifts
+    @total_shifts_created = Shift
+    .joins(:need)
+    .where(needs: {office_id: params[:office_id]})
+    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    .count
+
+    #count of all shifts claimed
+    @total_shifts_claimed = Shift
+    .joins(:need)
+    .where(needs: {office_id: params[:office_id]})
+    .where.not(user_id: nil)
+    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
+    .count
+
+    @total_shifts_unclaimed = (@total_shifts_created - @total_shifts_claimed)
+
+
+
   end
 
   def reports
