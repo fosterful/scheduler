@@ -1,10 +1,8 @@
+%h1 Data Breakdown
 %p Select Which Office:
 =render "form"
 %br/
-
-ugly
-%h2= "Breakdown by Office: #{params[:office_id]} for #{params[:start_date]} #{params[:end_date]}"
-
+%h3= "#{@office} during #{@start_date} - #{@end_date}"
 
 %h3 Most active by # of hours
 %table
