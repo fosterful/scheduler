@@ -3,9 +3,6 @@
 = form_with method: 'GET' do |f|
   = f.select :office_id, current_user.offices.map { |office| [office.name, office.id] }
   %div
-    = f.label :start_date, "Start Date"
-    = f.text_field :start_date, data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
-    = f.label :end_date, "End Date"
-    = f.text_field :end_date, data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
-    -# what is rails date format?
-    = f.submit
+  = f.text_field :start_date, placeholder: "#{@start_date}", data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
+  = f.text_field :end_date, placeholder: "#{@end_date}", data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
+  = f.submit

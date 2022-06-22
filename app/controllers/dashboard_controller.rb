@@ -30,7 +30,7 @@ class DashboardController < ApplicationController
       end
   end
 
-  def dashboard
+  def query
     # This should redirect to root if not admin or coordinator
     redirect_to :root unless DashboardPolicy.new(current_user).users?
     if params[:office_id].present?
@@ -43,14 +43,23 @@ class DashboardController < ApplicationController
       params[:end_date]
     )
 
+    # This feels wrong in that we are instantiating alot of instance variables
     @users_active_by_shift_claimed = dashboard_queries.active_by_hours
+    @users_active_by_need_created  = dashboard_queries.active_by_needs
+    @total_needs_created = dashboard_queries.needs_created
+    @total_shifts_created = dashboard_queries.shifts_created
+    @total_shifts_claimed = dashboard_queries.shifts_claimed
+    @total_shifts_unclaimed = dashboard_queries.shifts_unclaimed
 
     format_date
-    # active_by_hours
-    active_by_needs
-    shift_data
+
+    # need to handle default behavior if no date is entered and submit is press,
+    #error handling
+    # if start_date or end_date is nil?
+
   end
 
+  # helper method?
   def format_date
     if params[:start_date].present? || params[:end_date].present?
       query_dates = [params[:start_date], params[:end_date]].map do |date|
@@ -58,67 +67,6 @@ class DashboardController < ApplicationController
       end
       @start_date, @end_date = query_dates[0], query_dates[1]
     end
-  end
-
-  # def active_by_hours
-  #   # hours are by claimed shifts
-  #   @users_active_by_shift_claimed = User
-  #   .joins(shifts: :need) # nested association
-  #   .where(needs: {office_id: params[:office_id]})
-  #   .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-  #   .group(:id, :role, :first_name, :last_name, :email)
-  #   .sum('shifts.duration / 60.0')
-
-  #   # format SQL query to easily access data
-  #   # https://api.rubyonrails.org/v7.0.3/classes/ActiveRecord/QueryMethods.html#method-i-where
-  #   # try name placeholders
-  #   @users_active_by_shift_claimed = @users_active_by_shift_claimed.map do | key, value |
-  #     { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], hours: value }
-  #   end
-
-  #   # sort by decending values
-  #   @users_active_by_shift_claimed = @users_active_by_shift_claimed.sort_by! { |user| user[:hours]}.reverse
-  # end
-
-  def active_by_needs
-    @users_active_by_need_created = User
-    .joins(:needs)
-    .where(needs: {office_id: params[:office_id]})
-    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-    .group(:id, :role, :first_name, :last_name, :email)
-    .count
-
-    @users_active_by_need_created = @users_active_by_need_created.map do | key, value |
-      { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], needs_created: value }
-    end
-
-    #  # sort by decending values
-    @users_active_by_need_created = @users_active_by_need_created.sort_by! { |user| user[:needs_created]}.reverse
-  end
-
-  def shift_data
-    # count of all needs created including unclaimed shifts, cant see unclaimed shift
-    @total_needs_created = Need
-    .where(office_id: params[:office_id])
-    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-    .count
-
-    #count of all shifts created including unclaimed shifts
-    @total_shifts_created = Shift
-    .joins(:need)
-    .where(needs: {office_id: params[:office_id]})
-    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-    .count
-
-    #count of all shifts claimed
-    @total_shifts_claimed = Shift
-    .joins(:need)
-    .where(needs: {office_id: params[:office_id]})
-    .where.not(user_id: nil)
-    .then { |scope| filter_by_date_range(scope, params[:start_date], params[:end_date]) }
-    .count
-
-    @total_shifts_unclaimed = (@total_shifts_created - @total_shifts_claimed)
   end
 
   def reports
