@@ -1,8 +1,21 @@
--# Which method? POST to dashboard controller? dashboard#office_filter?,
+-# Should this handled form logic in a form object/controller?
+-# https://jaryl.medium.com/disciplined-rails-form-object-techniques-patterns-part-1-23cfffcaf429
+
+-# I think this is where I should handle date errors
+-# if both values are nil ie submit is press with no dates entered
+-# if one value is nill
+-# start_date <= end_date
+
+-# how to add selected="selected" in office?
+-# https://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-options_for_select
 
 = form_with method: 'GET' do |f|
   = f.select :office_id, current_user.offices.map { |office| [office.name, office.id] }
   %div
-  = f.text_field :start_date, placeholder: "#{@start_date}", data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
-  = f.text_field :end_date, placeholder: "#{@end_date}", data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d" }
-  = f.submit
+  = f.text_field :start_date,
+    placeholder: "#{@start_date}",
+    data: { controller: "flatpickr", flatpickr_alt_format: t("date.formats.long"), flatpickr_alt_input: true }
+  = f.text_field :end_date,
+    placeholder: "#{@end_date}",
+    data: { controller: "flatpickr", flatpickr_alt_format: t("date.formats.long"), flatpickr_alt_input: true}
+  = f.submit "Submit"
