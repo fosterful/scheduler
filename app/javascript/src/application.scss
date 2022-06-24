@@ -53,6 +53,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .float-right .react-datepicker-popper {
   left: -20px !important;
 }
+// Prevent End date picker from collapsing below the Start date picker when picker active
+.date-flex-wrap { display: flex; }
 
 @import 'stylesheets/nav';
 @import 'stylesheets/needs';
