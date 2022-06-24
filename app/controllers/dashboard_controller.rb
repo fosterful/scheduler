@@ -18,23 +18,34 @@ class DashboardController < ApplicationController
   SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 
   def users
-    # This should redirect to root if user is not an admin or coordinator
     redirect_to :root unless DashboardPolicy.new(current_user).users?
 
     @data =
       if current_user.admin?
         fetch_office_users_data(Office.all)
       else
-        # This triggers if user is coordinator
         fetch_office_users_data(current_user.offices)
       end
   end
 
   def query
-    # This should redirect to root if not admin or coordinator
     redirect_to :root unless DashboardPolicy.new(current_user).users?
+
     if params[:office_id].present?
       @office = Office.find(params[:office_id])
+    end
+
+    # In theory @start_date ||= params[:start_date].to_date.strftime('%b %d, %Y') should work
+    if params[:start_date].nil?
+      Time.now.beginning_of_month.to_date # this isnt really doing anything except allow the page to load? why if @start_date is still nil when we load page?
+    else
+      @start_date = params[:start_date].to_date.strftime('%b %d, %Y')
+    end
+
+    if params[:end_date].nil?
+      Time.now.end_of_month.to_date
+    else
+      @end_date = params[:end_date].to_date.strftime('%b %d, %Y')
     end
 
     dashboard_queries = Services::DashboardQueries.new(
@@ -43,30 +54,12 @@ class DashboardController < ApplicationController
       params[:end_date]
     )
 
-    # This feels wrong in that we are instantiating alot of instance variables
     @users_active_by_shift_claimed = dashboard_queries.active_by_hours
     @users_active_by_need_created  = dashboard_queries.active_by_needs
     @total_needs_created = dashboard_queries.needs_created
     @total_shifts_created = dashboard_queries.shifts_created
     @total_shifts_claimed = dashboard_queries.shifts_claimed
     @total_shifts_unclaimed = dashboard_queries.shifts_unclaimed
-
-    format_date
-
-    # need to handle default behavior if no date is entered and submit is press,
-    #error handling
-    # if start_date or end_date is nil?
-
-  end
-
-  # helper method?
-  def format_date
-    if params[:start_date].present? || params[:end_date].present?
-      query_dates = [params[:start_date], params[:end_date]].map do |date|
-        Date.parse(date).strftime('%a %d %b %Y')
-      end
-      @start_date, @end_date = query_dates[0], query_dates[1]
-    end
   end
 
   def reports

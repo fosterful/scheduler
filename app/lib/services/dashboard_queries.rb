@@ -3,6 +3,7 @@
 module Services
   class DashboardQueries
     include DateRangeFilterHelper
+    # How to define this so we keyword arguments?
     include Concord.new(:office_id, :start_date, :end_date)
     include Adamantium::Flat #freezes objects
 
@@ -16,7 +17,12 @@ module Services
 
       # Should factor this out into another method
       users_active_by_shift_claimed = users_active_by_shift_claimed.map do | key, value |
-        { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], hours: value }
+        { id: key.fetch(0),
+          role: key.fetch(1),
+          name: "#{key.fetch(2)} #{key.fetch(3)}",
+          email: key.fetch(4),
+          hours: value
+        }
       end
 
       # Should factor this out into another method
@@ -32,7 +38,12 @@ module Services
       .count
 
       users_active_by_need_created = users_active_by_need_created.map do | key, value |
-        { id: key[0], role: key[1], name: "#{key[2]} #{key[3]}", email: key[4], needs_created: value }
+        { id: key.fetch(0),
+          role: key.fetch(1),
+          name: "#{key.fetch(2)} #{key.fetch(3)}",
+          email: key.fetch(4),
+          needs_created: value
+        }
       end
 
       #  # sort by decending values
@@ -40,16 +51,14 @@ module Services
     end
 
     def needs_created
-      # count of all needs created including unclaimed shifts, cant see unclaimed shift
-      total_needs_created = Need
+      Need
       .where(office_id: office_id)
       .then { |scope| filter_by_date_range(scope, start_date, end_date) }
       .count
     end
 
     def shifts_created
-      #count of all shifts created including unclaimed shifts
-      total_shifts_created = Shift
+      Shift
       .joins(:need)
       .where(needs: {office_id: office_id})
       .then { |scope| filter_by_date_range(scope, start_date, end_date) }
@@ -57,8 +66,7 @@ module Services
     end
 
     def shifts_claimed
-      #count of all shifts claimed
-      total_shifts_claimed = Shift
+      Shift
       .joins(:need)
       .where(needs: {office_id: office_id})
       .where.not(user_id: nil)
