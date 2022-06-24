@@ -16,3 +16,6 @@ require("flatpickr/dist/flatpickr.css")
 
 // Manually register Flatpickr as a stimulus controller
 application.register('flatpickr', Flatpickr)
+
+// Theme for flatpickr
+require("flatpickr/dist/themes/confetti.css");
