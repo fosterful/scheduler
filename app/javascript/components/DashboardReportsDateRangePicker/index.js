@@ -23,21 +23,23 @@ const DashboardReportsDateRangePicker = () => {
     <>
       <div className='margin-top-1'>
         <p>Choosing a date range will constrain reports to those dates:</p>
-        <DatePicker
-          id='filter_start'
-          selected={start}
-          onChange={setStart}
-          dateFormat='MMM d, yyyy'
-          placeholderText='Start date'
-        />
-        <span className='margin-horizontal-1'>to</span>
-        <DatePicker
-          id='filter_end'
-          selected={end}
-          onChange={setEnd}
-          dateFormat='MMM d, yyyy'
-          placeholderText='End date'
-        />
+        <div class="date-flex-wrap">
+          <DatePicker
+            id='filter_start'
+            selected={start}
+            onChange={setStart}
+            dateFormat='MMM d, yyyy'
+            placeholderText='Start date'
+          />
+          <span className='margin-horizontal-1'>to</span>
+          <DatePicker
+            id='filter_end'
+            selected={end}
+            onChange={setEnd}
+            dateFormat='MMM d, yyyy'
+            placeholderText='End date'
+          />
+        </div>
         {(start || end) && (
           <span>
             <button className='button secondary margin-left-1' onClick={clearDates}>
