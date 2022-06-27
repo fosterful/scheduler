@@ -18,7 +18,7 @@ class DashboardController < ApplicationController
   SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 
   def users
-    redirect_to :root unless DashboardPolicy.new(current_user).users?
+    redirect_to :root unless coordinator_or_admin?
 
     @data =
       if current_user.admin?
@@ -29,37 +29,29 @@ class DashboardController < ApplicationController
   end
 
   def query
-    redirect_to :root unless DashboardPolicy.new(current_user).users?
+    # even if they play with query request prevents unintended manipulation of url. How to prevent access to another office???
 
+    redirect_to :root unless coordinator_or_admin? # see how we clarified code!
+
+    # dealing with absence of data!!! lines 37-52 data validation! own method
     if params[:office_id].present?
       @office = Office.find(params[:office_id])
     end
 
-    # In theory @start_date ||= params[:start_date].to_date.strftime('%b %d, %Y') should work
-    if params[:start_date].nil?
-      Time.now.beginning_of_month.to_date # this isnt really doing anything except allow the page to load? why if @start_date is still nil when we load page?
-    else
-      @start_date = params[:start_date].to_date.strftime('%b %d, %Y')
+    if params[:start_date].blank?
+      params[:start_date] = Time.now.beginning_of_month.to_date.to_s
     end
 
-    if params[:end_date].nil?
-      Time.now.end_of_month.to_date
-    else
-      @end_date = params[:end_date].to_date.strftime('%b %d, %Y')
+    @start_date = params[:start_date]
+
+    if params[:end_date].blank?
+      params[:end_date] = Time.now.end_of_month.to_date.to_s
     end
 
-    dashboard_queries = Services::DashboardQueries.new(
-      params[:office_id],
-      params[:start_date],
-      params[:end_date]
-    )
+    @end_date = params[:end_date]
 
-    @users_active_by_shift_claimed = dashboard_queries.active_by_hours
-    @users_active_by_need_created  = dashboard_queries.active_by_needs
-    @total_needs_created = dashboard_queries.needs_created
-    @total_shifts_created = dashboard_queries.shifts_created
-    @total_shifts_claimed = dashboard_queries.shifts_claimed
-    @total_shifts_unclaimed = dashboard_queries.shifts_unclaimed
+    run_query # think about this name and resusbility of code ie passing params
+
   end
 
   def reports
@@ -128,5 +120,24 @@ class DashboardController < ApplicationController
 
   def content_disposition(report_name)
     "attachment; filename=\"#{DateTime.current.to_i}-#{report_name}.csv\""
+  end
+
+  def coordinator_or_admin?
+    DashboardPolicy.new(current_user).users?
+  end
+
+  def run_query
+    dashboard_queries = Services::DashboardQueries.new(
+      params[:office_id],
+      params[:start_date],
+      params[:end_date]
+    )
+
+    @users_active_by_shift_claimed = dashboard_queries.active_by_hours
+    @users_active_by_need_created  = dashboard_queries.active_by_needs
+    @total_needs_created = dashboard_queries.needs_created
+    @total_shifts_created = dashboard_queries.shifts_created
+    @total_shifts_claimed = dashboard_queries.shifts_claimed
+    @total_shifts_unclaimed = dashboard_queries.shifts_unclaimed
   end
 end

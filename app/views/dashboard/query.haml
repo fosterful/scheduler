@@ -2,56 +2,59 @@
 %p Select Which Office:
 =render "form"
 %br/
-%p= "Showing Office via view until I can show selected value in form"
-%h3= "#{@office}"
 
-%h3 Most active by number of hours
-%table
-  %thead
-    %tr
-      %th ID
-      %th Role
-      %th Name
-      %th Email
-      %th Hours Volunteered
-  %tbody
-    - @users_active_by_shift_claimed.each do |user|
+- if @office
+  %h3="#{@office}"
+
+  %h3 Most active by number of hours
+  %table
+    %thead
       %tr
-        %td= user[:id]
-        %td= user[:role]
-        %td= user[:name]
-        %td= user[:email]
-        %td= user[:hours]
+        %th ID
+        %th Role
+        %th Name
+        %th Email
+        %th Hours Volunteered
+    %tbody
+      - @users_active_by_shift_claimed.each do |user|
+        %tr
+          %td= user[:id]
+          %td= user[:role]
+          %td= user[:name]
+          %td= user[:email]
+          %td= user[:hours]
 
-%h3 Most active by number of needs created
-%table
-  %thead
-    %tr
-      %th ID
-      %th Role
-      %th Name
-      %th Email
-      %th Needs Created
-  %tbody
-    - @users_active_by_need_created.each do |user|
+  %h3 Most active by number of needs created
+  %table
+    %thead
       %tr
-        %td= user[:id]
-        %td= user[:role]
-        %td= user[:name]
-        %td= user[:email]
-        %td= user[:needs_created]
+        %th ID
+        %th Role
+        %th Name
+        %th Email
+        %th Needs Created
+    %tbody
+      - @users_active_by_need_created.each do |user|
+        %tr
+          %td= user[:id]
+          %td= user[:role]
+          %td= user[:name]
+          %td= user[:email]
+          %td= user[:needs_created]
 
-%h3 Shifts
-%table
-  %thead
-    %tr
-      %th Needs Created
-      %th Shifts Created
-      %th Filled Shifts
-      %th Unfilled Shifts
-  %tbody
-    %tr
-      %td= @total_needs_created
-      %td= @total_shifts_created
-      %td= @total_shifts_claimed
-      %td= @total_shifts_unclaimed
+  %h3 Shifts
+  %table
+    %thead
+      %tr
+        %th Needs Created
+        %th Shifts Created
+        %th Filled Shifts
+        %th Unfilled Shifts
+    %tbody
+      %tr
+        %td= @total_needs_created
+        %td= @total_shifts_created
+        %td= @total_shifts_claimed
+        %td= @total_shifts_unclaimed
+- else
+  %h3 Please submit your form after selecting your office
