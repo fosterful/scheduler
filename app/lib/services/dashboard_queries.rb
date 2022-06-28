@@ -8,25 +8,22 @@ module Services
     include Adamantium::Flat #freezes objects
 
     def active_by_hours
-      users_active_by_shift_claimed = User
+      find_active_by_hours.map { | key, value | value }.sum
+    end
+
+
+
+    def list_user_active_by_hours(users)
+
+    end
+
+    def find_active_by_hours
+      User
       .joins(shifts: :need) # nested association
       .where(needs: {office_id: office_id})
       .then { |scope| filter_by_date_range(scope, start_date, end_date) }
       .group(:id, :role, :first_name, :last_name, :email)
       .sum('shifts.duration / 60.0')
-
-      # Should factor this out into another method
-      users_active_by_shift_claimed = users_active_by_shift_claimed.map do | key, value |
-        { id: key.fetch(0),
-          role: key.fetch(1),
-          name: "#{key.fetch(2)} #{key.fetch(3)}",
-          email: key.fetch(4),
-          hours: value
-        }
-      end
-
-      # Should factor this out into another method
-      users_active_by_shift_claimed.sort_by! { |user| user[:hours]}.reverse
     end
 
     def active_by_needs

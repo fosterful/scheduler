@@ -1,24 +1,24 @@
 %h1 Data Breakdown
 %p Select Which Office:
 =render "form"
-%br/
 
-.grid-x.margin-vertical-1
+- if @office
+  .grid-x.margin-vertical-1
   .cell
-    %h2= "By Office: #{@office}"
+    %h2= "#{@office}"
 
     .grid-x.grid-padding-left
-      .cell.large-3
+      .cell.small-4
         .card
           .card-section
             %h2
               %strong Volunteer Hours
             %h2
-              %strong 40
+              %strong= @users_active_by_shift_claimed
 
             .flex-container.flex-dir-row-reverse
 
-      .cell.large-3
+      .cell.small-4
         .card
           .card-section
             %h2
@@ -28,7 +28,7 @@
 
             .flex-container.flex-dir-row-reverse
 
-      .cell.large-3
+      .cell.small-4
         .card
           .card-section
             %h2
@@ -38,7 +38,7 @@
 
             .flex-container.flex-dir-row-reverse
 
-      .cell.large-3
+      .cell.small-4.small-offset-3
         .card
           .card-section
             %h2
@@ -48,7 +48,7 @@
 
             .flex-container.flex-dir-row-reverse
 
-      .cell.large-3
+      .cell.small-4
         .card
           .card-section
             %h2
@@ -57,63 +57,5 @@
               %strong= @total_shifts_unclaimed
 
             .flex-container.flex-dir-row-reverse
-
-
-
-
-
-- if @office
-  %h3="#{@office}"
-
-  %h3 Most active by number of hours
-  %table
-    %thead
-      %tr
-        %th ID
-        %th Role
-        %th Name
-        %th Email
-        %th Hours Volunteered
-    %tbody
-      - @users_active_by_shift_claimed.each do |user|
-        %tr
-          %td= user[:id]
-          %td= user[:role]
-          %td= user[:name]
-          %td= user[:email]
-          %td= user[:hours]
-
-  %h3 Most active by number of needs created
-  %table
-    %thead
-      %tr
-        %th ID
-        %th Role
-        %th Name
-        %th Email
-        %th Needs Created
-    %tbody
-      - @users_active_by_need_created.each do |user|
-        %tr
-          %td= user[:id]
-          %td= user[:role]
-          %td= user[:name]
-          %td= user[:email]
-          %td= user[:needs_created]
-
-  %h3 Shifts
-  %table
-    %thead
-      %tr
-        %th Needs Created
-        %th Shifts Created
-        %th Filled Shifts
-        %th Unfilled Shifts
-    %tbody
-      %tr
-        %td= @total_needs_created
-        %td= @total_shifts_created
-        %td= @total_shifts_claimed
-        %td= @total_shifts_unclaimed
 - else
   %h3 Please submit your form after selecting your office
