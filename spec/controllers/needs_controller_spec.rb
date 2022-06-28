@@ -5,14 +5,13 @@ require 'rails_helper'
 RSpec.describe NeedsController, type: :controller do
   let(:user) { need.user }
   let(:need) { create(:need_with_shifts) }
-
   before { sign_in user }
 
   describe '#index' do
     let!(:tomorrow_need) do
       create(:need, start_at: 1.day.from_now, user: user, office: need.office)
     end
-    let!(:yesterday_need) { create(:need, start_at: 1.day.ago) }
+    let!(:yesterday_need) { create(:need, start_at: 1.day.ago, office: need.office) }
 
     it 'returns ok' do
       get :index
@@ -21,7 +20,8 @@ RSpec.describe NeedsController, type: :controller do
       expect(assigns(:needs).to_a).to eql([need, tomorrow_need])
     end
 
-    context 'when a date is provided' do
+    context 'when a date is provided and user is a volunteer' do
+      let(:user) { create(:user, role: 'volunteer', offices: [need.office]) }
       subject { get :index, params: { date: Date.current.yesterday.to_s } }
 
       it 'ignores date and returns normal result' do
@@ -29,8 +29,8 @@ RSpec.describe NeedsController, type: :controller do
         expect(assigns(:needs).to_a).to eql([need, tomorrow_need])
       end
 
-      context 'when user is an admin' do
-        let(:user) { create(:user, role: 'admin') }
+      context 'when user is a scheduler' do
+        let(:user) { create(:user, role: 'coordinator', offices: [need.office]) }
 
         it 'returns appropriate needs for that date' do
           subject
@@ -75,7 +75,7 @@ RSpec.describe NeedsController, type: :controller do
 
   describe '#update' do
     it 'PATCH update' do
-      expect { 
+      expect {
         patch :update, params: { id: need.id, need: { notes: 'Foobar', children_attributes: {"0" => {age: 5, sex: 'female', _destroy: ''}} } }
       }.to change { need.reload.notes }.to('Foobar')
       expect(response).to have_http_status(:found)
