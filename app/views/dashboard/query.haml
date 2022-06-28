@@ -3,6 +3,65 @@
 =render "form"
 %br/
 
+.grid-x.margin-vertical-1
+  .cell
+    %h2= "By Office: #{@office}"
+
+    .grid-x.grid-padding-left
+      .cell.large-3
+        .card
+          .card-section
+            %h2
+              %strong Volunteer Hours
+            %h2
+              %strong 40
+
+            .flex-container.flex-dir-row-reverse
+
+      .cell.large-3
+        .card
+          .card-section
+            %h2
+              %strong Total Needs Created
+            %h2
+              %strong= @total_needs_created
+
+            .flex-container.flex-dir-row-reverse
+
+      .cell.large-3
+        .card
+          .card-section
+            %h2
+              %strong Total Shifts Unclaimed
+            %h2
+              %strong= @total_shifts_created
+
+            .flex-container.flex-dir-row-reverse
+
+      .cell.large-3
+        .card
+          .card-section
+            %h2
+              %strong Total Shifts Unclaimed
+            %h2
+              %strong= @total_shifts_claimed
+
+            .flex-container.flex-dir-row-reverse
+
+      .cell.large-3
+        .card
+          .card-section
+            %h2
+              %strong Total Shifts Unclaimed
+            %h2
+              %strong= @total_shifts_unclaimed
+
+            .flex-container.flex-dir-row-reverse
+
+
+
+
+
 - if @office
   %h3="#{@office}"
 
