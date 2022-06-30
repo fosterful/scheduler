@@ -8,18 +8,6 @@
     %h2= "#{@office}"
 
     .grid-x.grid-padding-left{ data: { controller: "visibility" } }
-      .cell.small-4
-        .card
-          .card-section
-            %h2
-              %strong Volunteer
-              %br
-              %strong Hours
-            %h2
-              %strong= @total_volunteer_hours
-            .flex-container.flex-dir-row-reverse
-              %button.btn.btn-primary.primary-button{ data: { action: "visibility#toggleTargets" } } Expand
-
       .cell.large-12{ data: { target: "visibility.hideable" }, hidden: true}
         .card
           .card-section
@@ -38,6 +26,18 @@
                     %td= user[:name]
                     %td= user[:email]
                     %td= user[:hours]
+
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Volunteer
+              %br
+              %strong Hours
+            %h2
+              %strong= @total_volunteer_hours
+            .flex-container.flex-dir-row-reverse
+              %button{ data: { action: "visibility#toggleTargets" } } Expand
 
       .cell.small-4
         .card
