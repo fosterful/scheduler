@@ -8,6 +8,12 @@ const application = Application.start()
 const context = require.context("controllers", true, /_controller\.js$/)
 application.load(definitionsFromContext(context))
 
+
+// import { application } from "./application"
+
+import VisibilityController from "./visibility_controller"
+application.register("visibility", VisibilityController)
+
 // import Flatpickr
 import Flatpickr from 'stimulus-flatpickr'
 
