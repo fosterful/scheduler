@@ -7,26 +7,37 @@
   .cell
     %h2= "#{@office}"
 
-    .grid-x.grid-padding-left
+    .grid-x.grid-padding-left{ data: { controller: "visibility" } }
       .cell.small-4
         .card
           .card-section
             %h2
-              %strong Volunteer Hours
+              %strong Volunteer
+              %br
+              %strong Hours
             %h2
-              %strong= @users_active_by_shift_claimed
+              %strong= @total_volunteer_hours
             .flex-container.flex-dir-row-reverse
-      .cell.large-12
+              %button.btn.btn-primary.primary-button{ data: { action: "visibility#toggleTargets" } } Expand
+
+      .cell.large-12{ data: { target: "visibility.hideable" }, hidden: true}
         .card
-          #options{ data: { controller: "visibility" } }
-          %h1 Toggle Visibility
-          %button{ data: { action: "visibility#showTargets" } } Show All Elements
-          %button{ data: { action: "visibility#hideTargets" } } Hide All Elements
-          %button{ data: { action: "visibility#toggleTargets" } } Toggle Element Visibility
-          %p{ data: { target: "hideable"} } The Flamboyent Thing #1
-          %p
-          %p{ data: { target: "hideable"} } The Slightly Stealthy Thing #2
-          %p
+          .card-section
+            %h3 Most active by number of hours
+            %table
+              %thead
+                %tr
+                  %th Role
+                  %th Name
+                  %th Email
+                  %th Hours Volunteered
+              %tbody
+                - @users_active_by_need_created.each do |user|
+                  %tr
+                    %td= user[:role]
+                    %td= user[:name]
+                    %td= user[:email]
+                    %td= user[:hours]
 
       .cell.small-4
         .card

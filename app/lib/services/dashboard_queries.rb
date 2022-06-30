@@ -7,14 +7,12 @@ module Services
     include Concord.new(:office_id, :start_date, :end_date)
     include Adamantium::Flat #freezes objects
 
-    def active_by_hours
-      find_active_by_hours.map { | key, value | value }.sum
+    def list_user_active_by_hours(users)
+      active_by_hours
     end
 
-
-
-    def list_user_active_by_hours(users)
-
+    def volunteer_hours
+      find_active_by_hours.map { | key, value | value }.sum
     end
 
     def find_active_by_hours
@@ -26,6 +24,7 @@ module Services
       .sum('shifts.duration / 60.0')
     end
 
+    # this should called when the needs created is clicked
     def active_by_needs
       users_active_by_need_created = User
       .joins(:needs)

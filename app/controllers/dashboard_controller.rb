@@ -132,9 +132,9 @@ class DashboardController < ApplicationController
       params[:start_date],
       params[:end_date]
     )
-
-    @users_active_by_shift_claimed = dashboard_queries.active_by_hours
-    @users_active_by_need_created  = dashboard_queries.active_by_needs
+    @users
+    @total_volunteer_hours = dashboard_queries.volunteer_hours # change this instance variable name
+    @users_active_by_need_created = dashboard_queries.active_by_needs
     @total_needs_created = dashboard_queries.needs_created
     @total_shifts_created = dashboard_queries.shifts_created
     @total_shifts_claimed = dashboard_queries.shifts_claimed
