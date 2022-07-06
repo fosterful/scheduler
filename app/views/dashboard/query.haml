@@ -20,7 +20,25 @@
                   %th Email
                   %th Hours Volunteered
               %tbody
-                - @users_active_by_need_created.each do |user|
+                - @list_of_volunteered_hours.each do |user|
+                  %tr
+                    %td= user[:role]
+                    %td= user[:name]
+                    %td= user[:email]
+                    %td= user[:hours]
+      .cell.large-12{ data: { target: "visibility.hideable" }, hidden: true}
+        .card
+          .card-section
+            %h3 Most active by number of needs created
+            %table
+              %thead
+                %tr
+                  %th Role
+                  %th Name
+                  %th Email
+                  %th Hours Volunteered
+              %tbody
+                - @list_of_volunteered_hours.each do |user|
                   %tr
                     %td= user[:role]
                     %td= user[:name]
@@ -31,9 +49,7 @@
         .card
           .card-section
             %h2
-              %strong Volunteer
-              %br
-              %strong Hours
+              %strong Total Hours Volunteer
             %h2
               %strong= @total_volunteer_hours
             .flex-container.flex-dir-row-reverse
@@ -46,6 +62,8 @@
               %strong Total Needs Created
             %h2
               %strong= @total_needs_created
+            .flex-container.flex-dir-row-reverse
+              %button{ data: { action: "visibility#toggleTargets" } } Expand
       .cell.small-4
         .card
           .card-section

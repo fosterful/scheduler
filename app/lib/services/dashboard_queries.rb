@@ -7,15 +7,26 @@ module Services
     include Concord.new(:office_id, :start_date, :end_date)
     include Adamantium::Flat #freezes objects
 
-    def list_user_active_by_hours(users)
-      active_by_hours
+    def list_user_active_by_hours
+      data = find_active_by_hours
+      list_users = data.map do | key, value |
+        { id: key.fetch(0),
+          role: key.fetch(1),
+          name: "#{key.fetch(2)} #{key.fetch(3)}",
+          email: key.fetch(4),
+          needs_created: value
+        }
+      end
+
+      #  # sort by decending values
+      list_users.sort_by! { |user| user[:needs_created]}.reverse
     end
 
-    def volunteer_hours
+    def hours_volunteered
       find_active_by_hours.map { | key, value | value }.sum
     end
 
-    def find_active_by_hours
+    def find_active_by_hours #ok
       User
       .joins(shifts: :need) # nested association
       .where(needs: {office_id: office_id})
