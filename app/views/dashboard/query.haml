@@ -8,11 +8,16 @@
     %h2= "#{@office}"
 
     .grid-x.grid-padding-left{ data: { controller: "visibility" } }
-      .cell.large-12{ data: { target: "visibility.hideable" }, hidden: true}
+      .cell.large-12{ data: { target: "visibility.hideableHours" }, hidden: true}
         .card
           .card-section
-            %h3 Most active by number of hours
-            %table
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h3 Most active by number of hours volunteered
+              .cell.shrink
+                .button{ data: { action: "click->visibility#hideHoursTargets" } } Close
+
+            %table{class: 'hover'}
               %thead
                 %tr
                   %th Role
@@ -26,11 +31,24 @@
                     %td= user[:name]
                     %td= user[:email]
                     %td= user[:hours]
-      .cell.large-12{ data: { target: "visibility.hideable" }, hidden: true}
+                %tr
+                  %td
+                  %td
+                  %td
+                    %strong Total Hours
+                  %td
+                    %strong= @total_volunteer_hours
+
+      .cell.large-12{ data: { target: "visibility.hideableNeeds" }, hidden: true}
         .card
           .card-section
-            %h3 Most active by number of needs created
-            %table
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h3 Most active by number of needs created
+              .cell.shrink
+                .button{ data: { action: "click->visibility#hideNeedsTargets" } } Close
+
+            %table{class: 'hover'}
               %thead
                 %tr
                   %th Role
@@ -50,32 +68,37 @@
           .card-section
             %h2
               %strong Total Hours Volunteer
-            %h2
-              %strong= @total_volunteer_hours
-            .flex-container.flex-dir-row-reverse
-              %button{ data: { action: "visibility#toggleTargets" } } Expand
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h2
+                  %strong= @total_volunteer_hours
+              .cell.shrink
+                .button{ data: { action: "click->visibility#toggleHoursTargets" } } Expand
 
       .cell.small-4
         .card
           .card-section
             %h2
               %strong Total Needs Created
-            %h2
-              %strong= @total_needs_created
-            .flex-container.flex-dir-row-reverse
-              %button{ data: { action: "visibility#toggleTargets" } } Expand
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h2
+                  %strong= @total_volunteer_hours
+              .cell.shrink
+                .button{ data: { action: "click->visibility#toggleNeedsTargets" } } Expand
+
       .cell.small-4
         .card
           .card-section
             %h2
-              %strong Total Shifts Unclaimed
+              %strong Total Shifts Created
             %h2
               %strong= @total_shifts_created
       .cell.small-4.small-offset-2
         .card
           .card-section
             %h2
-              %strong Total Shifts Unclaimed
+              %strong Total Shifts Claimed
             %h2
               %strong= @total_shifts_claimed
       .cell.small-4
@@ -88,3 +111,12 @@
 
 - else
   %h3 Please submit your form after selecting your office
+
+
+-# for each attribute use this template etc
+-#  if attribute x or y
+-#  template1
+-#  elsif all other
+-#  template2
+-#  else(nil?)
+-#  generate warning
