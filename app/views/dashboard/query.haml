@@ -25,7 +25,7 @@
                   %th Email
                   %th Hours Volunteered
               %tbody
-                - @list_of_volunteered_hours.each do |user|
+                - @user_list_by_hours_volunteered .each do |user|
                   %tr
                     %td= user[:role]
                     %td= user[:name]
@@ -37,7 +37,7 @@
                   %td
                     %strong Total Hours
                   %td
-                    %strong= @total_volunteer_hours
+                    %strong= @total_hours_volunteered
 
       .cell.large-12{ data: { target: "visibility.hideableNeeds" }, hidden: true}
         .card
@@ -54,14 +54,21 @@
                   %th Role
                   %th Name
                   %th Email
-                  %th Hours Volunteered
+                  %th Needs Created
               %tbody
-                - @list_of_volunteered_hours.each do |user|
+                - @user_list_by_need_created.each do |user|
                   %tr
                     %td= user[:role]
                     %td= user[:name]
                     %td= user[:email]
-                    %td= user[:hours]
+                    %td= user[:needs_created]
+                %tr
+                  %td
+                  %td
+                  %td
+                    %strong Total Needs
+                  %td
+                    %strong= @total_needs_created
 
       .cell.small-4
         .card
@@ -71,7 +78,7 @@
             .grid-x.grid-margin-x
               .cell.auto
                 %h2
-                  %strong= @total_volunteer_hours
+                  %strong= @total_hours_volunteered
               .cell.shrink
                 .button{ data: { action: "click->visibility#toggleHoursTargets" } } Expand
 
@@ -83,7 +90,7 @@
             .grid-x.grid-margin-x
               .cell.auto
                 %h2
-                  %strong= @total_volunteer_hours
+                  %strong= @total_needs_created
               .cell.shrink
                 .button{ data: { action: "click->visibility#toggleNeedsTargets" } } Expand
 
@@ -110,7 +117,7 @@
               %strong= @total_shifts_unclaimed
 
 - else
-  %h3 Please submit your form after selecting your office
+  %h3 Please submit your form after selecting your office.
 
 
 -# for each attribute use this template etc

@@ -29,11 +29,8 @@ class DashboardController < ApplicationController
   end
 
   def query
-    # even if they play with query request prevents unintended manipulation of url. How to prevent access to another office???
+    redirect_to :root unless coordinator_or_admin?
 
-    redirect_to :root unless coordinator_or_admin? # see how we clarified code!
-
-    # dealing with absence of data!!! lines 37-52 data validation! own method
     if params[:office_id].present?
       @office = Office.find(params[:office_id])
     end
@@ -51,7 +48,6 @@ class DashboardController < ApplicationController
     @end_date = params[:end_date]
 
     run_query # think about this name and resusbility of code ie passing params
-
   end
 
   def reports
@@ -132,9 +128,10 @@ class DashboardController < ApplicationController
       params[:start_date],
       params[:end_date]
     )
-    @list_of_volunteered_hours = dashboard_queries.list_user_active_by_hours
-    @total_volunteer_hours = dashboard_queries.hours_volunteered # change this instance variable name
-    @users_active_by_need_created = dashboard_queries.active_by_needs
+
+    @user_list_by_hours_volunteered = dashboard_queries.users_by_hours_volunteered
+    @user_list_by_need_created = dashboard_queries.users_by_needs_created
+    @total_hours_volunteered = dashboard_queries.hours_volunteered
     @total_needs_created = dashboard_queries.needs_created
     @total_shifts_created = dashboard_queries.shifts_created
     @total_shifts_claimed = dashboard_queries.shifts_claimed
