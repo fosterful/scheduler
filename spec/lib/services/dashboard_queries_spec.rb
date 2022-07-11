@@ -18,19 +18,29 @@ describe Services::DashboardQueries do
     )
   }
 
-  describe '#active_by_hours' do
-    # I want to create multiple needs, with different users but same office
-    let()
-    # can I do need_2.office = :office_id?, this should overwrite office generated?
-
+  describe '#users_by_hours_volunteered' do
     it 'returns a sorted array of hashes, of active record relations, in decending order of hours volunteered' do
-      result = dashboard_query.active_by_hours
+      result = dashboard_query.users_by_hours_volunteered
 
-      expect().to equal()
+      # match note if result includes other hashes, it will still pass. READ Docs
+      expect(result).to match([{:email=>String, :hours=>BigDecimal("0.2e1"), :id=>Integer, :name=>"Test User", :role=>"social_worker"}])
     end
+  end
 
-    # Additional test for
-    #four things, pulling data from DB, summing data, formating pulled data, sorting data.
+  describe '#users_by_needs_created' do
+    it 'returns a sorted array of hashes, of active record relations, in decending order of needs created' do
+      result = dashboard_query.users_by_needs_created
+
+      expect(result).to match([{:email=>String, :id=>Integer, :name=>"Test User", :needs_created=>1, :role=>"social_worker"}])
+    end
+  end
+
+  describe '#hours_volunteered' do # do we also need test that start_date/date are correct? ie dry?
+    it 'returns an integer which represents all the hours volunteered by all users within the timeframe passed in' do
+      result = dashboard_query.hours_volunteered
+
+      expect(result).to eq(2)
+    end
   end
 
   describe '#needs_created' do
@@ -60,28 +70,19 @@ describe Services::DashboardQueries do
     end
 
     # Implied start_date, and end_date are correct
-    context 'finds the proper office id' do
+    context 'when other shift exists that do not belong to the office' do
       let!(:need_2) { FactoryBot.create(:need_with_assigned_shifts) }
 
-      it 'returns an integer which represents all shift created within the timeframe passed in' do
+      it 'excludes shifts that do not belong to the office' do
         result = dashboard_query.shifts_created
 
         expect(result).to equal(2)
       end
     end
 
-    # Implied on line 49. Do we need to test this here? Meaning this really should be a property of DateRangeFilterHelper or possible form controller.
-    xcontext 'when start date is before end date' do
-      it 'returns an integer which represents all shifts created within the timeframe passed in' do
-        result = dashboard_query.shifts_created
-
-        expect(result).to equal(2)
-      end
-    end
-
-    # Do we need to test this here? Meaning this really should be a property of DateRangeFilterHelper.
-    # Need a method to handle error
-    xcontext 'when start_date is after end_date' do
+    # This method is testing that the code does not fail catastrophically,
+    # meaning we haven't created code to handle this edge case.
+    context 'when start_date is after end_date' do
       let(:need_created_at_start_date) {
         need.created_at.end_of_month.to_date.to_s
       }
@@ -89,12 +90,23 @@ describe Services::DashboardQueries do
         need.created_at.beginning_of_month.to_date.to_s
       }
 
-      it 'returns an error message' do
+      it "returns results with zero's" do
         result = dashboard_query.shifts_created
 
-        #verification
+        expect(result).to equal(0)
       end
     end
+  end
+
+  describe '#shift_claimed' do
+    let(:need_2) { FactoryBot.create(:need_with_shifts, office: need.office ) }
+
+    it 'returns an integer which represents all shifts claimed by a user within the timeframe passed in' do
+      result = dashboard_query.shifts_claimed
+
+      expect(result).to equal(2)
+    end
+
   end
 
   describe '#shifts_unclaimed' do
@@ -104,22 +116,13 @@ describe Services::DashboardQueries do
       expect(result).to equal(0)
     end
 
-    # Implied in line 87 that shift_created >= shift claimed, but also no direct way to test this because it depends on values in DB
-    # I really want to know that this value >= 0
-    xcontext 'when shift created is greater than shifts claimed' do
+    context 'when shift created is greater than shifts claimed' do
+      let!(:need_2) { FactoryBot.create(:need_with_shifts, office: need.office ) }
+
       it 'returns an integer which is the difference between shift created and shifts claimed' do
         result = dashboard_query.shifts_unclaimed
 
-        expect(result).to equal(0)
-      end
-    end
-
-    # I really want to know that this value >= 0
-    xcontext 'when shift created is less than shifts claimed' do
-      it 'returns an error message' do
-        result = dashboard_query.shifts_unclaimed
-
-        # error message
+        expect(result).to equal(2)
       end
     end
   end

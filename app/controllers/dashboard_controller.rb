@@ -47,7 +47,7 @@ class DashboardController < ApplicationController
 
     @end_date = params[:end_date]
 
-    run_query # think about this name and resusbility of code ie passing params
+    needs_analysis_by_date_and_office
   end
 
   def reports
@@ -122,7 +122,7 @@ class DashboardController < ApplicationController
     DashboardPolicy.new(current_user).users?
   end
 
-  def run_query
+  def needs_analysis_by_date_and_office
     dashboard_queries = Services::DashboardQueries.new(
       params[:office_id],
       params[:start_date],
