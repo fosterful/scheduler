@@ -37,7 +37,7 @@
                   %td
                     %strong Total Hours
                   %td
-                    %strong= @total_hours_volunteered
+                    %strong= @hours_volunteered_count
 
       .cell.large-12{ data: { target: "visibility.hideableNeeds" }, hidden: true}
         .card
@@ -68,29 +68,17 @@
                   %td
                     %strong Total Needs
                   %td
-                    %strong= @total_needs_created
+                    %strong= @needs_created_count
 
       .cell.small-4
         .card
           .card-section
             %h2
-              %strong Total Hours Volunteer
+              %strong Needs Created
             .grid-x.grid-margin-x
               .cell.auto
                 %h2
-                  %strong= @total_hours_volunteered
-              .cell.shrink
-                .button{ data: { action: "click->visibility#toggleHoursTargets" } } Expand
-
-      .cell.small-4
-        .card
-          .card-section
-            %h2
-              %strong Total Needs Created
-            .grid-x.grid-margin-x
-              .cell.auto
-                %h2
-                  %strong= @total_needs_created
+                  %strong= @needs_created_count
               .cell.shrink
                 .button{ data: { action: "click->visibility#toggleNeedsTargets" } } Expand
 
@@ -98,32 +86,35 @@
         .card
           .card-section
             %h2
-              %strong Total Shifts Created
-            %h2
-              %strong= @total_shifts_created
-      .cell.small-4.small-offset-2
-        .card
-          .card-section
-            %h2
-              %strong Total Shifts Claimed
-            %h2
-              %strong= @total_shifts_claimed
+              %strong Hours Volunteered
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h2
+                  %strong= @hours_volunteered_count
+              .cell.shrink
+                .button{ data: { action: "click->visibility#toggleHoursTargets" } } Expand
+
       .cell.small-4
         .card
           .card-section
             %h2
-              %strong Total Shifts Unclaimed
+              %strong Shifts Created
             %h2
-              %strong= @total_shifts_unclaimed
+              %strong= @shifts_created_count
+      .cell.small-4.small-offset-2
+        .card
+          .card-section
+            %h2
+              %strong Shifts Claimed
+            %h2
+              %strong= @shifts_claimed_count
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Shifts Unclaimed
+            %h2
+              %strong= @shifts_unclaimed_count
 
 - else
   %h3 Please submit your form after selecting your office.
-
-
--# for each attribute use this template etc
--#  if attribute x or y
--#  template1
--#  elsif all other
--#  template2
--#  else(nil?)
--#  generate warning

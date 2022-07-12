@@ -131,10 +131,10 @@ class DashboardController < ApplicationController
 
     @user_list_by_hours_volunteered = dashboard_queries.users_by_hours_volunteered
     @user_list_by_need_created = dashboard_queries.users_by_needs_created
-    @total_hours_volunteered = dashboard_queries.hours_volunteered
-    @total_needs_created = dashboard_queries.needs_created
-    @total_shifts_created = dashboard_queries.shifts_created
-    @total_shifts_claimed = dashboard_queries.shifts_claimed
-    @total_shifts_unclaimed = dashboard_queries.shifts_unclaimed
+    @hours_volunteered = dashboard_queries.hours_volunteered
+    @needs_created_count = dashboard_queries.needs_created
+    @shifts_created_count = dashboard_queries.shifts_created
+    @shifts_claimed_count = dashboard_queries.shifts_claimed
+    @shifts_unclaimed_count = dashboard_queries.shifts_unclaimed
   end
 end

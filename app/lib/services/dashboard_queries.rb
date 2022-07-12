@@ -68,7 +68,7 @@ module Services
 
     def find_users_by_hours
       User
-      .joins(shifts: :need) # nested association
+      .joins(shifts: :need)
       .where(needs: {office_id: office_id})
       .then { |scope| filter_by_date_range(scope, start_date, end_date) }
       .group(:id, :role, :first_name, :last_name, :email)
