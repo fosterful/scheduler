@@ -22,7 +22,6 @@ describe Services::DashboardQueries do
     it 'returns a sorted array of hashes, of active record relations, in decending order of hours volunteered' do
       result = dashboard_query.users_by_hours_volunteered
 
-      # match note if result includes other hashes, it will still pass. READ Docs
       expect(result).to match([{:email=>String, :hours=>BigDecimal("0.2e1"), :id=>Integer, :name=>"Test User", :role=>"social_worker"}])
     end
   end
@@ -35,7 +34,7 @@ describe Services::DashboardQueries do
     end
   end
 
-  describe '#hours_volunteered' do # do we also need test that start_date/date are correct? ie dry?
+  describe '#hours_volunteered' do
     it 'returns an integer which represents all the hours volunteered by all users within the timeframe passed in' do
       result = dashboard_query.hours_volunteered
 

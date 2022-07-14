@@ -7,15 +7,15 @@
   .cell
     %h2= "#{@office}"
 
-    .grid-x.grid-padding-left{ data: { controller: "visibility" } }
-      .cell.large-12{ data: { target: "visibility.hideableHours" }, hidden: true}
+    .grid-x.grid-padding-left{ data: { controller: "dashboard-query" } }
+      .cell.large-12{ data: { target: "dashboard-query.hideableHours" }, hidden: true}
         .card
           .card-section
             .grid-x.grid-margin-x
               .cell.auto
                 %h3 Most active by number of hours volunteered
               .cell.shrink
-                .button{ data: { action: "click->visibility#hideHoursTargets" } } Close
+                .button{ data: { action: "click->dashboard-query#hideHoursTargets" } } Close
 
             %table{class: 'hover'}
               %thead
@@ -37,16 +37,16 @@
                   %td
                     %strong Total Hours
                   %td
-                    %strong= @hours_volunteered_count
+                    %strong= @hours_volunteered
 
-      .cell.large-12{ data: { target: "visibility.hideableNeeds" }, hidden: true}
+      .cell.large-12{ data: { target: "dashboard-query.hideableNeeds" }, hidden: true}
         .card
           .card-section
             .grid-x.grid-margin-x
               .cell.auto
                 %h3 Most active by number of needs created
               .cell.shrink
-                .button{ data: { action: "click->visibility#hideNeedsTargets" } } Close
+                .button{ data: { action: "click->dashboard-query#hideNeedsTargets" } } Close
 
             %table{class: 'hover'}
               %thead
@@ -80,7 +80,7 @@
                 %h2
                   %strong= @needs_created_count
               .cell.shrink
-                .button{ data: { action: "click->visibility#toggleNeedsTargets" } } Expand
+                .button{ data: { action: "click->dashboard-query#toggleNeedsTargets" } } Expand
 
       .cell.small-4
         .card
@@ -90,9 +90,9 @@
             .grid-x.grid-margin-x
               .cell.auto
                 %h2
-                  %strong= @hours_volunteered_count
+                  %strong= @hours_volunteered
               .cell.shrink
-                .button{ data: { action: "click->visibility#toggleHoursTargets" } } Expand
+                .button{ data: { action: "click->dashboard-query#toggleHoursTargets" } } Expand
 
       .cell.small-4
         .card
