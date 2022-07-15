@@ -23,6 +23,7 @@ class Need < ApplicationRecord
   validates :start_at,
             :expected_duration,
             :office,
+            :user,
             presence: true
   validates :expected_duration,
             numericality: { greater_than_or_equal_to: 60,
@@ -53,7 +54,7 @@ class Need < ApplicationRecord
   def number_of_children
     children.count
   end
-  
+
   def end_at
     start_at.advance(minutes: expected_duration)
   end

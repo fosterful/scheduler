@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   get 'dashboard/reports' => 'dashboard#reports'
   get 'dashboard/download_report' => 'dashboard#download_report'
   get 'dashboard/users' => 'dashboard#users'
+  get 'dashboard/query'
 
   root to: 'needs#index'
 end

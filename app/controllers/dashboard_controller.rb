@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  include DateRangeFilterHelper
+
   CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
   CHILDREN_BY_DEMO       = 'total-children-by-demographic'
   CHILDREN_BY_OFFICE     = 'total-children-served-by-office'
@@ -16,7 +18,7 @@ class DashboardController < ApplicationController
   SAFE_MODELS = %w(Office User ShiftSurvey).freeze
 
   def users
-    redirect_to :root unless DashboardPolicy.new(current_user).users?
+    redirect_to :root unless coordinator_or_admin?
 
     @data =
       if current_user.admin?
@@ -24,6 +26,28 @@ class DashboardController < ApplicationController
       else
         fetch_office_users_data(current_user.offices)
       end
+  end
+
+  def query
+    redirect_to :root unless coordinator_or_admin?
+
+    if params[:office_id].present?
+      @office = Office.find(params[:office_id])
+    end
+
+    if params[:start_date].blank?
+      params[:start_date] = Time.now.beginning_of_month.to_date.to_s
+    end
+
+    @start_date = params[:start_date]
+
+    if params[:end_date].blank?
+      params[:end_date] = Time.now.end_of_month.to_date.to_s
+    end
+
+    @end_date = params[:end_date]
+
+    needs_analysis_by_date_and_office
   end
 
   def reports
@@ -92,5 +116,25 @@ class DashboardController < ApplicationController
 
   def content_disposition(report_name)
     "attachment; filename=\"#{DateTime.current.to_i}-#{report_name}.csv\""
+  end
+
+  def coordinator_or_admin?
+    DashboardPolicy.new(current_user).users?
+  end
+
+  def needs_analysis_by_date_and_office
+    dashboard_queries = Services::DashboardQueries.new(
+      params[:office_id],
+      params[:start_date],
+      params[:end_date]
+    )
+
+    @user_list_by_hours_volunteered = dashboard_queries.users_by_hours_volunteered
+    @user_list_by_need_created = dashboard_queries.users_by_needs_created
+    @hours_volunteered = dashboard_queries.hours_volunteered
+    @needs_created_count = dashboard_queries.needs_created
+    @shifts_created_count = dashboard_queries.shifts_created
+    @shifts_claimed_count = dashboard_queries.shifts_claimed
+    @shifts_unclaimed_count = dashboard_queries.shifts_unclaimed
   end
 end

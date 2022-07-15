@@ -1,0 +1,120 @@
+%h1 Data Breakdown
+%p Select Which Office:
+=render "form"
+
+- if @office
+  .grid-x.margin-vertical-1
+  .cell
+    %h2= "#{@office}"
+
+    .grid-x.grid-padding-left{ data: { controller: "dashboard-query" } }
+      .cell.large-12{ data: { target: "dashboard-query.hideableHours" }, hidden: true}
+        .card
+          .card-section
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h3 Most active by number of hours volunteered
+              .cell.shrink
+                .button{ data: { action: "click->dashboard-query#hideHoursTargets" } } Close
+
+            %table{class: 'hover'}
+              %thead
+                %tr
+                  %th Role
+                  %th Name
+                  %th Email
+                  %th Hours Volunteered
+              %tbody
+                - @user_list_by_hours_volunteered .each do |user|
+                  %tr
+                    %td= user[:role]
+                    %td= user[:name]
+                    %td= user[:email]
+                    %td= user[:hours]
+                %tr
+                  %td
+                  %td
+                  %td
+                    %strong Total Hours
+                  %td
+                    %strong= @hours_volunteered
+
+      .cell.large-12{ data: { target: "dashboard-query.hideableNeeds" }, hidden: true}
+        .card
+          .card-section
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h3 Most active by number of needs created
+              .cell.shrink
+                .button{ data: { action: "click->dashboard-query#hideNeedsTargets" } } Close
+
+            %table{class: 'hover'}
+              %thead
+                %tr
+                  %th Role
+                  %th Name
+                  %th Email
+                  %th Needs Created
+              %tbody
+                - @user_list_by_need_created.each do |user|
+                  %tr
+                    %td= user[:role]
+                    %td= user[:name]
+                    %td= user[:email]
+                    %td= user[:needs_created]
+                %tr
+                  %td
+                  %td
+                  %td
+                    %strong Total Needs
+                  %td
+                    %strong= @needs_created_count
+
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Needs Created
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h2
+                  %strong= @needs_created_count
+              .cell.shrink
+                .button{ data: { action: "click->dashboard-query#toggleNeedsTargets" } } Expand
+
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Hours Volunteered
+            .grid-x.grid-margin-x
+              .cell.auto
+                %h2
+                  %strong= @hours_volunteered
+              .cell.shrink
+                .button{ data: { action: "click->dashboard-query#toggleHoursTargets" } } Expand
+
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Shifts Created
+            %h2
+              %strong= @shifts_created_count
+      .cell.small-4.small-offset-2
+        .card
+          .card-section
+            %h2
+              %strong Shifts Claimed
+            %h2
+              %strong= @shifts_claimed_count
+      .cell.small-4
+        .card
+          .card-section
+            %h2
+              %strong Shifts Unclaimed
+            %h2
+              %strong= @shifts_unclaimed_count
+
+- else
+  %h3 Please submit your form after selecting your office.
