@@ -23,4 +23,3 @@
             %td{data: {label: 'Shifts'}}= link_to need.shifts.count, need_path(need)
   .cell.medium-5.large-3.small-order-2.medium-order-1
     %h5.separator-left My Schedule
-    = react_component("blockouts/Scheduler/index", { blockouts: current_user.blockouts.excluding_occurrences.shuffle, authenticity_token: form_authenticity_token }, {id: 'scheduler'})
