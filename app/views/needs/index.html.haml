@@ -2,7 +2,7 @@
   .header-text Fosterful Scheduler
 
 .grid-x
-  .cell.medium-7.large-9.small-order-1.medium-order-2
+  .cell
     - if current_user.scheduler?
       .float-right
         = react_component("NeedsIndexDatePicker/index", { date: @date })
@@ -21,5 +21,3 @@
             %td{data: {label: 'Children'}}= link_to need.number_of_children, need_path(need)
             %td{data: {label: 'Start At'}}= link_to need.effective_start_at.strftime('%l:%M%P %A, %b %d'), need_path(need)
             %td{data: {label: 'Shifts'}}= link_to need.shifts.count, need_path(need)
-  .cell.medium-5.large-3.small-order-2.medium-order-1
-    %h5.separator-left My Schedule
