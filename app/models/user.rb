@@ -36,7 +36,6 @@ class User < ApplicationRecord
                    { office_notification_ids: [] }].freeze
 
   has_one :address, as: :addressable, dependent: :destroy
-  has_many :blockouts, dependent: :destroy
   belongs_to :race, optional: true
   has_and_belongs_to_many :age_ranges
   has_many :announcements,
@@ -146,18 +145,6 @@ class User < ApplicationRecord
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group(:id, :first_name, :last_name)
       .sum('shifts.duration / 60.0')
-  end
-
-  def self.exclude_blockouts(start_at, end_at)
-    sql = <<~SQL
-      LEFT OUTER JOIN blockouts
-      ON blockouts.user_id = users.id
-      AND tsrange(start_at, end_at) &&
-            tsrange('#{start_at.to_s(:db)}', '#{end_at.to_s(:db)}')
-    SQL
-
-    joins(sql)
-      .where(blockouts: { id: nil })
   end
 
   def active_for_authentication?

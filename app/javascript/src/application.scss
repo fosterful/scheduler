@@ -25,12 +25,15 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .button.alert,
 .button.warning {
   color: white;
+
   &:hover {
     color: white;
   }
+
   &:active {
     color: white;
   }
+
   &:focus {
     color: white;
   }
@@ -53,13 +56,15 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 .float-right .react-datepicker-popper {
   left: -20px !important;
 }
+
 // Prevent End date picker from collapsing below the Start date picker when picker active
-.date-flex-wrap { display: flex; }
+.date-flex-wrap {
+  display: flex;
+}
 
 @import 'stylesheets/nav';
 @import 'stylesheets/needs';
 @import 'stylesheets/shifts';
 @import 'stylesheets/invites';
 @import 'stylesheets/reports';
-@import '../components/blockouts/Scheduler';
 @import 'stylesheets/responsive_card_table';

@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  resources :blockouts, except: %i[index new edit show]
   resources :needs do
     resources :shifts, except: %i[new]
     patch 'mark_unavailable', on: :member

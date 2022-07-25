@@ -84,43 +84,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.exclude_blockouts' do
-    subject { described_class.exclude_blockouts(*time.values) }
-
-    let(:time) { { start_at: 1.day.from_now, end_at: 1.day.from_now + 1.hour } }
-
-    context 'when user has no blockouts' do
-      let!(:user) { create :user }
-
-      it 'includes the user' do
-        expect(subject).to include(user)
-      end
-    end
-
-    context 'when user has blockouts with overlap' do
-      let(:user) { build :user }
-      let!(:blockout) { create :blockout, user: user, **time }
-
-      it 'excludes the user' do
-        expect(subject).not_to include(user)
-      end
-    end
-
-    context 'when user has blockouts with no overlap' do
-      let(:user) { build :user }
-      let!(:blockout) do
-        create(:blockout,
-               user:     user,
-               start_at: 1.hour.from_now,
-               end_at:   2.hours.from_now)
-      end
-
-      it 'includes the user' do
-        expect(subject).to include(user)
-      end
-    end
-  end
-
   describe '.speaks_language' do
     subject { described_class.speaks_language(language) }
 
@@ -512,13 +475,13 @@ RSpec.describe User, type: :model do
 
     context 'when the user is assigned to a WA office' do
       let(:office) { build(:wa_office) }
-      
+
       it { is_expected.to be(true) }
     end
 
     context 'when the user is not assigned to a WA office' do
       let(:office) { create(:or_office) }
-      
+
       it { is_expected.to be(false) }
     end
   end
@@ -531,7 +494,7 @@ RSpec.describe User, type: :model do
       it 'Enqueues the user_not_covid_19_vaccinated email' do
         expect { user.update(covid_19_vaccinated: false) }.to have_enqueued_job(ActionMailer::MailDeliveryJob).with(*expected_mail_args)
       end
-      
+
       context 'when require_covid_19_vaccinated? is false' do
         let(:user) { build :user, offices: [build(:or_office)]}
 
@@ -543,7 +506,7 @@ RSpec.describe User, type: :model do
 
     context 'when covid_19_vaccinated was already set to false' do
       let!(:user) { create :user, covid_19_vaccinated: false, offices: [build(:wa_office)]}
-      
+
       it 'does not enqueue a user_not_covid_19_vaccinated email' do
         expect { user.update(covid_19_vaccinated: false) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
@@ -551,7 +514,7 @@ RSpec.describe User, type: :model do
 
     context 'when some other attr is being set' do
       let(:user) { build :user, offices: [build(:wa_office)]}
-      
+
       it 'does not enqueue a user_not_covid_19_vaccinated email' do
         expect { user.update(updated_at: Time.current) }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
