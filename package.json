@@ -29,7 +29,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "moment-range": "^4.0.1",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.7.2",
     "rails-ujs": "^5.1.4",
     "ramda": "^0.26.1",
