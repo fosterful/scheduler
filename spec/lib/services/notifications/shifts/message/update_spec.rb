@@ -53,7 +53,7 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
           result = object.message
 
-          expect(result).to eql('Thank You! Please be ready to show proof of vaccination at the door. See you soon.')
+          expect(result).to eql('Thanks for your help. See you soon!')
           expect(result).to be_frozen
         end
       end
