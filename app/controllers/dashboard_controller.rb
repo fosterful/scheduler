@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  include DateRangeFilterHelper
+  # commented out to test new date-range-helper using stimulus
+  # include DateRangeFilterHelper
 
   CHILDREN_BY_COUNTY     = 'total-children-served-by-county'
   CHILDREN_BY_DEMO       = 'total-children-by-demographic'
@@ -28,7 +29,7 @@ class DashboardController < ApplicationController
       end
   end
 
-  def query
+  def query # move date internals to helper?
     redirect_to :root unless coordinator_or_admin?
 
     if params[:office_id].present?

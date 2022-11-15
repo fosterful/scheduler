@@ -1,6 +1,6 @@
+%p Choosing a date range will constrain reports to those dates:
+
 = form_with method: 'GET' do |f|
-  = f.select :office_id, current_user.offices.map { |office| [office.name, office.id] }
-  %div
   = f.text_field :start_date, value: "#{@start_date}",
     data: { controller: "flatpickr", flatpickr_alt_format: t("date.formats.long"), flatpickr_alt_input: true, flatpickr_allow_Input: true }
   = f.text_field :end_date, value: "#{@end_date}",

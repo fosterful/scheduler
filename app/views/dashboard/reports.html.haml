@@ -1,4 +1,5 @@
-= react_component("DashboardReportsDateRangePicker/index")
+-# = react_component("DashboardReportsDateRangePicker/index")
+=render "date_range_picker"
 
 .grid-x.margin-vertical-1
   .cell.small-6
@@ -70,7 +71,7 @@
               = link_to dashboard_download_report_url(headers: ['County', 'Volunteer Hours'], data_method: DashboardController::HOURS_BY_COUNTY.underscore, filename: DashboardController::HOURS_BY_COUNTY, model: 'Office', format: :csv), target: '_blank', class: 'button  get_report_with_state' do
                 %i.fas.fa-file-download{style: 'margin-right: 3px;' }
                 Download
-    
+
       .cell.small-6
         .card
           .card-section
@@ -151,7 +152,7 @@
   -#         .card-section
   -#           %h5
   -#             %strong Shift Survey Responses
-  -#           %p This report contains all volunteer responses to the end-of-shift surveys. 
+  -#           %p This report contains all volunteer responses to the end-of-shift surveys.
   -#           .flex-container.flex-dir-row-reverse
   -#             = link_to dashboard_download_report_url(data_method: DashboardController::RESPONSES_BY_SHIFT.underscore, filename: DashboardController::RESPONSES_BY_SHIFT, model: 'ShiftSurvey', format: :csv), target: '_blank', class: 'button get_report' do
   -#               %i.fas.fa-file-download{style: 'margin-right: 3px;' }
