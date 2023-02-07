@@ -11,17 +11,6 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
-  describe "user_not_covid_19_vaccinated" do
-    let(:user) { build(:user) }
-
-    it "has expected content" do
-      mail = UserMailer.with(user: user).user_not_covid_19_vaccinated
-      expect(mail.to).to eq(['sarah@fosterful.org'])
-      expect(mail.subject).to eq("#{user} not vaccinated")
-      expect(mail.body).to include(user.to_s)
-    end
-  end
-
   describe "shift_survey_submitted" do
     let(:shift_survey) { build_stubbed(:shift_survey) }
 

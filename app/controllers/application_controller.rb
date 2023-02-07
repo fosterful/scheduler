@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :enforce_verification, if: :user_signed_in?
-  before_action :enforce_covid_19_vaccinated, if: :user_signed_in?
   around_action :set_time_zone, if: :user_signed_in?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -69,12 +68,5 @@ class ApplicationController < ActionController::Base
     return if current_user.verified? || devise_controller?
 
     redirect_to verify_path
-  end
-
-  def enforce_covid_19_vaccinated
-    return unless current_user.require_covid_19_vaccinated?
-    return if current_user.covid_19_vaccinated? || devise_controller?
-
-    redirect_to vaccination_status_path
   end
 end
