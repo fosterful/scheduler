@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     invitations: 'invitations'
-  }
+  }, skip: [:registrations]
 
   ActiveAdmin.routes(self)
   as :user do
