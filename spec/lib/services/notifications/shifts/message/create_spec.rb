@@ -16,7 +16,6 @@ RSpec.describe Services::Notifications::Shifts::Message::Create do
       expect(result).to eql('A new shift from 11:15am to 01:15pm Thu, May 23 '\
                               'has been added to a need at your local office! '\
                               "http://localhost:3000/needs/#{shift.need_id}")
-      expect(result).to be_frozen
     end
   end
 

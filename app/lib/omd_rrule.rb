@@ -3,7 +3,7 @@
 class OmdRrule
   def initialize(rule, options)
     options[:tzid] = Time.zone.tzinfo.name
-    self.rule = RRule::Rule.new(rule, options)
+    self.rule = RRule::Rule.new(rule, **options)
   end
 
   def last_occurrence

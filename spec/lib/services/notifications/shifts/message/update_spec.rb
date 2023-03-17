@@ -27,7 +27,6 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
           expect(result).to eql('Barney Rubble has taken the shift Thu, '\
                                   'May 23 from 11:15am to 01:15pm.')
-          expect(result).to be_frozen
         end
       end
 
@@ -39,7 +38,6 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
           expect(result).to eql('Barney Rubble has unassigned themself from '\
                                   'the 11:15am to 01:15pm shift Thu, May 23.')
-          expect(result).to be_frozen
         end
       end
     end
@@ -54,7 +52,6 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
           result = object.message
 
           expect(result).to eql('Thanks for your help. See you soon!')
-          expect(result).to be_frozen
         end
       end
 
@@ -66,7 +63,6 @@ RSpec.describe Services::Notifications::Shifts::Message::Update do
 
           expect(result).to eql('You have been unassigned from the 11:15am to '\
                                   '01:15pm shift Thu, May 23.')
-          expect(result).to be_frozen
         end
       end
     end

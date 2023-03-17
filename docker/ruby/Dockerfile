@@ -1,8 +1,8 @@
-ARG RUBY_VERSION=2.7.6
+ARG RUBY_VERSION=3.0.5
 
 FROM ruby:$RUBY_VERSION
 
-ARG NODE_VERSION=16
+ARG NODE_VERSION=18
 
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
 

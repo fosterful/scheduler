@@ -3,7 +3,7 @@ jobs:
   build:
     parallelism: 1
     docker:
-      - image: cimg/ruby:2.7.6-node
+      - image: cimg/ruby:3.0.5-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -15,6 +15,7 @@ jobs:
           DATABASE_URL: postgres://circleci-user@127.0.0.1/test_db
           CC_TEST_REPORTER_ID: 9953aaf0ceb1bce9274717fdf6549d14d431f2eafaa44b6ad1c026b74daed60d
           SELENIUM_REMOTE_HOST: localhost
+          NODE_OPTIONS: --openssl-legacy-provider
       - image: circleci/postgres:11.4-alpine
         environment:
           POSTGRES_USER: circleci-user
