@@ -41,6 +41,11 @@ jobs:
         ports:
           - 6379:6379
 
+      selenium:      
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
+
     steps:
     - uses: actions/checkout@v3
 
