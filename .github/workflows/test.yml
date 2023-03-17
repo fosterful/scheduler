@@ -7,6 +7,8 @@ env:
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
   RAILS_ENV: test
   RACK_ENV: test
+  SELENIUM_REMOTE_HOST: localhost
+  NODE_OPTIONS: --openssl-legacy-provider
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:14.7-alpine
+        image: postgres:15.2-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
