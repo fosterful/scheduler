@@ -7,7 +7,6 @@ env:
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
   RAILS_ENV: test
   RACK_ENV: test
-  SELENIUM_REMOTE_HOST: localhost
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
