@@ -62,8 +62,6 @@ jobs:
         cache: 'yarn'
 
     - name: Yarn Install
-      env:
-        NODE_OPTIONS: --openssl-legacy-provider
       run: yarn install
 
     - name: Prepare DB
@@ -81,6 +79,8 @@ jobs:
         ./cc-test-reporter before-build
 
     - name: RSpec
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider
       run: |
         bundle exec rspec --format progress \
                           --format RspecJunitFormatter \
