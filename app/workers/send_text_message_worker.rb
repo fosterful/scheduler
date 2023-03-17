@@ -19,6 +19,6 @@ class SendTextMessageWorker
                { from: TWILIO_NUMBER }
              end.merge(to: number, body: message)
 
-    $twilio.api.account.messages.create(params)
+    $twilio.api.account.messages.create(**params)
   end
 end
