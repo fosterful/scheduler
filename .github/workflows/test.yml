@@ -1,0 +1,80 @@
+name: Run Tests
+on: [push]
+
+env:
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+  RAILS_ENV: test
+  RACK_ENV: test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.7-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports: ['5432:5432']
+        # needed because the postgres container does not provide a healthcheck
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:6.2
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0.5'
+        bundler-cache: true
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'yarn'
+
+    - name: Yarn Install
+      run: yarn check || bin/rails yarn:install
+
+    - name: Prepare DB
+      run: bundle exec rails db:schema:load --trace
+
+    - name: Set ENV for CodeClimate
+      run: |
+        echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+        echo "GIT_COMMIT_SHA=$GITHUB_SHA" >> $GITHUB_ENV
+
+    - name: Prepare for test
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+
+    - name: RSpec
+      run: |
+        bundle exec rspec --format progress \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml
+
+        ./cc-test-reporter format-coverage -t simplecov $GITHUB_WORKSPACE/coverage/.resultset.json
+        ./cc-test-reporter upload-coverage
