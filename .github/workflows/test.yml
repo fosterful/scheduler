@@ -48,6 +48,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y iproute2
+
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
