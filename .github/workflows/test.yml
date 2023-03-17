@@ -8,7 +8,6 @@ env:
   RAILS_ENV: test
   RACK_ENV: test
   SELENIUM_REMOTE_HOST: localhost
-  NODE_OPTIONS: --openssl-legacy-provider
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -63,6 +62,8 @@ jobs:
         cache: 'yarn'
 
     - name: Yarn Install
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider
       run: yarn install
 
     - name: Prepare DB
