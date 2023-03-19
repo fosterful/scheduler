@@ -72,8 +72,6 @@ jobs:
         chmod +x ./cc-test-reporter
         ./cc-test-reporter before-build
 
-    - run: nc -vz localhost 4444
-
     - name: RSpec
       env:
         NODE_OPTIONS: --openssl-legacy-provider
