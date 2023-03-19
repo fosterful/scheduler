@@ -94,9 +94,11 @@ services:
   selenium:
     image: selenium/standalone-chrome
   postgres:
-    image: postgres:11.4
+    image: postgres:15.2
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
   redis:
     build:
       context: ./docker/redis
