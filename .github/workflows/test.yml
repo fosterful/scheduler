@@ -81,7 +81,7 @@ jobs:
                           --format RspecJunitFormatter \
                           --out junit/rspec.xml
 
-        ./cc-test-reporter format-coverage -t simplecov -o $GITHUB_WORKSPACE/coverage/.resultset.json
+        ./cc-test-reporter format-coverage -t simplecov
         ./cc-test-reporter upload-coverage
 
     - name: Upload JUnit artifacts
