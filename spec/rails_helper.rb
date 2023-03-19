@@ -32,6 +32,7 @@ VCR.configure do |config|
   config.ignore_request do |request|
     whitelisted_hosts = ['localhost', 'selenium', Capybara.server_host]
     puts whitelisted_hosts.inspect
+    puts request.uri.inspect
     whitelisted_hosts.any? { |host| URI(request.uri).host.match?(host) }
   end
 end
