@@ -22,10 +22,12 @@ RSpec.configure do |config|
 
     Capybara.server = :puma, { Silent: true }
 
-    if !headless
-      Capybara.server_host = "0.0.0.0"
-    end
-    
+    # Find Docker IP address
+    Capybara.server_host = if headless
+                             `/sbin/ip route|awk '/scope/ { print $9 }'`.strip
+                           else
+                             '0.0.0.0'
+                           end
     Capybara.server_port = '43447'
     Capybara.app_host =
       "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
