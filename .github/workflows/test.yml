@@ -76,9 +76,17 @@ jobs:
       env:
         NODE_OPTIONS: --openssl-legacy-provider
       run: |
-        bundle exec rspec --format progress \
+        bundle exec rspec --profile 10 \
+                          --format progress \
                           --format RspecJunitFormatter \
-                          --out /tmp/test-results/rspec.xml
+                          --out junit/rspec.xml
 
-        ./cc-test-reporter format-coverage -t simplecov $GITHUB_WORKSPACE/coverage/.resultset.json
+        ./cc-test-reporter format-coverage -t simplecov -o $GITHUB_WORKSPACE/coverage/.resultset.json
         ./cc-test-reporter upload-coverage
+
+    - name: Upload JUnit artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: junit
+        path: junit
