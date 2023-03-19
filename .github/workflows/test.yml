@@ -1,4 +1,4 @@
-name: Run Tests
+name: RSpec Suite
 on: [push]
 
 env:
@@ -72,7 +72,7 @@ jobs:
         chmod +x ./cc-test-reporter
         ./cc-test-reporter before-build
 
-    - name: RSpec
+    - name: RSpec Suite Run
       env:
         NODE_OPTIONS: --openssl-legacy-provider
       run: |
