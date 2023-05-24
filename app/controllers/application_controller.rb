@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def redis
     @redis ||= begin
-      redis_connection = Redis.new(url: Rails.application.credentials.redis_url || ENV['REDIS_URL'])
+      redis_connection = Redis.new(url: Rails.application.credentials.redis_url || ENV['REDIS_URL'], ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
       Redis::Namespace.new(Rails.env, redis: redis_connection)
     end
   end
