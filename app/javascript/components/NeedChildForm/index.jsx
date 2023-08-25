@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 const capitalize = (s) => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
+  if (typeof s !== 'string') return '';
+    
+  // Split on underscores, capitalize each part, then join with a hyphen.
+  return s.split('_').map(part => 
+      part.charAt(0).toUpperCase() + part.slice(1)
+  ).join('-');
 }
 
 const AgeInput = props => {
@@ -20,7 +24,7 @@ const AgeInput = props => {
 const SexInput = props => {
   return (
     <div className="field">
-      <label>Sex
+      <label>Gender
         <select name={`need[children_attributes][${props.index}][sex]`} defaultValue={props.child.sex}>
           {props.childSexes.map((sex, index) =>
             <option key={index} value={sex}>{capitalize(sex)}</option>
