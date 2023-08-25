@@ -62,9 +62,9 @@
                 %td
                   %strong= child.age
               %tr
-                %td Sex
+                %td Gender
                 %td
-                  %strong= child.sex
+                  %strong= child.sex.dasherize.capitalize
               - if child.notes.present?
                 %tr
                   %td Notes
