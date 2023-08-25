@@ -26,8 +26,11 @@ module ShiftUpdateEventHelper
   end
 
   def notifiable_office_users
-    need.office.users.joins(:office_users).where('role IN (?)', NOTIFIABLE_ROLES)
-      .where(office_users: { send_notifications: true }).to_a
+    users_with_notifiable_role = User.where('role IN (?)', NOTIFIABLE_ROLES)
+    need.office
+        .users
+        .merge(User.notifiable(users_with_notifiable_role))
+        .where(office_users: { send_notifications: true })
+        .to_a
   end
-
 end
