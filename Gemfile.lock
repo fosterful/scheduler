@@ -224,7 +224,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
     minitest (5.15.0)
     msgpack (1.4.4)
     multipart-post (2.1.1)
@@ -238,8 +237,7 @@ GEM
       mutant (= 0.11.4)
       rspec-core (>= 3.8.0, < 4.0.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.19.1)
@@ -371,6 +369,11 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    selective-ruby-core (0.1.1-x86_64-linux)
+      zeitwerk (~> 2.6.12)
+    selective-ruby-rspec (0.1.0)
+      selective-ruby-core
+      zeitwerk (~> 2.6.12)
     selectize-rails (0.12.6)
     selenium-webdriver (4.8.1)
       rexml (~> 3.2, >= 3.2.5)
@@ -447,10 +450,10 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.12)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   activeadmin
@@ -493,6 +496,7 @@ DEPENDENCIES
   rspec-rails (>= 4.0.0.beta3)
   rspec_junit_formatter
   sassc-rails
+  selective-ruby-rspec
   selectize-rails
   selenium-webdriver
   shoulda-matchers
