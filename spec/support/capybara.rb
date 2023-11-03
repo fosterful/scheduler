@@ -8,41 +8,27 @@ RSpec.configure do |config|
   end
 
   config.before :each, type: :system, js: true do
-    # Docker environment
-    url = if headless
-            "http://#{ENV['SELENIUM_REMOTE_HOST']}:4444/wd/hub"
-          else
-            'http://host.docker.internal:9515'
-          end
+    options = headless ? {} : { url: "http://host.docker.internal:9515", browser: :remote }
 
-    driven_by :selenium, using: :chrome, options: {
-      browser: :remote,
-      url:     url
-    }
+    driven_by :selenium, using: :chrome, screen_size: [1440, 900], options: options do |driver|
+      driver.add_argument('--headless') if headless
+      driver.add_argument('--no-sandbox')
+      driver.add_argument('--disable-dev-shm-usage')
+      driver.add_argument('--disable-gpu')
+    end
+
+    Capybara.raise_server_errors = false
 
     Capybara.server = :puma, { Silent: true }
 
     # Find Docker IP address
-    Capybara.server_host = if headless
-                             `/sbin/ip route|awk '/scope/ { print $9 }'`.strip
-                           else
-                             '0.0.0.0'
-                           end
+    if !headless
+      Capybara.server_host = "0.0.0.0"
+    end
+
     Capybara.server_port = '43447'
+
     Capybara.app_host =
       "http://#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}"
   end
-
-  # config.after :each, type: :system, js: true do
-  #   page.driver.browser.manage.logs.get(:browser).each do |log|
-  #     case log.message
-  #       when /This page includes a password or credit card input in a non-secure context/
-  #         # Ignore this warning in tests
-  #         next
-  #       else
-  #         message = "[#{log.level}] #{log.message}"
-  #         raise message
-  #     end
-  #   end
-  # end
 end
