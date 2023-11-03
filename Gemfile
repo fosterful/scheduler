@@ -98,7 +98,10 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console'
   gem 'listen'
-  gem 'hint-rubocop_style'
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
+  gem 'rubocop-performance'
 end
 
 group :test do
