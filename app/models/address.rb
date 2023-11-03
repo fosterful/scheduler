@@ -32,7 +32,7 @@ class Address < ApplicationRecord
   end
 
   def validate_and_geocode
-    address = ADDRESS_FIELDS.map { |v| send(v).presence }.compact.join(', ')
+    address = ADDRESS_FIELDS.filter_map { |v| send(v).presence }.join(', ')
     return if address.blank?
 
     verifier = MainStreet::AddressVerifier.new(address)

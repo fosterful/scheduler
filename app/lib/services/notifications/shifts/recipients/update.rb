@@ -13,9 +13,7 @@ module Services
                    to: :shift
 
           def recipients
-            if shift_user_is_current_user? || current_user_left_shift?
-              return notifiable_office_users_and_need_user
-            end
+            return notifiable_office_users_and_need_user if shift_user_is_current_user? || current_user_left_shift?
             return notifiable_office_users_and_need_user | [user] if scheduler_with_user?
             return notifiable_office_users_and_need_user | [user_was] if scheduler_without_user?
 

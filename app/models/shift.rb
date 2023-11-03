@@ -31,7 +31,7 @@ class Shift < ApplicationRecord
                 .group(:user_id, :need_id)
 
     # Get whole records based on subquery above
-    join_sql = <<~SQL
+    join_sql = <<~SQL.squish
       INNER JOIN (#{subquery.to_sql}) sub ON (
         sub.user_id = shifts.user_id
         AND sub.need_id = shifts.need_id
@@ -44,7 +44,7 @@ class Shift < ApplicationRecord
     joins(join_sql)
       .where('start_at + make_interval(mins := duration) < ?', 30.minutes.ago)
       .joins('LEFT JOIN shift_surveys on (shift_surveys.need_id = shifts.need_id AND shift_surveys.user_id = shifts.user_id)')
-      .where('shift_surveys.id IS NULL')
+      .where(shift_surveys: { id: nil })
   end
 
   def duration_in_words

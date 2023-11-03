@@ -32,54 +32,35 @@ ActiveAdmin.register ShiftSurvey do
 
   show do
     attributes_table do
-      row 'Shift Survey ID' do |s|
-        s.id
-      end
-      row 'Survey Status' do |s|
-        s.status
-      end
+      row 'Shift Survey ID', &:id
+      row 'Survey Status', &:status
       row 'Questions' do
         table_for shift_survey do
-          column 'Did you have adequate supplies to care for the child(ren) during your time at the office?' do |s|
-            s.supplies
-          end
-          column 'Comments' do |s|
-            s.supplies_text
-          end
+          column 'Did you have adequate supplies to care for the child(ren) during your time at the office?',
+                 &:supplies
+          column 'Comments', &:supplies_text
         end
         table_for shift_survey do
-          column 'Did the assigned social worker respond to questions or concerns in a timely manner?' do |s|
-            s.response_time
-          end
-          column 'Comments' do |s|
-            s.response_time_text
-          end
+          column 'Did the assigned social worker respond to questions or concerns in a timely manner?',
+                 &:response_time
+          column 'Comments', &:response_time_text
         end
         table_for shift_survey do
-          column 'Did the hours you signed up for match the hours you volunteered?' do |s|
-            s.hours_match
-          end
-          column 'Comments' do |s|
-            s.hours_match_text
-          end
+          column 'Did the hours you signed up for match the hours you volunteered?', &:hours_match
+          column 'Comments', &:hours_match_text
         end
         table_for shift_survey do
           column 'How are you feeling after your shift at the child welfare office? (check all that apply)' do |s|
             s.ratings.nil? ? nil : JSON.parse(s.ratings)
           end
-          column 'Comments' do |s|
-            s.ratings_text
-          end
+          column 'Comments', &:ratings_text
         end
         table_for shift_survey do
-          column 'Your feedback is important to us, and we love hearing from our volunteers! Do you have any comments or kudos you’d like to pass along?' do |s|
-            s.comments
-          end
+          column 'Your feedback is important to us, and we love hearing from our volunteers! Do you have any comments or kudos you’d like to pass along?',
+                 &:comments
         end
         table_for shift_survey do
-          column 'Any questions for your Volunteer Coordinator?' do |s|
-            s.questions
-          end
+          column 'Any questions for your Volunteer Coordinator?', &:questions
         end
       end
 
@@ -95,9 +76,7 @@ ActiveAdmin.register ShiftSurvey do
       end
       row :shifts do
         table_for shift_survey.need.shifts.where(user_id: shift_survey.user_id) do
-          column 'Shift Duration(s)' do |s|
-            s.duration_in_words
-          end
+          column 'Shift Duration(s)', &:duration_in_words
         end
       end
       row 'Children' do |shift_survey|

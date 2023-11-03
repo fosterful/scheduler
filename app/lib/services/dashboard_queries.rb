@@ -19,7 +19,7 @@ module Services
     end
 
     def hours_volunteered
-      find_users_by_hours.map { |_key, value| value }.sum
+      find_users_by_hours.sum { |_key, value| value }
     end
 
     def users_by_needs_created

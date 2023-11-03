@@ -33,11 +33,14 @@ class DashboardController < ApplicationController
 
     @office = Office.find(params[:office_id]) if params[:office_id].present?
 
-    params[:start_date] = Time.now.beginning_of_month.to_date.to_s if params[:start_date].blank?
+    if params[:start_date].blank?
+      params[:start_date] =
+        Time.zone.now.beginning_of_month.to_date.to_s
+    end
 
     @start_date = params[:start_date]
 
-    params[:end_date] = Time.now.end_of_month.to_date.to_s if params[:end_date].blank?
+    params[:end_date] = Time.zone.now.end_of_month.to_date.to_s if params[:end_date].blank?
 
     @end_date = params[:end_date]
 

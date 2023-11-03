@@ -26,7 +26,7 @@ module ShiftUpdateEventHelper
   end
 
   def notifiable_office_users
-    users_with_notifiable_role = User.where('role IN (?)', NOTIFIABLE_ROLES)
+    users_with_notifiable_role = User.where(role: NOTIFIABLE_ROLES)
     need.office
         .users
         .merge(User.notifiable(users_with_notifiable_role))

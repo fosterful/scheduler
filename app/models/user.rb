@@ -197,7 +197,7 @@ class User < ApplicationRecord
 
   # standard E.164 format used by Twilio
   def e164_phone
-    '+1' + phone.gsub(/\D/, '')
+    "+1#{phone.gsub(/\D/, '')}"
   end
 
   def office_notification_ids
@@ -205,7 +205,7 @@ class User < ApplicationRecord
   end
 
   def office_notification_ids=(ids)
-    ids = ids.reject(&:blank?).map(&:to_i)
+    ids = ids.compact_blank.map(&:to_i)
     office_users.each do |ou|
       ou.update!(send_notifications: ou.office_id.in?(ids))
     end

@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rspec
   - rubocop-rails
@@ -49,7 +51,7 @@ Layout/EmptyLinesAroundModuleBody:
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 Layout/LineLength:
-  Max: 100
+  Max: 243
 Metrics/BlockLength:
   Exclude:
     - Rakefile
@@ -64,7 +66,7 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 20
 Metrics/AbcSize:
-  Max: 30
+  Max: 35
 Layout/CaseIndentation:
   Enabled: true
   EnforcedStyle: case

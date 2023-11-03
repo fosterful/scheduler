@@ -22,8 +22,6 @@ class Need < ApplicationRecord
 
   validates :start_at,
             :expected_duration,
-            :office,
-            :user,
             presence: true
   validates :expected_duration,
             numericality: { greater_than_or_equal_to: 60,

@@ -3,8 +3,7 @@
 class Announcement < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
-  validates :author,
-            :user_ids,
+  validates :user_ids,
             presence: true
 
   validates :message,
