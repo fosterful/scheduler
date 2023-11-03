@@ -91,6 +91,7 @@ group :development, :test do
   gem 'vcr'
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'selective-ruby-rspec'
 end
 
 group :development do
