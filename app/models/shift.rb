@@ -7,10 +7,10 @@ class Shift < ApplicationRecord
   has_one :office, through: :need
   has_one :preferred_language, through: :need
   belongs_to :user, optional: true
-  before_destroy :notify_user_of_cancelation,
-                 if: -> { user&.phone.present? }
   after_create :clear_unavailable_users
   after_update :make_user_available
+  before_destroy :notify_user_of_cancelation,
+                 if: -> { user&.phone.present? }
 
   validates :duration,
             :start_at,
@@ -26,12 +26,12 @@ class Shift < ApplicationRecord
     # Find last shift for a given user & need
     # Having clause is to window results so as to keep
     # query performant
-    subquery = select(:user_id, :need_id, "MAX(start_at) AS max_start_at")
-                .having('MAX(start_at) BETWEEN ? AND ?', 2.day.ago, Time.current)
+    subquery = select(:user_id, :need_id, 'MAX(start_at) AS max_start_at')
+                .having('MAX(start_at) BETWEEN ? AND ?', 2.days.ago, Time.current)
                 .group(:user_id, :need_id)
 
     # Get whole records based on subquery above
-    join_sql = <<~SQL
+    join_sql = <<~SQL.squish
       INNER JOIN (#{subquery.to_sql}) sub ON (
         sub.user_id = shifts.user_id
         AND sub.need_id = shifts.need_id
@@ -44,7 +44,7 @@ class Shift < ApplicationRecord
     joins(join_sql)
       .where('start_at + make_interval(mins := duration) < ?', 30.minutes.ago)
       .joins('LEFT JOIN shift_surveys on (shift_surveys.need_id = shifts.need_id AND shift_surveys.user_id = shifts.user_id)')
-      .where('shift_surveys.id IS NULL')
+      .where(shift_surveys: { id: nil })
   end
 
   def duration_in_words
@@ -72,9 +72,9 @@ class Shift < ApplicationRecord
   end
 
   def user_need_shifts
-    if user_id?
-      user.shifts.where(need_id: need_id)
-    end
+    return unless user_id?
+
+    user.shifts.where(need_id: need_id)
   end
 
   def users_to_notify

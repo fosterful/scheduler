@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
+ActiveAdmin.register User do
 
   config.sort_order = 'last_name_asc'
 
@@ -18,14 +18,12 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
 
   %w(deactivate activate).each do |activation_type|
     member_action activation_type.to_sym, method: :post do
-      unless resource.update(deactivated: !resource.deactivated)
-        flash[:alert] = 'There was an issue updating this user.'
-      end
+      flash[:alert] = 'There was an issue updating this user.' unless resource.update(deactivated: !resource.deactivated)
       redirect_to admin_users_path
     end
   end
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :name, sortable: 'last_name'
@@ -40,7 +38,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
       end
     end
   end
-  #:nocov:
+  # :nocov:
 
   show do
     attributes_table do

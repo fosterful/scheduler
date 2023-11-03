@@ -98,7 +98,7 @@ class User < ApplicationRecord
             if:       -> { require_volunteer_profile_attributes? && conviction? }
 
   validates :role,
-            inclusion: { in: ROLES, message: '%{value} is not a valid role' }
+            inclusion: { in: ROLES, message: '%<value>s is not a valid role' }
   validates :time_zone, presence: true, if: :invitation_accepted_at?
   validate :at_least_one_office
   validate :at_least_one_notification_preference
@@ -129,8 +129,8 @@ class User < ApplicationRecord
 
   def self.total_volunteers_by_spoken_language(current_user, start_at, end_at)
     filter_by_office_users(current_user, true)
-      .joins('INNER JOIN languages ON languages.id IN '\
-               '(users.first_language_id, users.second_language_id)')
+      .joins('INNER JOIN languages ON languages.id IN ' \
+             '(users.first_language_id, users.second_language_id)')
       .joins(:needs)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
       .group('languages.name')
@@ -197,7 +197,7 @@ class User < ApplicationRecord
 
   # standard E.164 format used by Twilio
   def e164_phone
-    '+1' + phone.gsub(/\D/, '')
+    "+1#{phone.gsub(/\D/, '')}"
   end
 
   def office_notification_ids
@@ -205,7 +205,7 @@ class User < ApplicationRecord
   end
 
   def office_notification_ids=(ids)
-    ids = ids.reject(&:blank?).map(&:to_i)
+    ids = ids.compact_blank.map(&:to_i)
     office_users.each do |ou|
       ou.update!(send_notifications: ou.office_id.in?(ids))
     end

@@ -17,7 +17,7 @@ class RemindWorker
     needs = Need.joins(:shifts)
       .where('shifts.start_at > ?', 12.hours.from_now)
       .where('needs.created_at < ?', 12.hours.ago)
-      .where('shifts.user_id IS NULL').distinct
+      .where(shifts: { user_id: nil }).distinct
     send_messages(needs)
   end
 
@@ -25,7 +25,7 @@ class RemindWorker
     needs = Need.joins(:shifts)
       .where('shifts.created_at BETWEEN ? AND ?', 12.hours.ago, 1.hour.ago)
       .where('shifts.start_at BETWEEN ? AND ?', Time.zone.now, 12.hours.from_now)
-      .where('shifts.user_id IS NULL').distinct
+      .where(shifts: { user_id: nil }).distinct
     send_messages(needs)
   end
 

@@ -14,7 +14,7 @@ ActiveAdmin.register Announcement do
 
   after_create(:send_messages)
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :message
@@ -22,7 +22,7 @@ ActiveAdmin.register Announcement do
     column :user_ids
     actions
   end
-  #:nocov:
+  # :nocov:
 
   menu priority: 7
 

@@ -36,21 +36,21 @@ module Services
           end
 
           def shift_taken
-            "#{current_user} has taken the shift #{starting_day} from "\
+            "#{current_user} has taken the shift #{starting_day} from " \
               "#{duration_in_words}."
           end
 
           def shift_returned
-            "#{current_user} has unassigned themself from the "\
+            "#{current_user} has unassigned themself from the " \
               "#{duration_in_words} shift #{starting_day}."
           end
 
           def shift_assigned
-            "Thanks for your help. See you soon!"
+            'Thanks for your help. See you soon!'
           end
 
           def shift_unassigned
-            "You have been unassigned from the #{duration_in_words} shift "\
+            "You have been unassigned from the #{duration_in_words} shift " \
               "#{starting_day}."
           end
         end

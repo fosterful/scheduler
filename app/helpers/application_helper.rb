@@ -8,10 +8,10 @@ module ApplicationHelper
   end
 
   def invite_options_for_select
-    User::ROLES.map do |role|
+    User::ROLES.filter_map do |role|
       u = User.new(role: role)
       [u.role_display, role] if policy(u).new?
-    end.compact
+    end
   end
 
   def offices_for_select(scope)

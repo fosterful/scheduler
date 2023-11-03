@@ -7,13 +7,13 @@ ActiveAdmin.register Race do
   filter :id
   filter :name
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :name
     actions
   end
-  #:nocov:
+  # :nocov:
 
   menu priority: 4
 end

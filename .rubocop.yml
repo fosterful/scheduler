@@ -1,57 +1,127 @@
-inherit_gem:
-  hint-rubocop_style:
-    - default.yml
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+Rails:
+  Enabled: true
 
 AllCops:
   TargetRubyVersion: 3.0.5
   TargetRailsVersion: 6.1
+  NewCops: enable
   DisplayCopNames: true
   Exclude:
-    - 'bin/**/*'
-    - 'config/**/*'
-    - 'db/**/*'
-    - 'Gemfile*'
-    - 'node_modules/**/*'
-    - 'script/**/*'
-    - 'spec/**/*'
-    - 'vendor/**/*'
+    - bin/**/*
+    - config/**/*
+    - db/**/*
+    - Gemfile*
+    - node_modules/**/*
+    - script/**/*
+    - spec/**/*
+    - vendor/**/*
     - '**/*.haml'
-    - 'config.ru'
-
-Metrics/BlockLength:
-  Exclude:
-    - 'lib/tasks/**/*'
-    - 'spec/**/*'
-
-Metrics/ClassLength:
-  Max: 200
+    - config.ru
 
 Rails/HasAndBelongsToMany:
   Enabled: false
-
-Metrics/MethodLength:
-  Max: 20
-
-Metrics/AbcSize:
-  Max: 30
-
-Style/GlobalVars:
-  Enabled: false
-
-RSpec/ImplicitBlockExpectation:
-  Enabled: false
-
-RSpec/MessageChain:
-  Enabled: false
-
-RSpec/EmptyExampleGroup:
-  Enabled: false
-
 Rails/SkipsModelValidations:
   Enabled: false
-
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+    '%I': ()
+    '%r': ()
+    '%w': ()
+    '%W': ()
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+Layout/LineLength:
+  Max: 243
+Metrics/BlockLength:
+  Exclude:
+    - Rakefile
+    - '**/*.rake'
+    - spec/**/*.rb
+    - lib/tasks/**/*
+    - spec/**/*
+Metrics/ModuleLength:
+  Max: 200
+Metrics/ClassLength:
+  Max: 200
+Metrics/MethodLength:
+  Max: 20
+Metrics/AbcSize:
+  Max: 35
+Layout/CaseIndentation:
+  Enabled: true
+  EnforcedStyle: case
+  IndentOneStep: true
+Style/AndOr:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+  AutoCorrect: false
+Style/GlobalVars:
+  Enabled: false
+Layout/SpaceBeforeBlockBraces:
+  AutoCorrect: true
+Layout/ExtraSpacing:
+  AutoCorrect: true
+  AllowForAlignment: true
+  ForceEqualSignAlignment: false
+Layout/EmptyLines:
+  AutoCorrect: true
+Layout/MultilineOperationIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Performance/Count:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Style/RedundantFreeze:
+  Enabled: false
+Layout/SpaceAroundOperators:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 19
+RSpec/MultipleExpectations:
+  Max: 10
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/MessageExpectation:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/ImplicitBlockExpectation:
+  Enabled: false
+RSpec/MessageChain:
+  Enabled: false
 RSpec/MessageSpies:
   Enabled: false
-
 RSpec/AnyInstance:
+  Enabled: false
+Security/YAMLLoad:
+  Enabled: false
+Naming/FileName:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+RSpec/EmptyExampleGroup:
   Enabled: false

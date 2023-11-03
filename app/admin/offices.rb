@@ -10,7 +10,7 @@ ActiveAdmin.register Office do
 
   form partial: 'form'
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :name
@@ -18,7 +18,7 @@ ActiveAdmin.register Office do
     column :address
     actions
   end
-  #:nocov:
+  # :nocov:
 
   menu priority: 2
 

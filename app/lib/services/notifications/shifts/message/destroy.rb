@@ -13,7 +13,7 @@ module Services
                    to: :shift
 
           def message
-            "The shift from #{duration_in_words} has been removed from a need "\
+            "The shift from #{duration_in_words} has been removed from a need " \
               "at your local office. #{needs_url}"
           end
 
