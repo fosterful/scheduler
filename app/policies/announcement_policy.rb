@@ -15,6 +15,6 @@ class AnnouncementPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:message, user_ids: []]
+    [:message, { user_ids: [] }]
   end
 end

@@ -31,19 +31,13 @@ class DashboardController < ApplicationController
   def query
     redirect_to :root unless coordinator_or_admin?
 
-    if params[:office_id].present?
-      @office = Office.find(params[:office_id])
-    end
+    @office = Office.find(params[:office_id]) if params[:office_id].present?
 
-    if params[:start_date].blank?
-      params[:start_date] = Time.now.beginning_of_month.to_date.to_s
-    end
+    params[:start_date] = Time.now.beginning_of_month.to_date.to_s if params[:start_date].blank?
 
     @start_date = params[:start_date]
 
-    if params[:end_date].blank?
-      params[:end_date] = Time.now.end_of_month.to_date.to_s
-    end
+    params[:end_date] = Time.now.end_of_month.to_date.to_s if params[:end_date].blank?
 
     @end_date = params[:end_date]
 

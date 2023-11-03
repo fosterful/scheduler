@@ -41,8 +41,8 @@ class Need < ApplicationRecord
       .order(start_at: :asc)
   }
   scope :has_claimed_shifts, lambda {
-    where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id '\
-            'AND shifts.user_id IS NOT NULL)')
+    where('EXISTS(SELECT 1 FROM shifts WHERE shifts.need_id = needs.id ' \
+          'AND shifts.user_id IS NOT NULL)')
   }
 
   def self.total_children_served
@@ -100,6 +100,7 @@ class Need < ApplicationRecord
   # This forces the user to select an appropriate time.
   def intentional_start_at
     return if start_at.blank?
+
     errors.add(:start_at, 'must not be midnight') if start_at == start_at.midnight
   end
 

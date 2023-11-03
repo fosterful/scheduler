@@ -25,7 +25,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :name, sortable: 'last_name'
@@ -40,7 +40,7 @@ ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
       end
     end
   end
-  #:nocov:
+  # :nocov:
 
   show do
     attributes_table do

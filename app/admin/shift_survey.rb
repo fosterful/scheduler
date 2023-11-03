@@ -11,17 +11,17 @@ ActiveAdmin.register ShiftSurvey do
 
   config.sort_order = 'id_asc'
 
-  #:nocov:
+  # :nocov:
   form do |f|
     f.semantic_errors
     inputs 'Details' do
-      input :status, as: :select, collection: ['Incomplete', 'Complete']
+      input :status, as: :select, collection: %w(Incomplete Complete)
     end
     f.actions
   end
   index do
     id_column
-    column "User" do |shift_survey|
+    column 'User' do |shift_survey|
       shift_survey.user.name
     end
     column :status
@@ -30,68 +30,68 @@ ActiveAdmin.register ShiftSurvey do
     actions
   end
 
-  show do 
+  show do
     attributes_table do
-      row "Shift Survey ID" do |s|
+      row 'Shift Survey ID' do |s|
         s.id
       end
-      row "Survey Status" do |s|
+      row 'Survey Status' do |s|
         s.status
       end
-      row "Questions" do
+      row 'Questions' do
         table_for shift_survey do
-          column "Did you have adequate supplies to care for the child(ren) during your time at the office?" do |s|
+          column 'Did you have adequate supplies to care for the child(ren) during your time at the office?' do |s|
             s.supplies
           end
-          column "Comments" do |s|
+          column 'Comments' do |s|
             s.supplies_text
           end
         end
         table_for shift_survey do
-          column "Did the assigned social worker respond to questions or concerns in a timely manner?" do |s|
+          column 'Did the assigned social worker respond to questions or concerns in a timely manner?' do |s|
             s.response_time
           end
-          column "Comments" do |s|
+          column 'Comments' do |s|
             s.response_time_text
           end
         end
         table_for shift_survey do
-          column "Did the hours you signed up for match the hours you volunteered?" do |s|
+          column 'Did the hours you signed up for match the hours you volunteered?' do |s|
             s.hours_match
           end
-          column "Comments" do |s|
+          column 'Comments' do |s|
             s.hours_match_text
           end
         end
         table_for shift_survey do
-          column "How are you feeling after your shift at the child welfare office? (check all that apply)" do |s|
+          column 'How are you feeling after your shift at the child welfare office? (check all that apply)' do |s|
             s.ratings.nil? ? nil : JSON.parse(s.ratings)
           end
-          column "Comments" do |s|
+          column 'Comments' do |s|
             s.ratings_text
           end
         end
         table_for shift_survey do
-          column "Your feedback is important to us, and we love hearing from our volunteers! Do you have any comments or kudos you’d like to pass along?" do |s|
+          column 'Your feedback is important to us, and we love hearing from our volunteers! Do you have any comments or kudos you’d like to pass along?' do |s|
             s.comments
           end
         end
         table_for shift_survey do
-          column "Any questions for your Volunteer Coordinator?" do |s|
+          column 'Any questions for your Volunteer Coordinator?' do |s|
             s.questions
           end
         end
       end
-      
+
       row :created_at
       row :updated_at
     end
   end
-  
-  sidebar "Shift Details", only: :show do
+
+  sidebar 'Shift Details', only: :show do
     attributes_table_for shift_survey do
       row :date do |shift_survey|
-        shift_survey.need.start_at.strftime("%A, %B %d, %Y")
+        shift_survey.need.start_at.strftime('%A, %B %d, %Y')
       end
       row :shifts do
         table_for shift_survey.need.shifts.where(user_id: shift_survey.user_id) do
@@ -100,15 +100,15 @@ ActiveAdmin.register ShiftSurvey do
           end
         end
       end
-      row "Children" do |shift_survey|
+      row 'Children' do |shift_survey|
         shift_survey.need.number_of_children
       end
-      row "Volunteer" do |shift_survey|
+      row 'Volunteer' do |shift_survey|
         shift_survey.need.user.name
       end
     end
   end
-  #:nocov:
+  # :nocov:
 
   menu priority: 9
 end

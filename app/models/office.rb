@@ -66,7 +66,7 @@ class Office < ApplicationRecord
       .joins(needs: :children)
       .group(:id, :name)
       .then { |scope| filter_by_date_range(scope, start_at, end_at) }
-      .count('children.id') 
+      .count('children.id')
   end
 
   def self.total_children_served_by_state(current_user, start_at, end_at)

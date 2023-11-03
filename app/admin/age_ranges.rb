@@ -7,14 +7,14 @@ ActiveAdmin.register AgeRange do
   filter :min
   filter :max
 
-  #:nocov:
+  # :nocov:
   index do
     id_column
     column :min
     column :max
     actions
   end
-  #:nocov:
+  # :nocov:
 
   menu priority: 3
 end

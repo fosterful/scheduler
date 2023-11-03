@@ -10,6 +10,6 @@ class UserMailer < ApplicationMailer
 
   def shift_survey_submitted
     @shift_survey = params[:shift_survey]
-    mail(to: "info@fosterful.org", subject: "#{@shift_survey.user} submitted a shift survey")
+    mail(to: 'info@fosterful.org', subject: "#{@shift_survey.user} submitted a shift survey")
   end
 end

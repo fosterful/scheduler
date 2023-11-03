@@ -16,7 +16,7 @@ module Services
                    to: :shift
 
           def message
-            "A new shift from #{duration_in_words} #{starting_day} has been "\
+            "A new shift from #{duration_in_words} #{starting_day} has been " \
               "added to a need at your local office! #{url}"
           end
 

@@ -32,6 +32,12 @@ class NeedsController < ApplicationController
     authorize @need
   end
 
+  def edit
+    @need = policy_scope(Need).find(params[:id])
+
+    authorize @need
+  end
+
   def create
     convert_to_minutes!
     @need = current_user.needs.build(permitted_attributes(Need))
@@ -45,12 +51,6 @@ class NeedsController < ApplicationController
     else
       render(:new)
     end
-  end
-
-  def edit
-    @need = policy_scope(Need).find(params[:id])
-
-    authorize @need
   end
 
   def update
