@@ -47,13 +47,12 @@ jobs:
 
     env:
       SELECTIVE_API_KEY: ${{ secrets.SELECTIVE_API_KEY }}
-      SELECTIVE_RUN_ID: ${{ github.run_id }}
-      SELECTIVE_RUN_ATTEMPT: ${{ github.run_attempt }}
       SELECTIVE_RUNNER_ID: ${{ matrix.ci_node_index }}
-      PR_TITLE: ${{ github.event.pull_request.title }}
 
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Selective
+        uses: selectiveci/setup-selective@a74f60e
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
