@@ -47,12 +47,13 @@ jobs:
 
     env:
       SELECTIVE_API_KEY: ${{ secrets.SELECTIVE_API_KEY }}
-      SELECTIVE_RUNNER_ID: ${{ matrix.ci_node_index }}
 
     steps:
       - uses: actions/checkout@v4
       - name: Setup Selective
-        uses: selectiveci/setup-selective@a74f60ee7e86867ffe195b46e1fe8f7f1d2c7b4e
+        uses: selectiveci/setup-selective@21148f5d6e16246b23981b3c7f11129914da787e
+        with:
+          ci-node-index: ${{ matrix.ci_node_index }}
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
