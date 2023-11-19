@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Selective
-        uses: selectiveci/setup-selective@a74f60e
+        uses: selectiveci/setup-selective@a74f60ee7e86867ffe195b46e1fe8f7f1d2c7b4e
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
