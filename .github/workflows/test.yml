@@ -45,15 +45,13 @@ jobs:
         ci_node_total: [4]
         ci_node_index: [0, 1, 2, 3]
 
-    env:
-      SELECTIVE_API_KEY: ${{ secrets.SELECTIVE_API_KEY }}
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup Selective
-        uses: selectiveci/setup-selective@21148f5d6e16246b23981b3c7f11129914da787e
+        uses: selectiveci/setup-selective@a0ec4e5d552bc2af70e8d002245aad7344e4035a
         with:
-          ci-node-index: ${{ matrix.ci_node_index }}
+          api-key: ${{ secrets.SELECTIVE_API_KEY }}
+          runner-id: ${{ matrix.ci_node_index }}
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
