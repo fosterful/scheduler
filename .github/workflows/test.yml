@@ -47,11 +47,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Selective
-        uses: selectiveci/setup-selective@v1.0.0
-        with:
-          api-key: ${{ secrets.SELECTIVE_API_KEY }}
-          runner-id: ${{ matrix.ci_node_index }}
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -80,6 +76,12 @@ jobs:
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter before-build
+
+      - name: Setup Selective
+        uses: selectiveci/setup-selective@v1
+        with:
+          api-key: ${{ secrets.SELECTIVE_API_KEY }}
+          runner-id: ${{ matrix.ci_node_index }}
 
       - name: RSpec Suite Run
         env:
