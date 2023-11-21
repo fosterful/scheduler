@@ -380,7 +380,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selective-ruby-core (0.1.2-x86_64-linux)
+    selective-ruby-core (0.1.3-x86_64-linux)
       zeitwerk (~> 2.6.12)
     selective-ruby-rspec (0.1.0)
       selective-ruby-core
