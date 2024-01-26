@@ -380,10 +380,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selective-ruby-core (0.1.8-x86_64-linux)
+    selective-ruby-core (0.2.2-x86_64-linux)
       zeitwerk (~> 2.6.12)
-    selective-ruby-rspec (0.1.4)
-      selective-ruby-core
+    selective-ruby-rspec (0.1.5)
+      selective-ruby-core (>= 0.2.2)
       zeitwerk (~> 2.6.12)
     selectize-rails (0.12.6)
     selenium-webdriver (4.8.1)
